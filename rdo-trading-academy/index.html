@@ -302,7 +302,7 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
       <input required type="email" name="email" placeholder="Tu correo" style="background:var(--panel);border:1px solid rgba(201,150,47,.25);border-radius:10px;padding:14px 16px;color:var(--text-primary);font-family:inherit">
       <textarea name="mensaje" placeholder="¿En qué te podemos ayudar?" rows="4" style="background:var(--panel);border:1px solid rgba(201,150,47,.25);border-radius:10px;padding:14px 16px;color:var(--text-primary);font-family:inherit;resize:vertical"></textarea>
       <button type="submit" class="btn">Enviar</button>
-      <p id="formSuccess" hidden style="color:var(--accent)">Gracias, recibimos tu mensaje. Te contactamos pronto.</p>
+      <p id="formSuccess" hidden style="color:var(--accent)">Gracias. Se abrió tu correo con el mensaje listo para enviar a nuestro equipo.</p>
     </form>
   </section>
 
@@ -580,11 +580,19 @@ document.querySelectorAll('.line-divider path').forEach(function(path){
   });
 })();
 
-/* ---------------- contact form (JS-only success state) ---------------- */
+/* ---------------- contact form (mailto: opens the visitor's own email app) ---------------- */
 var form = document.getElementById('contactForm');
 if (form) {
   form.addEventListener('submit', function(e){
     e.preventDefault();
+    var nombre = form.nombre.value.trim();
+    var email = form.email.value.trim();
+    var mensaje = form.mensaje.value.trim();
+    var body = 'Nombre: ' + nombre + '\nCorreo: ' + email + '\n\n' + mensaje;
+    var mailto = 'mailto:richardosrrn2007@gmail.com'
+      + '?subject=' + encodeURIComponent('Contacto desde el sitio RDO VIP')
+      + '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
     form.querySelectorAll('input,textarea,button').forEach(function(el){ el.hidden = true; });
     document.getElementById('formSuccess').hidden = false;
   });
