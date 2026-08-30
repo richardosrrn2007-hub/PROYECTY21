@@ -99,8 +99,9 @@ main{position:relative;background:var(--canvas)}
 .lede{color:var(--text-secondary);max-width:60ch;font-size:17px;margin:0 0 48px}
 
 nav.site{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;background:linear-gradient(rgba(10,9,7,.7),transparent);backdrop-filter:blur(4px)}
-nav.site .brand{font-family:'Fraunces',serif;font-weight:600;font-size:18px;letter-spacing:.02em}
+nav.site .brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:18px;letter-spacing:.02em}
 nav.site .brand .dot{color:var(--accent)}
+nav.site .brand-mark{flex:none}
 
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
@@ -161,7 +162,14 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
 <a href="#main" class="skip-link">Saltar al contenido</a>
 
 <nav class="site" aria-hidden="false">
-  <div class="brand">RDO <span class="dot">•</span> VIP</div>
+  <div class="brand">
+    <svg class="brand-mark" width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="46" fill="none" stroke="#c9962f" stroke-width="5"/>
+      <path d="M32 62 L32 48 M32 48 L32 40 M46 66 L46 34 M46 34 L46 26 M60 62 L60 50 M60 50 L60 42" stroke="#c9962f" stroke-width="6" stroke-linecap="round"/>
+      <path d="M60 58 L74 44 M74 44 L66 44 M74 44 L74 52" stroke="#c9962f" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span>RDO <span class="dot">•</span> VIP</span>
+  </div>
   <a href="#planes" class="btn ghost" style="padding:10px 20px;font-size:13px">Ver planes</a>
 </nav>
 
@@ -221,6 +229,26 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
       <div class="card"><span class="num">04</span><h3>Gestión de riesgo</h3><p>Aprende a proteger tu capital, controlar el riesgo y operar con disciplina profesional.</p></div>
       <div class="card"><span class="num">05</span><h3>Psicotrading y disciplina</h3><p>Desarrolla la mentalidad ganadora y el control emocional que te llevará a la consistencia.</p></div>
       <div class="card"><span class="num">06</span><h3>Comunidad VIP</h3><p>Forma parte de una comunidad exclusiva de traders enfocados en crecer y alcanzar su libertad financiera.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="como-acceder" aria-labelledby="ca-h">
+    <p class="eyebrow">Cómo entrar</p>
+    <h2 id="ca-h">Dos formas de unirte a RDO VIP.</h2>
+    <p class="lede">Elige la que te haga sentido, las dos te dan acceso completo a la comunidad.</p>
+    <div class="grid-2" id="accessGrid">
+      <div class="card">
+        <span class="num">OPCIÓN 1 · MEMBRESÍA</span>
+        <h3>Paga tu lugar</h3>
+        <p>Entra directo con un plan mensual, desde €25 al mes en el plan de 6 meses. Sin depósitos ni bróker de por medio.</p>
+        <div style="margin-top:18px"><a href="#planes" class="btn ghost" style="padding:10px 20px;font-size:13px">Ver planes</a></div>
+      </div>
+      <div class="card">
+        <span class="num">OPCIÓN 2 · GRATIS</span>
+        <h3>Entra con nuestro bróker</h3>
+        <p>Regístrate con PUPrime, nuestro bróker oficial, deposita desde 150 USD y mantente activo operando. El acceso a la comunidad no tiene costo aparte.</p>
+        <div style="margin-top:18px"><a href="#como-funciona" class="btn ghost" style="padding:10px 20px;font-size:13px">Ver los pasos</a></div>
+      </div>
     </div>
   </section>
 
