@@ -113,6 +113,36 @@ nav.site .brand-mark{flex:none}
 .card .num{font-family:'Space Mono',monospace;color:var(--accent);font-size:13px;margin-bottom:10px;display:block}
 
 footer{padding:60px 24px 40px;border-top:1px solid rgba(201,150,47,.14);text-align:center;color:var(--text-secondary);font-size:13px}
+footer .social-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap;margin:18px 0}
+footer .social-links a{color:var(--text-secondary);text-decoration:none;font-size:13px;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+footer .social-links a:hover{color:var(--accent);border-color:var(--accent)}
+footer .risk-note{max-width:560px;margin:22px auto 0;font-size:12px;line-height:1.6;color:rgba(201,194,179,.7)}
+
+/* quote pull-out */
+.quote-block{max-width:640px;margin:36px 0 0;padding-left:20px;border-left:2px solid var(--accent-muted)}
+.quote-block p{font-family:'Fraunces',serif;font-style:italic;font-size:19px;color:var(--text-primary);margin:0}
+.quote-block cite{display:block;margin-top:8px;font-family:'Space Mono',monospace;font-style:normal;font-size:12px;color:var(--accent);letter-spacing:.05em}
+
+/* topic pill cloud */
+.pill-cloud{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.pill{font-family:'Space Mono',monospace;font-size:12.5px;color:var(--text-secondary);border:1px solid rgba(201,150,47,.28);border-radius:999px;padding:8px 16px;background:var(--panel)}
+
+/* entry-model process flow */
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:28px}
+.flow .step{font-family:'Space Mono',monospace;font-size:13px;color:var(--text-primary);border:1px solid var(--accent-muted);border-radius:10px;padding:12px 18px;background:var(--panel)}
+.flow .arrow{color:var(--accent);font-size:16px}
+
+/* whatsapp CTA row */
+.cta-row-wa{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px}
+.btn-wa{background:#1c8a4a}
+.btn-wa:hover{background:#22a558}
+
+/* founder */
+.founder{display:flex;gap:32px;align-items:center;flex-wrap:wrap}
+.founder .avatar{flex:none;width:120px;height:120px;border-radius:50%;background:var(--panel);border:1px solid var(--accent-muted);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:38px;color:var(--accent)}
+.founder .bio{max-width:56ch;color:var(--text-secondary);font-size:15px;line-height:1.6}
+.founder h3{margin:0 0 4px}
+.founder .role{font-family:'Space Mono',monospace;color:var(--accent);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin:0 0 14px;display:block}
 
 /* fixed whisper-level background field */
 .bg-field{background:
@@ -214,6 +244,36 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
 
 <main id="main" tabindex="-1">
 
+  <section class="section" id="whatsapp-cta" style="padding-top:min(8vh,60px);padding-bottom:min(8vh,60px)" aria-labelledby="wa-h">
+    <h2 id="wa-h" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Contacto directo</h2>
+    <div class="cta-row-wa">
+      <a href="#" class="btn btn-wa" data-pending-link="whatsapp-directo">Quiero hablar por WhatsApp</a>
+      <a href="#" class="btn ghost" data-pending-link="whatsapp-comunidad">Quiero unirme a la comunidad</a>
+    </div>
+  </section>
+
+  <section class="section" id="filosofia" aria-labelledby="fi-h">
+    <p class="eyebrow">Nuestra filosofía</p>
+    <h2 id="fi-h">No te enseñamos a perseguir el mercado. Te enseñamos a entenderlo.</h2>
+    <p class="lede">El trading no consiste solamente en encontrar entradas. Un trader necesita metodología, gestión de riesgo, gestión emocional, disciplina, lectura del contexto, planificación, ejecución, estadística y consistencia.</p>
+    <div class="quote-block">
+      <p>Antes de buscar ganar más, aprende a proteger lo que tienes.</p>
+    </div>
+  </section>
+
+  <section class="section" id="metodo-rdo" aria-labelledby="mr-h">
+    <p class="eyebrow">Método RDO</p>
+    <h2 id="mr-h">Crecimiento controlado.</h2>
+    <div class="grid-3" id="metodoGrid">
+      <div class="card"><span class="num">01</span><h3>Supervivencia</h3><p>Proteger el capital y comprender que permanecer en el mercado es la primera prioridad.</p></div>
+      <div class="card"><span class="num">02</span><h3>Consistencia</h3><p>Crear reglas, estadísticas y una metodología que puedan repetirse.</p></div>
+      <div class="card"><span class="num">03</span><h3>Crecimiento</h3><p>Una vez existe control y consistencia, buscar crecimiento de manera progresiva y responsable.</p></div>
+    </div>
+    <div class="quote-block">
+      <p>No buscamos crecer rápido. Buscamos crecer con control.</p>
+    </div>
+  </section>
+
   <section class="section" id="que-obtienes" aria-labelledby="qo-h">
     <p class="eyebrow">Qué obtienes</p>
     <h2 id="qo-h">Más que señales, una educación que transforma resultados.</h2>
@@ -227,6 +287,47 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
       <div class="card"><span class="num">06</span><h3>Comunidad VIP</h3><p>Forma parte de una comunidad exclusiva de traders enfocados en crecer y alcanzar su libertad financiera.</p></div>
       <div class="card"><span class="num">07</span><h3>Clases en vivo</h3><p>Clases semanales en vivo y grabadas, para que aprendas a tu ritmo y repases cuando quieras.</p></div>
       <div class="card"><span class="num">08</span><h3>Mentorías personalizadas</h3><p>Sesiones directas con un mentor para resolver tus dudas y acelerar tu curva de aprendizaje.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="gestion-riesgo" aria-labelledby="gr-h">
+    <p class="eyebrow">Gestión de riesgo</p>
+    <h2 id="gr-h">Tu primera operación no es entrar. Es saber cuánto estás dispuesto a perder.</h2>
+    <p class="lede">Desarrollamos planes personalizados de gestión de riesgo según tu capital, objetivo, experiencia y tipo de operativa.</p>
+    <div class="pill-cloud">
+      <span class="pill">Gestión por porcentaje</span>
+      <span class="pill">Riesgo por operación</span>
+      <span class="pill">Relación riesgo/beneficio</span>
+      <span class="pill">Tamaño de posición</span>
+      <span class="pill">Stop Loss</span>
+      <span class="pill">Objetivos</span>
+      <span class="pill">Límite de pérdidas</span>
+      <span class="pill">Número máximo de operaciones</span>
+      <span class="pill">Gestión diaria y semanal</span>
+      <span class="pill">Plan de recuperación</span>
+      <span class="pill">Gestión para cuentas reales</span>
+      <span class="pill">Gestión para cuentas de fondeo</span>
+    </div>
+    <div style="margin-top:28px">
+      <a href="#" class="btn" data-pending-link="whatsapp-directo">Quiero crear mi plan de gestión</a>
+    </div>
+  </section>
+
+  <section class="section" id="fondeo-real" aria-labelledby="fr-h">
+    <p class="eyebrow">Cuentas de fondeo y cuentas reales</p>
+    <h2 id="fr-h">El objetivo no es pasar un reto. Es convertirte en trader.</h2>
+    <div class="grid-2" style="margin-top:24px">
+      <div class="card">
+        <span class="num">CUENTA DE FONDEO</span>
+        <h3>¿Quieres preparar una cuenta de fondeo?</h3>
+        <p>Te ayudamos a construir un plan de gestión y ejecución adaptado a las reglas de tu cuenta: capital, drawdown permitido, pérdida diaria máxima, objetivo, riesgo por operación, número de operaciones, relación riesgo/beneficio y plan de crecimiento. No prometemos aprobación, rentabilidad ni resultados garantizados.</p>
+        <div style="margin-top:18px"><a href="#" class="btn ghost" style="padding:10px 20px;font-size:13px" data-pending-link="whatsapp-directo">Quiero mi plan para fondeo</a></div>
+      </div>
+      <div class="card">
+        <span class="num">CUENTA REAL</span>
+        <h3>Primero aprende a proteger. Después aprende a crecer.</h3>
+        <p>Una cuenta de fondeo puede ser una herramienta, pero la verdadera formación comienza cuando el trader aprende a gestionar su propio capital. Nuestra prioridad es formar traders capaces de gestionar cuentas reales, con criterio, disciplina y una metodología sostenible.</p>
+      </div>
     </div>
   </section>
 
@@ -262,17 +363,77 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
     </div>
   </section>
 
+  <section class="section" id="comunidad-educativa" aria-labelledby="ce-h">
+    <p class="eyebrow">Comunidad educativa RDO</p>
+    <h2 id="ce-h">Un espacio de aprendizaje continuo.</h2>
+    <p class="lede">Clases educativas, análisis de mercado, sesiones prácticas, backtesting, modelos de entrada, gestión de riesgo, psicotrading y metodología institucional.</p>
+    <div class="pill-cloud">
+      <span class="pill">Estructura de mercado</span>
+      <span class="pill">Liquidez</span>
+      <span class="pill">BOS</span>
+      <span class="pill">CHoCH</span>
+      <span class="pill">Order Blocks</span>
+      <span class="pill">Fair Value Gaps</span>
+      <span class="pill">Breaker Blocks</span>
+      <span class="pill">Fractalidad</span>
+      <span class="pill">Chartismo</span>
+      <span class="pill">Intradía</span>
+      <span class="pill">Scalping</span>
+      <span class="pill">Swing trading</span>
+      <span class="pill">Lectura del precio</span>
+      <span class="pill">Gestión de operaciones</span>
+    </div>
+  </section>
+
+  <section class="section" id="planes-educativos" aria-labelledby="pe-h">
+    <p class="eyebrow">Planes educativos personalizados</p>
+    <h2 id="pe-h">No todos los traders necesitan aprender lo mismo.</h2>
+    <p class="lede">Diseñados de acuerdo con el nivel, objetivos, experiencia y necesidades del alumno. Programas por temáticas: liquidez, estructura, modelos de entrada, gestión, psicología, Order Flow, ATAS, scalping, intradía, swing y lectura institucional.</p>
+  </section>
+
+  <section class="section" id="modelos-entrada" aria-labelledby="me-h">
+    <p class="eyebrow">Programa de modelos de entrada</p>
+    <h2 id="me-h">Aprende a reconocer un modelo. No a perseguir una entrada.</h2>
+    <div class="flow" id="entryFlow">
+      <span class="step">Contexto</span><span class="arrow">→</span>
+      <span class="step">Liquidez</span><span class="arrow">→</span>
+      <span class="step">Estructura</span><span class="arrow">→</span>
+      <span class="step">Confirmación</span><span class="arrow">→</span>
+      <span class="step">Ejecución</span><span class="arrow">→</span>
+      <span class="step">Gestión</span>
+    </div>
+  </section>
+
   <svg class="line-divider" id="divider1" viewBox="0 0 1120 2" preserveAspectRatio="none" aria-hidden="true"><path d="M0 1 H1120"/></svg>
 
   <section class="section" id="disciplina" aria-labelledby="di-h">
-    <p class="eyebrow">Pruébalo tú mismo</p>
-    <h2 id="di-h">La disciplina ordena el caos.</h2>
-    <p class="lede">Mantén presionado. Suelta antes de tiempo y todo vuelve a dispersarse, igual que en el trading.</p>
+    <p class="eyebrow">Psicotrading</p>
+    <h2 id="di-h">A veces tu mayor enemigo es tu propia mente.</h2>
+    <p class="lede">Trabajamos impulsividad, sobreoperar, miedo, codicia, venganza, FOMO, disciplina, paciencia y control emocional. Mantén presionado. Suelta antes de tiempo y todo vuelve a dispersarse, igual que en el trading.</p>
     <div id="disciplineMoment" class="discipline-box" role="button" tabindex="0" aria-label="Mantén presionado para ordenar el gráfico">
       <canvas id="disciplineCanvas" width="900" height="360" aria-hidden="true"></canvas>
       <p class="mono discipline-label">MANTÉN PRESIONADO</p>
     </div>
   </section>
+
+  <section class="section" id="planificacion" aria-labelledby="pl2-h">
+    <p class="eyebrow">Planificación</p>
+    <h2 id="pl2-h">Antes de operar, planifica.</h2>
+    <p class="lede">Plan de trading, riesgo, escenarios, objetivos, pérdida máxima, condiciones de entrada y condiciones para no operar.</p>
+  </section>
+
+  <div class="grid-2 section" style="padding-top:0">
+    <div>
+      <p class="eyebrow">Disciplina y paciencia</p>
+      <h2 style="font-size:clamp(22px,2.8vw,32px);margin:0 0 12px">El mercado recompensa la paciencia.</h2>
+      <p class="lede" style="margin-bottom:0">La mayor diferencia entre un trader impulsivo y uno profesional es la capacidad de esperar su modelo.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Diligencia y crecimiento</p>
+      <h2 style="font-size:clamp(22px,2.8vw,32px);margin:0 0 12px">Construye poco a poco.</h2>
+      <p class="lede" style="margin-bottom:0">No buscamos crecer rápido, buscamos crecer con control, con reglas que se puedan repetir y sostener en el tiempo.</p>
+    </div>
+  </div>
 
   <section class="section" id="planes" aria-labelledby="pl-h">
     <p class="eyebrow">Planes</p>
@@ -307,6 +468,18 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
     </div>
   </div>
 
+  <section class="section" id="fundadora" aria-labelledby="fu-h">
+    <p class="eyebrow">Quién está detrás de RDO</p>
+    <h2 id="fu-h">Eddymar Alvarado</h2>
+    <div class="founder" style="margin-top:24px">
+      <div class="avatar" aria-hidden="true">EA</div>
+      <div class="bio">
+        <span class="role">Fundadora de RDO Trading &amp; Education</span>
+        <p>RDO nace de una convicción: el trader no necesita otra señal, necesita aprender a pensar. Eddymar acompaña a cada alumno con cercanía, disciplina y compromiso real con su formación, sin promesas vacías, con el trabajo diario de construir un método que se pueda sostener.</p>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="faq" aria-labelledby="faq-h">
     <p class="eyebrow">Preguntas frecuentes</p>
     <h2 id="faq-h">Antes de que preguntes.</h2>
@@ -315,6 +488,19 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
       <details class="card" style="cursor:pointer"><summary style="font-weight:600;cursor:pointer">¿Las señales realmente funcionan?</summary><p style="margin-top:12px">Ninguna señal garantiza resultados, la mayoría de traders retail pierde dinero cuando opera solo por impulso. Por eso las señales van siempre acompañadas de análisis, gestión de riesgo y educación, no como un producto aislado.</p></details>
       <details class="card" style="cursor:pointer"><summary style="font-weight:600;cursor:pointer">¿Necesito experiencia previa?</summary><p style="margin-top:12px">No. La educación está pensada paso a paso, desde cero, con acompañamiento continuo mientras avanzas.</p></details>
       <details class="card" style="cursor:pointer"><summary style="font-weight:600;cursor:pointer">¿Por qué se opera con PUPrime?</summary><p style="margin-top:12px">Es nuestro bróker oficial: acceso institucional, spreads competitivos y soporte 24/7. El depósito mínimo para unirte a la comunidad a través de él es de 150 USD.</p></details>
+    </div>
+  </section>
+
+  <section class="section" id="manifiesto" style="text-align:center" aria-labelledby="ma-h">
+    <div class="quote-block" style="margin:0 auto;text-align:left">
+      <p>No prometemos controlar el mercado. Te enseñamos a controlar lo único que realmente depende de ti: tu riesgo, tu mente y tus decisiones.</p>
+      <cite>RDO Trading &amp; Education</cite>
+    </div>
+    <h2 id="ma-h" style="margin-top:32px">¿Listo para dejar de improvisar?</h2>
+    <p class="lede" style="margin:0 auto 24px">Construye una metodología. Define tu riesgo. Aprende a esperar, a ejecutar y a gestionar.</p>
+    <div class="cta-row-wa" style="justify-content:center">
+      <a href="#" class="btn btn-wa" data-pending-link="whatsapp-directo">Hablar con RDO por WhatsApp</a>
+      <a href="#" class="btn ghost" data-pending-link="whatsapp-comunidad">Unirme a la comunidad de WhatsApp</a>
     </div>
   </section>
 
@@ -337,6 +523,15 @@ body.paused *, body.paused *::before, body.paused *::after{animation-play-state:
 <footer>
   <img src="assets/logo-full.png" alt="RDO Trading &amp; Education VIP" style="width:min(260px,60vw);height:auto;margin-bottom:14px">
   <p>RDO Trading &amp; Education VIP</p>
+  <p style="margin-top:4px">Eddymar Alvarado</p>
+  <div class="social-links">
+    <a href="#" data-pending-link="whatsapp-directo">WhatsApp</a>
+    <a href="#" data-pending-link="whatsapp-comunidad">Comunidad WhatsApp</a>
+    <a href="#" data-pending-link="instagram">Instagram</a>
+    <a href="#" data-pending-link="tiktok">TikTok</a>
+    <a href="#" data-pending-link="telegram">Telegram</a>
+  </div>
+  <p class="risk-note">El contenido de este sitio tiene finalidad educativa. El trading implica riesgo real de pérdida de capital. RDO Trading &amp; Education no garantiza rentabilidad ni resultados.</p>
 </footer>
 
 <script>
@@ -624,6 +819,11 @@ if (form) {
     document.getElementById('formSuccess').hidden = false;
   });
 }
+
+/* ---------------- pending WhatsApp/social links (no real URL yet) ---------------- */
+document.querySelectorAll('[data-pending-link]').forEach(function(el){
+  el.addEventListener('click', function(e){ e.preventDefault(); });
+});
 
 /* ---------------- pause offscreen/hidden animation, battery courtesy ---------------- */
 document.addEventListener('visibilitychange', function(){
