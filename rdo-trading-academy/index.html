@@ -81,8 +81,9 @@ video#hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opa
 
 @media (pointer:coarse){.btn{min-height:44px}}
 
-/* static-hero gates */
-@media (max-width:720px),(orientation:portrait) and (max-width:1024px),(orientation:portrait) and (pointer:coarse),(orientation:landscape) and (pointer:coarse) and (max-height:560px),(prefers-reduced-motion:reduce){
+/* static-hero gate: reduced motion only. The scrub hero runs on every screen size,
+   phone included, because the encoded clip is small (~4MB) and cover-crops cleanly. */
+@media (prefers-reduced-motion:reduce){
   #hero-wrap{height:auto}
   .stage{position:relative;height:auto;min-height:100svh;overflow:visible}
   .band{position:relative;opacity:1!important;inset:auto;height:auto;padding:10vh 0;text-align:left!important;justify-content:flex-start!important}
@@ -655,10 +656,6 @@ function failVideo(){ stage.classList.remove('video-ready'); }
 
 /* static-hero gate, decided live */
 var GATES = [
-  '(max-width: 720px)',
-  '(orientation: portrait) and (max-width: 1024px)',
-  '(orientation: portrait) and (pointer: coarse)',
-  '(orientation: landscape) and (pointer: coarse) and (max-height: 560px)',
   '(prefers-reduced-motion: reduce)'
 ];
 var MQLS = GATES.map(function(q){ return matchMedia(q); });
