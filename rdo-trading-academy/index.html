@@ -562,7 +562,14 @@ var bands = bandsEls.map(function(el){
   return { el: el, a: range[0], b: range[1], lastOp: -1, lastK: -1 };
 });
 
-var VIDEO_URL = 'assets/hero-scrub.mp4';
+/* Pick a format the browser can actually decode. Some browser builds
+   (notably open-source Chromium/Firefox on Linux) ship without H.264,
+   so fall back to the VP9/WebM encode when MP4 support is missing. */
+var VIDEO_URL = (function(){
+  var probe = document.createElement('video');
+  var mp4ok = probe.canPlayType('video/mp4; codecs="avc1.64001E"') !== '';
+  return mp4ok ? 'assets/hero-scrub.mp4' : 'assets/hero-scrub.webm';
+})();
 
 function heroProgress(){
   var total = heroWrap.offsetHeight - window.innerHeight;
