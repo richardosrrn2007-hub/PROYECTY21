@@ -1,0 +1,219 @@
+// Escenas de texto: el gancho (edificio que se parte en acciones) y la tipografía cinética de las frases puente.
+import React from "react";
+import { AbsoluteFill, Easing, useCurrentFrame } from "remotion";
+import { C } from "../motor/actual";
+import { F, alfa } from "../motor/estilos";
+import { rnd } from "../motor/anim";
+import type { DefEscena, PropsEscena } from "../tipos";
+import { arr } from "../escenas/util";
+import { Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, pr, sp, temblor } from "./mg";
+
+// ---------------------------------------------------------------- edificio
+
+/** Edificio dibujado con líneas, partido en 4 columnas (las "acciones") que se pueden separar. */
+export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo: number; ventanas: number; separa?: number; resalta?: number; op?: number }> = ({
+  cx,
+  base,
+  esc = 1,
+  dibujo,
+  ventanas,
+  separa = 0,
+  resalta = 0,
+  op = 1,
+}) => {
+  const f = useCurrentFrame();
+  const anchoCol = 105,
+    alto = 340;
+  const x0 = -2 * anchoCol;
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: op }}>
+      <g transform={`translate(${cx},${base}) scale(${esc})`}>
+        <g transform={`translate(0,${-separa * 30})`}>
+          <Trazo d={`M${x0 - 22} ${-alto} L0 ${-alto - 100} L${-x0 + 22} ${-alto} Z`} p={dibujo} grosor={7} />
+        </g>
+        {[0, 1, 2, 3].map((c) => {
+          const dx = (c - 1.5) * 46 * separa;
+          const dy = c === 2 ? -40 * resalta : 0;
+          const x = x0 + c * anchoCol;
+          const oro = c === 2 && resalta > 0;
+          return (
+            <g key={c} transform={`translate(${dx},${dy})`}>
+              {oro && <rect x={x} y={-alto} width={anchoCol} height={alto} fill={alfa(ORO, 0.22 * resalta)} />}
+              <Trazo d={`M${x} 0 L${x} ${-alto} L${x + anchoCol} ${-alto} L${x + anchoCol} 0 Z`} p={dibujo} grosor={oro ? 8 : 6} />
+              {[0, 1, 2].map((r) => {
+                const k = sp(f, ventanas + (c * 3 + r) * 1.5);
+                if (k <= 0 || (c === 1 && r === 2)) return null;
+                return <rect key={r} x={x + 30} y={-alto + 44 + r * 92} width={45} height={50} rx={6} fill={oro ? ORO : alfa(ORO, 0.55)} style={{ transformBox: "fill-box", transformOrigin: "center", transform: `scale(${k})` }} />;
+              })}
+              {c === 1 && <Trazo d={`M${x + 28} 0 L${x + 28} -95 L${x + 78} -95 L${x + 78} 0`} p={pr(f, ventanas, 12)} grosor={6} />}
+            </g>
+          );
+        })}
+        <Trazo d={`M${x0 - 60} 0 L${-x0 + 60} 0`} p={dibujo} grosor={7} />
+      </g>
+    </svg>
+  );
+};
+
+const Gancho: React.FC<PropsEscena> = ({ b }) => {
+  const f = useCurrentFrame();
+  const [b0, b1, b2, b3] = b;
+  const t = temblor(f, b3, 16);
+  const tam1 = encajar("DUEÑO DE", 900, 150);
+  const tam2 = encajar("UNA EMPRESA", 920, 150);
+  const tachon = pr(f, b3 + 3, 8);
+  const sello = sp(f, b3, { damping: 9, stiffness: 220, mass: 0.6 });
+  return (
+    <AbsoluteFill style={{ transform: `translate(${t.x}px,${t.y}px)` }}>
+      <Rejilla />
+      <Halo x={540} y={820} r={480} op={0.18 + 0.1 * pr(f, b1, 10)} />
+      <Etiqueta desde={-20} x={540} y={200} texto="¿TE IMAGINAS SER…" tam={30} />
+      <div style={{ position: "absolute", top: 270, left: 0, right: 0, textAlign: "center" }}>
+        <div>
+          <Revela desde={0} tam={tam1}>
+            DUEÑO DE
+          </Revela>
+        </div>
+        <div>
+          <Revela desde={b1 - 3} tam={tam2} color={ORO}>
+            UNA EMPRESA
+          </Revela>
+        </div>
+      </div>
+      <Edificio cx={540} base={1010} esc={0.95} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
+      <Chispas desde={b2 + 2} x={540} y={850} n={16} r={260} />
+      <div style={{ position: "absolute", top: 1040, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 26 }}>
+        <Revela desde={b2} tam={64} color={C.texto}>
+          SIN COMPRARLA
+        </Revela>
+        {f >= b3 && (
+          <div style={{ position: "relative", transform: `scale(${0.6 + 0.4 * sello}) rotate(${-4 * sello}deg)` }}>
+            <div style={{ fontFamily: F.titulo, fontWeight: 800, fontSize: 64, color: C.acentoTexto, background: ORO, padding: "6px 22px", borderRadius: 12 }}>ENTERA</div>
+            <div style={{ position: "absolute", left: -10, top: "50%", height: 9, width: `${tachon * 108}%`, background: ROJO, borderRadius: 5, transform: "rotate(-6deg)" }} />
+          </div>
+        )}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+export const gancho: DefEscena = {
+  C: Gancho,
+  momentos: 4,
+  alInicio: () => true,
+  sonidos: () => [
+    [0, "whoosh", 0.3],
+    [1, "pop", 0.3],
+    [2, "swoosh", 0.32],
+    [3, "golpe", 0.4],
+  ],
+};
+
+// ---------------------------------------------------------------- tipografía cinética
+
+type Efecto = "subir" | "glitch" | "giro" | "zoom" | "brillo" | "pregunta" | "enorme" | "sello";
+const DORADOS: Efecto[] = ["zoom", "brillo", "pregunta", "enorme"];
+
+const Linea: React.FC<{ palabras: string[]; desde: number; efecto: Efecto; tam: number }> = ({ palabras, desde, efecto, tam }) => {
+  const f = useCurrentFrame();
+  if (f < desde) return <div style={{ height: tam * 1.1 }} />;
+  const e = f - desde;
+  const color = efecto === "sello" ? ROJO : DORADOS.includes(efecto) ? ORO : C.texto;
+  const texto = palabras.join(" ");
+  if (efecto === "zoom") {
+    const k = pr(f, desde, 9, Easing.out(Easing.exp));
+    return (
+      <div style={{ height: tam * 1.1, fontFamily: F.titulo, fontWeight: 800, fontSize: tam, color, letterSpacing: -0.02 * tam, lineHeight: 1.05, transform: `scale(${3 - 2 * k})`, opacity: k, filter: k < 1 ? `blur(${(1 - k) * 18}px)` : undefined, whiteSpace: "nowrap" }}>
+        {texto}
+      </div>
+    );
+  }
+  if (efecto === "giro") {
+    const k = sp(f, desde, { damping: 11, stiffness: 160, mass: 0.6 });
+    return <div style={{ height: tam * 1.1, fontFamily: F.titulo, fontWeight: 800, fontSize: tam, color, letterSpacing: -0.02 * tam, lineHeight: 1.05, transform: `perspective(900px) rotateX(${(1 - k) * 90}deg)`, transformOrigin: "50% 100%", whiteSpace: "nowrap" }}>{texto}</div>;
+  }
+  if (efecto === "sello") {
+    const k = sp(f, desde, { damping: 9, stiffness: 240, mass: 0.7 });
+    return (
+      <div style={{ height: tam * 1.25, display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ fontFamily: F.titulo, fontWeight: 800, fontSize: tam, color, letterSpacing: 0.02 * tam, lineHeight: 1, border: `8px solid ${color}`, borderRadius: 18, padding: `${tam * 0.12}px ${tam * 0.25}px`, transform: `scale(${2.2 - 1.2 * k}) rotate(${-7 * Math.min(1, k)}deg)`, opacity: Math.min(1, k * 1.6), whiteSpace: "nowrap", boxShadow: `0 0 50px ${alfa(color, 0.3)}` }}>
+          {texto}
+        </div>
+      </div>
+    );
+  }
+  // subir / glitch / brillo / pregunta / enorme: palabra a palabra con máscara
+  let acum = 0;
+  const glitch = efecto === "glitch" && e < 14;
+  return (
+    <div style={{ position: "relative", height: tam * 1.1, whiteSpace: "nowrap", transform: glitch ? `translateX(${(rnd(e) - 0.5) * 30}px) skewX(${(rnd(e + 9) - 0.5) * 16}deg)` : undefined }}>
+      {glitch && (
+        <>
+          <div style={{ position: "absolute", inset: 0, fontFamily: F.titulo, fontWeight: 800, fontSize: tam, color: "#FF2E63", opacity: 0.7, transform: `translateX(${-10 - rnd(e + 3) * 12}px)`, letterSpacing: -0.02 * tam, mixBlendMode: "screen" }}>{texto}</div>
+          <div style={{ position: "absolute", inset: 0, fontFamily: F.titulo, fontWeight: 800, fontSize: tam, color: "#2EE6FF", opacity: 0.7, transform: `translateX(${10 + rnd(e + 5) * 12}px)`, letterSpacing: -0.02 * tam, mixBlendMode: "screen" }}>{texto}</div>
+        </>
+      )}
+      <div style={{ position: "relative" }}>
+        {palabras.map((w, k) => {
+          const d = desde + acum;
+          acum += 4;
+          return (
+            <span key={k} style={{ display: "inline-block", marginLeft: k > 0 ? tam * 0.26 : 0 }}>
+              <Revela desde={d} tam={tam} color={color} dur={efecto === "enorme" ? 14 : 10}>
+                {w}
+              </Revela>
+            </span>
+          );
+        })}
+      </div>
+      {efecto === "brillo" && (
+        <div style={{ position: "absolute", left: "50%", bottom: -6, height: 10, borderRadius: 5, background: ORO, width: ancho(texto, tam) * pr(f, desde + 6, 14, Easing.inOut(Easing.cubic)), transform: "translateX(-50%)", boxShadow: `0 0 30px ${ORO}` }} />
+      )}
+    </div>
+  );
+};
+
+const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
+  const f = useCurrentFrame();
+  const lineas = arr<string[]>(p, "lineas").map((l) => (Array.isArray(l) ? l : [String(l)]));
+  const efectos = arr<Efecto>(p, "efectos");
+  const tams = lineas.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 100 : 150));
+  const alto = tams.reduce((s, t, k) => s + t * (efectos[k] === "sello" ? 1.25 : 1.1), 0);
+  const ultimo = b.length ? b[b.length - 1] : 0;
+  const golpes = b.map((x) => temblor(f, x, 7, 8));
+  const t = golpes.reduce((s, g) => ({ x: s.x + g.x, y: s.y + g.y }), { x: 0, y: 0 });
+  const pregunta = efectos.indexOf("pregunta");
+  const kq = pregunta >= 0 ? sp(f, b[pregunta] ?? 0, { damping: 10, stiffness: 120, mass: 0.8 }) : 0;
+  const cinta = lineas.flat().join(" · ") + " · ";
+  const deriva = f * 3;
+  const empuje = 1 + 0.06 * pr(f, ultimo, Math.max(10, dur - ultimo), Easing.linear);
+  return (
+    <AbsoluteFill>
+      <Rejilla op={0.8} />
+      {[230, 1050].map((y, k) => (
+        <div key={y} style={{ position: "absolute", top: y, left: -200, whiteSpace: "nowrap", fontFamily: F.titulo, fontWeight: 800, fontSize: 110, color: "transparent", WebkitTextStroke: `2px ${alfa(ORO, 0.16)}`, transform: `translateX(${k ? -((deriva % 1400)) : (deriva % 1400) - 1400}px)` }}>
+          {cinta.repeat(6)}
+        </div>
+      ))}
+      {pregunta >= 0 && kq > 0 && (
+        <div style={{ position: "absolute", left: 540, top: 650, transform: `translate(-50%,-50%) scale(${kq}) rotate(${(1 - kq) * -40 + Math.sin(f / 10) * 6}deg)`, fontFamily: F.titulo, fontWeight: 800, fontSize: 860, lineHeight: 1, color: "transparent", WebkitTextStroke: `6px ${alfa(ORO, 0.35)}` }}>?</div>
+      )}
+      <Halo x={540} y={650} r={520} op={0.16} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 650 - alto / 2, textAlign: "center", transform: `translate(${t.x}px,${t.y}px) scale(${empuje})`, transformOrigin: "50% 50%" }}>
+        {lineas.map((l, k) => (
+          <Linea key={k} palabras={l} desde={(b[k] ?? 0) - 2} efecto={efectos[k] ?? "subir"} tam={tams[k]} />
+        ))}
+      </div>
+      {efectos.map((e, k) => (e === "sello" || e === "enorme" ? <Chispas key={k} desde={(b[k] ?? 0) + 2} x={540} y={650} n={18} r={420} color={e === "sello" ? ROJO : ORO} /> : null))}
+    </AbsoluteFill>
+  );
+};
+
+export const kinetico: DefEscena = {
+  C: Kinetico,
+  momentos: (p) => Math.max(1, arr(p, "lineas").length),
+  sonidos: (p) =>
+    arr<Efecto>(p, "efectos").map((e, k) => [k, e === "sello" ? "golpe" : e === "glitch" ? "negacion" : e === "zoom" || e === "enorme" ? "whoosh" : e === "pregunta" ? "burbuja" : "swoosh", e === "sello" ? 0.42 : 0.28] as [number, string, number]),
+  validar: (p) => (arr(p, "lineas").length ? [] : ["falta «lineas»"]),
+};
+

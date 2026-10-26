@@ -1,0 +1,426 @@
+{
+  "titulo": "Qué es una acción",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#06070A",
+      "fondo2": "#0E1016",
+      "manchas": [
+        "#2A2111",
+        "#12151F",
+        "#1C1608"
+      ],
+      "texto": "#F6F1E7",
+      "suave": "#9C968A",
+      "acento": "#E9B95E",
+      "acentoTexto": "#0B0A08",
+      "tarjeta": "#14161D",
+      "tarjetaTexto": "#F6F1E7",
+      "linea": "#2A2D37",
+      "oscuro": "#0B0C11",
+      "oscuroTexto": "#F6F1E7",
+      "borde": "#F6F1E7",
+      "exito": "#2FD487",
+      "error": "#FF4F61"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/archivo-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ]
+    },
+    "grano": 0.1
+  },
+  "subtitulos": "linea",
+  "transicion": "corte",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "¿Te imaginas ser *dueño de una empresa* sin tener que comprarla *entera?*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Gancho",
+        "en": [
+          "dueno",
+          "empresa",
+          "comprarla",
+          "entera"
+        ]
+      }
+    },
+    {
+      "texto": "Suena *raro,* ¿verdad? Pero *mira esto.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Kinetico",
+        "lineas": [
+          [
+            "SUENA",
+            "RARO"
+          ],
+          [
+            "¿VERDAD?"
+          ],
+          [
+            "MIRA ESTO"
+          ]
+        ],
+        "efectos": [
+          "glitch",
+          "giro",
+          "zoom"
+        ],
+        "en": [
+          "suena",
+          "verdad",
+          "mira"
+        ]
+      }
+    },
+    {
+      "texto": "Imagina que una empresa es una *pizza gigante.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pizza",
+        "modo": "forma",
+        "en": [
+          "imagina",
+          "empresa",
+          "pizza",
+          "gigante"
+        ]
+      }
+    },
+    {
+      "texto": "Cada rebanada representa *una acción.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pizza",
+        "modo": "cortes",
+        "en": [
+          "cada",
+          "rebanada",
+          "representa",
+          "accion"
+        ]
+      }
+    },
+    {
+      "texto": "Una pequeña *parte* de esa *compañía.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pizza",
+        "modo": "parte",
+        "en": [
+          "una",
+          "pequena",
+          "parte",
+          "compania"
+        ]
+      }
+    },
+    {
+      "texto": "Y aquí viene lo *interesante.*",
+      "entrada": "semitono",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Kinetico",
+        "lineas": [
+          [
+            "Y AQUÍ VIENE"
+          ],
+          [
+            "LO INTERESANTE"
+          ]
+        ],
+        "efectos": [
+          "subir",
+          "brillo"
+        ],
+        "en": [
+          "aqui",
+          "interesante"
+        ]
+      }
+    },
+    {
+      "texto": "No necesitas comprar la *pizza completa.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pizza",
+        "modo": "completa",
+        "en": [
+          "no",
+          "necesitas",
+          "comprar",
+          "pizza",
+          "completa"
+        ]
+      }
+    },
+    {
+      "texto": "Puedes comprar *una sola acción,* o incluso *una fracción,* si está disponible.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pizza",
+        "modo": "fraccion",
+        "en": [
+          "puedes",
+          "sola",
+          "accion",
+          "fraccion",
+          "disponible"
+        ]
+      }
+    },
+    {
+      "texto": "Pero, *¿cómo la compras?*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Kinetico",
+        "lineas": [
+          [
+            "PERO"
+          ],
+          [
+            "¿CÓMO LA"
+          ],
+          [
+            "COMPRAS?"
+          ]
+        ],
+        "efectos": [
+          "subir",
+          "subir",
+          "pregunta"
+        ],
+        "en": [
+          "pero",
+          "como",
+          "compras"
+        ]
+      }
+    },
+    {
+      "texto": "Normalmente utilizas *un bróker.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Broker",
+        "modo": "movil",
+        "en": [
+          "normalmente",
+          "utilizas",
+          "un",
+          "broker"
+        ]
+      }
+    },
+    {
+      "texto": "Un *intermediario* que te permite enviar *órdenes* de compra y venta *al mercado.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Broker",
+        "modo": "flujo",
+        "en": [
+          "intermediario",
+          "permite",
+          "ordenes",
+          "compra",
+          "venta",
+          "mercado"
+        ]
+      }
+    },
+    {
+      "texto": "En ese mercado hay personas *comprando* y *vendiendo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Mercado",
+        "en": [
+          "mercado",
+          "personas",
+          "comprando",
+          "vendiendo"
+        ]
+      }
+    },
+    {
+      "texto": "Y cuando cambia cuánto están dispuestas a *pagar* o *aceptar,* *el precio se mueve.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Precio",
+        "modo": "mueve",
+        "en": [
+          "cambia",
+          "pagar",
+          "aceptar",
+          "precio",
+          "mueve"
+        ]
+      }
+    },
+    {
+      "texto": "Si compras y el precio *sube,* tu acción *vale más.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Precio",
+        "modo": "sube",
+        "en": [
+          "compras",
+          "sube",
+          "vale",
+          "mas"
+        ]
+      }
+    },
+    {
+      "texto": "Pero ojo, también puede *bajar,* y entonces tu inversión *pierde valor.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Precio",
+        "modo": "baja",
+        "en": [
+          "ojo",
+          "bajar",
+          "inversion",
+          "pierde",
+          "valor"
+        ]
+      }
+    },
+    {
+      "texto": "Si vendes por encima del precio que pagaste, *puedes ganar.* Si vendes por debajo, *pierdes.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "GanarPerder",
+        "en": [
+          "vendes",
+          "encima",
+          "pagaste",
+          "ganar",
+          "debajo",
+          "pierdes"
+        ]
+      }
+    },
+    {
+      "texto": "Y también debes considerar *las comisiones.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Comision",
+        "en": [
+          "tambien",
+          "considerar",
+          "comisiones",
+          "comisiones+12"
+        ]
+      }
+    },
+    {
+      "texto": "Eso es parte del *trading.*",
+      "entrada": "semitono",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Kinetico",
+        "lineas": [
+          [
+            "ESO ES PARTE DEL"
+          ],
+          [
+            "TRADING"
+          ]
+        ],
+        "efectos": [
+          "subir",
+          "enorme"
+        ],
+        "en": [
+          "eso",
+          "trading"
+        ]
+      }
+    },
+    {
+      "texto": "Comprar y vender buscando aprovechar *los movimientos del precio.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Precio",
+        "modo": "velas",
+        "en": [
+          "comprar",
+          "vender",
+          "aprovechar",
+          "movimientos",
+          "precio"
+        ]
+      }
+    },
+    {
+      "texto": "Pero *nada está garantizado.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Kinetico",
+        "lineas": [
+          [
+            "PERO"
+          ],
+          [
+            "NADA ESTÁ"
+          ],
+          [
+            "GARANTIZADO"
+          ]
+        ],
+        "efectos": [
+          "subir",
+          "subir",
+          "sello"
+        ],
+        "en": [
+          "pero",
+          "nada",
+          "garantizado"
+        ]
+      }
+    },
+    {
+      "texto": "En el próximo video aprendemos *a leer una gráfica.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Proximo",
+        "en": [
+          "proximo",
+          "aprendemos",
+          "leer",
+          "grafica"
+        ]
+      }
+    }
+  ],
+  "portada": {
+    "etiqueta": "TRADING DESDE CERO",
+    "lineas": [
+      "¿QUÉ ES",
+      "*UNA ACCIÓN?*"
+    ],
+    "icono": "pizza",
+    "pegatina": "= 1 ACCIÓN"
+  }
+}

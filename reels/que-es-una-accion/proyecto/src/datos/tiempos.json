@@ -1,0 +1,1187 @@
+{
+ "voz": "ddf35286-Origine-JUSU.mp4",
+ "motor": "asr",
+ "velocidad": 1.06,
+ "duracion": 63.71,
+ "frases": [
+  {
+   "texto": "¿Te imaginas ser dueño de una empresa sin tener que comprarla entera?",
+   "inicio": 0.02,
+   "fin": 3.56,
+   "palabras": [
+    {
+     "w": "¿Te",
+     "t": 0.02,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "imaginas",
+     "t": 0.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ser",
+     "t": 0.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dueño",
+     "t": 0.88,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "de",
+     "t": 1.2,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "una",
+     "t": 1.36,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "empresa",
+     "t": 1.52,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "sin",
+     "t": 1.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tener",
+     "t": 2.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 2.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comprarla",
+     "t": 2.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "entera?",
+     "t": 3.12,
+     "clave": true,
+     "g": 1
+    }
+   ]
+  },
+  {
+   "texto": "Suena raro, ¿verdad? Pero mira esto.",
+   "inicio": 3.68,
+   "fin": 5.88,
+   "palabras": [
+    {
+     "w": "Suena",
+     "t": 3.68,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "raro,",
+     "t": 4.16,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "¿verdad?",
+     "t": 4.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Pero",
+     "t": 5.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mira",
+     "t": 5.2,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "esto.",
+     "t": 5.6,
+     "clave": true,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "texto": "Imagina que una empresa es una pizza gigante.",
+   "inicio": 6.0,
+   "fin": 8.78,
+   "palabras": [
+    {
+     "w": "Imagina",
+     "t": 6.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 6.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 6.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "empresa",
+     "t": 6.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 7.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 7.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pizza",
+     "t": 7.68,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "gigante.",
+     "t": 8.16,
+     "clave": true,
+     "g": 4
+    }
+   ]
+  },
+  {
+   "texto": "Cada rebanada representa una acción.",
+   "inicio": 8.9,
+   "fin": 11.12,
+   "palabras": [
+    {
+     "w": "Cada",
+     "t": 8.9,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rebanada",
+     "t": 9.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "representa",
+     "t": 9.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 10.48,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "acción.",
+     "t": 10.72,
+     "clave": true,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "texto": "Una pequeña parte de esa compañía.",
+   "inicio": 11.24,
+   "fin": 13.36,
+   "palabras": [
+    {
+     "w": "Una",
+     "t": 11.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pequeña",
+     "t": 11.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "parte",
+     "t": 12.21,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "de",
+     "t": 12.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "esa",
+     "t": 12.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "compañía.",
+     "t": 12.72,
+     "clave": true,
+     "g": 7
+    }
+   ]
+  },
+  {
+   "texto": "Y aquí viene lo interesante.",
+   "inicio": 13.48,
+   "fin": 14.97,
+   "palabras": [
+    {
+     "w": "Y",
+     "t": 13.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "aquí",
+     "t": 13.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "viene",
+     "t": 13.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 14.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "interesante.",
+     "t": 14.4,
+     "clave": true,
+     "g": 8
+    }
+   ]
+  },
+  {
+   "texto": "No necesitas comprar la pizza completa.",
+   "inicio": 15.09,
+   "fin": 17.38,
+   "palabras": [
+    {
+     "w": "No",
+     "t": 15.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "necesitas",
+     "t": 15.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comprar",
+     "t": 16.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 16.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pizza",
+     "t": 16.48,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "completa.",
+     "t": 16.88,
+     "clave": true,
+     "g": 9
+    }
+   ]
+  },
+  {
+   "texto": "Puedes comprar una sola acción, o incluso una fracción, si está disponible.",
+   "inicio": 17.5,
+   "fin": 21.95,
+   "palabras": [
+    {
+     "w": "Puedes",
+     "t": 17.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comprar",
+     "t": 17.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 18.4,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "sola",
+     "t": 18.64,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "acción,",
+     "t": 18.96,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "o",
+     "t": 19.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "incluso",
+     "t": 19.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 20.1,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "fracción,",
+     "t": 20.41,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "si",
+     "t": 20.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "está",
+     "t": 21.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "disponible.",
+     "t": 21.36,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Pero, ¿cómo la compras?",
+   "inicio": 22.07,
+   "fin": 23.66,
+   "palabras": [
+    {
+     "w": "Pero,",
+     "t": 22.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "¿cómo",
+     "t": 22.4,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "la",
+     "t": 22.88,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "compras?",
+     "t": 23.12,
+     "clave": true,
+     "g": 12
+    }
+   ]
+  },
+  {
+   "texto": "Normalmente utilizas un bróker.",
+   "inicio": 23.78,
+   "fin": 25.67,
+   "palabras": [
+    {
+     "w": "Normalmente",
+     "t": 23.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "utilizas",
+     "t": 24.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 24.96,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "bróker.",
+     "t": 25.12,
+     "clave": true,
+     "g": 13
+    }
+   ]
+  },
+  {
+   "texto": "Un intermediario que te permite enviar órdenes de compra y venta al mercado.",
+   "inicio": 25.79,
+   "fin": 29.74,
+   "palabras": [
+    {
+     "w": "Un",
+     "t": 25.79,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "intermediario",
+     "t": 26.0,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "que",
+     "t": 26.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "te",
+     "t": 26.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "permite",
+     "t": 26.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "enviar",
+     "t": 27.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "órdenes",
+     "t": 27.76,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "de",
+     "t": 28.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "compra",
+     "t": 28.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 28.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "venta",
+     "t": 28.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "al",
+     "t": 29.12,
+     "clave": true,
+     "g": 16
+    },
+    {
+     "w": "mercado.",
+     "t": 29.28,
+     "clave": true,
+     "g": 16
+    }
+   ]
+  },
+  {
+   "texto": "En ese mercado hay personas comprando y vendiendo.",
+   "inicio": 29.86,
+   "fin": 32.74,
+   "palabras": [
+    {
+     "w": "En",
+     "t": 29.86,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ese",
+     "t": 30.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mercado",
+     "t": 30.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "hay",
+     "t": 30.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "personas",
+     "t": 30.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comprando",
+     "t": 31.36,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "y",
+     "t": 31.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendiendo.",
+     "t": 32.16,
+     "clave": true,
+     "g": 18
+    }
+   ]
+  },
+  {
+   "texto": "Y cuando cambia cuánto están dispuestas a pagar o aceptar, el precio se mueve.",
+   "inicio": 32.86,
+   "fin": 37.23,
+   "palabras": [
+    {
+     "w": "Y",
+     "t": 32.86,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cuando",
+     "t": 33.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cambia",
+     "t": 33.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cuánto",
+     "t": 33.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "están",
+     "t": 34.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dispuestas",
+     "t": 34.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 34.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pagar",
+     "t": 35.04,
+     "clave": true,
+     "g": 19
+    },
+    {
+     "w": "o",
+     "t": 35.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "aceptar,",
+     "t": 35.52,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "el",
+     "t": 36.16,
+     "clave": true,
+     "g": 21
+    },
+    {
+     "w": "precio",
+     "t": 36.32,
+     "clave": true,
+     "g": 21
+    },
+    {
+     "w": "se",
+     "t": 36.64,
+     "clave": true,
+     "g": 21
+    },
+    {
+     "w": "mueve.",
+     "t": 36.8,
+     "clave": true,
+     "g": 21
+    }
+   ]
+  },
+  {
+   "texto": "Si compras y el precio sube, tu acción vale más.",
+   "inicio": 37.35,
+   "fin": 40.52,
+   "palabras": [
+    {
+     "w": "Si",
+     "t": 37.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "compras",
+     "t": 37.68,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 38.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 38.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 38.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sube,",
+     "t": 38.72,
+     "clave": true,
+     "g": 22
+    },
+    {
+     "w": "tu",
+     "t": 39.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "acción",
+     "t": 39.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vale",
+     "t": 39.84,
+     "clave": true,
+     "g": 23
+    },
+    {
+     "w": "más.",
+     "t": 40.16,
+     "clave": true,
+     "g": 23
+    }
+   ]
+  },
+  {
+   "texto": "Pero ojo, también puede bajar, y entonces tu inversión pierde valor.",
+   "inicio": 40.64,
+   "fin": 44.88,
+   "palabras": [
+    {
+     "w": "Pero",
+     "t": 40.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ojo,",
+     "t": 40.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "también",
+     "t": 41.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "puede",
+     "t": 41.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "bajar,",
+     "t": 42.16,
+     "clave": true,
+     "g": 24
+    },
+    {
+     "w": "y",
+     "t": 42.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "entonces",
+     "t": 42.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tu",
+     "t": 43.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "inversión",
+     "t": 43.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pierde",
+     "t": 44.08,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "valor.",
+     "t": 44.48,
+     "clave": true,
+     "g": 25
+    }
+   ]
+  },
+  {
+   "texto": "Si vendes por encima del precio que pagaste, puedes ganar. Si vendes por debajo, pierdes.",
+   "inicio": 45.0,
+   "fin": 50.29,
+   "palabras": [
+    {
+     "w": "Si",
+     "t": 45.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendes",
+     "t": 45.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "por",
+     "t": 45.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "encima",
+     "t": 45.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 46.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 46.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 46.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pagaste,",
+     "t": 46.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "puedes",
+     "t": 47.52,
+     "clave": true,
+     "g": 26
+    },
+    {
+     "w": "ganar.",
+     "t": 47.84,
+     "clave": true,
+     "g": 26
+    },
+    {
+     "w": "Si",
+     "t": 48.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendes",
+     "t": 48.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "por",
+     "t": 48.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "debajo,",
+     "t": 49.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pierdes.",
+     "t": 49.68,
+     "clave": true,
+     "g": 27
+    }
+   ]
+  },
+  {
+   "texto": "Y también debes considerar las comisiones.",
+   "inicio": 50.41,
+   "fin": 52.72,
+   "palabras": [
+    {
+     "w": "Y",
+     "t": 50.41,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "también",
+     "t": 50.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "debes",
+     "t": 50.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "considerar",
+     "t": 51.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 51.84,
+     "clave": true,
+     "g": 28
+    },
+    {
+     "w": "comisiones.",
+     "t": 52.0,
+     "clave": true,
+     "g": 28
+    }
+   ]
+  },
+  {
+   "texto": "Eso es parte del trading.",
+   "inicio": 52.84,
+   "fin": 54.27,
+   "palabras": [
+    {
+     "w": "Eso",
+     "t": 52.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 53.12,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "parte",
+     "t": 53.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 53.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "trading.",
+     "t": 53.76,
+     "clave": true,
+     "g": 29
+    }
+   ]
+  },
+  {
+   "texto": "Comprar y vender buscando aprovechar los movimientos del precio.",
+   "inicio": 54.39,
+   "fin": 57.67,
+   "palabras": [
+    {
+     "w": "Comprar",
+     "t": 54.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 54.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vender",
+     "t": 54.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "buscando",
+     "t": 55.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "aprovechar",
+     "t": 55.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 56.4,
+     "clave": true,
+     "g": 30
+    },
+    {
+     "w": "movimientos",
+     "t": 56.56,
+     "clave": true,
+     "g": 30
+    },
+    {
+     "w": "del",
+     "t": 57.12,
+     "clave": true,
+     "g": 30
+    },
+    {
+     "w": "precio.",
+     "t": 57.28,
+     "clave": true,
+     "g": 30
+    }
+   ]
+  },
+  {
+   "texto": "Pero nada está garantizado.",
+   "inicio": 57.79,
+   "fin": 59.48,
+   "palabras": [
+    {
+     "w": "Pero",
+     "t": 57.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "nada",
+     "t": 58.16,
+     "clave": true,
+     "g": 31
+    },
+    {
+     "w": "está",
+     "t": 58.48,
+     "clave": true,
+     "g": 31
+    },
+    {
+     "w": "garantizado.",
+     "t": 58.72,
+     "clave": true,
+     "g": 31
+    }
+   ]
+  },
+  {
+   "texto": "En el próximo video aprendemos a leer una gráfica.",
+   "inicio": 59.61,
+   "fin": 62.53,
+   "palabras": [
+    {
+     "w": "En",
+     "t": 59.61,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 59.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "próximo",
+     "t": 59.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "video",
+     "t": 60.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "aprendemos",
+     "t": 60.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 61.36,
+     "clave": true,
+     "g": 32
+    },
+    {
+     "w": "leer",
+     "t": 61.44,
+     "clave": true,
+     "g": 32
+    },
+    {
+     "w": "una",
+     "t": 61.76,
+     "clave": true,
+     "g": 32
+    },
+    {
+     "w": "gráfica.",
+     "t": 62.0,
+     "clave": true,
+     "g": 32
+    }
+   ]
+  }
+ ]
+}
