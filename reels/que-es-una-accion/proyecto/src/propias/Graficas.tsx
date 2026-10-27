@@ -9,8 +9,6 @@ import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
-import { TRANSICION } from "./Cierre";
-import { bump } from "../motor/anim";
 import { Nodo } from "./Broker";
 import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
@@ -518,9 +516,6 @@ const VY = (p: number) => 360 + ((VELA.h - p) / (VELA.h - VELA.l)) * 460;
 
 const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
-  // el clic cae justo cuando empieza el cierre (Cierre arranca TRANSICION fotogramas antes del final)
-  const CLIC = dur - TRANSICION - 2;
-  const BOTON = { x: 540, y: 600 };
   const [b0, b1, b2, b3] = b;
   // gráfico realista: más velas, cuerpos largos y mechas proporcionadas
   const n = 30;
@@ -556,8 +551,8 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
         cabecera="AAPL · APPLE · 1D · EJEMPLO"
         seInclina={b2 - 4}
         asiente={[b1 + 10, notas + 6, notas + 18]}
-        cursor={[[0, 760, 640], [b1, g.xVela(8), 620], [b2 - 8, ox + 14, oy], [notas, 560, VY(VELA.h)], [notas + 6, 560, VY(VELA.c)], [notas + 12, 560, VY(VELA.o)], [notas + 18, 560, VY(VELA.l)], [notas + 30, 300, 600], [Math.max(notas + 40, CLIC - 26), 300, 600], [CLIC - 4, BOTON.x + 6, BOTON.y + 8]]}
-        clics={[b2 - 8, CLIC]}
+        cursor={[[0, 760, 640], [b1, g.xVela(8), 620], [b2 - 8, ox + 14, oy], [notas, 560, VY(VELA.h)], [notas + 6, 560, VY(VELA.c)], [notas + 12, 560, VY(VELA.o)], [notas + 18, 560, VY(VELA.l)], [notas + 30, 300, 600]]}
+        clics={[b2 - 8]}
       >
         <AbsoluteFill style={{ opacity: 1 - m }}>
           <GraficoVelas velas={velas} marco={marco} entra={entra} forma={4} vivo={false} letra={LT} />
@@ -596,13 +591,6 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
         })}
         {f >= notas + 26 && (
           <div style={{ position: "absolute", left: CX - 270, top: (VY(VELA.c) + VY(VELA.o)) / 2 - 24, width: 160, textAlign: "right", fontFamily: PRO, fontWeight: 700, fontSize: 34, color: ORO, transform: `scale(${sp(f, notas + 26)})`, transformOrigin: "100% 50%" }}>cuerpo</div>
-        )}
-        {/* al final, el contenido se atenúa, aparece el botón y el personaje lo pulsa: ahí empieza el cierre */}
-        <AbsoluteFill style={{ background: "#000", opacity: 0.7 * pr(f, CLIC - 30, 12) }} />
-        {f >= CLIC - 26 && (
-          <div style={{ position: "absolute", left: BOTON.x - 150, top: BOTON.y - 44, width: 300, height: 88, borderRadius: 44, background: f >= CLIC ? "#FFF3DC" : ORO, display: "flex", alignItems: "center", justifyContent: "center", gap: 14, fontFamily: F.texto, fontWeight: 800, fontSize: 30, letterSpacing: 3, color: "#000", transform: `scale(${sp(f, CLIC - 26) * (1 - 0.1 * bump(f, CLIC, 8))})`, boxShadow: `0 0 ${30 + 60 * bump(f, CLIC, 14)}px ${alfa(ORO, 0.6)}` }}>
-            <Icono nombre="play" tam={32} color="#000" /> ORIGINE
-          </div>
         )}
         {f >= notas + 30 && (
           <>

@@ -1,47 +1,52 @@
-// Cierre de marca: el logo de Origine aparece en la pantalla del monitor que ya está en la última escena.
-// La vela se apaga en el cristal, el vídeo del logo empieza dentro de la pantalla y la pantalla crece hasta
-// ocupar todo el vídeo (como si la cámara entrara en el monitor). Sin cambiar de escena ni de estilo.
+// Cierre de marca: la imagen se apaga como una tele antigua (se aplasta en una línea de luz horizontal) y esa
+// línea se vuelve el destello que cruza los aros del logo de Origine, que aparece desde la luz.
+// El aplastado lo aplica ApagaTele a todo el vídeo; aquí se dibuja la línea de luz y el vídeo del logo.
 import React from "react";
 import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 
-/** Fotogramas del paso al logo (encima del final de la última escena) y del logo a pantalla completa (después). */
-export const TRANSICION = 60;
-export const LOGO = 45;
+/** Fotogramas del apagado (al final de la última escena) y del logo después del final de la voz. */
+export const TRANSICION = 34;
+export const LOGO = 60;
 export const CIERRE = LOGO;
-/** Fotograma de la transición en que empieza el vídeo del logo (dentro del monitor). */
-export const ENTRA_LOGO = 4;
-
-/** Cristal del monitor en la pantalla al final de la última escena (medido sobre el render, 1080×1920). */
-const CRISTAL = { x0: 24, y0: 534, x1: 1056, y1: 1218, radio: 18 };
+/** Fotograma de la transición en que empieza el vídeo del logo. */
+export const ENTRA_LOGO = 16;
+/** Altura de la línea: la del destello que cruza los aros del logo (sobre 1080×1920). */
+export const LINEA_Y = 750;
+/** Fotogramas que tarda la imagen en aplastarse. */
+export const APLASTA = 12;
 const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+
+/** Envuelve el vídeo y lo aplasta en vertical hacia la línea, como una tele que se apaga. */
+export const ApagaTele: React.FC<{ desde: number; children: React.ReactNode }> = ({ desde, children }) => {
+  const f = useCurrentFrame() - desde;
+  if (f < 0) return <AbsoluteFill>{children}</AbsoluteFill>;
+  const t = interpolate(f, [0, APLASTA], [0, 1], { ...cl, easing: Easing.in(Easing.cubic) });
+  const sy = Math.max(0.003, 1 - t);
+  const sx = 1 - 0.12 * t;
+  return (
+    <AbsoluteFill style={{ transform: `scale(${sx}, ${sy})`, transformOrigin: `540px ${LINEA_Y}px`, filter: `brightness(${1 + 3 * t})`, opacity: f > APLASTA + 2 ? 0 : 1 }}>
+      {children}
+    </AbsoluteFill>
+  );
+};
 
 export const Cierre: React.FC = () => {
   const f = useCurrentFrame();
-  // 1) la pantalla se apaga (la vela se va)
-  const apaga = interpolate(f, [0, 12], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
-  // 2) el logo empieza dentro del cristal
-  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 12], [0, 1], cl);
-  // 3) el cristal crece hasta ocupar todo y lo de alrededor se va a negro
-  const crece = interpolate(f, [26, TRANSICION], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
-  const fuera = interpolate(f, [22, 48], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
-  const arriba = CRISTAL.y0 * (1 - crece),
-    derecha = (1080 - CRISTAL.x1) * (1 - crece),
-    abajo = (1920 - CRISTAL.y1) * (1 - crece),
-    izquierda = CRISTAL.x0 * (1 - crece),
-    radio = CRISTAL.radio * (1 - crece);
+  const negro = interpolate(f, [APLASTA, APLASTA + 2], [0, 1], cl);
+  // la línea de luz: nace al final del aplastado, se estira a lo ancho y se funde con el destello del logo
+  const ancho = interpolate(f, [APLASTA - 4, APLASTA + 8], [0.55, 1.15], { ...cl, easing: Easing.out(Easing.cubic) });
+  const brillo = interpolate(f, [APLASTA - 4, APLASTA, ENTRA_LOGO + 6, ENTRA_LOGO + 18], [0, 1, 1, 0], cl);
+  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 10], [0, 1], cl);
   return (
     <AbsoluteFill>
-      {/* lo de alrededor del monitor se apaga mientras la pantalla crece */}
-      <AbsoluteFill style={{ background: "#000", opacity: fuera }} />
-      {/* la pantalla se apaga antes de que entre el logo */}
-      <div style={{ position: "absolute", left: CRISTAL.x0, top: CRISTAL.y0, width: CRISTAL.x1 - CRISTAL.x0, height: CRISTAL.y1 - CRISTAL.y0, borderRadius: CRISTAL.radio, background: "#000", opacity: apaga * (1 - crece) }} />
+      <AbsoluteFill style={{ background: "#000", opacity: negro }} />
       <Sequence from={ENTRA_LOGO} layout="none">
-        <AbsoluteFill style={{ clipPath: `inset(${arriba}px ${derecha}px ${abajo}px ${izquierda}px round ${radio}px)`, opacity: logo }}>
+        <AbsoluteFill style={{ opacity: logo }}>
           <OffthreadVideo src={staticFile("logo.mp4")} style={{ width: 1080, height: 1920 }} volume={0.9} />
         </AbsoluteFill>
       </Sequence>
-      {/* reflejo del cristal mientras todavía es pantalla */}
-      <div style={{ position: "absolute", left: izquierda, top: arriba, right: derecha, bottom: abajo, borderRadius: radio, border: `2px solid rgba(246,236,210,${0.3 * (1 - crece)})`, background: `linear-gradient(115deg, transparent 40%, rgba(246,236,210,${0.06 * (1 - crece)}) 48%, transparent 56%)`, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", left: 540 - 540 * ancho, width: 1080 * ancho, top: LINEA_Y - 5, height: 10, background: "linear-gradient(90deg, transparent, rgba(255,226,180,0.9) 30%, #FFF8EC 50%, rgba(255,226,180,0.9) 70%, transparent)", opacity: brillo, filter: "blur(1.5px)", boxShadow: "0 0 40px rgba(240,190,120,0.8)" }} />
+      <div style={{ position: "absolute", left: 540 - 260, top: LINEA_Y - 260, width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,244,225,0.8) 0%, rgba(240,185,110,0.3) 25%, rgba(240,185,110,0) 65%)", opacity: brillo * 0.8, transform: `scaleY(${0.25 + 0.75 * logo})` }} />
     </AbsoluteFill>
   );
 };
