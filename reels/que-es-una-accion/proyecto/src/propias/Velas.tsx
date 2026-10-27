@@ -7,7 +7,10 @@ import { C } from "../motor/actual";
 import { F, alfa } from "../motor/estilos";
 import { numeroES, rnd } from "../motor/anim";
 /** Velas monocromas de la marca: alcistas rellenas en crema, bajistas huecas con borde crema. */
-const TV = { rejilla: "#1C1915", eje: "#8C826E", vela: "#F6ECD2", hueca: "#000000" };
+export type Tema = { borde: string; alcista: string; bajista: string; rejilla: string; eje: string; etiqueta: string; etiquetaTexto: string; volumen: string };
+export const OSCURO: Tema = { borde: "#F6ECD2", alcista: "#F6ECD2", bajista: "#000000", rejilla: "#1C1915", eje: "#8C826E", etiqueta: "#F6ECD2", etiquetaTexto: "#000000", volumen: "#F6ECD2" };
+/** Gráfico "de papel" como en los análisis de Order Block: alcistas blancas con borde, bajistas negras. */
+export const PAPEL: Tema = { borde: "#141414", alcista: "#FFFFFF", bajista: "#141414", rejilla: "#E4DDCC", eje: "#6B6458", etiqueta: "#141414", etiquetaTexto: "#FFFFFF", volumen: "#141414" };
 
 export type Vela = { o: number; h: number; l: number; c: number; v: number };
 
@@ -33,13 +36,13 @@ export const serieVelas = (n: number, semilla: number, rumbo: (k: number) => num
 export type Marco = { x0: number; x1: number; y0: number; y1: number };
 
 /** Geometría del gráfico: dónde cae cada vela y cada precio (para colocar marcas encima). */
-export const geometria = (velas: Vela[], m: Marco) => {
+export const geometria = (velas: Vela[], m: Marco, letra = 26) => {
   const lo = Math.min(...velas.map((v) => v.l)),
     hi = Math.max(...velas.map((v) => v.h));
   const pad = (hi - lo) * 0.12;
   const pMin = lo - pad,
     pMax = hi + pad;
-  const anchoEje = 120;
+  const anchoEje = letra * 4.6;
   const altoVol = (m.y1 - m.y0) * 0.11;
   const yPrecio = (p: number) => m.y0 + ((pMax - p) / (pMax - pMin)) * (m.y1 - m.y0 - altoVol - 20);
   const hueco = (m.x1 - m.x0 - anchoEje) / velas.length;
@@ -70,9 +73,16 @@ export const GraficoVelas: React.FC<{
   /** opacidad de cada vela (para resaltar unas y apagar otras) */
   opacidad?: (k: number) => number;
   ejes?: number;
-}> = ({ velas, marco, entra, forma = 8, vivo = true, opacidad, ejes = 1 }) => {
+  tema?: Tema;
+  /** tamaño de los textos de los ejes */
+  letra?: number;
+  /** etiquetas de hora debajo (una cada `cada` velas) */
+  horas?: { desde: number; paso: number; cada: number };
+  volumen?: boolean;
+}> = ({ velas, marco, entra, forma = 8, vivo = true, opacidad, ejes = 1, tema = OSCURO, letra = 26, horas, volumen = true }) => {
+  const TV = tema;
   const f = useCurrentFrame();
-  const g = geometria(velas, marco);
+  const g = geometria(velas, marco, letra);
   const vis = velas.map((v, k) => enFormacion(v, f, entra(k), forma, false));
   let ultima = -1;
   vis.forEach((v, k) => (v ? (ultima = k) : null));
@@ -83,7 +93,7 @@ export const GraficoVelas: React.FC<{
   const niveles = 5;
   const ultimoP = ultima >= 0 ? vis[ultima]!.c : velas[0].o;
   const sube = ultima >= 0 ? vis[ultima]!.c >= vis[ultima]!.o : true;
-  const colUlt = TV.vela;
+  const colUlt = TV.etiqueta;
   void sube;
   const yUlt = g.yPrecio(ultimoP);
   const yVolBase = marco.y1;
@@ -97,7 +107,7 @@ export const GraficoVelas: React.FC<{
           return (
             <g key={k}>
               <line x1={marco.x0} x2={xEje - 14} y1={y} y2={y} stroke={alfa(TV.rejilla, 0.8)} strokeWidth={2} />
-              <text x={xEje} y={y + 9} fill={TV.eje} opacity={ultima >= 0 && Math.abs(y - yUlt) < 34 ? 0 : 1} fontFamily={F.texto} fontWeight={600} fontSize={26} style={{ fontVariantNumeric: "tabular-nums" }}>
+              <text x={xEje} y={y + 9} fill={TV.eje} opacity={ultima >= 0 && Math.abs(y - yUlt) < 34 ? 0 : 1} fontFamily={F.texto} fontWeight={600} fontSize={letra} style={{ fontVariantNumeric: "tabular-nums" }}>
                 {numeroES(p, 2)}
               </text>
             </g>
@@ -106,10 +116,21 @@ export const GraficoVelas: React.FC<{
         <line x1={xEje - 14} x2={xEje - 14} y1={marco.y0} y2={marco.y1} stroke={TV.rejilla} strokeWidth={2} />
       </g>
       {/* volumen */}
-      {vis.map((v, k) => {
+      {horas &&
+        velas.map((_, k) => {
+          if (k % horas.cada) return null;
+          const min = horas.desde + k * horas.paso;
+          const t = `${String(Math.floor(min / 60) % 24).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
+          return (
+            <text key={`h${k}`} x={g.xVela(k)} y={marco.y1 + letra + 8} textAnchor="middle" fill={TV.eje} fontFamily={F.texto} fontWeight={600} fontSize={letra * 0.85} opacity={ejes}>
+              {t}
+            </text>
+          );
+        })}
+      {volumen && vis.map((v, k) => {
         if (!v) return null;
         const h = (v.v / maxVol) * g.altoVol;
-        const col = TV.vela;
+        const col = TV.volumen;
         return <rect key={`v${k}`} x={g.xVela(k) - ancho / 2} y={yVolBase - h} width={ancho} height={h} fill={alfa(col, v.c >= v.o ? 0.2 : 0.1)} opacity={(opacidad ? opacidad(k) : 1) * ejes} />;
       })}
       {/* velas */}
@@ -117,14 +138,14 @@ export const GraficoVelas: React.FC<{
         if (!v) return null;
         const x = g.xVela(k);
         const alza = v.c >= v.o;
-        const col = TV.vela;
+        const col = TV.borde;
         const yA = g.yPrecio(Math.max(v.o, v.c)),
           yB = g.yPrecio(Math.min(v.o, v.c));
         const alto = Math.max(3, yB - yA);
         return (
           <g key={k} opacity={opacidad ? opacidad(k) : 1}>
             <line x1={x} x2={x} y1={g.yPrecio(v.h)} y2={g.yPrecio(v.l)} stroke={col} strokeWidth={2.5} />
-            <rect x={x - ancho / 2 + 1.25} y={yA} width={ancho - 2.5} height={alto} rx={1} fill={alza ? col : TV.hueca} stroke={col} strokeWidth={2.5} />
+            <rect x={x - ancho / 2 + 1.25} y={yA} width={ancho - 2.5} height={alto} rx={1} fill={alza ? TV.alcista : TV.bajista} stroke={col} strokeWidth={2.5} />
           </g>
         );
       })}
@@ -132,8 +153,8 @@ export const GraficoVelas: React.FC<{
       {ultima >= 0 && ejes > 0.05 && (
         <g opacity={ejes}>
           <line x1={marco.x0} x2={xEje - 14} y1={yUlt} y2={yUlt} stroke={colUlt} strokeWidth={2} strokeDasharray="4 8" opacity={0.85} />
-          <rect x={xEje - 10} y={yUlt - 20} width={g.anchoEje - 8} height={40} rx={6} fill={colUlt} />
-          <text x={xEje} y={yUlt + 9} fill="#000000" fontFamily={F.texto} fontWeight={800} fontSize={26} style={{ fontVariantNumeric: "tabular-nums" }}>
+          <rect x={xEje - 10} y={yUlt - letra * 0.77} width={g.anchoEje - 8} height={letra * 1.54} rx={6} fill={colUlt} />
+          <text x={xEje} y={yUlt + letra * 0.35} fill={TV.etiquetaTexto} fontFamily={F.texto} fontWeight={800} fontSize={letra} style={{ fontVariantNumeric: "tabular-nums" }}>
             {numeroES(ultimoP, 2)}
           </text>
         </g>
