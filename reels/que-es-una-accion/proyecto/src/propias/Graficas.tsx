@@ -9,7 +9,7 @@ import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio } from "./Escritorio";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -66,6 +66,92 @@ const Marcador: React.FC<{ x: number; y: number; desde: number; texto: string; c
   );
 };
 
+// ---------------------------------------------------------------- piezas de datos
+
+/** Precios del eje derecho (AAPL de ejemplo) en las líneas de la rejilla. */
+const EjePrecios: React.FC<{ op: number; base?: number; k?: number }> = ({ op, base = 228, k: escala = 0.1 }) => (
+  <>
+    {[0.25, 0.5, 0.75].map((k) => {
+      const y = Y0 + (Y1 - Y0) * k;
+      return (
+        <div key={k} style={{ position: "absolute", left: X1 - 120, width: 110, top: y - 30, textAlign: "right", fontFamily: F.texto, fontWeight: 600, fontSize: 22, color: C.suave, opacity: op, fontVariantNumeric: "tabular-nums" }}>
+          {numeroES(base + (700 - y) * escala, 2)}
+        </div>
+      );
+    })}
+  </>
+);
+
+/** Libro de órdenes: filas de precio con barras de profundidad que se mueven. */
+const Libro: React.FC<{ x: number; y: number; desde: number; lado: "compra" | "venta" }> = ({ x, y, desde, lado }) => {
+  const f = useCurrentFrame();
+  if (f < desde) return null;
+  const col = lado === "compra" ? VERDE : ROJO;
+  const filas = [0, 1, 2, 3, 4].map((k) => (lado === "compra" ? 227.9 - k * 0.05 : 228.0 + k * 0.05));
+  return (
+    <div style={{ position: "absolute", left: x, top: y, width: 250 }}>
+      <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 18, letterSpacing: 3, color: alfa(col, 0.9), marginBottom: 8, opacity: pr(f, desde, 8) }}>{lado === "compra" ? "COMPRADORES" : "VENDEDORES"}</div>
+      {filas.map((p, k) => {
+        const e = pr(f, desde + 2 + k * 2, 8);
+        const w = (0.3 + 0.6 * rnd(k * 3.3 + (lado === "compra" ? 1 : 2)) + 0.12 * Math.sin((f + k * 7) / 6)) * 100;
+        return (
+          <div key={k} style={{ position: "relative", height: 30, marginBottom: 4, opacity: e, transform: `translateX(${(1 - e) * 20}px)` }}>
+            <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: `${w * e}%`, background: alfa(col, 0.16), borderRadius: 4 }} />
+            <div style={{ position: "relative", display: "flex", justifyContent: "space-between", padding: "0 10px", lineHeight: "30px", fontFamily: F.texto, fontWeight: 600, fontSize: 20, fontVariantNumeric: "tabular-nums" }}>
+              <span style={{ color: col }}>{numeroES(p, 2)}</span>
+              <span style={{ color: C.suave }}>{Math.round(20 + w * 3)}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** Tarjeta "Tu posición": precio de compra, precio actual y resultado. */
+const Posicion: React.FC<{ x: number; y: number; desde: number; compra: number; ahora: number; col: string }> = ({ x, y, desde, compra, ahora, col }) => {
+  const f = useCurrentFrame();
+  const k = sp(f, desde);
+  if (k <= 0) return null;
+  const t = pr(f, desde + 4, 22, Easing.out(Easing.cubic));
+  const v = compra + (ahora - compra) * t;
+  const pct = ((v - compra) / compra) * 100;
+  const fila = (a: string, b: React.ReactNode, c = C.texto) => (
+    <div style={{ display: "flex", justifyContent: "space-between", fontFamily: F.texto, fontWeight: 600, fontSize: 24, color: C.suave, padding: "6px 0" }}>
+      <span>{a}</span>
+      <span style={{ color: c, fontWeight: 800, fontVariantNumeric: "tabular-nums" }}>{b}</span>
+    </div>
+  );
+  return (
+    <div style={{ position: "absolute", left: x, top: y, width: 380, transform: `scale(${k})`, transformOrigin: "0 0", background: alfa("#0E0C0A", 0.85), border: `2px solid ${alfa(col, 0.55)}`, borderRadius: 18, padding: "16px 22px", boxShadow: `0 0 40px ${alfa(col, 0.18)}` }}>
+      <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 18, letterSpacing: 3, color: C.acento, marginBottom: 6 }}>TU POSICIÓN · AAPL</div>
+      {fila("Compraste a", `${numeroES(compra, 2)} $`)}
+      {fila("Ahora", `${numeroES(v, 2)} $`)}
+      <div style={{ height: 1, background: C.linea, margin: "6px 0" }} />
+      {fila("Resultado", `${pct >= 0 ? "+" : ""}${numeroES(pct, 1)} %`, col)}
+    </div>
+  );
+};
+
+/** Notificación tipo móvil que cae desde arriba. */
+const Aviso: React.FC<{ desde: number; titulo: string; texto: string; col: string }> = ({ desde, titulo, texto, col }) => {
+  const f = useCurrentFrame();
+  const k = sp(f, desde, { damping: 14, stiffness: 160, mass: 0.7 });
+  if (k <= 0) return null;
+  return (
+    <div style={{ position: "absolute", left: 120, right: 120, top: 230 - (1 - k) * 160, opacity: Math.min(1, k * 2), display: "flex", alignItems: "center", gap: 18, background: alfa("#1A1714", 0.94), border: `1px solid ${C.linea}`, borderRadius: 26, padding: "18px 24px", boxShadow: "0 20px 50px rgba(0,0,0,0.5)" }}>
+      <div style={{ width: 58, height: 58, borderRadius: 14, background: alfa(col, 0.18), display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Icono nombre="bell-ring" tam={32} color={col} />
+      </div>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 26, color: C.texto }}>{titulo}</div>
+        <div style={{ fontFamily: F.texto, fontWeight: 600, fontSize: 22, color: C.suave }}>{texto}</div>
+      </div>
+      <div style={{ fontFamily: F.texto, fontWeight: 600, fontSize: 18, color: C.suave }}>ahora</div>
+    </div>
+  );
+};
+
 // ---------------------------------------------------------------- precio
 
 const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
@@ -87,6 +173,9 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Rejilla op={0.6} />
         <Ejes p={ejes} />
         <Etiqueta desde={b0} x={X0} y={250} texto="AAPL" centro={false} tam={28} />
+        <EjePrecios op={ejes} />
+        <Libro x={170} y={350} desde={b1} lado="compra" />
+        <Libro x={560} y={350} desde={b2} lado="venta" />
         <Caja x={540} y={285} desde={b1 - 2} color={VERDE} tam={30}>
           <Icono nombre="arrow-up" tam={36} color={VERDE} /> PAGAR
         </Caja>
@@ -148,13 +237,12 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
         )}
         {sube && <Chispas desde={bD} x={hx} y={hy} n={16} r={200} color={VERDE} />}
         {sube && <Etiqueta desde={bD - 2} x={540} y={1050} texto="TU ACCIÓN VALE MÁS" color={VERDE} />}
+        {sube && <Posicion x={560} y={830} desde={bC} compra={218.4} ahora={270.82} col={VERDE} />}
+        <EjePrecios op={1} base={sube ? 233.38 : 212.93} k={sube ? 0.1248 : 0.1015} />
         {!sube && (
           <>
-            {f >= bA - 2 && (
-              <div style={{ position: "absolute", left: 540, top: 270, transform: `translate(-50%,-50%) scale(${sp(f, bA - 2, { damping: 8, stiffness: 220, mass: 0.6 })}) rotate(${Math.sin(f / 2) * (f < bA + 12 ? 8 : 0)}deg)` }}>
-                <Icono nombre="triangle-alert" tam={110} color={ORO} />
-              </div>
-            )}
+            <Aviso desde={bA - 2} titulo="AAPL · Alerta de precio" texto="Ha caído un 18 % desde tu compra" col={ROJO} />
+            <Posicion x={140} y={730} desde={bC} compra={231.2} ahora={189.58} col={ROJO} />
             <Etiqueta desde={bD - 2} x={540} y={1050} texto="PIERDE VALOR" color={ROJO} />
             <AbsoluteFill style={{ top: -400, bottom: -400, background: `radial-gradient(ellipse at center, transparent 45%, ${alfa(ROJO, vineta)} 100%)` }} />
             <AbsoluteFill style={{ top: -400, bottom: -400, background: alfa(ORO, 0.18 * flash) }} />
@@ -207,7 +295,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Nota x={xa} y={ya + 8} dx={-50} dy={60} texto="comprar" desde={b0 - 2} color={VERDE} />
         <Nota x={xb} y={yb - 8} dx={70} dy={-22} texto="vender" desde={b1 - 2} color={ROJO} />
         {f >= b3 + 6 && (
-          <div style={{ position: "absolute", left: (xa + xb) / 2 - 40, top: (ya + yb) / 2 - 10, fontFamily: F.mano, fontSize: 60, color: ORO, transform: `rotate(-12deg) scale(${sp(f, b3 + 6)})`, whiteSpace: "nowrap" }}>el movimiento</div>
+          <div style={{ position: "absolute", left: (xa + xb) / 2 - 40, top: (ya + yb) / 2 - 10, fontFamily: PRO, fontWeight: 700, fontSize: 38, letterSpacing: 1, color: ORO, transform: `rotate(-24deg) scale(${sp(f, b3 + 6)})`, whiteSpace: "nowrap" }}>el movimiento</div>
         )}
       </AbsoluteFill>
     </Escritorio>
@@ -402,7 +490,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
         <Nota x={cx1} y={cy1} dx={140} dy={20} texto="cierre" desde={notas + 4} color={VERDE} />
         <Nota x={ox1} y={oy1} dx={140} dy={-20} texto="apertura" desde={notas + 8} />
         <Nota x={lx} y={ly} dx={-110} dy={10} texto="mínimo" desde={notas + 12} />
-        {f >= notas + 8 && <div style={{ position: "absolute", left: ox1 - 300, top: (cy1 + oy1) / 2 - 40, fontFamily: F.mano, fontSize: 64, color: ORO, transform: `rotate(-8deg) scale(${sp(f, notas + 8)})` }}>cuerpo</div>}
+        {f >= notas + 8 && <div style={{ position: "absolute", left: ox1 - 300, top: (cy1 + oy1) / 2 - 40, fontFamily: PRO, fontWeight: 700, fontSize: 40, letterSpacing: 1, color: ORO, transform: `scale(${sp(f, notas + 8)})` }}>cuerpo</div>}
       </Escritorio>
       {f >= b0 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 180, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b0 - 2)})` }}>

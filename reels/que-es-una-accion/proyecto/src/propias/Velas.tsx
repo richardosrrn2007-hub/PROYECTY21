@@ -6,6 +6,7 @@ import { Easing, interpolate, useCurrentFrame } from "remotion";
 import { C } from "../motor/actual";
 import { F, alfa } from "../motor/estilos";
 import { numeroES, rnd } from "../motor/anim";
+import { PRO } from "./mg";
 /** Velas monocromas de la marca: alcistas rellenas en crema, bajistas huecas con borde crema. */
 export type Tema = { borde: string; alcista: string; bajista: string; rejilla: string; eje: string; etiqueta: string; etiquetaTexto: string; volumen: string };
 export const OSCURO: Tema = { borde: "#F6ECD2", alcista: "#F6ECD2", bajista: "#000000", rejilla: "#1C1915", eje: "#8C826E", etiqueta: "#F6ECD2", etiquetaTexto: "#000000", volumen: "#F6ECD2" };
@@ -188,9 +189,10 @@ export const Nota: React.FC<{ x: number; y: number; dx: number; dy: number; text
           left: tx + (dx >= 0 ? 12 : -12),
           top: ty,
           transform: `translate(${dx >= 0 ? 0 : -100}%, -50%)`,
-          fontFamily: mano ? F.mano : F.texto,
-          fontWeight: mano ? 400 : 600,
-          fontSize: mano ? 52 : 30,
+          fontFamily: mano ? PRO : F.texto,
+          fontWeight: mano ? 700 : 600,
+          fontSize: mano ? 36 : 30,
+          letterSpacing: mano ? 0.5 : 0,
           color,
           opacity: interpolate(f, [desde + 4, desde + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
           whiteSpace: "nowrap",

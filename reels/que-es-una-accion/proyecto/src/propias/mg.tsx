@@ -17,6 +17,14 @@ if (typeof document !== "undefined") {
   (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
   cara.load().then(() => continueRender(h));
 }
+/** Tipografía de las etiquetas del gráfico (más profesional): Space Grotesk 700. */
+export const PRO = "BRPro";
+if (typeof document !== "undefined") {
+  const h = delayRender("Cargando Space Grotesk");
+  const cara = new FontFace(PRO, `url(${staticFile("fuentes/space-grotesk-latin-700-normal.woff2")})`, { weight: "700" });
+  (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
+  cara.load().then(() => continueRender(h));
+}
 const SIN_GLIFO = /[áéíóúÁÉÍÓÚñÑ¿¡üÜ%€]/;
 /** Fuente de título para un grupo de textos: Internet Friends si todos se pueden escribir con ella. */
 export const fuenteTitulo = (textos: string[]) => (textos.some((t) => SIN_GLIFO.test(t)) ? F.mano : DISPLAY);
