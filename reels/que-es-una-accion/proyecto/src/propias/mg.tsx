@@ -25,9 +25,22 @@ if (typeof document !== "undefined") {
   (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
   cara.load().then(() => continueRender(h));
 }
-/** Fuente de los títulos: Space Grotesk en todo el vídeo (dos tipografías en total: Inter y Space Grotesk). */
-export const fuenteTitulo = (_textos?: string[]) => PRO;
-export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : fuente === PRO ? 700 : 400);
+/** Títulos con carácter: Bricolage Grotesque 800. Palabras clave: Anton (condensada, contundente). */
+export const VIVO = "BRVivo";
+export const CLAVE = "BRClave";
+if (typeof document !== "undefined") {
+  for (const [nombre, archivo, peso] of [
+    [VIVO, "fuentes/bricolage-grotesque-latin-800-normal.woff2", "800"],
+    [CLAVE, "fuentes/anton-latin-400-normal.woff2", "400"],
+  ]) {
+    const h = delayRender(`Cargando ${archivo}`);
+    const cara = new FontFace(nombre, `url(${staticFile(archivo)})`, { weight: peso });
+    (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
+    cara.load().then(() => continueRender(h));
+  }
+}
+export const fuenteTitulo = (_textos?: string[]) => VIVO;
+export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : fuente === PRO ? 700 : fuente === VIVO ? 800 : 400);
 
 export const ORO = C.acento;
 export const VERDE = C.exito;

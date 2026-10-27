@@ -7,6 +7,7 @@ import { useFuentes } from "../motor/fuentes";
 import { paginasLinea } from "../motor/Subtitulos";
 import type { FraseT } from "../tipos";
 import { C } from "../motor/actual";
+import { CLAVE } from "./mg";
 
 /** Color de la caja de selección (el dorado de la marca). */
 const MARCO = C.acento;
@@ -34,7 +35,7 @@ export const SubArriba: React.FC<{ frases: FraseT[]; sin: number[]; top?: number
         if (!g.clave) return <span key={k} style={{ ...base, fontWeight: 600, color: C.suave }}>{texto}</span>;
         const caja = interpolate(f, [a, a + 7], [0.85, 1], { extrapolateRight: "clamp" });
         return (
-          <span key={k} style={{ ...base, position: "relative", fontWeight: 800, color: C.texto, padding: "0 8px" }}>
+          <span key={k} style={{ ...base, position: "relative", fontFamily: CLAVE, fontWeight: 400, fontSize: TAM * 1.12, letterSpacing: 1, textTransform: "uppercase", color: C.acento, padding: "0 10px" }}>
             <span style={{ position: "absolute", inset: "-2px 0", border: `2px solid ${MARCO}`, transform: `scale(${caja})`, opacity: t }}>
               <Esquina x="left" y="top" />
               <Esquina x="right" y="top" />

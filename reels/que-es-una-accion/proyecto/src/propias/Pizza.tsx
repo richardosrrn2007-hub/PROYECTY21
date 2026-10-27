@@ -14,9 +14,9 @@ const R = 270;
 const N = 8;
 /** La porción protagonista (arriba a la derecha). */
 const P = 1;
-const CORTEZA = "#A27A4A";
-const QUESO = "#E9D9B6";
-const PEPE = "#7A5432";
+const CORTEZA = "#D08A35";
+const QUESO = "#F4C65A";
+const PEPE = "#C7412C";
 
 const ang = (i: number) => -Math.PI / 2 + (i * 2 * Math.PI) / N;
 const punto = (a: number, r: number) => [Math.cos(a) * r, Math.sin(a) * r];

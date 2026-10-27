@@ -7,7 +7,7 @@ import { rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { Escritorio } from "./Escritorio";
 import { arr } from "../escenas/util";
-import { PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
+import { CLAVE, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
 
 // ---------------------------------------------------------------- edificio
 
@@ -64,12 +64,32 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
   const t = temblor(f, b3, 16);
   const fz = fuenteTitulo();
   const tam1 = encajar("Dueño de", 760, 120, fz);
-  const tam2 = encajar("una empresa", 860, 120, fz);
+  const tam2 = encajar("UNA EMPRESA", 860, 150, CLAVE);
   const tachon = pr(f, b3 + 3, 8);
   const sello = sp(f, b3, { damping: 9, stiffness: 220, mass: 0.6 });
+  const aleja = pr(f, 0, Math.max(20, b1 + 6), Easing.inOut(Easing.cubic));
+  const sale = pr(f, b2, 16, Easing.out(Easing.cubic));
   return (
     <AbsoluteFill style={{ transform: `translate(${t.x}px,${t.y}px)` }}>
       <Rejilla />
+      {/* el protagonista ya está frente a su monitor desde el primer segundo */}
+      {/* la cámara empieza dentro de la pantalla y se aleja hasta mostrarlo a él */}
+      <AbsoluteFill style={{ transform: `translateY(${372 * aleja - 120 * (1 - aleja)}px) scale(${0.62 + 0.63 * (1 - aleja)})`, transformOrigin: "540px 262px" }}>
+        <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b1, b3]} cabecera="APPLE · EMPRESA">
+          <Halo x={540} y={600} r={380} op={0.18 + 0.12 * pr(f, b1, 10)} />
+          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
+          <Chispas desde={b2 + 2} x={540} y={640} n={16} r={260} />
+        </Escritorio>
+        {/* una columna (una acción) sale de la pantalla flotando */}
+        {sale > 0 && (
+          <div style={{ position: "absolute", left: 540, top: 524, width: 95, height: 306, transform: `translate(${300 * sale}px, ${130 * sale - 40 * Math.sin(sale * Math.PI)}px) scale(${1 + 0.55 * sale}) rotate(${8 * sale + Math.sin(f / 8) * 2 * sale}deg)`, transformOrigin: "50% 100%", border: `5px solid ${ORO}`, background: alfa(ORO, 0.22), boxShadow: `0 0 50px ${alfa(ORO, 0.5)}`, borderRadius: 4 }}>
+            {[0, 1, 2].map((r) => (
+              <div key={r} style={{ position: "absolute", left: 25, top: 40 + r * 83, width: 40, height: 45, borderRadius: 5, background: ORO }} />
+            ))}
+            <div style={{ position: "absolute", left: "50%", top: "100%", marginTop: 22, transform: "translateX(-50%)", whiteSpace: "nowrap", fontFamily: CLAVE, fontSize: 52, color: C.acentoTexto, background: ORO, padding: "0 16px", borderRadius: 10, opacity: pr(f, b2 + 8, 8) }}>1 ACCIÓN</div>
+          </div>
+        )}
+      </AbsoluteFill>
       <Etiqueta desde={-20} x={540} y={190} texto="¿TE IMAGINAS SER…" tam={28} />
       <div style={{ position: "absolute", top: 245, left: 0, right: 0, textAlign: "center" }}>
         <div>
@@ -78,30 +98,22 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
           </Revela>
         </div>
         <div>
-          <Revela desde={b1 - 3} tam={tam2} color={ORO} fuente={fz}>
-            una empresa
+          <Revela desde={b1 - 3} tam={tam2} color={ORO} fuente={CLAVE}>
+            UNA EMPRESA
           </Revela>
         </div>
       </div>
-      <div style={{ position: "absolute", top: 512, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 20 }}>
+      <div style={{ position: "absolute", top: 548, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 20 }}>
         <Revela desde={b2} tam={50} color={C.texto} fuente={fz}>
           sin comprarla
         </Revela>
         {f >= b3 && (
           <div style={{ position: "relative", transform: `scale(${0.6 + 0.4 * sello}) rotate(${-4 * sello}deg)` }}>
-            <div style={{ fontFamily: PRO, fontWeight: 700, fontSize: 46, color: C.acentoTexto, background: ORO, padding: "2px 18px", borderRadius: 10 }}>entera</div>
+            <div style={{ fontFamily: CLAVE, fontSize: 54, color: C.acentoTexto, background: ORO, padding: "0 16px", borderRadius: 10 }}>ENTERA</div>
             <div style={{ position: "absolute", left: -10, top: "50%", height: 8, width: `${tachon * 108}%`, background: ROJO, borderRadius: 5, transform: "rotate(-6deg)" }} />
           </div>
         )}
       </div>
-      {/* el protagonista ya está frente a su monitor desde el primer segundo */}
-      <AbsoluteFill style={{ transform: "translateY(330px) scale(0.62)", transformOrigin: "540px 262px" }}>
-        <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b1, b3]} cabecera="APPLE · EMPRESA">
-          <Halo x={540} y={600} r={380} op={0.18 + 0.12 * pr(f, b1, 10)} />
-          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
-          <Chispas desde={b2 + 2} x={540} y={640} n={16} r={260} />
-        </Escritorio>
-      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -188,7 +200,11 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const efectos = arr<Efecto>(p, "efectos");
   const fz = fuenteTitulo(lineas.flat());
   const esc = 1;
-  const tams = lineas.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 100 : 150) * esc, fz));
+  // las líneas protagonistas (doradas o sello) van en Anton y en mayúsculas; el resto, en Bricolage
+  const clave = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
+  const fuenteL = (k: number) => (clave(k) ? CLAVE : fz);
+  const lineasV = lineas.map((l, k) => (clave(k) ? l.map((w) => w.toUpperCase()) : l));
+  const tams = lineasV.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 110 : 150) * esc * (clave(k) ? 1.3 : 1), fuenteL(k)));
   const alto = tams.reduce((s, t, k) => s + t * (efectos[k] === "sello" ? 1.25 : 1.1), 0);
   const ultimo = b.length ? b[b.length - 1] : 0;
   const golpes = b.map((x) => temblor(f, x, 7, 8));
@@ -211,8 +227,8 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
       )}
       <Halo x={540} y={650} r={520} op={0.16} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 650 - alto / 2, textAlign: "center", transform: `translate(${t.x}px,${t.y}px) scale(${empuje})`, transformOrigin: "50% 50%" }}>
-        {lineas.map((l, k) => (
-          <Linea key={k} palabras={l} desde={(b[k] ?? 0) - 2} efecto={efectos[k] ?? "subir"} tam={tams[k]} fuente={fz} />
+        {lineasV.map((l, k) => (
+          <Linea key={k} palabras={lineasV[k]} desde={(b[k] ?? 0) - 2} efecto={efectos[k] ?? "subir"} tam={tams[k]} fuente={fuenteL(k)} />
         ))}
       </div>
       {efectos.map((e, k) => (e === "sello" || e === "enorme" ? <Chispas key={k} desde={(b[k] ?? 0) + 2} x={540} y={650} n={18} r={420} color={e === "sello" ? ROJO : ORO} /> : null))}

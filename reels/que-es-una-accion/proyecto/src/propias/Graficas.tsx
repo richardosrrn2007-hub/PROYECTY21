@@ -9,7 +9,8 @@ import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Nodo } from "./Broker";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -391,47 +392,70 @@ const Comision: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0, b1, b2, b3] = b;
   const nMon = 7;
-  const xS = 340,
-    baseY = 950;
+  const xS = 250,
+    baseY = 960;
+  const nodo: [number, number] = [250, 470];
+  // la moneda de arriba se va al bróker en cada comisión
   const vuela = (k: number) => (k === nMon - 1 ? b2 : k === nMon - 2 ? b3 : 1e9);
   const recibo = pr(f, b1 - 2, 12, Easing.out(Easing.back(1.3)));
-  const filas = ["COMPRA", "PRECIO", "COMISIÓN"];
+  const c1 = pr(f, b2 + 6, 10),
+    c2 = pr(f, b3 + 6, 10);
+  const bruta = 218.4;
+  const neta = bruta - 2 * c1 - 2 * c2;
+  const filas: [string, string, number][] = [
+    ["Compra · 10 AAPL", "2.184,00 $", b1 + 4],
+    ["Comisión de compra", "−2,00 $", b2],
+    ["Comisión de venta", "−2,00 $", b3],
+  ];
+  const g = temblor(f, b3 + 6, 6);
   return (
-    <AbsoluteFill style={{ transform: "scale(1.12)", transformOrigin: "540px 600px" }}>
+    <AbsoluteFill style={{ transform: `translate(${g.x}px,${g.y}px)` }}>
       <Rejilla op={0.6} />
-      <Halo x={xS} y={800} r={300} op={0.2} />
+      <Halo x={xS} y={820} r={300} op={0.2} />
+      <Nodo x={nodo[0]} y={nodo[1]} r={86} icono="landmark" texto="BRÓKER" desde={b1 - 4} pulso={b2 + 14} />
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
         {Array.from({ length: nMon }).map((_, k) => {
           const cae = pr(f, k * 2.5, 10, Easing.out(Easing.bounce));
-          const y0 = baseY - k * 42;
+          const y0 = baseY - k * 40;
           const v = vuela(k);
           const t = pr(f, v, 16, Easing.inOut(Easing.cubic));
-          const x = xS + (780 - xS) * t,
-            y = (y0 - 600 * (1 - cae)) * (1 - t) + 700 * t - Math.sin(t * Math.PI) * 240;
           if (t >= 1) return null;
-          return <Moneda key={k} x={x} y={y} s={1 - 0.6 * t} op={Math.min(1, cae * 3)} giro={t * 40} />;
+          const x = xS + (nodo[0] - xS) * t + Math.sin(t * Math.PI) * 170,
+            y = (y0 - 600 * (1 - cae)) * (1 - t) + nodo[1] * t;
+          return <Moneda key={k} x={x} y={y} s={0.9 - 0.55 * t} op={Math.min(1, cae * 3)} giro={t * 60} />;
         })}
       </svg>
       {recibo > 0 && (
-        <div style={{ position: "absolute", left: 600, top: 470, width: 360, transform: `translateX(${(1 - recibo) * 500}px) rotate(${3 * (1 - recibo) + Math.sin(f / 14) * 1}deg)`, background: C.tarjeta, border: `3px solid ${C.linea}`, borderRadius: 20, padding: "28px 28px", boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}>
-          <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 26, letterSpacing: 6, color: ORO, marginBottom: 18 }}>OPERACIÓN</div>
-          {filas.map((r, k) => {
-            const com = k === 2;
-            const on = f >= b1 + 4 + k * 5;
-            const rojo = com && f >= b2 + 12;
+        <div style={{ position: "absolute", left: 455, top: 360, width: 540, transform: `translateX(${(1 - recibo) * 500}px) rotate(${2 * (1 - recibo) + Math.sin(f / 14) * 0.6}deg)`, background: alfa(C.tarjeta, 0.95), border: `2px solid ${C.linea}`, borderRadius: 20, padding: "24px 28px", boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}>
+          <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, letterSpacing: 5, color: ORO, marginBottom: 12 }}>TU OPERACIÓN · AAPL</div>
+          {filas.map(([a, v, d], k) => {
+            const on = pr(f, d, 8);
+            const com = k > 0;
             return (
-              <div key={r} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontFamily: F.texto, fontWeight: 800, fontSize: 28, color: rojo ? ROJO : C.texto, padding: "12px 0", borderTop: `2px dashed ${C.linea}`, opacity: on ? 1 : 0, transform: `translateX(${on ? 0 : 30}px)`, background: rojo ? alfa(ROJO, 0.12) : undefined }}>
-                <span>{r}</span>
-                <span style={{ width: com ? 70 : 100, height: 12, borderRadius: 6, background: rojo ? ROJO : alfa(C.texto, 0.3) }} />
+              <div key={a} style={{ display: "flex", justifyContent: "space-between", fontFamily: F.texto, fontWeight: 600, fontSize: 28, color: C.suave, padding: "12px 10px", borderTop: `2px dashed ${C.linea}`, opacity: on, transform: `translateX(${(1 - on) * 30}px)`, background: com && on > 0 ? alfa(ROJO, 0.14 * Math.max(0, 1 - (f - d) / 30)) : undefined, borderRadius: 8 }}>
+                <span>{a}</span>
+                <span style={{ fontWeight: 800, color: com ? ROJO : C.texto, fontVariantNumeric: "tabular-nums" }}>{v}</span>
               </div>
             );
           })}
+          <div style={{ marginTop: 18 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 12, whiteSpace: "nowrap", fontFamily: F.texto, fontWeight: 800, fontSize: 20, letterSpacing: 2, color: C.suave }}>
+              <span>GANANCIA (SI SUBE 10 %)</span>
+              <span style={{ whiteSpace: "nowrap", fontFamily: CLAVE, fontSize: 40, letterSpacing: 1, color: VERDE, fontVariantNumeric: "tabular-nums" }}>+{numeroES(neta, 2)} $</span>
+            </div>
+            <div style={{ position: "relative", height: 22, borderRadius: 11, background: alfa(C.texto, 0.08), marginTop: 10, overflow: "hidden" }}>
+              <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${pr(f, b1 + 10, 14) * 100}%`, background: VERDE, borderRadius: 11 }} />
+              {/* lo que se come cada comisión (exagerado para que se vea) */}
+              <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: `${9 * c1 + 9 * c2}%`, background: ROJO }} />
+            </div>
+          </div>
         </div>
       )}
-      <Chispas desde={b2 + 14} x={780} y={700} color={ROJO} n={12} r={160} />
-      {f >= b2 + 6 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 250, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b2 + 6, { damping: 9, stiffness: 220, mass: 0.6 })})` }}>
-          <div style={{ fontFamily: F.titulo, fontWeight: 800, fontSize: 76, color: ROJO, letterSpacing: -2 }}>− COMISIONES</div>
+      <Chispas desde={b2 + 14} x={nodo[0]} y={nodo[1]} color={ROJO} n={12} r={150} />
+      <Chispas desde={b3 + 14} x={nodo[0]} y={nodo[1]} color={ROJO} n={12} r={150} />
+      {f >= b2 + 4 && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 215, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b2 + 4, { damping: 9, stiffness: 220, mass: 0.6 })})` }}>
+          <div style={{ fontFamily: CLAVE, fontSize: 104, color: ROJO, letterSpacing: 2 }}>− COMISIONES</div>
         </div>
       )}
     </AbsoluteFill>
@@ -506,8 +530,8 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
           </Revela2>
         </div>
         <div>
-          <Revela2 desde={b3 - 1} tam={82} color={ORO} fuente={fz}>
-            una gráfica
+          <Revela2 desde={b3 - 1} tam={84} color={ORO} fuente={CLAVE}>
+            UNA GRÁFICA
           </Revela2>
         </div>
       </div>
