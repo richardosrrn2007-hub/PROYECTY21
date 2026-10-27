@@ -7,7 +7,7 @@ import { rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { Escritorio } from "./Escritorio";
 import { arr } from "../escenas/util";
-import { CLAVE, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
+import { CLAVE, PRINCIPAL, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
 
 // ---------------------------------------------------------------- edificio
 
@@ -77,7 +77,7 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
   const t = temblor(f, b3, 16);
   const fz = fuenteTitulo();
   const tam1 = encajar("Dueño de", 760, 120, fz);
-  const tam2 = encajar("UNA EMPRESA", 860, 150, CLAVE);
+  const tam2 = encajar("UNA EMPRESA", 860, 150, PRINCIPAL);
   const tachon = pr(f, b3 + 3, 8);
   const sello = sp(f, b3, { damping: 9, stiffness: 220, mass: 0.6 });
   const aleja = pr(f, 0, Math.max(20, b1 + 6), Easing.inOut(Easing.cubic));
@@ -111,7 +111,7 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
           </Revela>
         </div>
         <div>
-          <Revela desde={b1 - 3} tam={tam2} color={ORO} fuente={CLAVE}>
+          <Revela desde={b1 - 3} tam={tam2} color={ORO} fuente={PRINCIPAL}>
             UNA EMPRESA
           </Revela>
         </div>
@@ -215,7 +215,7 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const esc = 1;
   // las líneas protagonistas (doradas o sello) van en Anton y en mayúsculas; el resto, en Bricolage
   const clave = (k: number) => efectos[k] === "enorme" || efectos[k] === "sello";
-  const fuenteL = (k: number) => (clave(k) ? CLAVE : fz);
+  const fuenteL = (k: number) => (DORADOS.includes(efectos[k]) || efectos[k] === "sello" ? PRINCIPAL : fz);
   const lineasV = lineas.map((l, k) => (clave(k) ? l.map((w) => w.toUpperCase()) : l));
   const color = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
   const tams = lineasV.map((l, k) =>

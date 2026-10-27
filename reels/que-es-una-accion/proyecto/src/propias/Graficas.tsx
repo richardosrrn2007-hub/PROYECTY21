@@ -10,7 +10,7 @@ import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
 import { Nodo } from "./Broker";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, REBOTE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, PRINCIPAL, REBOTE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -613,7 +613,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
           </Revela2>
         </div>
         <div>
-          <Revela2 desde={b3 - 1} tam={84} color={ORO} fuente={CLAVE}>
+          <Revela2 desde={b3 - 1} tam={80} color={ORO} fuente={PRINCIPAL}>
             UNA GRÁFICA
           </Revela2>
         </div>

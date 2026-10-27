@@ -27,11 +27,15 @@ if (typeof document !== "undefined") {
 }
 /** Títulos con carácter: Bricolage Grotesque 800. Palabras clave: Anton (condensada, contundente). */
 export const VIVO = "BRVivo";
+export const OPCION_PRINCIPAL: "A" | "B" = "A";
 export const CLAVE = "BRClave";
 if (typeof document !== "undefined") {
   for (const [nombre, archivo, peso] of [
     [VIVO, "fuentes/bricolage-grotesque-latin-800-normal.woff2", "800"],
     [CLAVE, "fuentes/anton-latin-400-normal.woff2", "400"],
+    ["BRSecund", "fuentes/chicken-pie.otf", "400"],
+    ["BRPrinWorld", "fuentes/matcha-world.otf", "400"],
+    ["BRPrinStyle", "fuentes/matcha-style.otf", "400"],
     ["BRSubManrope", "fuentes/manrope-latin-600-normal.woff2", "600"],
     ["BRSubDM", "fuentes/dm-sans-latin-600-normal.woff2", "600"],
     ["BRSubIF", "fuentes/internet-friends-es.ttf", "400"],
@@ -42,7 +46,11 @@ if (typeof document !== "undefined") {
     cara.load().then(() => continueRender(h));
   }
 }
-export const fuenteTitulo = (_textos?: string[]) => VIVO;
+/** Secundarias (palabras blancas): CHICKEN Pie. */
+export const SECUND = "BRSecund";
+/** Principales (palabras de color). Opción A: Matcha World y, para tildes/ñ/¿ que no trae, Matcha Style. */
+export const PRINCIPAL = OPCION_PRINCIPAL === "A" ? "BRPrinWorld, BRPrinStyle" : "BRPrinStyle";
+export const fuenteTitulo = (_textos?: string[]) => SECUND;
 export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : fuente === PRO ? 700 : fuente === VIVO ? 800 : 400);
 
 export const ORO = C.acento;
