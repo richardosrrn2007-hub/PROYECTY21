@@ -9,7 +9,7 @@ export const TRANSICION = 60;
 export const LOGO = 45;
 export const CIERRE = LOGO;
 /** Fotograma de la transición en que empieza el vídeo del logo (dentro del monitor). */
-export const ENTRA_LOGO = 10;
+export const ENTRA_LOGO = 4;
 
 /** Cristal del monitor en la pantalla al final de la última escena (medido sobre el render, 1080×1920). */
 const CRISTAL = { x0: 24, y0: 534, x1: 1056, y1: 1218, radio: 18 };
