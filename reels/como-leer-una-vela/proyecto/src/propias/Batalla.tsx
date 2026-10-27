@@ -235,6 +235,56 @@ const Publico: React.FC<{ fuerza: number }> = ({ fuerza }) => {
   );
 };
 
+/** Órdenes que lanza el público: etiquetas que vuelan hacia el nudo. Del bando que va ganando salen más. */
+const Ordenes: React.FC<{ fuerzaEn: (f: number) => number; nudo: (f: number) => number }> = ({ fuerzaEn, nudo }) => {
+  const f = useCurrentFrame();
+  const out: React.ReactNode[] = [];
+  const VIAJE = 20;
+  for (let n = 0; n < 60; n++) {
+    const sale = 3 + n * 5;
+    if (sale > f) break;
+    const t = (f - sale) / VIAJE;
+    if (t > 1) continue;
+    const fz = fuerzaEn(sale);
+    // de qué lado sale: más del bando que gana
+    const compra = rnd(n * 3.7 + 1) < 0.5 + Math.max(-0.4, Math.min(0.4, fz * 0.5));
+    const k = Math.floor(rnd(n * 5.3) * 6);
+    const x0 = compra ? 40 + k * 62 : 1040 - k * 62,
+      y0 = 1230;
+    const x1 = 540 + (compra ? -36 : 36),
+      y1 = nudo(sale + VIAJE);
+    const e = Easing.inOut(Easing.cubic)(t);
+    const x = x0 + (x1 - x0) * e,
+      y = y0 + (y1 - y0) * e - Math.sin(t * Math.PI) * 120;
+    const cant = 1 + Math.floor(rnd(n * 9.1) * 20);
+    out.push(
+      <div
+        key={n}
+        style={{
+          position: "absolute",
+          left: x,
+          top: y,
+          transform: `translate(-50%,-50%) scale(${Math.min(1, t * 6, (1 - t) * 5)}) rotate(${(compra ? -1 : 1) * (1 - t) * 14}deg)`,
+          background: compra ? CREMA : TINTA,
+          color: compra ? TINTA : ROJO,
+          border: `2px solid ${compra ? ORO : ROJO}`,
+          borderRadius: 8,
+          padding: "5px 12px",
+          fontFamily: F.texto,
+          fontWeight: 800,
+          fontSize: 27,
+          letterSpacing: 1,
+          whiteSpace: "nowrap",
+          boxShadow: "0 6px 16px rgba(0,0,0,0.5)",
+        }}
+      >
+        {compra ? `COMPRA +${cant}` : `VENTA −${cant}`}
+      </div>,
+    );
+  }
+  return <>{out}</>;
+};
+
 export const CAPITULOS = ["BATALLA", "APERTURA", "COLOR", "MECHAS", "CUERPO", "GRÁFICA"];
 /** Barra de capítulos abajo: el actual se ilumina; da sensación de progreso. */
 export const Capitulos: React.FC<{ activo: number; y?: number }> = ({ activo, y = 1425 }) => {
@@ -359,6 +409,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
     <AbsoluteFill>
     <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG}) ${camara(modo, pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.sin)))}`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
       <Publico fuerza={(precio - abre) * 4} />
+      <Ordenes fuerzaEn={(t) => (precioEn(t + 3, claves) - precioEn(t - 3, claves)) * 40} nudo={(t) => yDe(precioEn(t, claves))} />
       {!gancho && <Marcador fuerza={(precio - abre) * 3} />}
       <Halo x={540} y={700} r={480} op={0.14} />
       {/* eje de precio a la izquierda */}
