@@ -6,7 +6,7 @@ import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile
 
 /** Fotogramas del paso al logo (encima del final de la última escena) y del logo a pantalla completa (después). */
 export const TRANSICION = 60;
-export const LOGO = 110;
+export const LOGO = 45;
 export const CIERRE = LOGO;
 /** Fotograma de la transición en que empieza el vídeo del logo (dentro del monitor). */
 export const ENTRA_LOGO = 10;
