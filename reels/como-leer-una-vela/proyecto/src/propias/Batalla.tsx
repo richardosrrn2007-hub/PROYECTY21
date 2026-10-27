@@ -83,6 +83,16 @@ export const Toro: React.FC<{ x: number; y: number; esc?: number; animo?: Animo;
       <ellipse cx={0} cy={34} rx={48} ry={27} fill="#D9B79A" stroke={TINTA} strokeWidth={3} />
       <ellipse cx={-15} cy={34} rx={5} ry={7} fill={TINTA} />
       <ellipse cx={15} cy={34} rx={5} ry={7} fill={TINTA} />
+      {/* esfuerzo: vapor por la nariz y gota de sudor */}
+      {animo === "tira" &&
+        [-1, 1].map((s) => {
+          const c = ((f + (s > 0 ? 10 : 0)) % 20) / 20;
+          return <circle key={`v${s}`} cx={s * (18 + 40 * c)} cy={44 + 18 * c} r={6 + 12 * c} fill={alfa("#FFFFFF", 0.55 * (1 - c))} />;
+        })}
+      {animo === "tira" && (() => {
+        const c = (f % 36) / 36;
+        return <path d={`M66 ${-44 + 60 * c} q-9 14 0 20 q9 -6 0 -20 Z`} fill="#9FD3F0" stroke={TINTA} strokeWidth={2} opacity={c < 0.85 ? 1 : (1 - c) / 0.15} />;
+      })()}
       {/* aro de oro en la nariz */}
       <path d="M-14 46 Q0 72 14 46" fill="none" stroke={ORO} strokeWidth={5} />
       {[-1, 1].map((s) => (
@@ -121,7 +131,8 @@ export const Oso: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; 
       <path d="M34 -36 L48 -6 M30 -26 L44 -30 M36 -16 L50 -20" stroke={alfa(CREMA, 0.5)} strokeWidth={3} strokeLinecap="round" />
       {[-1, 1].map((s) => (
         <g key={`e${s}`}>
-          <circle cx={s * 26} cy={-10} r={pierde ? 3 : 6} fill={CREMA} />
+          {gana && <circle cx={s * 26} cy={-10} r={16} fill={alfa(ROJO, 0.45 + 0.2 * Math.sin(f / 3))} />}
+          <circle cx={s * 26} cy={-10} r={pierde ? 3 : 6} fill={gana ? ROJO : CREMA} />
           <path d={gana ? `M${s * 36} -28 Q${s * 26} -34 ${s * 16} -28` : `M${s * 40} -28 L${s * 12} -16`} stroke={CREMA} strokeWidth={6} strokeLinecap="round" fill="none" />
         </g>
       ))}
@@ -207,6 +218,53 @@ export const Magnate: React.FC<{ x: number; y: number; esc?: number; animo?: Ani
 // ---------------------------------------------------------------- relleno: marcador, público y capítulos
 
 /** Barra de fuerza a la derecha: sube (crema) cuando ganan los compradores y baja (negra) cuando ganan los vendedores. */
+/** Barras de vida de videojuego de lucha, arriba: compradores (izquierda) contra vendedores (derecha).
+ * La vida se vacía hacia el centro; el tramo blanco es el daño reciente (se queda un momento y se va). */
+const Vida: React.FC<{ fz: number; fzAntes: number; y: number; gana: "toro" | "oso" | null }> = ({ fz, fzAntes, y, gana }) => {
+  const f = useCurrentFrame();
+  const c = (v: number) => Math.max(0.05, Math.min(1, v));
+  const hT = c(0.5 + 0.5 * fz),
+    hO = c(0.5 - 0.5 * fz);
+  const hTa = Math.max(hT, c(0.5 + 0.5 * fzAntes)),
+    hOa = Math.max(hO, c(0.5 - 0.5 * fzAntes));
+  const W = 400;
+  const parpadeo = (lado: "toro" | "oso") => (gana && gana !== lado && Math.floor(f / 3) % 2 ? 0.35 : 1);
+  const barra = (lado: "toro" | "oso") => {
+    const izq = lado === "toro";
+    const h = izq ? hT : hO,
+      ha = izq ? hTa : hOa;
+    return (
+      <div style={{ position: "relative", width: W, height: 34, transform: `skewX(${izq ? -14 : 14}deg)`, border: `3px solid ${ORO}`, background: alfa("#000", 0.75), overflow: "hidden", opacity: parpadeo(lado) }}>
+        {/* el lado de fuera es el que se vacía: la vida está pegada al centro */}
+        <div style={{ position: "absolute", top: 0, bottom: 0, [izq ? "right" : "left"]: 0, width: W * ha, background: "#FFFFFF" }} />
+        <div style={{ position: "absolute", top: 0, bottom: 0, [izq ? "right" : "left"]: 0, width: W * h, background: izq ? `linear-gradient(90deg, ${ORO}, ${CREMA})` : `linear-gradient(270deg, #7A1F1A, ${ROJO})` }} />
+      </div>
+    );
+  };
+  const entra = sp(f, 0, REBOTE);
+  return (
+    <div style={{ position: "absolute", left: 0, right: 0, top: y, display: "flex", flexDirection: "column", alignItems: "center", transform: `translateY(${(1 - entra) * -120}px)` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        {barra("toro")}
+        <div style={{ fontFamily: PRINCIPAL, fontSize: 54, color: ORO, width: 90, textAlign: "center", textShadow: "0 0 20px rgba(0,0,0,0.9)" }}>VS</div>
+        {barra("oso")}
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", width: 900, marginTop: 6, fontFamily: F.texto, fontWeight: 800, fontSize: 22, letterSpacing: 4 }}>
+        <span style={{ color: CREMA }}>COMPRADORES</span>
+        <span style={{ color: ROJO }}>VENDEDORES</span>
+      </div>
+    </div>
+  );
+};
+
+/** Golpe de anime: 2 fotogramas con los colores invertidos y un zoom que se recoge. */
+const impacto = (f: number, golpes: number[]) => {
+  const t = golpes.filter((g) => g <= f).pop();
+  if (t === undefined) return { filtro: undefined as string | undefined, zoom: 1 };
+  const d = f - t;
+  return { filtro: d < 2 ? "invert(1) contrast(1.3)" : undefined, zoom: 1 + 0.07 * Math.max(0, 1 - d / 8) };
+};
+
 const Marcador: React.FC<{ fuerza: number }> = ({ fuerza }) => {
   const f = useCurrentFrame();
   const x = 930,
@@ -261,7 +319,7 @@ const Ordenes: React.FC<{ fuerzaEn: (f: number) => number; nudo: (f: number) => 
   const out: React.ReactNode[] = [];
   const VIAJE = 20;
   for (let n = 0; n < 60; n++) {
-    const sale = 3 + n * 5;
+    const sale = 3 + n * 15;
     if (sale > f) break;
     const t = (f - sale) / VIAJE;
     if (t > 1) continue;
@@ -372,6 +430,43 @@ const Reloj: React.FC<{ f: number; desde: number; hasta: number }> = ({ f, desde
   );
 };
 
+/** Arranque "VS": pantalla partida en diagonal con los dos magnates, líneas de velocidad y un VS que golpea. */
+const Versus: React.FC<{ f: number; fin: number }> = ({ f, fin }) => {
+  const entra = pr(f, 0, 6, Easing.out(Easing.cubic));
+  const sale = pr(f, fin - 2, 8, Easing.in(Easing.cubic));
+  const golpe = sp(f, 4, { damping: 9, stiffness: 260, mass: 0.5 });
+  const tiembla = f >= 4 && f < 12 ? Math.sin(f * 7) * 10 * (1 - (f - 4) / 8) : 0;
+  const lineas = (cx: number, cy: number, col: string, semilla: number) =>
+    Array.from({ length: 26 }).map((_, k) => {
+      const a = (k / 26) * Math.PI * 2 + semilla;
+      const r0 = 260 + rnd(k + semilla * 10) * 120 + ((f * 40) % 200);
+      return <line key={k} x1={cx + Math.cos(a) * r0} y1={cy + Math.sin(a) * r0} x2={cx + Math.cos(a) * (r0 + 300)} y2={cy + Math.sin(a) * (r0 + 300)} stroke={col} strokeWidth={4 + rnd(k) * 6} opacity={0.5} />;
+    });
+  return (
+    <AbsoluteFill style={{ transform: `translate(${tiembla}px, 0)`, opacity: 1 - sale * 0.2 }}>
+      {/* mitad de arriba: comprador */}
+      <div style={{ position: "absolute", left: -200, top: -600, width: 1480, height: 1900, clipPath: "polygon(0 0, 100% 0, 100% 58%, 0 74%)", background: `linear-gradient(160deg, ${CREMA}, #D8C6A2)`, transform: `translate(${(1 - entra) * -900 - sale * 900}px, ${-sale * 500}px)` }}>
+        <svg width={1480} height={1900} style={{ position: "absolute", left: 0, top: 0 }}>
+          {lineas(740, 1050, alfa(TINTA, 0.35), 0.3)}
+          <Magnate x={600} y={1000} esc={2.4} animo="tira" arriba />
+        </svg>
+      </div>
+      {/* mitad de abajo: vendedor */}
+      <div style={{ position: "absolute", left: -200, top: -600, width: 1480, height: 3000, clipPath: "polygon(0 49.6%, 100% 39.4%, 100% 100%, 0 100%)", background: `linear-gradient(160deg, #241B14, ${TINTA})`, transform: `translate(${(1 - entra) * 900 + sale * 900}px, ${sale * 500}px)` }}>
+        <svg width={1480} height={3000} style={{ position: "absolute", left: 0, top: 0 }}>
+          {lineas(740, 1900, alfa(ROJO, 0.4), 1.1)}
+          <Magnate x={880} y={1900} esc={2.4} animo="tira" arriba={false} />
+        </svg>
+      </div>
+      {/* raya dorada de la diagonal y el VS */}
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: 1 - sale }}>
+        <line x1={-200} y1={806} x2={1280} y2={502} stroke={ORO} strokeWidth={10} />
+      </svg>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 190, color: ORO, WebkitTextStroke: `7px ${TINTA}`, transform: `scale(${(1 - golpe) * 3 + golpe}) rotate(-8deg)`, opacity: Math.min(1, f / 3) * (1 - sale), textShadow: "0 10px 40px rgba(0,0,0,0.7)" }}>VS</div>
+    </AbsoluteFill>
+  );
+};
+
 // ---------------------------------------------------------------- la batalla
 
 /** Precio (0 = mínimo de la pantalla, 1 = máximo) a lo largo de la escena, según el modo. */
@@ -461,16 +556,21 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const [gb0 = 0, gb1 = 20] = b;
   // golpe de cámara en cada cambio de sentido
   const golpes = gancho ? [claves[3][0], claves[4][0], claves[7][0]] : [];
+  const ganaEn = final ? dur - 24 : modo === "rechazo" ? (b[2] ?? 1e9) : null;
+  const imp = impacto(f, ganaEn === null ? golpes : [...golpes, ganaEn]);
+  // color con significado: verde si van ganando los compradores, rojo si los vendedores
+  const tinte = Math.max(-1, Math.min(1, (precio - abre) * 3));
   const ultimoGolpe = golpes.filter((t) => t <= f).pop() ?? -100;
   const choque = gancho ? temblor(f, ultimoGolpe, 12, 6) : { x: 0, y: 0 };
   const acerca = gancho ? pr(f, gb1 - 4, 16, Easing.inOut(Easing.cubic)) : 0;
   const zoomG = gancho ? 0.84 + 0.3 * acerca : 1;
+  const vsFin = 24;
   return (
-    <AbsoluteFill>
+    <AbsoluteFill style={{ filter: imp.filtro, transform: `scale(${imp.zoom})` }}>
+    <AbsoluteFill style={{ background: `radial-gradient(ellipse at 50% 45%, ${alfa(tinte > 0 ? VERDE : ROJO, 0.3 * Math.abs(tinte))} 0%, transparent 65%)` }} />
     <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG}) ${camara(modo, pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.sin)))}`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
       <Publico fuerza={(precio - abre) * 4} />
-      <Ordenes fuerzaEn={(t) => (precioEn(t + 3, claves) - precioEn(t - 3, claves)) * 40} nudo={(t) => yDe(precioEn(t, claves))} />
-      {!gancho && <Marcador fuerza={(precio - abre) * 3} />}
+      {(gancho || modo === "pelea") && <Ordenes fuerzaEn={(t) => (precioEn(t + 3, claves) - precioEn(t - 3, claves)) * 40} nudo={(t) => yDe(precioEn(t, claves))} />}
       <Halo x={540} y={700} r={480} op={0.14} />
       {/* eje de precio a la izquierda */}
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
@@ -488,10 +588,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         {toroYa ? <Toro x={540} y={yToro + 20} esc={0.95 * popToro} animo={animoToro} /> : <Magnate x={540} y={yToro} esc={1.05} animo={animoToro} arriba />}
         {osoYa ? <Oso x={540} y={yOso} esc={1.05 * popOso} animo={animoOso} /> : <Magnate x={540} y={yOso} esc={1.05} animo={animoOso} arriba={false} />}
       </svg>
-      {/* precio que sigue al nudo */}
-      <div style={{ position: "absolute", left: 660, top: yC - 24, background: sube ? CREMA : TINTA, color: sube ? TINTA : CREMA, border: `2px solid ${CREMA}`, borderRadius: 10, padding: "4px 14px", fontFamily: F.texto, fontWeight: 800, fontSize: 28, fontVariantNumeric: "tabular-nums" }}>
-        {numeroES(228 + (precio - 0.5) * 12, 2)}
-      </div>
+
       <div style={{ position: "absolute", left: 180, top: yA - 44, fontFamily: SECUND, fontSize: 30, color: ORO, opacity: pr(f, 0, 10) }}>abre</div>
       {/* etiquetas de cada momento */}
       {(() => {
@@ -525,20 +622,21 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
       )}
     </AbsoluteFill>
-    {!gancho && <Capitulos activo={capituloDe(modo)} />}
+    {!gancho && <Vida fz={tinte} fzAntes={Math.max(-1, Math.min(1, (precioEn(f - 10, claves) - abre) * 3))} y={-112} gana={ganador} />}
+    {gancho && f < vsFin + 6 && <Versus f={f} fin={vsFin} />}
     {!!p.reloj && <Reloj f={f} desde={b[0] ?? 0} hasta={b[2] ?? dur} />}
     {gancho && (
-      <div style={{ position: "absolute", right: 50, top: 210, transform: `scale(${sp(f, 4, REBOTE)}) rotate(-4deg)`, background: ORO, color: TINTA, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 5, padding: "10px 26px", borderRadius: 40, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>PARTE 2</div>
+      <div style={{ position: "absolute", right: 50, top: 210, transform: `scale(${sp(f, 26, REBOTE)}) rotate(-4deg)`, background: ORO, color: TINTA, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 5, padding: "10px 26px", borderRadius: 40, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>PARTE 2</div>
     )}
     {gancho && (
       <div style={{ position: "absolute", left: 0, right: 0, top: -20, textAlign: "center" }}>
         <div>
-          <Revela desde={-12} tam={74} fuente={SECUND}>
+          <Revela desde={vsFin - 2} tam={74} fuente={SECUND}>
             ¿Quién ganó
           </Revela>
         </div>
         <div>
-          <Revela desde={gb0 - 4} tam={encajar("ESTA BATALLA?", 900, 128, principalPara("ESTA BATALLA?"))} color={ORO} fuente={principalPara("ESTA BATALLA?")}>
+          <Revela desde={Math.max(vsFin + 2, gb0 - 4)} tam={encajar("ESTA BATALLA?", 900, 128, principalPara("ESTA BATALLA?"))} color={ORO} fuente={principalPara("ESTA BATALLA?")}>
             ESTA BATALLA?
           </Revela>
         </div>
@@ -660,14 +758,7 @@ const Apps: React.FC<PropsEscena> = ({ b }) => {
         {vela(450, true)}
         {vela(630, false)}
       </svg>
-      {color > 0.3 && (
-        <>
-          <div style={{ position: "absolute", left: 140, top: 700, fontFamily: SECUND, fontSize: 40, color: VERDE, transform: `scale(${sp(f, b1 + 4)})` }}>sube</div>
-          <div style={{ position: "absolute", left: 820, top: 740, fontFamily: SECUND, fontSize: 40, color: ROJO, transform: `scale(${sp(f, b1 + 8)})` }}>baja</div>
-        </>
-      )}
       <Etiqueta desde={b0} x={540} y={1130} texto="EN TU APP" />
-      <Capitulos activo={2} />
     </AbsoluteFill>
   );
 };
@@ -692,12 +783,31 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const pts = subiendo.map((k) => [g.xVela(k), g.yPrecio(velas[k].l) + 14] as [number, number]);
   const linea = pr(f, b1, 20, Easing.inOut(Easing.cubic));
   const zoom = tendencia ? 1 : 1.9 - 0.9 * pr(f, 0, Math.max(24, b0 + 10), Easing.inOut(Easing.cubic));
-  const entra = (k: number) => (tendencia ? -60 : k < n - 10 ? -60 : (k - (n - 10)) * 2);
+  const LLEGA = 18;
+  const entra = (k: number) => (tendencia ? -60 : k === n - 1 ? LLEGA - 5 : k < n - 10 ? -60 : (k - (n - 10)) * 2);
+  // la vela de la batalla vuela y se coloca como la última vela de la gráfica
+  const ult = velas[n - 1];
+  const vuela = pr(f, 0, LLEGA, Easing.inOut(Easing.cubic));
+  const lerp = (a: number, z: number) => a + (z - a) * vuela;
+  // punto de salida: el centro de la pantalla, deshaciendo el zoom inicial (1.9 alrededor de la última vela)
+  const ox = g.xVela(n - 1);
+  const vx = lerp(ox + (540 - ox) / 1.9, g.xVela(n - 1)),
+    vTop = lerp(520, g.yPrecio(Math.max(ult.o, ult.c))),
+    vBot = lerp(560, g.yPrecio(Math.min(ult.o, ult.c))),
+    vHi = lerp(400, g.yPrecio(ult.h)),
+    vLo = lerp(585, g.yPrecio(ult.l)),
+    vW = lerp(100, g.hueco * 0.62);
   return (
     <>
     <Escritorio dur={dur} cabecera="AAPL · APPLE · 1D · EJEMPLO" foco={[[0, 700], [b1, 400], [b2, 800]]} asiente={[b1, b2]}>
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: `${g.xVela(n - 1)}px 560px` }}>
         <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={20} />
+        {!tendencia && f < LLEGA + 4 && (
+          <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: 1 - pr(f, LLEGA, 4) }}>
+            <line x1={vx} x2={vx} y1={vHi} y2={vLo} stroke={CREMA} strokeWidth={lerp(8, 2.5)} />
+            <rect x={vx - vW / 2} y={vTop} width={vW} height={Math.max(2, vBot - vTop)} fill={CREMA} stroke={CREMA} strokeWidth={lerp(3, 1)} style={{ filter: `drop-shadow(0 0 ${12 * (1 - vuela)}px ${ORO})` }} />
+          </svg>
+        )}
         {tendencia && (
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {pts.length > 1 && <Trazo d={pts.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join(" ")} p={linea} grosor={6} color={ORO} />}
@@ -712,7 +822,6 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 140, top: 340, fontFamily: principalPara("MÍNIMOS MÁS ALTOS"), fontSize: 46, color: ORO, transform: `scale(${sp(f, b2 - 2, REBOTE)})`, transformOrigin: "0 50%" }}>MÍNIMOS MÁS ALTOS ↗</div>
       )}
     </Escritorio>
-    <Capitulos activo={5} y={1460} />
     </>
   );
 };

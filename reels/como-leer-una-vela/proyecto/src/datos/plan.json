@@ -65,11 +65,6 @@
       },
       "sonidos": [
         [
-          0,
-          "ambiente",
-          0.18
-        ],
-        [
           29,
           "golpe",
           0.3
@@ -130,10 +125,7 @@
         "tipo": "propia",
         "nombre": "Batalla",
         "modo": "pelea",
-        "etiquetas": [
-          "EN MEDIO@titulo",
-          "LA PELEA@cierre"
-        ],
+        "etiquetas": [],
         "en": [
           "medio",
           "pelea"
@@ -150,7 +142,7 @@
         "etiquetas": [
           "",
           "BLANCA@cierre",
-          "GANA EL COMPRADOR@titulo"
+          ""
         ],
         "en": [
           "cierra",
@@ -180,7 +172,7 @@
         "etiquetas": [
           "",
           "NEGRA@cierre",
-          "GANA EL VENDEDOR@titulo"
+          ""
         ],
         "en": [
           "cierra",
@@ -217,7 +209,7 @@
         "etiquetas": [
           "MÁXIMO DEL DÍA@alto",
           "MÍNIMO DEL DÍA@bajo",
-          "MECHAS@titulo"
+          ""
         ],
         "en": [
           "alto",
@@ -242,7 +234,7 @@
         "etiquetas": [
           "CUERPO LARGO@titulo",
           "",
-          "FUERZA@cierre"
+          ""
         ],
         "en": [
           "cuerpo",
@@ -266,8 +258,8 @@
         "modo": "rechazo",
         "etiquetas": [
           "MECHA LARGA@titulo",
-          "LO INTENTÓ@alto",
-          "LO FRENÓ@cierre"
+          "",
+          ""
         ],
         "en": [
           "mecha",
@@ -285,7 +277,7 @@
     },
     {
       "texto": "Junta muchas velas y tienes *la gráfica* de esa guerra.",
-      "entrada": "barrido",
+      "entrada": "corte",
       "escena": {
         "tipo": "propia",
         "nombre": "Grafica",
