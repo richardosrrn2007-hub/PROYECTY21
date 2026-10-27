@@ -88,7 +88,7 @@ export const entrada = (i: number): Entrada => {
   return e;
 };
 /** Primer fotograma de la escena i. */
-const solapa = (e: Entrada) => e === "suave" || e === "zoom";
+const solapa = (e: Entrada) => e === "suave" || e === "zoom" || e === "barrido";
 export const ini = (i: number) => (i === 0 ? 0 : solapa(entrada(i)) ? corte(i) - SOLAPE / 2 : corte(i));
 /** Fotograma en que la escena i deja de verse. */
 export const fin = (i: number) => (i + 1 < N ? (solapa(entrada(i + 1)) ? corte(i + 1) + SOLAPE / 2 : corte(i + 1)) : TOTAL);

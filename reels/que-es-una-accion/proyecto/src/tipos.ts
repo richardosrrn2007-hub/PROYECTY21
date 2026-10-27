@@ -2,7 +2,7 @@
 import type { EstiloPlan } from "./motor/estilos";
 
 /** Cómo entra una escena: corte seco, fundido suave con desenfoque, o puntos de semitono que tapan la pantalla. */
-export type Entrada = "corte" | "suave" | "semitono" | "zoom";
+export type Entrada = "corte" | "suave" | "semitono" | "zoom" | "barrido";
 
 /**
  * Referencia a un momento de la frase:

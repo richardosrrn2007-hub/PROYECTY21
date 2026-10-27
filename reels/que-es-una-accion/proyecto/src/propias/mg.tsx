@@ -54,7 +54,10 @@ export const pr = (f: number, a: number, d = 12, ease = Easing.out(Easing.cubic)
   interpolate(f, [a, a + d], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: ease });
 
 /** Muelle 0→1 (con rebote) desde el fotograma a. */
-export const sp = (f: number, a: number, cfg = { damping: 12, stiffness: 170, mass: 0.6 }) => (f < a ? 0 : spring({ frame: f - a, fps: FPS, config: cfg }));
+/** Rebote marcado: solo para lo importante (cifras de ganar/perder, TU ACCIÓN, sellos). */
+export const REBOTE = { damping: 10, stiffness: 190, mass: 0.6 };
+/** Entrada por defecto: rápida y sin rebote, para que los golpes importantes destaquen. */
+export const sp = (f: number, a: number, cfg = { damping: 26, stiffness: 180, mass: 0.6 }) => (f < a ? 0 : spring({ frame: f - a, fps: FPS, config: cfg }));
 
 /** Temblor de cámara que decae tras el fotograma `en`. */
 export const temblor = (f: number, en: number, fuerza = 14, dur = 10) => {
@@ -138,14 +141,16 @@ export const Revela: React.FC<{ desde: number; children: React.ReactNode; tam: n
 };
 
 /** Etiqueta pequeña en mayúsculas con raya dorada que se dibuja debajo. */
-export const Etiqueta: React.FC<{ desde: number; x: number; y: number; texto: string; color?: string; tam?: number; centro?: boolean }> = ({ desde, x, y, texto, color = ORO, tam = 30, centro = true }) => {
+export const Etiqueta: React.FC<{ desde: number; x: number; y: number; texto: string; color?: string; tam?: number; centro?: boolean }> = ({ desde, x, y, texto, color = ORO, tam: tam0 = 34, centro = true }) => {
   const f = useCurrentFrame();
+  // mínimo 32 px: a menos no se lee en el móvil
+  const tam = Math.max(32, tam0);
   if (f < desde) return null;
   const k = pr(f, desde, 10);
   const n = Math.round(texto.length * pr(f, desde, 12, Easing.linear));
   return (
     <div style={{ position: "absolute", left: centro ? x - 500 : x, top: y, width: centro ? 1000 : undefined, textAlign: centro ? "center" : "left" }}>
-      <div style={{ display: "inline-block", fontFamily: F.texto, fontWeight: 800, fontSize: tam, letterSpacing: tam * 0.28, color, opacity: k, whiteSpace: "nowrap" }}>
+      <div style={{ display: "inline-block", fontFamily: F.texto, fontWeight: 800, fontSize: tam, letterSpacing: tam * 0.14, color, opacity: k, whiteSpace: "nowrap" }}>
         {texto.slice(0, n)}
         <span style={{ opacity: 0 }}>{texto.slice(n)}</span>
         <div style={{ height: 3, background: color, marginTop: 10, width: `${k * 100}%`, marginLeft: centro ? `${(1 - k) * 50}%` : 0 }} />

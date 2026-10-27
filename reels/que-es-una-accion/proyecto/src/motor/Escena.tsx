@@ -40,6 +40,18 @@ export const Escena: React.FC<{ dur: number; entrada: Entrada; salida: Entrada |
     blur += t * 14;
     esc *= 1 + 1.4 * t;
   }
+  // barrido: la escena nueva entra desde la derecha y la vieja sale por la izquierda, con desenfoque de movimiento
+  let dx = 0;
+  if (entrada === "barrido" && f < SOLAPE) {
+    const t = Easing.out(Easing.cubic)(f / SOLAPE);
+    dx += (1 - t) * 1080;
+    blur += (1 - t) * 8;
+  }
+  if (salida === "barrido" && f > dur - SOLAPE) {
+    const t = interpolate(f, [dur - SOLAPE, dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.cubic) });
+    dx -= t * 1080;
+    blur += t * 8;
+  }
   if (salida === "suave" && f > dur - SOLAPE) {
     const t = interpolate(f, [dur - SOLAPE, dur], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.cubic) });
     op *= 1 - t;
@@ -47,7 +59,7 @@ export const Escena: React.FC<{ dur: number; entrada: Entrada; salida: Entrada |
     esc *= 1 - 0.03 * t;
   }
   return (
-    <AbsoluteFill style={{ opacity: op, filter: blur > 0.3 ? `blur(${blur}px)` : undefined, transform: `scale(${esc}) translateY(${-10 * p}px)`, transformOrigin: "50% 38%" }}>
+    <AbsoluteFill style={{ opacity: op, filter: blur > 0.3 ? `blur(${blur}px)` : undefined, transform: `translateX(${dx}px) scale(${esc}) translateY(${-10 * p}px)`, transformOrigin: "50% 38%" }}>
       {children}
     </AbsoluteFill>
   );

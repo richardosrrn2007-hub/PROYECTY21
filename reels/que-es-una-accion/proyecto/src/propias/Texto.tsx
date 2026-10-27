@@ -214,7 +214,7 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const fz = fuenteTitulo(lineas.flat());
   const esc = 1;
   // las líneas protagonistas (doradas o sello) van en Anton y en mayúsculas; el resto, en Bricolage
-  const clave = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
+  const clave = (k: number) => efectos[k] === "enorme" || efectos[k] === "sello";
   const fuenteL = (k: number) => (clave(k) ? CLAVE : fz);
   const lineasV = lineas.map((l, k) => (clave(k) ? l.map((w) => w.toUpperCase()) : l));
   const tams = lineasV.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 110 : 150) * esc * (clave(k) ? 1.3 : 1), fuenteL(k)));

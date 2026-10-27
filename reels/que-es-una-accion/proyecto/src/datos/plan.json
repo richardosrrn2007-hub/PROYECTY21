@@ -272,10 +272,11 @@
       "sonidos": [
         [
           "inicio",
-          "whoosh",
-          0.16
+          "swoosh",
+          0.22
         ]
-      ]
+      ],
+      "entrada": "barrido"
     },
     {
       "texto": "Un *intermediario* que te permite enviar *órdenes* de compra y venta *al mercado.*",
@@ -352,10 +353,11 @@
       "sonidos": [
         [
           "inicio",
-          "whoosh",
-          0.16
+          "swoosh",
+          0.22
         ]
-      ]
+      ],
+      "entrada": "barrido"
     },
     {
       "texto": "Si compras y el precio *sube,* tu acción *vale más.*",
@@ -417,8 +419,8 @@
       "sonidos": [
         [
           "inicio",
-          "whoosh",
-          0.16
+          "swoosh",
+          0.22
         ],
         [
           "ganar+2",
@@ -430,7 +432,8 @@
           "papel",
           0.25
         ]
-      ]
+      ],
+      "entrada": "barrido"
     },
     {
       "texto": "Eso es parte del *trading.*",
@@ -480,10 +483,11 @@
       "sonidos": [
         [
           "inicio",
-          "whoosh",
-          0.16
+          "swoosh",
+          0.22
         ]
-      ]
+      ],
+      "entrada": "barrido"
     },
     {
       "texto": "Pero *nada está garantizado.*",

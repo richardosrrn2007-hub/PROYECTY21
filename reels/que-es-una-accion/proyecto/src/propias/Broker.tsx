@@ -9,7 +9,7 @@ import type { DefEscena, PropsEscena } from "../tipos";
 import { txt } from "../escenas/util";
 import { Icono, Onda } from "../piezas/basicas";
 import { ManoPulsa, Personaje } from "./Escritorio";
-import { Billete, CLAVE, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Trazo, VERDE, pr, sp, temblor } from "./mg";
+import { Billete, CLAVE, PRO, VIVO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Trazo, VERDE, pr, sp, temblor } from "./mg";
 
 /** Nodo redondo con icono y etiqueta. */
 export const Nodo: React.FC<{ x: number; y: number; r: number; icono: string; texto: string; desde: number; color?: string; pulso?: number }> = ({ x, y, r, icono, texto, desde, color = ORO, pulso = -1 }) => {
@@ -117,7 +117,6 @@ const Broker: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Trazo d={`M655 ${y} L740 ${y}`} p={pr(f, b5 - 4, 10)} grosor={5} guion />
       </svg>
       <Nodo x={540} y={y} r={105} icono="landmark" texto="BRÓKER" desde={-30} pulso={b2} />
-      <Etiqueta desde={b0} x={540} y={270} texto="INTERMEDIARIO" tam={40} />
       {/* tú: el protagonista manda billetes al bróker */}
       {f >= b1 - 4 && (
         <AbsoluteFill style={{ opacity: pr(f, b1 - 4, 8) }}>
@@ -134,7 +133,7 @@ const Broker: React.FC<PropsEscena> = ({ p, b, dur }) => {
         [b4, "VENTA", ROJO, 880],
       ].map(([d, texto, col, yy]) =>
         f >= (d as number) - 2 ? (
-          <div key={texto as string} style={{ position: "absolute", left: 540, top: yy as number, transform: `translate(-50%,-50%) scale(${sp(f, (d as number) - 2)})`, border: `4px solid ${col}`, color: col as string, fontFamily: CLAVE, fontSize: 64, letterSpacing: 2, padding: "0 30px", borderRadius: 16, background: alfa(col as string, 0.12) }}>
+          <div key={texto as string} style={{ position: "absolute", left: 540, top: yy as number, transform: `translate(-50%,-50%) scale(${sp(f, (d as number) - 2)})`, border: `4px solid ${col}`, color: col as string, fontFamily: VIVO, fontWeight: 800, fontSize: 56, padding: "4px 30px", borderRadius: 16, background: alfa(col as string, 0.12) }}>
             {texto}
           </div>
         ) : null,

@@ -110,7 +110,7 @@ export const Personaje: React.FC<{
   const hI: [number, number] = [140, 1104 + r],
     hD: [number, number] = [360, 1104 + r];
   const enMesa: Brazos = mesa
-    ? { codoI: [100, 1156], manoI: [236, MESA_Y - 4], codoD: [404, 1156], manoD: [mx - 6, my - 2] }
+    ? { codoI: [100, 1156], manoI: [236, MESA_Y - 4 - (Math.floor(f / 45) % 3 === 0 ? Math.abs(Math.sin(f / 2.5)) * 5 : 0)], codoD: [404, 1156], manoD: [mx - 6, my - 2] }
     : { codoI: [104, 1190], manoI: [130, 1236], codoD: [396, 1190], manoD: [370, 1236] };
   const impulso = pose === "lanza" ? Math.abs(Math.sin(((f - cambio) / 9) * Math.PI)) : 0;
   const fin: Brazos =
@@ -159,7 +159,7 @@ export const Personaje: React.FC<{
         <path d={`M${cx - 40} ${cy + 96} C${cx - 20} ${cy + 116} ${cx + 20} ${cy + 116} ${cx + 40} ${cy + 96}`} fill="none" stroke={TELA_SOMBRA} strokeWidth={6} strokeLinecap="round" />
         <path d={`M${cx} ${cy + 124} L${cx} 1240`} stroke={TELA_SOMBRA} strokeWidth={3} opacity={0.7} />
         <path d={`M168 ${1150 + r} q26 26 54 30 M332 ${1150 + r} q-26 26 -54 30`} fill="none" stroke={TELA_SOMBRA} strokeWidth={4} strokeLinecap="round" />
-        <g transform={`rotate(${mira * 5 + niega} ${cx} ${cy + 50})`}>
+        <g transform={`rotate(${mira * 5 + niega + Math.sin(f / 37) * 2.5} ${cx} ${cy + 50})`}>
           <rect x={cx - 22} y={cy + 30} width={44} height={44} rx={12} fill={PIEL_SOMBRA} />
           <ellipse cx={cx - 50} cy={cy + 8} rx={10} ry={16} fill={PIEL} />
           <ellipse cx={cx + 50} cy={cy + 8} rx={10} ry={16} fill={PIEL} />

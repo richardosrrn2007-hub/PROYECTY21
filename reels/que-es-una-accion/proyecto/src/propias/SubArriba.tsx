@@ -39,7 +39,7 @@ export const SubArriba: React.FC<{ frases: FraseT[]; sin: number[]; top?: number
         if (!g.clave) return <span key={k} style={{ ...base, fontWeight: SUB_PESO, color: C.suave }}>{texto}</span>;
         const caja = interpolate(f, [a, a + 7], [0.85, 1], { extrapolateRight: "clamp" });
         return (
-          <span key={k} style={{ ...base, position: "relative", fontFamily: CLAVE, fontWeight: 400, fontSize: TAM * 1.12, letterSpacing: 1, textTransform: "uppercase", color: C.acento, padding: "0 10px" }}>
+          <span key={k} style={{ ...base, position: "relative", fontFamily: VIVO, fontWeight: 800, fontSize: TAM * 1.02, letterSpacing: 0, color: C.acento, padding: "0 10px" }}>
             <span style={{ position: "absolute", inset: "-2px 0", border: `2px solid ${MARCO}`, transform: `scale(${caja})`, opacity: t }}>
               <Esquina x="left" y="top" />
               <Esquina x="right" y="top" />

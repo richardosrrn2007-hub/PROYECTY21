@@ -10,7 +10,7 @@ import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
 import { Nodo } from "./Broker";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, REBOTE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -238,7 +238,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Marcador x={xE} y={yE + 24} desde={sube ? bA - 2 : -30} texto={sube ? "COMPRAS" : "TU COMPRA"} color={ORO} />
         {f >= bLinea - 4 && <Cabeza x={hx} y={hy} color={col} />}
         {f >= bC - 2 && (
-          <div style={{ position: "absolute", left: sube ? 140 : 560, top: sube ? 330 : 330, transform: `scale(${sp(f, bC - 2)})`, transformOrigin: "0 0", display: "flex", alignItems: "center", gap: 16 }}>
+          <div style={{ position: "absolute", left: sube ? 140 : 560, top: sube ? 330 : 330, transform: `scale(${sp(f, bC - 2, REBOTE)})`, transformOrigin: "0 0", display: "flex", alignItems: "center", gap: 16 }}>
             <Icono nombre={sube ? "trending-up" : "trending-down"} tam={90} color={col} />
             <Cuenta desde={bC - 2} dur={20} de={0} a={sube ? 24 : -18} sufijo=" %" signo tam={110} color={col} />
           </div>
@@ -348,7 +348,7 @@ const Billetes: React.FC<{ x: number; y: number; desde: number; modo: "gana" | "
         const ang = -2.4 + k * 0.32;
         return <Billete key={k} x={x + Math.cos(ang) * 520 * t} y={y + Math.sin(ang) * 420 * t + 140 * t * t} giro={(k - 2.5) * 6 + t * (k % 2 ? 260 : -220)} escala={1 - 0.35 * t} op={1 - t} voltea={Math.cos(t * Math.PI * 3)} />;
       })}
-      <div style={{ position: "absolute", left: x + 130, top: y - 50, fontFamily: CLAVE, fontSize: 92, color: col, whiteSpace: "nowrap", transform: `scale(${sp(f, desde + 4)})`, transformOrigin: "0 50%", textShadow: `0 0 30px ${alfa(col, 0.4)}, 0 4px 14px rgba(0,0,0,0.85)` }}>
+      <div style={{ position: "absolute", left: x + 130, top: y - 50, fontFamily: CLAVE, fontSize: 92, color: col, whiteSpace: "nowrap", transform: `scale(${sp(f, desde + 4, REBOTE)})`, transformOrigin: "0 50%", textShadow: `0 0 30px ${alfa(col, 0.4)}, 0 4px 14px rgba(0,0,0,0.85)` }}>
         {gana ? "+" : "−"}
         {numeroES(1000 * cuenta, 0)} $
       </div>

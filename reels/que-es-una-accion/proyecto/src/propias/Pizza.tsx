@@ -239,7 +239,6 @@ const Pizza: React.FC<PropsEscena> = ({ p, b }) => {
     capas = (
       <>
         <Halo x={540} y={640} r={420} op={0.22} />
-        <Etiqueta desde={b0} x={540} y={240} texto="PUEDES COMPRAR · AAPL" />
         {f >= b1 && (
           <div style={{ position: "absolute", left: 0, right: 0, top: 920, display: "flex", justifyContent: "center", alignItems: "baseline", gap: 26, transform: `scale(${sp(f, b1)})` }}>
             <Cuenta desde={b3} dur={16} de={1} a={0.25} dec={2} tam={140} color={f >= b3 ? ORO : C.texto} />
