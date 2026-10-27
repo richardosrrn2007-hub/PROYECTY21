@@ -220,8 +220,8 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const color = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
   const tams = lineasV.map((l, k) =>
     color(k)
-      ? encajar(l.join(" "), efectos[k] === "sello" ? 760 : 900, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 120 : 165) * esc * (clave(k) ? 1.3 : 1), fuenteL(k))
-      : Math.min(...lineasV.map((m, j) => (color(j) ? 999 : encajar(m.join(" "), 860, 92, fuenteL(j))))),
+      ? encajar(l.join(" "), efectos[k] === "sello" ? 760 : 900, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 115 : 140) * esc * (clave(k) ? 1.3 : 1), fuenteL(k))
+      : Math.min(...lineasV.map((m, j) => (color(j) ? 999 : encajar(m.join(" "), 860, 116, fuenteL(j))))),
   );
   const alto = tams.reduce((s, t, k) => s + t * (efectos[k] === "sello" ? 1.25 : 1.1), 0);
   const ultimo = b.length ? b[b.length - 1] : 0;
