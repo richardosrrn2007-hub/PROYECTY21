@@ -7,6 +7,7 @@ import { numeroES, rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
+import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela as Revela2, Trazo, VERDE, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
@@ -162,59 +163,40 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
     );
   }
 
-  // velas
+  // velas: gráfico realista con perspectiva 3D
   const [b0, b1, b2, b3, b4] = b;
-  const n = 16;
-  const paso = Math.max(2, (b3 - b0) / 13);
-  const forma = (k: number) => 640 + 200 * Math.sin((k / (n - 1)) * Math.PI * 1.6 + 0.4) + (rnd(k) - 0.5) * 60;
-  const ancho = (X1 - X0 - 40) / n;
-  const velas = Array.from({ length: n }).map((_, k) => {
-    const abre = forma(k - 0.6),
-      cierra = forma(k);
-    const alto = Math.min(abre, cierra) - 30 - rnd(k + 2) * 30,
-      bajo = Math.max(abre, cierra) + 30 + rnd(k + 5) * 30;
-    return { k, x: X0 + 30 + k * ancho + ancho / 2, abre, cierra, alto, bajo, verde: cierra < abre, desde: b0 - 2 + k * paso };
-  });
-  let iMin = 0,
-    iMax = 0;
-  velas.forEach((v, k) => {
-    if (k < 10 && v.bajo > velas[iMin].bajo) iMin = k;
-    if (k > iMin && v.alto < velas[iMax].alto) iMax = k;
-  });
-  if (iMax <= iMin) iMax = Math.min(n - 1, iMin + 5);
-  const vMin = velas[iMin],
-    vMax = velas[iMax];
-  const arcoP = pr(f, b3, 14, Easing.inOut(Easing.cubic));
-  const ultima = velas[n - 1];
+  const n = 24;
+  const velas = serieVelas(n, 21, (k) => (k < 7 ? -0.75 : k < 16 ? 0.95 : -0.55));
+  const marco = { x0: 120, x1: 1010, y0: 320, y1: 1030 };
+  const g = geometria(velas, marco);
+  const entra = (k: number) => (k < 11 ? -60 : (k - 11) * 3);
+  let iMin = 0;
+  velas.forEach((v, k) => (k < 12 && v.l < velas[iMin].l ? (iMin = k) : null));
+  let iMax = iMin + 1;
+  velas.forEach((v, k) => (k > iMin && k < 19 && v.h > velas[iMax].h ? (iMax = k) : null));
+  const xa = g.xVela(iMin),
+    ya = g.yPrecio(velas[iMin].l);
+  const xb = g.xVela(iMax),
+    yb = g.yPrecio(velas[iMax].h);
+  const banda = pr(f, b2 - 2, 12);
+  const arcoP = pr(f, b3 - 2, 16, Easing.inOut(Easing.cubic));
+  const inclina = 1 - pr(f, 0, Math.max(30, dur), Easing.out(Easing.cubic));
+  const zoom = 1 + 0.12 * pr(f, b4 - 4, 20, Easing.inOut(Easing.cubic));
   return (
-    <AbsoluteFill>
-      <Rejilla op={0.6} />
-      <Ejes p={pr(f, 0, 10)} />
-      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
-        {velas.map((v) => {
-          const k = sp(f, v.desde, { damping: 12, stiffness: 200, mass: 0.5 });
-          if (k <= 0) return null;
-          const col = v.verde ? VERDE : ROJO;
-          const cy = (v.abre + v.cierra) / 2;
-          const h = Math.max(10, Math.abs(v.abre - v.cierra));
-          return (
-            <g key={v.k} transform={`translate(${v.x},${cy}) scale(1,${k}) translate(${-v.x},${-cy})`}>
-              <line x1={v.x} x2={v.x} y1={v.alto} y2={v.bajo} stroke={col} strokeWidth={4} />
-              <rect x={v.x - ancho * 0.32} y={cy - h / 2} width={ancho * 0.64} height={h} rx={4} fill={col} />
-            </g>
-          );
-        })}
-        <Trazo d={`M${vMin.x} ${vMin.bajo + 70} Q${(vMin.x + vMax.x) / 2} ${vMax.alto - 160} ${vMax.x} ${vMax.alto - 70}`} p={arcoP} grosor={5} guion />
-      </svg>
-      <Caja x={270} y={290} desde={b0 - 2} color={VERDE} tam={32}>
-        COMPRAR
-      </Caja>
-      <Caja x={520} y={290} desde={b1 - 2} color={ROJO} tam={32}>
-        VENDER
-      </Caja>
-      <Marcador x={vMin.x} y={vMin.bajo + 14} desde={b2 - 2} texto="COMPRA" color={VERDE} />
-      <Marcador x={vMax.x} y={vMax.alto - 14} desde={b3 + 6} texto="VENTA" color={ROJO} arriba />
-      {f >= b4 - 2 && <Cabeza x={ultima.x} y={ultima.cierra} color={ORO} valor={numeroES(50 + (640 - ultima.cierra) / 12 + Math.sin(f / 4) * 0.08, 2)} />}
+    <AbsoluteFill style={{ perspective: 1600 }}>
+      <Rejilla op={0} />
+      <AbsoluteFill style={{ transform: `rotateX(${18 * inclina}deg) rotateY(${-6 * inclina}deg) scale(${zoom})`, transformOrigin: "820px 650px" }}>
+        {banda > 0 && <div style={{ position: "absolute", left: xa, top: yb, width: (xb - xa) * banda, height: ya - yb, background: `linear-gradient(90deg, ${alfa(VERDE, 0.1)}, ${alfa(ORO, 0.14)})`, borderLeft: `2px solid ${alfa(VERDE, 0.6)}`, borderRight: banda > 0.95 ? `2px solid ${alfa(ROJO, 0.6)}` : undefined }} />}
+        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={7} />
+        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+          <Trazo d={`M${xa} ${ya + 40} C${xa + 60} ${ya + 40}, ${xb - 120} ${yb - 60}, ${xb} ${yb - 30}`} p={arcoP} grosor={4} color={ORO} />
+        </svg>
+        <Nota x={xa} y={ya + 8} dx={-60} dy={50} texto="comprar" desde={b0 - 2} color={VERDE} />
+        <Nota x={xb} y={yb - 8} dx={-60} dy={-90} texto="vender" desde={b1 - 2} color={ROJO} />
+        {f >= b3 + 6 && (
+          <div style={{ position: "absolute", left: (xa + xb) / 2 - 40, top: (ya + yb) / 2 - 10, fontFamily: F.mano, fontSize: 64, color: ORO, transform: `rotate(-12deg) scale(${sp(f, b3 + 6)})`, whiteSpace: "nowrap" }}>el movimiento</div>
+        )}
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -372,73 +354,73 @@ export const comision: DefEscena = {
 const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0, b1, b2, b3] = b;
-  const n = 11;
-  const ancho = 640 / n;
-  const velas = Array.from({ length: n }).map((_, k) => {
-    const c = 640 - k * 14 + Math.sin(k * 1.3) * 60;
-    const a = c + (k % 3 === 1 ? -50 : 55);
-    return { x: 220 + k * ancho + ancho / 2, abre: a, cierra: c, verde: c < a, desde: b1 - 2 + k * 2 };
-  });
-  const lupa = pr(f, b2 - 4, Math.max(20, dur - b2 - 10), Easing.inOut(Easing.sin));
-  const lx = 240 + 600 * lupa,
-    ly = 600 + Math.sin(lupa * Math.PI * 2) * 50;
+  const n = 14;
+  const K = 9;
+  const velas = serieVelas(n, 7, (k) => (k === K ? 2.2 : k < K ? 0.25 : -0.3), 52, 0.5);
+  velas[K] = { ...velas[K], h: velas[K].c + 0.55, l: velas[K].o - 0.5 };
+  const marco = { x0: 120, x1: 1000, y0: 380, y1: 900 };
+  const g = geometria(velas, marco);
+  const entra = (k: number) => b1 - 4 + k * 2;
+  const z = 1 + 1.25 * pr(f, b2 - 4, 22, Easing.inOut(Easing.cubic));
+  const ox = g.xVela(K),
+    oy = g.yPrecio((velas[K].o + velas[K].c) / 2);
+  // posición en pantalla de un punto del gráfico tras el zoom (el zoom va centrado en la vela K y la lleva al centro)
+  const cx = 540,
+    cy = 640;
+  const mueve = pr(f, b2 - 4, 22, Easing.inOut(Easing.cubic));
+  const tx = (cx - ox) * mueve,
+    ty = (cy - oy) * mueve;
+  const P = (x: number, y: number): [number, number] => [ox + tx + (x - ox) * z, oy + ty + (y - oy) * z];
+  const v = velas[K];
+  const ancho = Math.max(6, g.hueco * 0.62);
+  const [hx, hy] = P(ox, g.yPrecio(v.h));
+  const [cx1, cy1] = P(ox + ancho / 2, g.yPrecio(v.c));
+  const [ox1, oy1] = P(ox + ancho / 2, g.yPrecio(v.o));
+  const [lx, ly] = P(ox, g.yPrecio(v.l));
   const boton = sp(f, b3 + 10);
-  const bote = f > b3 + 20 ? Math.abs(Math.sin((f - b3) / 6)) * 12 : 0;
+  const bote = f > b3 + 20 ? Math.abs(Math.sin((f - b3) / 6)) * 10 : 0;
+  const notas = b2 + 14;
   return (
     <AbsoluteFill>
-      <Rejilla />
-      <Halo x={540} y={620} r={460} op={0.18} />
+      <Halo x={540} y={640} r={460} op={0.12} />
       {f >= b0 - 2 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 230, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b0 - 2)})` }}>
-          <div style={{ background: ORO, color: C.acentoTexto, fontFamily: F.texto, fontWeight: 800, fontSize: 36, letterSpacing: 8, padding: "14px 34px", borderRadius: 40, display: "flex", gap: 14, alignItems: "center" }}>
-            <Icono nombre="play" tam={36} color={C.acentoTexto} /> PRÓXIMO VÍDEO
+        <div style={{ position: "absolute", left: 0, right: 0, top: 240, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b0 - 2)})` }}>
+          <div style={{ background: ORO, color: C.acentoTexto, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 6, padding: "14px 32px", borderRadius: 40, display: "flex", gap: 14, alignItems: "center" }}>
+            <Icono nombre="play" tam={34} color={C.acentoTexto} /> PRÓXIMO VÍDEO
           </div>
         </div>
       )}
-      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
-        {velas.map((v, k) => {
-          const s = sp(f, v.desde, { damping: 12, stiffness: 200, mass: 0.5 });
-          if (s <= 0) return null;
-          const col = v.verde ? VERDE : ROJO;
-          const cy = (v.abre + v.cierra) / 2,
-            h = Math.abs(v.abre - v.cierra);
-          const cerca = f >= b2 - 4 && Math.abs(lx - v.x) < 90;
-          return (
-            <g key={k} transform={`translate(${v.x},${cy}) scale(${cerca ? 1.15 : 1},${s}) translate(${-v.x},${-cy})`} opacity={f >= b2 - 4 && !cerca ? 0.45 : 1}>
-              <line x1={v.x} x2={v.x} y1={Math.min(v.abre, v.cierra) - 40} y2={Math.max(v.abre, v.cierra) + 40} stroke={col} strokeWidth={4} />
-              <rect x={v.x - ancho * 0.3} y={cy - h / 2} width={ancho * 0.6} height={h} rx={4} fill={col} />
-            </g>
-          );
-        })}
-      </svg>
-      {f >= b2 - 4 && (
-        <div style={{ position: "absolute", left: lx - 110, top: ly - 110, transform: `scale(${sp(f, b2 - 4)})` }}>
-          <Icono nombre="search" tam={220} color={C.texto} grosor={2.4} />
-        </div>
-      )}
-      <div style={{ position: "absolute", left: 0, right: 0, top: 860, textAlign: "center" }}>
+      <AbsoluteFill style={{ transform: `translate(${tx}px,${ty}px) scale(${z})`, transformOrigin: `${ox}px ${oy}px` }}>
+        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={6} vivo={false} opacidad={(k) => (k === K ? 1 : 1 - 0.88 * mueve)} ejes={1 - mueve} />
+      </AbsoluteFill>
+      <Nota x={hx} y={hy} dx={110} dy={-40} texto="máximo" desde={notas} />
+      <Nota x={cx1} y={cy1} dx={150} dy={20} texto="cierre" desde={notas + 5} color={VERDE} />
+      <Nota x={ox1} y={oy1} dx={150} dy={-20} texto="apertura" desde={notas + 10} />
+      <Nota x={lx} y={ly} dx={-110} dy={40} texto="mínimo" desde={notas + 15} />
+      {f >= notas + 8 && <div style={{ position: "absolute", left: ox1 - 330, top: (cy1 + oy1) / 2 - 40, fontFamily: F.mano, fontSize: 70, color: ORO, transform: `rotate(-8deg) scale(${sp(f, notas + 8)})` }}>cuerpo</div>}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1000, textAlign: "center" }}>
         <div>
-          <Revela2 desde={b2 - 2} tam={96}>
+          <Revela2 desde={b3 - 4} tam={84}>
             CÓMO LEER
           </Revela2>
         </div>
         <div>
-          <Revela2 desde={b3 - 2} tam={110} color={ORO}>
+          <Revela2 desde={b3 - 1} tam={96} color={ORO}>
             UNA GRÁFICA
           </Revela2>
         </div>
       </div>
       {boton > 0 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1130 - bote, display: "flex", justifyContent: "center", transform: `scale(${boton})` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 14, border: `3px solid ${ORO}`, color: ORO, fontFamily: F.texto, fontWeight: 800, fontSize: 32, letterSpacing: 5, padding: "12px 28px", borderRadius: 40 }}>
-            <Icono nombre="bell-ring" tam={36} color={ORO} /> SÍGUEME PARA VERLO
+        <div style={{ position: "absolute", left: 0, right: 0, top: 1235 - bote, display: "flex", justifyContent: "center", transform: `scale(${boton})` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, border: `3px solid ${ORO}`, color: ORO, fontFamily: F.texto, fontWeight: 800, fontSize: 30, letterSpacing: 4, padding: "12px 28px", borderRadius: 40 }}>
+            <Icono nombre="bell-ring" tam={34} color={ORO} /> SÍGUEME PARA VERLO
           </div>
         </div>
       )}
+      {void dur}
     </AbsoluteFill>
   );
 };
-
 
 export const proximo: DefEscena = {
   C: Proximo,

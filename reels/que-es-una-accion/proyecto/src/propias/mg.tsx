@@ -1,12 +1,26 @@
 // Piezas de motion graphics compartidas por las escenas propias de este reel:
 // rejilla de fondo, trazos que se dibujan, texto que entra con máscara, etiquetas y contadores.
 import React from "react";
-import { Easing, interpolate, spring, useCurrentFrame } from "remotion";
+import { Easing, continueRender, delayRender, interpolate, spring, staticFile, useCurrentFrame } from "remotion";
 import { measureText } from "@remotion/layout-utils";
 import { C, ESTILO } from "../motor/actual";
 import { FPS } from "../motor/constantes";
 import { F, alfa } from "../motor/estilos";
 import { numeroES, rnd } from "../motor/anim";
+
+// Fuente de marca para títulos: Internet Friends (no trae tildes, ñ, ¿ ni ¡). Si un texto las lleva,
+// se usa Le Jardin Secret (la fuente "mano" del estilo), que sí las tiene.
+export const DISPLAY = "BRDisplay";
+if (typeof document !== "undefined") {
+  const h = delayRender("Cargando Internet Friends");
+  const cara = new FontFace(DISPLAY, `url(${staticFile("fuentes/internet-friends.ttf")})`);
+  (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
+  cara.load().then(() => continueRender(h));
+}
+const SIN_GLIFO = /[áéíóúÁÉÍÓÚñÑ¿¡üÜ%€]/;
+/** Fuente de título para un grupo de textos: Internet Friends si todos se pueden escribir con ella. */
+export const fuenteTitulo = (textos: string[]) => (textos.some((t) => SIN_GLIFO.test(t)) ? F.mano : DISPLAY);
+export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : 400);
 
 export const ORO = C.acento;
 export const VERDE = C.exito;
@@ -27,30 +41,10 @@ export const temblor = (f: number, en: number, fuerza = 14, dur = 10) => {
   return { x: Math.sin(e * 2.7) * k, y: Math.cos(e * 3.3) * k * 0.7 };
 };
 
-/** Rejilla técnica de fondo que se desliza despacio, con puntos que parpadean. */
-export const Rejilla: React.FC<{ op?: number; color?: string }> = ({ op = 1, color = ORO }) => {
-  const f = useCurrentFrame();
-  const paso = 90;
-  const dx = (f * 0.6) % paso;
-  const dy = (f * 0.35) % paso;
-  const lineas: React.ReactNode[] = [];
-  for (let x = -paso; x < 1080 + paso; x += paso) lineas.push(<line key={`v${x}`} x1={x - dx} y1={-300} x2={x - dx} y2={1900} />);
-  for (let y = -300; y < 1900; y += paso) lineas.push(<line key={`h${y}`} x1={-100} y1={y - dy} x2={1180} y2={y - dy} />);
-  const puntos = Array.from({ length: 18 }).map((_, k) => {
-    const x = Math.floor(rnd(k) * 12) * paso - dx;
-    const y = Math.floor(rnd(k + 40) * 22) * paso - 300 - dy;
-    const a = 0.5 + 0.5 * Math.sin(f / 9 + k * 1.7);
-    return <circle key={k} cx={x} cy={y} r={3.5} fill={color} opacity={0.35 * a} />;
-  });
-  return (
-    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: -300, overflow: "visible", opacity: op }}>
-      <g transform="translate(0,300)">
-        <g stroke={alfa(color, 0.07)} strokeWidth={1.5}>{lineas}</g>
-        {puntos}
-      </g>
-    </svg>
-  );
-};
+/** Fondo limpio como la referencia: solo una viñeta suave que oscurece los bordes (sin rejilla). */
+export const Rejilla: React.FC<{ op?: number; color?: string }> = () => (
+  <div style={{ position: "absolute", left: -200, right: -200, top: -600, bottom: -600, background: "radial-gradient(ellipse at 50% 45%, transparent 35%, rgba(0,0,0,0.55) 100%)" }} />
+);
 
 /** Trazo SVG que se dibuja de 0 a 1 (usa pathLength=1). */
 export const Trazo: React.FC<{ d: string; p: number; color?: string; grosor?: number; relleno?: string; op?: number; guion?: boolean; cap?: "round" | "butt" }> = ({
@@ -83,7 +77,7 @@ export const ancho = (t: string, tam: number, fuente: string = F.titulo, peso = 
   measureText({ text: t, fontFamily: fuente, fontWeight: String(peso), fontSize: tam, letterSpacing: `${esp * tam}px`, validateFontIsLoaded: false }).width;
 
 /** Tamaño de letra para que `t` quepa en `max` px (sin pasar de `tope`). */
-export const encajar = (t: string, max: number, tope: number) => Math.min(tope, (tope * max) / Math.max(1, ancho(t, tope)));
+export const encajar = (t: string, max: number, tope: number, fuente: string = F.titulo) => Math.min(tope, (tope * max) / Math.max(1, ancho(t, tope, fuente, pesoDe(fuente), fuente === F.titulo ? -0.02 : 0)));
 
 /** Palabra que sube desde detrás de una máscara (entrada típica de motion graphics). */
 export const Revela: React.FC<{ desde: number; children: React.ReactNode; tam: number; color?: string; fuente?: string; dur?: number; giro?: number; esp?: number }> = ({
@@ -105,9 +99,9 @@ export const Revela: React.FC<{ desde: number; children: React.ReactNode; tam: n
         style={{
           display: "inline-block",
           fontFamily: fuente,
-          fontWeight: fuente === F.titulo ? ESTILO.fuentes.titulo.peso : 800,
+          fontWeight: pesoDe(fuente),
           fontSize: tam,
-          letterSpacing: esp * tam,
+          letterSpacing: fuente === F.titulo ? esp * tam : 0,
           color,
           transform: `translateY(${(1 - k) * 110}%) rotate(${(1 - k) * giro}deg)`,
           transformOrigin: "0% 100%",

@@ -32,7 +32,7 @@ export const ZONA =
       : { x: 60, y: 500, w: 960, h: 1000 }
     : CON_PERSONAJE
       ? { x: 60, y: 210, w: 960, h: 860 }
-      : { x: 20, y: 280, w: 1040, h: 990 };
+      : { x: 20, y: 400, w: 1040, h: 1120 };
 
 /** Centro vertical de la línea de subtítulos (modo "linea"). */
 export const SUB_Y = CON_PERSONAJE ? 1170 : 1330;

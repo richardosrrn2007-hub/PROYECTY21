@@ -3,29 +3,29 @@
   "estilo": {
     "base": "noche",
     "colores": {
-      "fondo": "#06070A",
-      "fondo2": "#0E1016",
+      "fondo": "#000000",
+      "fondo2": "#050403",
       "manchas": [
-        "#2A2111",
-        "#12151F",
-        "#1C1608"
+        "#120C05",
+        "#000000",
+        "#0A0703"
       ],
-      "texto": "#F6F1E7",
-      "suave": "#9C968A",
-      "acento": "#E9B95E",
-      "acentoTexto": "#0B0A08",
-      "tarjeta": "#14161D",
-      "tarjetaTexto": "#F6F1E7",
-      "linea": "#2A2D37",
-      "oscuro": "#0B0C11",
-      "oscuroTexto": "#F6F1E7",
-      "borde": "#F6F1E7",
-      "exito": "#2FD487",
-      "error": "#FF4F61"
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
     },
     "fuentes": {
       "titulo": {
-        "archivo": "fuentes/archivo-latin-800-normal.woff2",
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
         "peso": 800
       },
       "texto": [
@@ -37,12 +37,16 @@
           "archivo": "fuentes/inter-latin-800-normal.woff2",
           "peso": 800
         }
-      ]
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
     },
-    "grano": 0.1
+    "grano": 0
   },
-  "subtitulos": "linea",
-  "transicion": "corte",
+  "subtitulos": "arriba",
+  "transicion": "zoom",
   "personaje": false,
   "frases": [
     {
@@ -67,14 +71,14 @@
         "nombre": "Kinetico",
         "lineas": [
           [
-            "SUENA",
-            "RARO"
+            "Suena",
+            "raro"
           ],
           [
-            "¿VERDAD?"
+            "¿verdad?"
           ],
           [
-            "MIRA ESTO"
+            "Mira esto"
           ]
         ],
         "efectos": [
@@ -115,7 +119,8 @@
           "representa",
           "accion"
         ]
-      }
+      },
+      "entrada": "corte"
     },
     {
       "texto": "Una pequeña *parte* de esa *compañía.*",
@@ -129,21 +134,21 @@
           "parte",
           "compania"
         ]
-      }
+      },
+      "entrada": "corte"
     },
     {
       "texto": "Y aquí viene lo *interesante.*",
-      "entrada": "semitono",
       "sinSubtitulos": true,
       "escena": {
         "tipo": "propia",
         "nombre": "Kinetico",
         "lineas": [
           [
-            "Y AQUÍ VIENE"
+            "Y aquí viene"
           ],
           [
-            "LO INTERESANTE"
+            "lo interesante"
           ]
         ],
         "efectos": [
@@ -184,7 +189,8 @@
           "fraccion",
           "disponible"
         ]
-      }
+      },
+      "entrada": "corte"
     },
     {
       "texto": "Pero, *¿cómo la compras?*",
@@ -194,13 +200,13 @@
         "nombre": "Kinetico",
         "lineas": [
           [
-            "PERO"
+            "Pero"
           ],
           [
-            "¿CÓMO LA"
+            "¿cómo la"
           ],
           [
-            "COMPRAS?"
+            "compras?"
           ]
         ],
         "efectos": [
@@ -332,7 +338,6 @@
     },
     {
       "texto": "Eso es parte del *trading.*",
-      "entrada": "semitono",
       "sinSubtitulos": true,
       "escena": {
         "tipo": "propia",
@@ -378,13 +383,13 @@
         "nombre": "Kinetico",
         "lineas": [
           [
-            "PERO"
+            "Pero"
           ],
           [
-            "NADA ESTÁ"
+            "nada está"
           ],
           [
-            "GARANTIZADO"
+            "garantizado"
           ]
         ],
         "efectos": [
