@@ -392,7 +392,7 @@ const GanarPerder: React.FC<PropsEscena> = ({ b }) => {
       <Etiqueta desde={b2 - 2} x={X0 + 10} y={yC + 30} texto="LO QUE PAGASTE" centro={false} tam={26} />
       {f >= b1 - 4 && <Cabeza x={A.h[0]} y={A.h[1]} color={VERDE} />}
       {f >= b4 - 4 && <Cabeza x={B.h[0]} y={B.h[1]} color={ROJO} />}
-      <Caja x={360} y={400} desde={b3 - 2} color={VERDE} tam={46}>
+      <Caja x={720} y={360} desde={b3 - 2} color={VERDE} tam={42}>
         <Icono nombre="plus" tam={46} color={VERDE} /> GANAS
       </Caja>
       <Caja x={360} y={930} desde={b5 - 2} color={ROJO} tam={46}>
@@ -400,7 +400,7 @@ const GanarPerder: React.FC<PropsEscena> = ({ b }) => {
       </Caja>
       <Chispas desde={b3} x={A.h[0]} y={A.h[1]} color={VERDE} />
       <Chispas desde={b5} x={B.h[0]} y={B.h[1]} color={ROJO} />
-      <Billetes x={250} y={455} desde={b3} modo="gana" />
+      <Billetes x={250} y={470} desde={b3} modo="gana" />
       <Billetes x={260} y={820} desde={b5} modo="pierde" />
     </AbsoluteFill>
   );
