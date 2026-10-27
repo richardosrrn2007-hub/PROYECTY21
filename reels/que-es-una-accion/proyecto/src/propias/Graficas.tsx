@@ -398,18 +398,20 @@ const Comision: React.FC<PropsEscena> = ({ b }) => {
   const linea0 = 360,
     linea1 = nodo[0] - 120;
   // en cada comisión, la moneda de arriba viaja por la línea hasta el bróker
-  const vuela = (k: number) => (k === nMon - 1 ? b2 - 4 : k === nMon - 2 ? b2 + 6 : 1e9);
-  const c1 = pr(f, b2 + 8, 6),
-    c2 = pr(f, b2 + 18, 6);
+  // tic, tic, tic: tres monedas pasan al bróker una detrás de otra
+  const SALIDAS = [b2 - 6, b2 + 1, b2 + 8];
+  const LLEGA = SALIDAS.map((x) => x + 10);
+  const vuela = (k: number) => (k >= nMon - 3 ? SALIDAS[nMon - 1 - k] : 1e9);
+  const cobrado = LLEGA.reduce((n, x) => n + pr(f, x, 4), 0);
   void b3;
-  const neta = 218.4 - 2 * c1 - 2 * c2;
+  const neta = 218.4 - 2 * cobrado;
   const barra = pr(f, b0, 14);
-  const g = temblor(f, b2 + 18, 6);
+  const g = temblor(f, LLEGA[2], 6);
   const menos = (d: number, dx = 0) => {
     const t = f - d;
     if (t < 0 || t > 30) return null;
     return (
-      <div key={d} style={{ position: "absolute", left: nodo[0] - 60 + dx, top: nodo[1] - 150 - t * 2, width: 120, textAlign: "center", fontFamily: CLAVE, fontSize: 56, color: ROJO, opacity: Math.min(1, (30 - t) / 10), transform: `scale(${sp(f, d)})` }}>
+      <div key={d} style={{ position: "absolute", left: nodo[0] - 60 + dx, top: nodo[1] - 150 - t * 2, width: 120, textAlign: "center", fontFamily: CLAVE, fontSize: 46, color: ROJO, opacity: Math.min(1, (30 - t) / 10), transform: `scale(${sp(f, d)})` }}>
         −2 $
       </div>
     );
@@ -423,7 +425,7 @@ const Comision: React.FC<PropsEscena> = ({ b }) => {
         {Array.from({ length: nMon }).map((_, k) => {
           const cae = pr(f, k * 2.5, 10, Easing.out(Easing.bounce));
           const y0 = baseY - k * 40;
-          const t = pr(f, vuela(k), 12, Easing.inOut(Easing.cubic));
+          const t = pr(f, vuela(k), 10, Easing.inOut(Easing.cubic));
           if (t >= 1) return null;
           const x = xS + (nodo[0] - xS) * t,
             y = (y0 - 600 * (1 - cae)) * (1 - t) + nodo[1] * t - Math.sin(t * Math.PI) * 90;
@@ -431,19 +433,19 @@ const Comision: React.FC<PropsEscena> = ({ b }) => {
         })}
       </svg>
       <div style={{ position: "absolute", left: xS - 150, width: 300, top: baseY + 70, textAlign: "center", fontFamily: F.texto, fontWeight: 800, fontSize: 24, letterSpacing: 5, color: ORO, opacity: pr(f, b0, 8) }}>TU DINERO</div>
-      <Nodo x={nodo[0]} y={nodo[1]} r={95} icono="landmark" texto="BRÓKER" desde={b1 - 4} pulso={b2 + 8} />
-      {menos(b2 + 8, -70)}
-      {menos(b2 + 18, 70)}
-      <Chispas desde={b2 + 8} x={nodo[0]} y={nodo[1]} color={ROJO} n={12} r={150} />
-      <Chispas desde={b2 + 18} x={nodo[0]} y={nodo[1]} color={ROJO} n={12} r={150} />
+      <Nodo x={nodo[0]} y={nodo[1]} r={95} icono="landmark" texto="BRÓKER" desde={b1 - 4} pulso={LLEGA[0]} />
+      {LLEGA.map((x, k) => menos(x, (k - 1) * 130))}
+      {LLEGA.map((x) => (
+        <Chispas key={x} desde={x} x={nodo[0]} y={nodo[1]} color={ROJO} n={10} r={140} />
+      ))}
       {/* tu ganancia: un número grande y una barra que se acorta */}
       <div style={{ position: "absolute", left: 160, right: 160, top: 930, opacity: barra }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
           <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 24, letterSpacing: 5, color: C.suave }}>TU GANANCIA</span>
-          <span style={{ fontFamily: CLAVE, fontSize: 64, color: c1 > 0 ? ROJO : VERDE, fontVariantNumeric: "tabular-nums" }}>+{numeroES(neta, 2)} $</span>
+          <span style={{ fontFamily: CLAVE, fontSize: 64, color: cobrado > 0 ? ROJO : VERDE, fontVariantNumeric: "tabular-nums" }}>+{numeroES(neta, 2)} $</span>
         </div>
         <div style={{ position: "relative", height: 20, borderRadius: 10, background: alfa(C.texto, 0.08), marginTop: 10, overflow: "hidden" }}>
-          <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${(100 - 9 * c1 - 9 * c2) * barra}%`, background: VERDE, borderRadius: 10 }} />
+          <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${(100 - 7 * cobrado) * barra}%`, background: VERDE, borderRadius: 10 }} />
         </div>
       </div>
       {f >= b2 - 2 && (
@@ -459,11 +461,10 @@ export const comision: DefEscena = {
   C: Comision,
   momentos: 4,
   alInicio: () => true,
+  // las monedas que caen al principio y el golpe del título; los "tic" de cada moneda van en el plan
   sonidos: () => [
-    [0, "tic", 0.25],
-    [1, "papel", 0.3],
-    [2, "swoosh", 0.3],
-    [3, "negacion", 0.3],
+    [0, "papel", 0.2],
+    [2, "golpe", 0.25],
   ],
 };
 

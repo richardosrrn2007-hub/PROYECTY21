@@ -334,7 +334,24 @@
           "comisiones",
           "comisiones+12"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "comisiones+4",
+          "tic",
+          0.45
+        ],
+        [
+          "comisiones+11",
+          "tic",
+          0.45
+        ],
+        [
+          "comisiones+18",
+          "tic",
+          0.45
+        ]
+      ]
     },
     {
       "texto": "Eso es parte del *trading.*",
