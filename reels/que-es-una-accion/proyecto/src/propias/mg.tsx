@@ -57,7 +57,7 @@ export const pr = (f: number, a: number, d = 12, ease = Easing.out(Easing.cubic)
 /** Rebote marcado: solo para lo importante (cifras de ganar/perder, TU ACCIÓN, sellos). */
 export const REBOTE = { damping: 10, stiffness: 190, mass: 0.6 };
 /** Entrada por defecto: rápida y sin rebote, para que los golpes importantes destaquen. */
-export const sp = (f: number, a: number, cfg = { damping: 26, stiffness: 180, mass: 0.6 }) => (f < a ? 0 : spring({ frame: f - a, fps: FPS, config: cfg }));
+export const sp = (f: number, a: number, cfg = { damping: 12, stiffness: 170, mass: 0.6 }) => (f < a ? 0 : spring({ frame: f - a, fps: FPS, config: cfg }));
 
 /** Temblor de cámara que decae tras el fotograma `en`. */
 export const temblor = (f: number, en: number, fuerza = 14, dur = 10) => {

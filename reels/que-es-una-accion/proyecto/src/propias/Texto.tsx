@@ -217,7 +217,12 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const clave = (k: number) => efectos[k] === "enorme" || efectos[k] === "sello";
   const fuenteL = (k: number) => (clave(k) ? CLAVE : fz);
   const lineasV = lineas.map((l, k) => (clave(k) ? l.map((w) => w.toUpperCase()) : l));
-  const tams = lineasV.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 110 : 150) * esc * (clave(k) ? 1.3 : 1), fuenteL(k)));
+  const color = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
+  const tams = lineasV.map((l, k) =>
+    color(k)
+      ? encajar(l.join(" "), efectos[k] === "sello" ? 760 : 900, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 120 : 165) * esc * (clave(k) ? 1.3 : 1), fuenteL(k))
+      : Math.min(...lineasV.map((m, j) => (color(j) ? 999 : encajar(m.join(" "), 860, 92, fuenteL(j))))),
+  );
   const alto = tams.reduce((s, t, k) => s + t * (efectos[k] === "sello" ? 1.25 : 1.1), 0);
   const ultimo = b.length ? b[b.length - 1] : 0;
   const golpes = b.map((x) => temblor(f, x, 7, 8));
