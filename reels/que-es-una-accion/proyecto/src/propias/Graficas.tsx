@@ -9,8 +9,9 @@ import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
+import { TRANSICION } from "./Cierre";
 import { Nodo } from "./Broker";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, PRINCIPAL, REBOTE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, PRINCIPAL, principalPara, REBOTE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -548,6 +549,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
     <AbsoluteFill>
       <Escritorio
         dur={dur}
+        apagaEn={dur - TRANSICION}
         cabecera="AAPL · APPLE · 1D · EJEMPLO"
         seInclina={b2 - 4}
         asiente={[b1 + 10, notas + 6, notas + 18]}
@@ -613,7 +615,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
           </Revela2>
         </div>
         <div>
-          <Revela2 desde={b3 - 1} tam={80} color={ORO} fuente={PRINCIPAL}>
+          <Revela2 desde={b3 - 1} tam={80} color={ORO} fuente={principalPara("UNA GRÁFICA")}>
             UNA GRÁFICA
           </Revela2>
         </div>

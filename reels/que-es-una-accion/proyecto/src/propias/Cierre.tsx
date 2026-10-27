@@ -30,12 +30,18 @@ export const ApagaTele: React.FC<{ desde: number; children: React.ReactNode }> =
   );
 };
 
+/** Centro del cristal del monitor en pantalla (donde nace la línea al apagarse). */
+const MONITOR_Y = 876;
+
 export const Cierre: React.FC = () => {
   const f = useCurrentFrame();
-  const negro = interpolate(f, [APLASTA, APLASTA + 2], [0, 1], cl);
-  // la línea de luz: nace al final del aplastado, se estira a lo ancho y se funde con el destello del logo
-  const ancho = interpolate(f, [APLASTA - 4, APLASTA + 8], [0.55, 1.15], { ...cl, easing: Easing.out(Easing.cubic) });
-  const brillo = interpolate(f, [APLASTA - 4, APLASTA, ENTRA_LOGO + 6, ENTRA_LOGO + 18], [0, 1, 1, 0], cl);
+  // el monitor se apaga (lo hace Escritorio en los primeros APLASTA fotogramas); luego todo lo demás se funde a negro
+  const negro = interpolate(f, [APLASTA - 2, APLASTA + 8], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  // la línea de luz nace en el monitor, sube hasta la altura del destello del logo y se estira
+  const sube = interpolate(f, [APLASTA - 2, ENTRA_LOGO + 4], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  const y = MONITOR_Y + (LINEA_Y - MONITOR_Y) * sube;
+  const ancho = 0.82 + (1.15 - 0.82) * sube;
+  const brillo = interpolate(f, [APLASTA - 3, APLASTA, ENTRA_LOGO + 6, ENTRA_LOGO + 18], [0, 1, 1, 0], cl);
   const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 10], [0, 1], cl);
   return (
     <AbsoluteFill>
@@ -45,8 +51,8 @@ export const Cierre: React.FC = () => {
           <OffthreadVideo src={staticFile("logo.mp4")} style={{ width: 1080, height: 1920 }} volume={0.9} />
         </AbsoluteFill>
       </Sequence>
-      <div style={{ position: "absolute", left: 540 - 540 * ancho, width: 1080 * ancho, top: LINEA_Y - 5, height: 10, background: "linear-gradient(90deg, transparent, rgba(255,226,180,0.9) 30%, #FFF8EC 50%, rgba(255,226,180,0.9) 70%, transparent)", opacity: brillo, filter: "blur(1.5px)", boxShadow: "0 0 40px rgba(240,190,120,0.8)" }} />
-      <div style={{ position: "absolute", left: 540 - 260, top: LINEA_Y - 260, width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,244,225,0.8) 0%, rgba(240,185,110,0.3) 25%, rgba(240,185,110,0) 65%)", opacity: brillo * 0.8, transform: `scaleY(${0.25 + 0.75 * logo})` }} />
+      <div style={{ position: "absolute", left: 540 - 540 * ancho, width: 1080 * ancho, top: y - 5, height: 10, background: "linear-gradient(90deg, transparent, rgba(255,226,180,0.9) 30%, #FFF8EC 50%, rgba(255,226,180,0.9) 70%, transparent)", opacity: brillo, filter: "blur(1.5px)", boxShadow: "0 0 40px rgba(240,190,120,0.8)" }} />
+      <div style={{ position: "absolute", left: 540 - 260, top: y - 260, width: 520, height: 520, borderRadius: "50%", background: "radial-gradient(circle, rgba(255,244,225,0.8) 0%, rgba(240,185,110,0.3) 25%, rgba(240,185,110,0) 65%)", opacity: brillo * 0.8 * sube, transform: `scaleY(${0.25 + 0.75 * logo})` }} />
     </AbsoluteFill>
   );
 };

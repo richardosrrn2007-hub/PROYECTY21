@@ -7,7 +7,7 @@ import { rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { Escritorio } from "./Escritorio";
 import { arr } from "../escenas/util";
-import { CLAVE, PRINCIPAL, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
+import { CLAVE, PRINCIPAL, principalPara, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
 
 // ---------------------------------------------------------------- edificio
 
@@ -215,7 +215,7 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const esc = 1;
   // las líneas protagonistas (doradas o sello) van en Anton y en mayúsculas; el resto, en Bricolage
   const clave = (k: number) => efectos[k] === "enorme" || efectos[k] === "sello";
-  const fuenteL = (k: number) => (DORADOS.includes(efectos[k]) || efectos[k] === "sello" ? PRINCIPAL : fz);
+  const fuenteL = (k: number) => (DORADOS.includes(efectos[k]) || efectos[k] === "sello" ? principalPara(lineas[k].join(" ")) : fz);
   const lineasV = lineas.map((l, k) => (clave(k) ? l.map((w) => w.toUpperCase()) : l));
   const color = (k: number) => DORADOS.includes(efectos[k]) || efectos[k] === "sello";
   const tams = lineasV.map((l, k) =>

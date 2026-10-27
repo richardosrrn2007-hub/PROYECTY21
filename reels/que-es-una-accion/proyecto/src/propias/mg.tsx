@@ -49,7 +49,11 @@ if (typeof document !== "undefined") {
 /** Secundarias (palabras blancas): CHICKEN Pie. */
 export const SECUND = "BRSecund";
 /** Principales (palabras de color). Opción A: Matcha World y, para tildes/ñ/¿ que no trae, Matcha Style. */
-export const PRINCIPAL = OPCION_PRINCIPAL === "A" ? "BRPrinWorld, BRPrinStyle" : "BRPrinStyle";
+export const PRINCIPAL = "BRPrinWorld, BRPrinStyle";
+/** Principal compacta (Matcha Style) para líneas largas y subtítulos: ocupa menos y deja menos espacio. */
+export const PRINCIPAL_COMPACTA = "BRPrinStyle";
+/** Elige la principal según el largo: corta → Matcha World; larga (más de 9 letras) → Matcha Style. */
+export const principalPara = (texto: string) => (texto.replace(/[^\p{L}]/gu, "").length > 9 ? PRINCIPAL_COMPACTA : PRINCIPAL);
 export const fuenteTitulo = (_textos?: string[]) => SECUND;
 export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : fuente === PRO ? 700 : fuente === VIVO ? 800 : 400);
 

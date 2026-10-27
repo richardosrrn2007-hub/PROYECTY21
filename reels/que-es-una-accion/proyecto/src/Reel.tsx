@@ -10,13 +10,12 @@ import { Personaje } from "./motor/Personaje";
 import { SubtitulosBloque, SubtitulosLinea } from "./motor/Subtitulos";
 import { SubArriba } from "./propias/SubArriba";
 import { Planeta } from "./propias/Planeta";
-import { ApagaTele, CIERRE, Cierre, TRANSICION } from "./propias/Cierre";
+import { CIERRE, Cierre, TRANSICION } from "./propias/Cierre";
 
 const SIN_SUBTITULOS = PLAN.frases.map((f, i) => (f.sinSubtitulos ? i : -1)).filter((i) => i >= 0);
 
 export const Reel: React.FC = () => (
   <AbsoluteFill style={{ background: C.fondo }}>
-    <ApagaTele desde={TOTAL - TRANSICION}>
     <Fondo />
     <Planeta />
     {ESCENAS.map((e) => {
@@ -40,7 +39,6 @@ export const Reel: React.FC = () => (
     {SUBTITULOS === "bloque" && <SubtitulosBloque frases={T.frases} sin={SIN_SUBTITULOS} />}
     {(SUBTITULOS as string) === "arriba" && <SubArriba frases={T.frases} sin={SIN_SUBTITULOS} />}
     {CON_PERSONAJE && <Personaje cambios={CAMBIOS_POSE} />}
-    </ApagaTele>
     {/* cierre de marca: la imagen se apaga como una tele y la línea de luz se vuelve el destello del logo */}
     <Sequence from={TOTAL - TRANSICION} durationInFrames={TRANSICION + CIERRE} name="Cierre Origine">
       <Cierre />

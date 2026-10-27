@@ -195,7 +195,9 @@ export const Escritorio: React.FC<{
   /** inclinación 3D del monitor al entrar (se endereza) */
   inclina3d?: number;
   dur: number;
-}> = ({ children, foco = [], cursor = [], clics = [], asiente = [], seInclina = 1e9, cabecera, inclina3d = 1, dur }) => {
+  /** fotograma en que la pantalla se apaga como una tele (se aplasta en una línea de luz) */
+  apagaEn?: number;
+}> = ({ children, foco = [], cursor = [], clics = [], asiente = [], seInclina = 1e9, cabecera, inclina3d = 1, dur, apagaEn = 1e9 }) => {
   const f = useCurrentFrame();
   const [cxp, cyp] = cursorEn(f, cursor);
   const raton: [number, number] = [470 + (cxp - 540) * 0.08, MESA_Y - 10 + (cyp - 560) * 0.015];
@@ -243,7 +245,7 @@ export const Escritorio: React.FC<{
             <span style={{ marginLeft: 8 }}>{cabecera}</span>
           </div>
         )}
-        <AbsoluteFill style={{ clipPath: `inset(${y0}px ${1080 - x1}px ${1920 - y1}px ${x0}px round 16px)` }}>
+        <AbsoluteFill style={{ clipPath: `inset(${y0}px ${1080 - x1}px ${1920 - y1}px ${x0}px round 16px)`, transform: f >= apagaEn ? `scale(${1 - 0.1 * pr(f, apagaEn, 10, Easing.in(Easing.cubic))}, ${Math.max(0.004, 1 - pr(f, apagaEn, 10, Easing.in(Easing.cubic)))})` : undefined, transformOrigin: `540px ${(y0 + y1) / 2}px`, filter: f >= apagaEn ? `brightness(${1 + 3 * pr(f, apagaEn, 10)})` : undefined, opacity: f > apagaEn + 12 ? 0 : 1 }}>
           {children}
           {cursor.length > 0 && <Cursor x={cxp} y={cyp} clics={clics} />}
         </AbsoluteFill>
