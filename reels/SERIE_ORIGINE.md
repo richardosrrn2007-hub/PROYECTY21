@@ -40,3 +40,10 @@ Antes de empezar un vídeo nuevo, leer esto.
 ## Sonidos
 - Efectos de lucha (VS, campana, puñetazos, cuerda, reloj, transformación, zip): packs CC0 de kenney.nl (impact, rpg, interface, sci-fi). Gratis y sin atribución.
 - Regla: un sonido solo en momentos importantes; swoosh solo al cambiar de capítulo; nada de ambiente de fondo.
+
+## Regla de los gráficos
+- Cada vela abre donde cerró la anterior (sin huecos). Las series inventadas ya lo cumplen (serieVelas); los datos reales se pasan por `continua()` (Velas.tsx).
+
+## Vídeo 3 · De dónde salieron las velas
+- Viaje: mundo normal → la cámara baja al planeta (destello + gong) → órbita sobre Japón (planeta enorme, Japón en dorado, sol rojo) → vuelta en 1991.
+- Música: koto en escala japonesa (miyako-bushi) hecho con código, solo en la parte de Japón, baja sola cuando habla la voz.

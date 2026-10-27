@@ -1,0 +1,999 @@
+{
+ "voz": "voz_jusu.mp3",
+ "motor": "asr",
+ "velocidad": 1.12,
+ "duracion": 55.18,
+ "frases": [
+  {
+   "texto": "Esta figura tiene casi 300 años. Y nació… en un mercado de arroz.",
+   "inicio": 0.02,
+   "fin": 5.54,
+   "palabras": [
+    {
+     "w": "Esta",
+     "t": 0.02,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "figura",
+     "t": 0.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tiene",
+     "t": 0.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "casi",
+     "t": 1.12,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "300",
+     "t": 1.52,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "años.",
+     "t": 2.32,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "Y",
+     "t": 2.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "nació…",
+     "t": 3.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 3.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 4.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mercado",
+     "t": 4.4,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "de",
+     "t": 4.8,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "arroz.",
+     "t": 4.96,
+     "clave": true,
+     "g": 1
+    }
+   ]
+  },
+  {
+   "texto": "Japón, siglo XVIII. Osaka.",
+   "inicio": 5.64,
+   "fin": 8.04,
+   "palabras": [
+    {
+     "w": "Japón,",
+     "t": 5.68,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "siglo",
+     "t": 6.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "XVIII.",
+     "t": 6.86,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Osaka.",
+     "t": 7.36,
+     "clave": true,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "texto": "En Dojima se compraba y vendía arroz… antes de cosecharlo.",
+   "inicio": 8.14,
+   "fin": 11.64,
+   "palabras": [
+    {
+     "w": "En",
+     "t": 8.14,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Dojima",
+     "t": 8.24,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "se",
+     "t": 8.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "compraba",
+     "t": 9.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 9.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendía",
+     "t": 9.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "arroz…",
+     "t": 9.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "antes",
+     "t": 10.48,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "de",
+     "t": 10.72,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "cosecharlo.",
+     "t": 10.88,
+     "clave": true,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "texto": "Fue uno de los primeros mercados de futuros del mundo.",
+   "inicio": 11.74,
+   "fin": 14.42,
+   "palabras": [
+    {
+     "w": "Fue",
+     "t": 11.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "uno",
+     "t": 12.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 12.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 12.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "primeros",
+     "t": 12.48,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "mercados",
+     "t": 12.88,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "de",
+     "t": 13.28,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "futuros",
+     "t": 13.44,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "del",
+     "t": 13.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mundo.",
+     "t": 14.08,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Ahí operaba Munehisa Homma, un comerciante de arroz.",
+   "inicio": 14.52,
+   "fin": 17.7,
+   "palabras": [
+    {
+     "w": "Ahí",
+     "t": 14.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "operaba",
+     "t": 14.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Munehisa",
+     "t": 15.2,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "Homma,",
+     "t": 15.92,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "un",
+     "t": 16.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comerciante",
+     "t": 16.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 17.12,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "arroz.",
+     "t": 17.2,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Se le atribuye la idea: resumir cada día en cuatro precios.",
+   "inicio": 17.8,
+   "fin": 21.49,
+   "palabras": [
+    {
+     "w": "Se",
+     "t": 17.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "le",
+     "t": 18.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "atribuye",
+     "t": 18.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 18.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "idea:",
+     "t": 18.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "resumir",
+     "t": 19.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cada",
+     "t": 19.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "día",
+     "t": 20.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 20.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cuatro",
+     "t": 20.56,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "precios.",
+     "t": 20.96,
+     "clave": true,
+     "g": 8
+    }
+   ]
+  },
+  {
+   "texto": "Apertura, cierre, máximo y mínimo.",
+   "inicio": 21.59,
+   "fin": 24.37,
+   "palabras": [
+    {
+     "w": "Apertura,",
+     "t": 21.68,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "cierre,",
+     "t": 22.48,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "máximo",
+     "t": 23.2,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "y",
+     "t": 23.76,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "mínimo.",
+     "t": 23.92,
+     "clave": true,
+     "g": 9
+    }
+   ]
+  },
+  {
+   "texto": "Y entendió algo que nadie miraba: el precio lo mueven el miedo y la codicia.",
+   "inicio": 24.47,
+   "fin": 29.15,
+   "palabras": [
+    {
+     "w": "Y",
+     "t": 24.47,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "entendió",
+     "t": 24.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "algo",
+     "t": 25.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 25.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "nadie",
+     "t": 25.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "miraba:",
+     "t": 26.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 26.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 26.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 27.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mueven",
+     "t": 27.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 27.84,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "miedo",
+     "t": 27.92,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "y",
+     "t": 28.16,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "la",
+     "t": 28.32,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "codicia.",
+     "t": 28.48,
+     "clave": true,
+     "g": 10
+    }
+   ]
+  },
+  {
+   "texto": "Cuentan que puso hombres con banderas en las montañas para recibir los precios antes que nadie.",
+   "inicio": 29.25,
+   "fin": 33.91,
+   "palabras": [
+    {
+     "w": "Cuentan",
+     "t": 29.25,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 29.68,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "puso",
+     "t": 29.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "hombres",
+     "t": 30.16,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "con",
+     "t": 30.4,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "banderas",
+     "t": 30.56,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "en",
+     "t": 31.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 31.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "montañas",
+     "t": 31.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "para",
+     "t": 31.84,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "recibir",
+     "t": 32.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 32.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precios",
+     "t": 32.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "antes",
+     "t": 33.04,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "que",
+     "t": 33.36,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "nadie.",
+     "t": 33.52,
+     "clave": true,
+     "g": 12
+    }
+   ]
+  },
+  {
+   "texto": "Se hizo tan rico que en su pueblo cantaban: «Nunca seré como Homma… como mucho, un señor feudal».",
+   "inicio": 34.01,
+   "fin": 39.96,
+   "palabras": [
+    {
+     "w": "Se",
+     "t": 34.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "hizo",
+     "t": 34.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tan",
+     "t": 34.67,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "rico",
+     "t": 34.88,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "que",
+     "t": 35.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 35.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "su",
+     "t": 35.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pueblo",
+     "t": 35.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cantaban:",
+     "t": 35.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "«Nunca",
+     "t": 36.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "seré",
+     "t": 37.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "como",
+     "t": 37.44,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Homma…",
+     "t": 37.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "como",
+     "t": 38.24,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "mucho,",
+     "t": 38.48,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "un",
+     "t": 38.96,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "señor",
+     "t": 39.12,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "feudal».",
+     "t": 39.44,
+     "clave": true,
+     "g": 14
+    }
+   ]
+  },
+  {
+   "texto": "En 1991, Steve Nison llevó estas velas a Occidente.",
+   "inicio": 40.08,
+   "fin": 44.05,
+   "palabras": [
+    {
+     "w": "En",
+     "t": 40.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "1991,",
+     "t": 40.32,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "Steve",
+     "t": 41.68,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Nison",
+     "t": 42.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "llevó",
+     "t": 42.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "estas",
+     "t": 42.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "velas",
+     "t": 43.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 43.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Occidente.",
+     "t": 43.52,
+     "clave": true,
+     "g": 16
+    }
+   ]
+  },
+  {
+   "texto": "Hoy las ves en cualquier app… y casi nadie sabe que empezaron con arroz.",
+   "inicio": 44.15,
+   "fin": 47.97,
+   "palabras": [
+    {
+     "w": "Hoy",
+     "t": 44.15,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 44.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ves",
+     "t": 44.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 44.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cualquier",
+     "t": 44.8,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "app…",
+     "t": 45.2,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "y",
+     "t": 45.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "casi",
+     "t": 45.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "nadie",
+     "t": 46.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sabe",
+     "t": 46.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 46.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "empezaron",
+     "t": 46.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "con",
+     "t": 47.36,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "arroz.",
+     "t": 47.52,
+     "clave": true,
+     "g": 18
+    }
+   ]
+  },
+  {
+   "texto": "¿Lo sabías? Si no, comenta ARROZ. En el próximo: las 3 velas que más vas a ver.",
+   "inicio": 48.07,
+   "fin": 53.7,
+   "palabras": [
+    {
+     "w": "¿Lo",
+     "t": 48.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sabías?",
+     "t": 48.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Si",
+     "t": 48.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no,",
+     "t": 49.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "comenta",
+     "t": 49.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ARROZ.",
+     "t": 50.16,
+     "clave": true,
+     "g": 19
+    },
+    {
+     "w": "En",
+     "t": 50.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 51.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "próximo:",
+     "t": 51.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 51.84,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "3",
+     "t": 52.0,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "velas",
+     "t": 52.32,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "que",
+     "t": 52.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 52.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vas",
+     "t": 53.12,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 53.28,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ver.",
+     "t": 53.44,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  }
+ ]
+}

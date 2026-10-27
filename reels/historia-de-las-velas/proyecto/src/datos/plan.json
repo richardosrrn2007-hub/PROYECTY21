@@ -1,0 +1,247 @@
+{
+  "titulo": "De dónde salieron las velas",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#000000",
+      "fondo2": "#050403",
+      "manchas": [
+        "#120C05",
+        "#000000",
+        "#0A0703"
+      ],
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "Esta figura tiene *casi 300 años.* Y nació… en un *mercado de arroz.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Origen",
+        "en": [
+          "figura",
+          "300",
+          "arroz"
+        ]
+      },
+      "sonidos": [
+        [
+          141,
+          "whoosh",
+          0.4
+        ],
+        [
+          141,
+          "musica",
+          0.32
+        ],
+        [
+          160,
+          "gong",
+          0.5
+        ]
+      ]
+    },
+    {
+      "texto": "*Japón,* siglo XVIII. *Osaka.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Mapa",
+        "en": [
+          "japon",
+          "xviii",
+          "osaka"
+        ]
+      }
+    },
+    {
+      "texto": "En *Dojima* se compraba y vendía arroz… *antes de cosecharlo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Dojima",
+        "en": [
+          "dojima",
+          "vendia",
+          "cosecharlo"
+        ]
+      }
+    },
+    {
+      "texto": "Fue uno de los *primeros mercados de futuros* del mundo.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Futuros",
+        "en": [
+          "primeros",
+          "futuros",
+          "mundo"
+        ]
+      }
+    },
+    {
+      "texto": "Ahí operaba *Munehisa Homma,* un comerciante de arroz.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Homma",
+        "en": [
+          "munehisa",
+          "homma",
+          "comerciante"
+        ]
+      }
+    },
+    {
+      "texto": "Se le atribuye la idea: resumir cada día en *cuatro precios.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pincel",
+        "modo": "idea",
+        "en": [
+          "atribuye",
+          "dia",
+          "cuatro"
+        ]
+      }
+    },
+    {
+      "texto": "*Apertura, cierre, máximo y mínimo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pincel",
+        "modo": "partes",
+        "en": [
+          "apertura",
+          "cierre",
+          "maximo",
+          "minimo"
+        ]
+      }
+    },
+    {
+      "texto": "Y entendió algo que nadie miraba: el precio lo mueven *el miedo y la codicia.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Mascaras",
+        "en": [
+          "nadie",
+          "miedo",
+          "codicia"
+        ]
+      }
+    },
+    {
+      "texto": "Cuentan que puso *hombres con banderas* en las montañas para recibir los precios *antes que nadie.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Banderas",
+        "en": [
+          "banderas",
+          "montanas",
+          "nadie"
+        ]
+      }
+    },
+    {
+      "texto": "Se hizo *tan rico* que en su pueblo cantaban: «Nunca seré como Homma… *como mucho, un señor feudal».*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Rico",
+        "en": [
+          "rico",
+          "cantaban",
+          "feudal"
+        ]
+      }
+    },
+    {
+      "texto": "En *1991,* Steve Nison llevó estas velas a *Occidente.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Viaje",
+        "en": [
+          "1991",
+          "nison",
+          "occidente"
+        ]
+      },
+      "sonidos": [
+        [
+          0,
+          "whoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Hoy las ves en *cualquier app…* y casi nadie sabe que empezaron *con arroz.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Hoy",
+        "en": [
+          "app",
+          "nadie",
+          "arroz"
+        ]
+      }
+    },
+    {
+      "texto": "¿Lo sabías? Si no, comenta *ARROZ.* En el próximo: *las 3 velas* que más vas a ver.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Comenta",
+        "palabra": "ARROZ",
+        "en": [
+          "sabias",
+          "arroz",
+          "proximo"
+        ]
+      }
+    }
+  ],
+  "portada": {
+    "etiqueta": "PARTE 3",
+    "lineas": [
+      "300 AÑOS",
+      "*DE ARROZ*"
+    ],
+    "icono": "chart-candlestick"
+  }
+}
