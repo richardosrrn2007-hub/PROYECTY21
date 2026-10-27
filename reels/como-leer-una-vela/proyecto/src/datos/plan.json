@@ -1,0 +1,276 @@
+{
+  "titulo": "Cómo leer una vela",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#000000",
+      "fondo2": "#050403",
+      "manchas": [
+        "#120C05",
+        "#000000",
+        "#0A0703"
+      ],
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "¿Quién ganó *esta batalla?* La respuesta está en *esta vela.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Reto",
+        "en": [
+          "batalla",
+          "vela"
+        ]
+      }
+    },
+    {
+      "texto": "En una gráfica diaria, cada vela es *un día de batalla* entre *compradores* y *vendedores.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "batalla",
+        "etiquetas": [
+          "1 VELA = 1 DÍA@titulo",
+          "COMPRADORES@arriba",
+          "VENDEDORES@abajo"
+        ],
+        "en": [
+          "dia",
+          "compradores",
+          "vendedores"
+        ]
+      }
+    },
+    {
+      "texto": "Abre en un precio… y *cierra en otro.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "abre",
+        "etiquetas": [
+          "APERTURA@titulo",
+          "",
+          "CIERRE@cierre"
+        ],
+        "en": [
+          "abre",
+          "precio",
+          "cierra"
+        ]
+      }
+    },
+    {
+      "texto": "Si cierra más arriba, es *blanca:* ganaron los *compradores.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "blanca",
+        "etiquetas": [
+          "",
+          "BLANCA@cierre",
+          "GANA EL TORO@titulo"
+        ],
+        "en": [
+          "cierra",
+          "blanca",
+          "compradores"
+        ]
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Si cierra más abajo, es *negra:* ganaron los *vendedores.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "negra",
+        "etiquetas": [
+          "",
+          "NEGRA@cierre",
+          "GANA EL OSO@titulo"
+        ],
+        "en": [
+          "cierra",
+          "negra",
+          "vendedores"
+        ]
+      }
+    },
+    {
+      "texto": "En muchas apps las verás en *verde y rojo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Apps",
+        "en": [
+          "apps",
+          "verde"
+        ]
+      }
+    },
+    {
+      "texto": "Las *mechas* marcan hasta dónde llegó el precio.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "mechas",
+        "etiquetas": [
+          "MÁXIMO@alto",
+          "MÍNIMO@bajo",
+          "MECHAS@titulo"
+        ],
+        "en": [
+          "mechas",
+          "llego",
+          "precio"
+        ]
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Cuerpo largo: un bando dominó *con fuerza.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "fuerza",
+        "etiquetas": [
+          "CUERPO LARGO@titulo",
+          "",
+          "FUERZA@cierre"
+        ],
+        "en": [
+          "cuerpo",
+          "bando",
+          "fuerza"
+        ]
+      }
+    },
+    {
+      "texto": "Mecha larga: lo intentó… y *lo rechazaron.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "rechazo",
+        "etiquetas": [
+          "MECHA LARGA@titulo",
+          "LO INTENTÓ@alto",
+          "RECHAZO@cierre"
+        ],
+        "en": [
+          "mecha",
+          "intento",
+          "rechazaron"
+        ]
+      }
+    },
+    {
+      "texto": "Junta muchas velas y tienes *la gráfica* de esa guerra.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Grafica",
+        "modo": "zoom",
+        "en": [
+          "junta",
+          "grafica",
+          "guerra"
+        ]
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Si cada *mínimo* es más alto que el anterior, los compradores *van ganando.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Grafica",
+        "modo": "tendencia",
+        "en": [
+          "minimo",
+          "alto",
+          "ganando"
+        ]
+      }
+    },
+    {
+      "texto": "¿Y la vela del principio? Blanca y con cuerpo largo: *ganaron los compradores.*",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Reto",
+        "modo": "respuesta",
+        "en": [
+          "principio",
+          "ganaron"
+        ]
+      }
+    },
+    {
+      "texto": "¿Sabes *de dónde salió* esta figura? Te lo cuento en el *próximo vídeo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Adelanto",
+        "en": [
+          "salio",
+          "proximo"
+        ]
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Comenta *VELA* y te mando *la guía* para practicar.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Comenta",
+        "en": [
+          "comenta",
+          "guia"
+        ]
+      }
+    }
+  ],
+  "portada": {
+    "etiqueta": "TRADING DESDE CERO",
+    "lineas": [
+      "¿QUIÉN",
+      "*GANÓ?*"
+    ],
+    "icono": "chart-candlestick"
+  }
+}
