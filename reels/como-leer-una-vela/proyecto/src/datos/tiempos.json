@@ -1,460 +1,546 @@
 {
- "voz": null,
- "motor": "sin-voz",
- "duracion": 53.904,
+ "voz": "voz_jusu.mp3",
+ "motor": "asr",
+ "velocidad": 1.08,
+ "duracion": 49.69,
  "frases": [
   {
    "texto": "¿Quién ganó esta batalla? La respuesta está en esta vela.",
-   "inicio": 0.35,
-   "fin": 3.743,
+   "inicio": 0.02,
+   "fin": 3.63,
    "palabras": [
     {
      "w": "¿Quién",
-     "t": 0.35,
+     "t": 0.02,
      "clave": false,
      "g": -1
     },
     {
      "w": "ganó",
-     "t": 0.529,
+     "t": 0.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "esta",
-     "t": 0.886,
+     "t": 0.72,
      "clave": true,
      "g": 0
     },
     {
      "w": "batalla?",
-     "t": 1.243,
+     "t": 0.88,
      "clave": true,
      "g": 0
     },
     {
      "w": "La",
-     "t": 1.779,
+     "t": 1.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "respuesta",
-     "t": 1.957,
+     "t": 1.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "está",
-     "t": 2.493,
+     "t": 2.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "en",
-     "t": 2.85,
+     "t": 2.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "esta",
-     "t": 3.029,
+     "t": 2.96,
      "clave": true,
      "g": 1
     },
     {
      "w": "vela.",
-     "t": 3.386,
+     "t": 3.2,
      "clave": true,
      "g": 1
     }
    ]
   },
   {
-   "texto": "En una gráfica diaria, cada vela es un día de batalla entre compradores y vendedores.",
-   "inicio": 4.093,
-   "fin": 9.61,
+   "texto": "Cada vela es un día de pelea entre compradores y vendedores.",
+   "inicio": 3.75,
+   "fin": 7.04,
    "palabras": [
     {
-     "w": "En",
-     "t": 4.093,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "una",
-     "t": 4.271,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "gráfica",
-     "t": 4.629,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "diaria,",
-     "t": 5.164,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "cada",
-     "t": 5.681,
+     "w": "Cada",
+     "t": 3.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "vela",
-     "t": 6.039,
+     "t": 4.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "es",
-     "t": 6.396,
+     "t": 4.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 6.574,
+     "t": 4.56,
      "clave": true,
      "g": 2
     },
     {
      "w": "día",
-     "t": 6.753,
+     "t": 4.64,
      "clave": true,
      "g": 2
     },
     {
      "w": "de",
-     "t": 6.931,
+     "t": 4.8,
      "clave": true,
      "g": 2
     },
     {
-     "w": "batalla",
-     "t": 7.11,
+     "w": "pelea",
+     "t": 4.96,
      "clave": true,
      "g": 2
     },
     {
      "w": "entre",
-     "t": 7.646,
+     "t": 5.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "compradores",
-     "t": 8.003,
+     "t": 5.6,
      "clave": true,
      "g": 3
     },
     {
      "w": "y",
-     "t": 8.717,
+     "t": 6.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "vendedores.",
-     "t": 8.896,
+     "t": 6.32,
      "clave": true,
      "g": 4
     }
    ]
   },
   {
-   "texto": "Abre en un precio… y cierra en otro.",
-   "inicio": 9.96,
-   "fin": 12.103,
+   "texto": "Abre con el primer precio del día… y cierra con el último.",
+   "inicio": 7.16,
+   "fin": 10.35,
    "palabras": [
     {
      "w": "Abre",
-     "t": 9.96,
+     "t": 7.16,
      "clave": false,
      "g": -1
     },
     {
-     "w": "en",
-     "t": 10.317,
+     "w": "con",
+     "t": 7.52,
      "clave": false,
      "g": -1
     },
     {
-     "w": "un",
-     "t": 10.496,
+     "w": "el",
+     "t": 7.68,
      "clave": false,
      "g": -1
     },
     {
-     "w": "precio…",
-     "t": 10.674,
+     "w": "primer",
+     "t": 7.84,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "precio",
+     "t": 8.08,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "del",
+     "t": 8.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "día…",
+     "t": 8.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 11.031,
+     "t": 9.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "cierra",
-     "t": 11.21,
-     "clave": true,
-     "g": 5
+     "t": 9.2,
+     "clave": false,
+     "g": -1
     },
     {
-     "w": "en",
-     "t": 11.567,
-     "clave": true,
-     "g": 5
+     "w": "con",
+     "t": 9.68,
+     "clave": false,
+     "g": -1
     },
     {
-     "w": "otro.",
-     "t": 11.746,
+     "w": "el",
+     "t": 9.84,
      "clave": true,
-     "g": 5
+     "g": 6
+    },
+    {
+     "w": "último.",
+     "t": 9.92,
+     "clave": true,
+     "g": 6
     }
    ]
   },
   {
-   "texto": "Si cierra más arriba, es blanca: ganaron los compradores.",
-   "inicio": 12.453,
-   "fin": 15.987,
+   "texto": "Lo que pasa en medio es la pelea.",
+   "inicio": 10.47,
+   "fin": 12.51,
    "palabras": [
     {
-     "w": "Si",
-     "t": 12.453,
+     "w": "Lo",
+     "t": 10.48,
      "clave": false,
      "g": -1
     },
     {
-     "w": "cierra",
-     "t": 12.631,
+     "w": "que",
+     "t": 10.64,
      "clave": false,
      "g": -1
     },
     {
-     "w": "más",
-     "t": 12.989,
+     "w": "pasa",
+     "t": 10.8,
      "clave": false,
      "g": -1
     },
     {
-     "w": "arriba,",
-     "t": 13.167,
+     "w": "en",
+     "t": 11.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "medio",
+     "t": 11.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "es",
-     "t": 13.863,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "blanca:",
-     "t": 14.041,
+     "t": 11.68,
      "clave": true,
-     "g": 6
+     "g": 7
     },
     {
-     "w": "ganaron",
-     "t": 14.559,
-     "clave": false,
-     "g": -1
+     "w": "la",
+     "t": 11.84,
+     "clave": true,
+     "g": 7
     },
     {
-     "w": "los",
-     "t": 15.094,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "compradores.",
-     "t": 15.273,
+     "w": "pelea.",
+     "t": 12.0,
      "clave": true,
      "g": 7
     }
    ]
   },
   {
-   "texto": "Si cierra más abajo, es negra: ganaron los vendedores.",
-   "inicio": 16.337,
-   "fin": 19.871,
+   "texto": "Si cierra más arriba, es blanca: ganaron los compradores.",
+   "inicio": 12.63,
+   "fin": 16.12,
    "palabras": [
     {
      "w": "Si",
-     "t": 16.337,
+     "t": 12.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "cierra",
-     "t": 16.516,
+     "t": 12.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "más",
-     "t": 16.873,
+     "t": 13.28,
      "clave": false,
      "g": -1
     },
     {
-     "w": "abajo,",
-     "t": 17.051,
+     "w": "arriba,",
+     "t": 13.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "es",
-     "t": 17.747,
+     "t": 13.92,
      "clave": false,
      "g": -1
     },
     {
-     "w": "negra:",
-     "t": 17.926,
+     "w": "blanca:",
+     "t": 14.08,
      "clave": true,
      "g": 8
     },
     {
      "w": "ganaron",
-     "t": 18.443,
+     "t": 14.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "los",
-     "t": 18.979,
+     "t": 15.28,
      "clave": false,
      "g": -1
     },
     {
-     "w": "vendedores.",
-     "t": 19.157,
+     "w": "compradores.",
+     "t": 15.44,
      "clave": true,
      "g": 9
     }
    ]
   },
   {
+   "texto": "Si cierra más abajo, es negra: ganaron los vendedores.",
+   "inicio": 16.25,
+   "fin": 19.72,
+   "palabras": [
+    {
+     "w": "Si",
+     "t": 16.25,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cierra",
+     "t": 16.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 16.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "abajo,",
+     "t": 17.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 17.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "negra:",
+     "t": 17.68,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "ganaron",
+     "t": 18.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 18.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendedores.",
+     "t": 19.04,
+     "clave": true,
+     "g": 11
+    }
+   ]
+  },
+  {
    "texto": "En muchas apps las verás en verde y rojo.",
-   "inicio": 20.221,
-   "fin": 22.543,
+   "inicio": 19.84,
+   "fin": 22.16,
    "palabras": [
     {
      "w": "En",
-     "t": 20.221,
+     "t": 19.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "muchas",
-     "t": 20.4,
+     "t": 20.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "apps",
-     "t": 20.757,
+     "t": 20.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "las",
-     "t": 20.936,
+     "t": 20.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "verás",
-     "t": 21.114,
+     "t": 20.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "en",
-     "t": 21.471,
+     "t": 21.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "verde",
-     "t": 21.65,
+     "t": 21.36,
      "clave": true,
-     "g": 10
+     "g": 12
     },
     {
      "w": "y",
-     "t": 22.007,
+     "t": 21.68,
      "clave": true,
-     "g": 10
+     "g": 12
     },
     {
      "w": "rojo.",
-     "t": 22.186,
+     "t": 21.84,
      "clave": true,
-     "g": 10
+     "g": 12
     }
    ]
   },
   {
-   "texto": "Las mechas marcan hasta dónde llegó el precio.",
-   "inicio": 22.893,
-   "fin": 25.393,
+   "texto": "Las mechas marcan el precio más alto y el más bajo del día.",
+   "inicio": 22.28,
+   "fin": 25.53,
    "palabras": [
     {
      "w": "Las",
-     "t": 22.893,
+     "t": 22.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "mechas",
-     "t": 23.071,
+     "t": 22.48,
      "clave": true,
-     "g": 11
+     "g": 13
     },
     {
      "w": "marcan",
-     "t": 23.429,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "hasta",
-     "t": 23.786,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "dónde",
-     "t": 24.143,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "llegó",
-     "t": 24.5,
+     "t": 22.89,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 24.857,
+     "t": 23.28,
      "clave": false,
      "g": -1
     },
     {
-     "w": "precio.",
-     "t": 25.036,
+     "w": "precio",
+     "t": 23.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 23.76,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "alto",
+     "t": 23.92,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "y",
+     "t": 24.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 24.4,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "más",
+     "t": 24.56,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "bajo",
+     "t": 24.72,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "del",
+     "t": 25.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "día.",
+     "t": 25.2,
      "clave": false,
      "g": -1
     }
@@ -462,164 +548,188 @@
   },
   {
    "texto": "Cuerpo largo: un bando dominó con fuerza.",
-   "inicio": 25.743,
-   "fin": 28.224,
+   "inicio": 25.65,
+   "fin": 28.35,
    "palabras": [
     {
      "w": "Cuerpo",
-     "t": 25.743,
+     "t": 25.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "largo:",
-     "t": 26.1,
+     "t": 26.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 26.617,
+     "t": 26.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "bando",
-     "t": 26.796,
+     "t": 26.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "dominó",
-     "t": 27.153,
+     "t": 27.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "con",
-     "t": 27.689,
+     "t": 27.76,
      "clave": true,
-     "g": 12
+     "g": 16
     },
     {
      "w": "fuerza.",
-     "t": 27.867,
+     "t": 27.92,
      "clave": true,
-     "g": 12
+     "g": 16
     }
    ]
   },
   {
-   "texto": "Mecha larga: lo intentó… y lo rechazaron.",
-   "inicio": 28.574,
-   "fin": 31.234,
+   "texto": "Mecha larga: un bando lo intentó… y el otro lo frenó.",
+   "inicio": 28.47,
+   "fin": 31.91,
    "palabras": [
     {
      "w": "Mecha",
-     "t": 28.574,
+     "t": 28.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "larga:",
-     "t": 28.931,
+     "t": 28.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 29.52,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "bando",
+     "t": 29.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "lo",
-     "t": 29.449,
-     "clave": false,
-     "g": -1
+     "t": 30.0,
+     "clave": true,
+     "g": 17
     },
     {
      "w": "intentó…",
-     "t": 29.627,
+     "t": 30.16,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "y",
+     "t": 30.72,
      "clave": false,
      "g": -1
     },
     {
-     "w": "y",
-     "t": 30.163,
+     "w": "el",
+     "t": 30.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "otro",
+     "t": 31.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "lo",
-     "t": 30.341,
+     "t": 31.28,
      "clave": true,
-     "g": 13
+     "g": 18
     },
     {
-     "w": "rechazaron.",
-     "t": 30.52,
+     "w": "frenó.",
+     "t": 31.44,
      "clave": true,
-     "g": 13
+     "g": 18
     }
    ]
   },
   {
    "texto": "Junta muchas velas y tienes la gráfica de esa guerra.",
-   "inicio": 31.584,
-   "fin": 34.799,
+   "inicio": 32.03,
+   "fin": 34.97,
    "palabras": [
     {
      "w": "Junta",
-     "t": 31.584,
+     "t": 32.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "muchas",
-     "t": 31.941,
+     "t": 32.56,
      "clave": false,
      "g": -1
     },
     {
      "w": "velas",
-     "t": 32.299,
+     "t": 32.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 32.656,
+     "t": 33.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "tienes",
-     "t": 32.834,
+     "t": 33.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 33.191,
+     "t": 33.68,
      "clave": true,
-     "g": 14
+     "g": 19
     },
     {
      "w": "gráfica",
-     "t": 33.37,
+     "t": 33.76,
      "clave": true,
-     "g": 14
+     "g": 19
     },
     {
      "w": "de",
-     "t": 33.906,
+     "t": 34.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "esa",
-     "t": 34.084,
+     "t": 34.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "guerra.",
-     "t": 34.441,
+     "t": 34.56,
      "clave": false,
      "g": -1
     }
@@ -627,315 +737,266 @@
   },
   {
    "texto": "Si cada mínimo es más alto que el anterior, los compradores van ganando.",
-   "inicio": 35.149,
-   "fin": 39.594,
+   "inicio": 35.09,
+   "fin": 38.98,
    "palabras": [
     {
      "w": "Si",
-     "t": 35.149,
+     "t": 35.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "cada",
-     "t": 35.327,
+     "t": 35.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "mínimo",
-     "t": 35.684,
+     "t": 35.6,
      "clave": true,
-     "g": 15
+     "g": 20
     },
     {
      "w": "es",
-     "t": 36.22,
+     "t": 36.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "más",
-     "t": 36.399,
+     "t": 36.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "alto",
-     "t": 36.577,
+     "t": 36.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "que",
-     "t": 36.934,
+     "t": 36.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 37.113,
+     "t": 36.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "anterior,",
-     "t": 37.291,
+     "t": 36.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "los",
-     "t": 37.987,
+     "t": 37.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "compradores",
-     "t": 38.166,
+     "t": 37.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "van",
-     "t": 38.88,
+     "t": 38.24,
      "clave": true,
-     "g": 16
+     "g": 21
     },
     {
      "w": "ganando.",
-     "t": 39.059,
+     "t": 38.48,
      "clave": true,
-     "g": 16
+     "g": 21
     }
    ]
   },
   {
    "texto": "¿Y la vela del principio? Blanca y con cuerpo largo: ganaron los compradores.",
-   "inicio": 39.944,
-   "fin": 44.39,
+   "inicio": 39.1,
+   "fin": 43.63,
    "palabras": [
     {
      "w": "¿Y",
-     "t": 39.944,
+     "t": 39.1,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 40.123,
+     "t": 39.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "vela",
-     "t": 40.301,
+     "t": 39.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "del",
-     "t": 40.659,
+     "t": 39.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "principio?",
-     "t": 40.837,
+     "t": 39.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "Blanca",
-     "t": 41.373,
+     "t": 40.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 41.73,
+     "t": 40.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "con",
-     "t": 41.909,
+     "t": 41.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "cuerpo",
-     "t": 42.087,
+     "t": 41.28,
      "clave": false,
      "g": -1
     },
     {
      "w": "largo:",
-     "t": 42.444,
+     "t": 41.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "ganaron",
-     "t": 42.961,
+     "t": 42.16,
      "clave": true,
-     "g": 17
+     "g": 22
     },
     {
      "w": "los",
-     "t": 43.497,
+     "t": 42.72,
      "clave": true,
-     "g": 17
+     "g": 22
     },
     {
      "w": "compradores.",
-     "t": 43.676,
+     "t": 42.88,
      "clave": true,
-     "g": 17
+     "g": 22
     }
    ]
   },
   {
-   "texto": "¿Sabes de dónde salió esta figura? Te lo cuento en el próximo vídeo.",
-   "inicio": 44.74,
-   "fin": 48.847,
-   "palabras": [
-    {
-     "w": "¿Sabes",
-     "t": 44.74,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "de",
-     "t": 45.097,
-     "clave": true,
-     "g": 18
-    },
-    {
-     "w": "dónde",
-     "t": 45.276,
-     "clave": true,
-     "g": 18
-    },
-    {
-     "w": "salió",
-     "t": 45.633,
-     "clave": true,
-     "g": 18
-    },
-    {
-     "w": "esta",
-     "t": 45.99,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "figura?",
-     "t": 46.347,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "Te",
-     "t": 46.883,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "lo",
-     "t": 47.061,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "cuento",
-     "t": 47.24,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "en",
-     "t": 47.597,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "el",
-     "t": 47.776,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "próximo",
-     "t": 47.954,
-     "clave": true,
-     "g": 19
-    },
-    {
-     "w": "vídeo.",
-     "t": 48.49,
-     "clave": true,
-     "g": 19
-    }
-   ]
-  },
-  {
-   "texto": "Comenta VELA y te mando la guía para practicar.",
-   "inicio": 49.197,
-   "fin": 52.054,
+   "texto": "Comenta VELA y te mando la guía. En el próximo, de dónde salió esta figura.",
+   "inicio": 43.75,
+   "fin": 48.21,
    "palabras": [
     {
      "w": "Comenta",
-     "t": 49.197,
+     "t": 43.75,
      "clave": false,
      "g": -1
     },
     {
      "w": "VELA",
-     "t": 49.733,
+     "t": 44.24,
      "clave": true,
-     "g": 20
+     "g": 23
     },
     {
      "w": "y",
-     "t": 50.09,
+     "t": 44.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "te",
-     "t": 50.269,
+     "t": 44.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "mando",
-     "t": 50.447,
+     "t": 44.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 50.804,
+     "t": 45.2,
      "clave": true,
-     "g": 21
+     "g": 24
     },
     {
-     "w": "guía",
-     "t": 50.983,
+     "w": "guía.",
+     "t": 45.28,
      "clave": true,
-     "g": 21
+     "g": 24
     },
     {
-     "w": "para",
-     "t": 51.161,
+     "w": "En",
+     "t": 45.76,
      "clave": false,
      "g": -1
     },
     {
-     "w": "practicar.",
-     "t": 51.519,
+     "w": "el",
+     "t": 45.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "próximo,",
+     "t": 46.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 46.56,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "dónde",
+     "t": 46.8,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "salió",
+     "t": 47.12,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "esta",
+     "t": 47.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "figura.",
+     "t": 47.76,
      "clave": false,
      "g": -1
     }

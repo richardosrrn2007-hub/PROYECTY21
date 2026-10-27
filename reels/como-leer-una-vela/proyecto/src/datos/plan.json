@@ -52,17 +52,6 @@
     {
       "texto": "¿Quién ganó *esta batalla?* La respuesta está en *esta vela.*",
       "sinSubtitulos": true,
-      "escena": {
-        "tipo": "propia",
-        "nombre": "Batalla",
-        "modo": "gancho",
-        "etiquetas": [],
-        "en": [
-          "batalla",
-          "vela",
-          "vela+10"
-        ]
-      },
       "sonidos": [
         [
           5,
@@ -139,46 +128,88 @@
           "golpe",
           0.22
         ]
-      ]
+      ],
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "gancho",
+        "etiquetas": [],
+        "en": [
+          "batalla",
+          "vela",
+          "vela+10"
+        ]
+      }
     },
     {
-      "texto": "En una gráfica diaria, cada vela es *un día de batalla* entre *compradores* y *vendedores.*",
+      "texto": "Cada vela es *un día de pelea* entre *compradores* y *vendedores.*",
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
         "modo": "batalla",
         "etiquetas": [
           "1 VELA = 1 DÍA@titulo",
-          "COMPRADORES@arriba",
-          "VENDEDORES@abajo"
+          "TORO · COMPRA@arriba",
+          "OSO · VENTA@abajo"
         ],
         "en": [
           "dia",
           "compradores",
           "vendedores"
-        ]
+        ],
+        "elenco": "cambio"
       }
     },
     {
-      "texto": "Abre en un precio… y *cierra en otro.*",
+      "texto": "Abre con el *primer precio* del día… y cierra con *el último.*",
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
         "modo": "abre",
+        "reloj": true,
         "etiquetas": [
-          "APERTURA@titulo",
+          "APERTURA · PRIMER PRECIO@titulo",
           "",
-          "CIERRE@cierre"
+          "CIERRE · ÚLTIMO PRECIO@cierre"
         ],
         "en": [
           "abre",
-          "precio",
-          "cierra"
+          "dia",
+          "ultimo"
+        ]
+      }
+    },
+    {
+      "texto": "Lo que pasa en medio *es la pelea.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Batalla",
+        "modo": "pelea",
+        "etiquetas": [
+          "EN MEDIO@titulo",
+          "LA PELEA@cierre"
+        ],
+        "en": [
+          "medio",
+          "pelea"
         ]
       }
     },
     {
       "texto": "Si cierra más arriba, es *blanca:* ganaron los *compradores.*",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          "fin-24",
+          "golpe",
+          0.35
+        ],
+        [
+          "fin-22",
+          "exito",
+          0.22
+        ]
+      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -193,8 +224,10 @@
           "blanca",
           "compradores"
         ]
-      },
-      "entrada": "barrido",
+      }
+    },
+    {
+      "texto": "Si cierra más abajo, es *negra:* ganaron los *vendedores.*",
       "sonidos": [
         [
           "fin-24",
@@ -203,13 +236,10 @@
         ],
         [
           "fin-22",
-          "exito",
+          "negacion",
           0.22
         ]
-      ]
-    },
-    {
-      "texto": "Si cierra más abajo, es *negra:* ganaron los *vendedores.*",
+      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -224,19 +254,7 @@
           "negra",
           "vendedores"
         ]
-      },
-      "sonidos": [
-        [
-          "fin-24",
-          "golpe",
-          0.35
-        ],
-        [
-          "fin-22",
-          "negacion",
-          0.22
-        ]
-      ]
+      }
     },
     {
       "texto": "En muchas apps las verás en *verde y rojo.*",
@@ -250,26 +268,38 @@
       }
     },
     {
-      "texto": "Las *mechas* marcan hasta dónde llegó el precio.",
+      "texto": "Las *mechas* marcan el precio *más alto* y *el más bajo* del día.",
+      "entrada": "barrido",
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
         "modo": "mechas",
         "etiquetas": [
-          "MÁXIMO@alto",
-          "MÍNIMO@bajo",
+          "MÁXIMO DEL DÍA@alto",
+          "MÍNIMO DEL DÍA@bajo",
           "MECHAS@titulo"
         ],
         "en": [
-          "mechas",
-          "llego",
-          "precio"
+          "alto",
+          "bajo",
+          "mechas"
         ]
-      },
-      "entrada": "barrido"
+      }
     },
     {
       "texto": "Cuerpo largo: un bando dominó *con fuerza.*",
+      "sonidos": [
+        [
+          "fin-24",
+          "golpe",
+          0.35
+        ],
+        [
+          "fin-22",
+          "exito",
+          0.22
+        ]
+      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -284,22 +314,17 @@
           "bando",
           "fuerza"
         ]
-      },
-      "sonidos": [
-        [
-          "fin-24",
-          "golpe",
-          0.35
-        ],
-        [
-          "fin-22",
-          "exito",
-          0.22
-        ]
-      ]
+      }
     },
     {
-      "texto": "Mecha larga: lo intentó… y *lo rechazaron.*",
+      "texto": "Mecha larga: un bando *lo intentó…* y el otro *lo frenó.*",
+      "sonidos": [
+        [
+          "freno",
+          "golpe",
+          0.35
+        ]
+      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -307,24 +332,18 @@
         "etiquetas": [
           "MECHA LARGA@titulo",
           "LO INTENTÓ@alto",
-          "RECHAZO@cierre"
+          "LO FRENÓ@cierre"
         ],
         "en": [
           "mecha",
           "intento",
-          "rechazaron"
+          "freno"
         ]
-      },
-      "sonidos": [
-        [
-          "rechazaron",
-          "golpe",
-          0.35
-        ]
-      ]
+      }
     },
     {
       "texto": "Junta muchas velas y tienes *la gráfica* de esa guerra.",
+      "entrada": "barrido",
       "escena": {
         "tipo": "propia",
         "nombre": "Grafica",
@@ -334,8 +353,7 @@
           "grafica",
           "guerra"
         ]
-      },
-      "entrada": "barrido"
+      }
     },
     {
       "texto": "Si cada *mínimo* es más alto que el anterior, los compradores *van ganando.*",
@@ -359,37 +377,28 @@
         "modo": "respuesta",
         "en": [
           "principio",
+          "blanca",
+          "largo",
           "ganaron"
         ]
       }
     },
     {
-      "texto": "¿Sabes *de dónde salió* esta figura? Te lo cuento en el *próximo vídeo.*",
-      "escena": {
-        "tipo": "propia",
-        "nombre": "Adelanto",
-        "en": [
-          "salio",
-          "proximo"
-        ]
-      },
-      "entrada": "barrido"
-    },
-    {
-      "texto": "Comenta *VELA* y te mando *la guía* para practicar.",
+      "texto": "Comenta *VELA* y te mando *la guía.* En el próximo, *de dónde salió* esta figura.",
       "sinSubtitulos": true,
       "escena": {
         "tipo": "propia",
         "nombre": "Comenta",
         "en": [
           "comenta",
-          "guia"
+          "guia",
+          "proximo"
         ]
       }
     }
   ],
   "portada": {
-    "etiqueta": "TRADING DESDE CERO",
+    "etiqueta": "PARTE 2",
     "lineas": [
       "¿QUIÉN",
       "*GANÓ?*"

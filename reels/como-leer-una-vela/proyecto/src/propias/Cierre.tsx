@@ -7,7 +7,7 @@ import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile
 /** Fotogramas del apagado (al final de la última escena) y del logo después del final de la voz. */
 export const TRANSICION = 34;
 /** El logo completo (su vídeo dura 8,1 s): lo que queda después de la transición. */
-export const LOGO = 225;
+export const LOGO = 60;
 export const CIERRE = LOGO;
 /** Fotograma de la transición en que empieza el vídeo del logo. */
 export const ENTRA_LOGO = 16;

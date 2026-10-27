@@ -22,53 +22,80 @@ const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 export type Animo = "tira" | "gana" | "pierde";
 
-/** Toro blanco (compradores), de frente, con los brazos hacia abajo agarrando la cuerda. Origen: centro de la cabeza. */
-export const Toro: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; manos?: number }> = ({ x, y, esc = 1, animo = "tira", manos = 190 }) => {
+/** Torso musculoso en V: hombros anchos, pectorales y abdominales. Origen: centro de la cabeza. */
+const Torso: React.FC<{ piel: string; borde: string; linea: string; pecho?: string }> = ({ piel, borde, linea, pecho }) => (
+  <g>
+    {/* trapecios y cuello */}
+    <path d="M-40 40 L-100 92 L100 92 L40 40 Z" fill={piel} stroke={borde} strokeWidth={4} strokeLinejoin="round" />
+    <path d="M-112 96 C-120 78 -90 70 -60 74 L60 74 C90 70 120 78 112 96 C104 150 74 190 58 214 L-58 214 C-74 190 -104 150 -112 96 Z" fill={piel} stroke={borde} strokeWidth={4} strokeLinejoin="round" />
+    {pecho && <ellipse cx={0} cy={150} rx={46} ry={56} fill={pecho} />}
+    {/* pectorales */}
+    <path d="M-6 96 C-30 88 -76 92 -82 116 C-78 134 -36 140 -6 128 Z M6 96 C30 88 76 92 82 116 C78 134 36 140 6 128 Z" fill="none" stroke={linea} strokeWidth={4} strokeLinejoin="round" />
+    {/* abdominales */}
+    <line x1={0} x2={0} y1={136} y2={208} stroke={linea} strokeWidth={4} strokeLinecap="round" />
+    {[150, 172, 194].map((yy) => (
+      <path key={yy} d={`M-30 ${yy} Q-16 ${yy + 5} -4 ${yy} M4 ${yy} Q16 ${yy + 5} 30 ${yy}`} fill="none" stroke={linea} strokeWidth={4} strokeLinecap="round" />
+    ))}
+  </g>
+);
+
+/** Brazo musculoso: tira de la cuerda (hasta la mano) o saca bíceps al ganar. s = lado (-1 izquierda, 1 derecha). */
+const Brazo: React.FC<{ s: number; gana: boolean; mano: [number, number]; piel: string; borde: string; puno: string; f: number }> = ({ s, gana, mano, piel, borde, puno, f }) => {
+  const flex = gana ? Math.sin(f / 5) * 6 : 0;
+  // hombro → codo → mano
+  const codo: [number, number] = gana ? [s * 178, 96 + flex] : mano[1] > 0 ? [s * 150, 170] : [s * 168, 0];
+  const fin: [number, number] = gana ? [s * 172, -14 + flex] : mano;
+  const d = `M${s * 100} 100 L${codo[0]} ${codo[1]} L${fin[0]} ${fin[1]}`;
+  // bíceps: bulto en el brazo
+  const bx = (s * 100 + codo[0]) / 2,
+    by = (100 + codo[1]) / 2 - (gana ? 14 : 0);
+  return (
+    <g>
+      <path d={d} fill="none" stroke={borde} strokeWidth={50} strokeLinecap="round" strokeLinejoin="round" />
+      <path d={d} fill="none" stroke={piel} strokeWidth={43} strokeLinecap="round" strokeLinejoin="round" />
+      <ellipse cx={bx} cy={by} rx={gana ? 34 : 30} ry={gana ? 30 : 24} transform={`rotate(${(Math.atan2(codo[1] - 100, codo[0] - s * 100) * 180) / Math.PI} ${bx} ${by})`} fill={piel} stroke={borde} strokeWidth={4} />
+      <circle cx={fin[0]} cy={fin[1]} r={21} fill={puno} stroke={borde} strokeWidth={3} />
+    </g>
+  );
+};
+
+/** Toro blanco musculoso (compradores), de frente, tirando de la cuerda hacia abajo. Origen: centro de la cabeza. */
+export const Toro: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; manos?: number }> = ({ x, y, esc = 1, animo = "tira", manos = 235 }) => {
   const f = useCurrentFrame();
   const gana = animo === "gana";
   const pierde = animo === "pierde";
-  const brazo = gana ? -1 : 1;
   const sacude = animo === "tira" ? Math.sin(f / 2.2) * 2 : gana ? Math.sin(f / 4) * 4 : 0;
   return (
     <g transform={`translate(${x + sacude},${y}) scale(${esc}) rotate(${pierde ? 8 : 0})`}>
-      {/* brazos */}
+      <Torso piel={CREMA} borde={TINTA} linea={alfa(TINTA, 0.4)} />
       {[-1, 1].map((s) => (
-        <g key={s}>
-          <path d={gana ? `M${s * 62} 110 Q${s * 110} 40 ${s * 92} -60` : `M${s * 62} 110 Q${s * 70} 160 ${s * 14} ${manos}`} fill="none" stroke={TINTA} strokeWidth={34} strokeLinecap="round" />
-          <path d={gana ? `M${s * 62} 110 Q${s * 110} 40 ${s * 92} -60` : `M${s * 62} 110 Q${s * 70} 160 ${s * 14} ${manos}`} fill="none" stroke={CREMA} strokeWidth={28} strokeLinecap="round" />
-          <circle cx={gana ? s * 92 : s * 14} cy={gana ? -64 : manos + 4} r={15} fill={TINTA} />
-        </g>
+        <Brazo key={s} s={s} gana={gana} mano={[s * 14, manos]} piel={CREMA} borde={TINTA} puno="#D9B79A" f={f} />
       ))}
-      {/* cuerpo */}
-      <path d="M-78 175 C-86 110 -60 72 0 70 C60 72 86 110 78 175 Z" fill={CREMA} stroke={TINTA} strokeWidth={4} />
-      <path d="M-30 110 Q0 128 30 110" fill="none" stroke={alfa(TINTA, 0.35)} strokeWidth={4} strokeLinecap="round" />
       {/* cuernos */}
       {[-1, 1].map((s) => (
-        <path key={`c${s}`} d={`M${s * 46} -38 C${s * 80} -48 ${s * 98} -78 ${s * 92} -112 C${s * 84} -86 ${s * 66} -66 ${s * 40} -60 Z`} fill={ORO} stroke={TINTA} strokeWidth={3} />
+        <path key={`c${s}`} d={`M${s * 46} -38 C${s * 84} -46 ${s * 104} -80 ${s * 96} -118 C${s * 86} -88 ${s * 66} -66 ${s * 40} -60 Z`} fill={ORO} stroke={TINTA} strokeWidth={3} />
       ))}
-      {/* orejas */}
       {[-1, 1].map((s) => (
-        <ellipse key={`o${s}`} cx={s * 70} cy={-12} rx={22} ry={11} transform={`rotate(${s * 20} ${s * 70} -12)`} fill={CREMA} stroke={TINTA} strokeWidth={3} />
+        <ellipse key={`o${s}`} cx={s * 72} cy={-12} rx={24} ry={11} transform={`rotate(${s * 20} ${s * 72} -12)`} fill={CREMA} stroke={TINTA} strokeWidth={3} />
       ))}
-      {/* cabeza */}
-      <path d="M-52 -50 C-58 -86 58 -86 52 -50 L56 30 C58 64 -58 64 -56 30 Z" fill={CREMA} stroke={TINTA} strokeWidth={4} />
-      {/* hocico */}
-      <ellipse cx={0} cy={34} rx={44} ry={26} fill="#D9B79A" stroke={TINTA} strokeWidth={3} />
-      <ellipse cx={-14} cy={36} rx={5} ry={7} fill={TINTA} />
-      <ellipse cx={14} cy={36} rx={5} ry={7} fill={TINTA} />
-      <path d="M-12 54 Q0 66 12 54" fill="none" stroke={ORO} strokeWidth={4} />
-      {/* ojos y cejas */}
+      {/* cabeza ancha */}
+      <path d="M-58 -50 C-64 -90 64 -90 58 -50 L62 30 C64 66 -64 66 -62 30 Z" fill={CREMA} stroke={TINTA} strokeWidth={4} />
+      <ellipse cx={0} cy={34} rx={48} ry={27} fill="#D9B79A" stroke={TINTA} strokeWidth={3} />
+      <ellipse cx={-15} cy={34} rx={5} ry={7} fill={TINTA} />
+      <ellipse cx={15} cy={34} rx={5} ry={7} fill={TINTA} />
+      {/* aro de oro en la nariz */}
+      <path d="M-14 46 Q0 72 14 46" fill="none" stroke={ORO} strokeWidth={5} />
       {[-1, 1].map((s) => (
         <g key={`e${s}`}>
-          <circle cx={s * 22} cy={-14} r={pierde ? 3 : 6} fill={TINTA} />
-          <path d={gana ? `M${s * 32} -34 Q${s * 22} -40 ${s * 12} -34` : `M${s * 34} -30 L${s * 10} -24`} stroke={TINTA} strokeWidth={5} strokeLinecap="round" fill="none" />
+          <circle cx={s * 24} cy={-14} r={pierde ? 3 : 6} fill={TINTA} />
+          <path d={gana ? `M${s * 34} -34 Q${s * 24} -40 ${s * 14} -34` : `M${s * 38} -32 L${s * 10} -22`} stroke={TINTA} strokeWidth={6} strokeLinecap="round" fill="none" />
         </g>
       ))}
     </g>
   );
 };
 
-/** Oso negro (vendedores), de frente, con los brazos hacia arriba agarrando la cuerda. Origen: centro de la cabeza. */
+/** Oso negro musculoso (vendedores), de frente, tirando de la cuerda hacia arriba. Origen: centro de la cabeza. */
 export const Oso: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; manos?: number }> = ({ x, y, esc = 1, animo = "tira", manos = -150 }) => {
   const f = useCurrentFrame();
   const gana = animo === "gana";
@@ -76,33 +103,26 @@ export const Oso: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; 
   const sacude = animo === "tira" ? Math.cos(f / 2.4) * 2 : gana ? Math.sin(f / 4) * 4 : 0;
   return (
     <g transform={`translate(${x + sacude},${y}) scale(${esc}) rotate(${pierde ? -8 : 0})`}>
-      {/* cuerpo */}
-      <path d="M-92 210 C-100 120 -66 70 0 68 C66 70 100 120 92 210 Z" fill={TINTA} stroke={LUZ} strokeWidth={3} />
-      <ellipse cx={0} cy={140} rx={44} ry={50} fill="#3A2C20" />
-      {/* brazos */}
+      <Torso piel={TINTA} borde={LUZ} linea={alfa(CREMA, 0.3)} pecho="#2E231A" />
       {[-1, 1].map((s) => (
-        <g key={s}>
-          <path d={gana ? `M${s * 70} 110 Q${s * 130} 40 ${s * 100} -60` : `M${s * 70} 110 Q${s * 100} 10 ${s * 16} ${manos}`} fill="none" stroke={LUZ} strokeWidth={42} strokeLinecap="round" />
-          <path d={gana ? `M${s * 70} 110 Q${s * 130} 40 ${s * 100} -60` : `M${s * 70} 110 Q${s * 100} 10 ${s * 16} ${manos}`} fill="none" stroke={TINTA} strokeWidth={36} strokeLinecap="round" />
-          <circle cx={gana ? s * 100 : s * 16} cy={gana ? -64 : manos - 4} r={18} fill="#3A2C20" stroke={LUZ} strokeWidth={2} />
-        </g>
+        <Brazo key={s} s={s} gana={gana} mano={[s * 16, manos]} piel={TINTA} borde={LUZ} puno="#3A2C20" f={f} />
       ))}
-      {/* orejas */}
       {[-1, 1].map((s) => (
         <g key={`o${s}`}>
-          <circle cx={s * 52} cy={-48} r={22} fill={TINTA} stroke={LUZ} strokeWidth={3} />
-          <circle cx={s * 52} cy={-48} r={10} fill="#3A2C20" />
+          <circle cx={s * 56} cy={-50} r={24} fill={TINTA} stroke={LUZ} strokeWidth={3} />
+          <circle cx={s * 56} cy={-50} r={11} fill="#3A2C20" />
         </g>
       ))}
-      {/* cabeza */}
-      <circle cx={0} cy={0} r={64} fill={TINTA} stroke={LUZ} strokeWidth={3} />
-      <ellipse cx={0} cy={24} rx={32} ry={24} fill="#5A4535" />
-      <ellipse cx={0} cy={14} rx={12} ry={8} fill="#0A0806" />
-      <path d={pierde ? "M-10 40 Q0 32 10 40" : "M-10 34 Q0 42 10 34"} fill="none" stroke="#0A0806" strokeWidth={3} strokeLinecap="round" />
+      <ellipse cx={0} cy={0} rx={70} ry={64} fill={TINTA} stroke={LUZ} strokeWidth={3} />
+      <ellipse cx={0} cy={26} rx={34} ry={25} fill="#5A4535" />
+      <ellipse cx={0} cy={15} rx={13} ry={8} fill="#0A0806" />
+      <path d={pierde ? "M-12 42 Q0 34 12 42" : "M-12 36 Q0 44 12 36"} fill="none" stroke="#0A0806" strokeWidth={3} strokeLinecap="round" />
+      {/* cicatriz de luchador */}
+      <path d="M34 -36 L48 -6 M30 -26 L44 -30 M36 -16 L50 -20" stroke={alfa(CREMA, 0.5)} strokeWidth={3} strokeLinecap="round" />
       {[-1, 1].map((s) => (
         <g key={`e${s}`}>
-          <circle cx={s * 24} cy={-10} r={pierde ? 3 : 6} fill={CREMA} />
-          <path d={gana ? `M${s * 34} -28 Q${s * 24} -34 ${s * 14} -28` : `M${s * 36} -26 L${s * 12} -18`} stroke={CREMA} strokeWidth={5} strokeLinecap="round" fill="none" />
+          <circle cx={s * 26} cy={-10} r={pierde ? 3 : 6} fill={CREMA} />
+          <path d={gana ? `M${s * 36} -28 Q${s * 26} -34 ${s * 16} -28` : `M${s * 40} -28 L${s * 12} -16`} stroke={CREMA} strokeWidth={6} strokeLinecap="round" fill="none" />
         </g>
       ))}
     </g>
@@ -303,13 +323,15 @@ export const Capitulos: React.FC<{ activo: number; y?: number }> = ({ activo, y 
     </div>
   );
 };
-const capituloDe = (modo: string) => ({ gancho: -1, batalla: 0, abre: 1, blanca: 2, negra: 2, mechas: 3, fuerza: 4, rechazo: 4 } as Record<string, number>)[modo] ?? 0;
+const capituloDe = (modo: string) => ({ gancho: -1, batalla: 0, abre: 1, pelea: 1, blanca: 2, negra: 2, mechas: 3, fuerza: 4, rechazo: 4 } as Record<string, number>)[modo] ?? 0;
 
 /** Movimiento de cámara distinto para cada escena de batalla. */
 const camara = (modo: string, t: number) => {
   switch (modo) {
     case "batalla":
       return `scale(${1 + 0.08 * t})`;
+    case "pelea":
+      return `scale(${1.06 + 0.06 * Math.sin(t * Math.PI * 3)}) rotate(${Math.sin(t * Math.PI * 4) * 1.5}deg)`;
     case "abre":
       return `perspective(1600px) rotateY(${10 - 10 * t}deg) scale(${1.04 - 0.04 * t})`;
     case "blanca":
@@ -325,6 +347,29 @@ const camara = (modo: string, t: number) => {
     default:
       return "";
   }
+};
+
+/** Reloj de la sesión: corre de 9:30 (apertura) a 16:00 (cierre). */
+const Reloj: React.FC<{ f: number; desde: number; hasta: number }> = ({ f, desde, hasta }) => {
+  const t = pr(f, desde, Math.max(10, hasta - desde), Easing.inOut(Easing.cubic));
+  const min = Math.round(570 + (960 - 570) * t);
+  const hh = Math.floor(min / 60),
+    mm = String(min % 60).padStart(2, "0");
+  const ang = (min / 60) * 30;
+  const cierra = f >= hasta - 2;
+  return (
+    <div style={{ position: "absolute", left: 60, top: 1090, display: "flex", alignItems: "center", gap: 18, transform: `scale(${sp(f, desde - 6, REBOTE)})` }}>
+      <svg width={90} height={90}>
+        <circle cx={45} cy={45} r={40} fill={TINTA} stroke={ORO} strokeWidth={5} />
+        <line x1={45} y1={45} x2={45 + 22 * Math.sin((ang * Math.PI) / 180)} y2={45 - 22 * Math.cos((ang * Math.PI) / 180)} stroke={CREMA} strokeWidth={6} strokeLinecap="round" />
+        <line x1={45} y1={45} x2={45 + 32 * Math.sin((min % 60) * 6 * Math.PI / 180)} y2={45 - 32 * Math.cos((min % 60) * 6 * Math.PI / 180)} stroke={ORO} strokeWidth={4} strokeLinecap="round" />
+      </svg>
+      <div>
+        <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 52, color: CREMA, fontVariantNumeric: "tabular-nums" }}>{hh}:{mm}</div>
+        <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, letterSpacing: 4, color: cierra ? ORO : alfa(CREMA, 0.6) }}>{cierra ? "CIERRE" : min <= 572 ? "APERTURA" : "SESIÓN"}</div>
+      </div>
+    </div>
+  );
 };
 
 // ---------------------------------------------------------------- la batalla
@@ -348,6 +393,11 @@ const recorrido = (modo: string, b: number[], dur: number): Clave[] => {
     case "gancho": {
       const out: Clave[] = [[0, 0.5]];
       for (let t = 5, k = 0; t < fin; t += 7, k++) out.push([t, k % 2 ? 0.12 + 0.08 * ((k * 7) % 3) / 2 : 0.88 - 0.08 * ((k * 5) % 3) / 2]);
+      return out;
+    }
+    case "pelea": {
+      const out: Clave[] = [[0, 0.62]];
+      for (let t = 6, k = 0; t < fin; t += 11, k++) out.push([t, k % 2 ? 0.25 + 0.1 * rnd(k) : 0.78 - 0.1 * rnd(k + 3)]);
       return out;
     }
     case "abre":
@@ -400,6 +450,14 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const tensa = 1 + Math.abs(vel) * 40;
   const etiquetas = arr<string>(p, "etiquetas");
   const gancho = modo === "gancho";
+  // elenco: magnates en el gancho; luego toro y oso musculosos ("cambio": los magnates se transforman en cada momento)
+  const elenco = txt(p, "elenco", gancho ? "magnates" : "animales");
+  const cambio = elenco === "cambio";
+  const [, cT = 0, cO = 0] = b;
+  const toroYa = elenco === "animales" || (cambio && f >= cT - 2);
+  const osoYa = elenco === "animales" || (cambio && f >= cO - 2);
+  const popToro = cambio ? sp(f, cT - 2, REBOTE) : 1;
+  const popOso = cambio ? sp(f, cO - 2, REBOTE) : 1;
   const [gb0 = 0, gb1 = 20] = b;
   // golpe de cámara en cada cambio de sentido
   const choque = gancho ? temblor(f, Math.floor((f - 5) / 7) * 7 + 5, 10, 6) : { x: 0, y: 0 };
@@ -422,17 +480,17 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <rect x={540 - 95} y={Math.min(yA, yC)} width={190} height={Math.max(4, Math.abs(yC - yA))} rx={4} fill={sube ? CREMA : TINTA} stroke={CREMA} strokeWidth={5} />
         {gancho && <circle cx={540} cy={yC} r={Math.min(150, 70 + Math.abs(vel) * 600)} fill="none" stroke={ORO} strokeWidth={3} opacity={Math.min(1, Math.abs(vel) * 25)} />}
         {/* cuerda */}
-        <path d={`M540 ${yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={8} />
+        <path d={`M540 ${toroYa ? yToro + 20 + 235 * 0.95 : yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={8} />
         <path d={`M540 ${yC} Q${540 - Math.sin(f / 2) * 6 / tensa} ${(yOso + yC) / 2} 540 ${yOso - 150 * 1.05}`} fill="none" stroke={ORO} strokeWidth={8} />
         <circle cx={540} cy={yC} r={16} fill={ORO} stroke={TINTA} strokeWidth={3} />
-        <Magnate x={540} y={yToro} esc={1.05} animo={animoToro} arriba />
-        <Magnate x={540} y={yOso} esc={1.05} animo={animoOso} arriba={false} />
+        {toroYa ? <Toro x={540} y={yToro + 20} esc={0.95 * popToro} animo={animoToro} /> : <Magnate x={540} y={yToro} esc={1.05} animo={animoToro} arriba />}
+        {osoYa ? <Oso x={540} y={yOso} esc={1.05 * popOso} animo={animoOso} /> : <Magnate x={540} y={yOso} esc={1.05} animo={animoOso} arriba={false} />}
       </svg>
       {/* precio que sigue al nudo */}
       <div style={{ position: "absolute", left: 660, top: yC - 24, background: sube ? CREMA : TINTA, color: sube ? TINTA : CREMA, border: `2px solid ${CREMA}`, borderRadius: 10, padding: "4px 14px", fontFamily: F.texto, fontWeight: 800, fontSize: 28, fontVariantNumeric: "tabular-nums" }}>
         {numeroES(228 + (precio - 0.5) * 12, 2)}
       </div>
-      <div style={{ position: "absolute", left: 760, top: yA - 44, fontFamily: SECUND, fontSize: 30, color: ORO, opacity: pr(f, 0, 10) }}>abre</div>
+      <div style={{ position: "absolute", left: 180, top: yA - 44, fontFamily: SECUND, fontSize: 30, color: ORO, opacity: pr(f, 0, 10) }}>abre</div>
       {/* etiquetas de cada momento */}
       {(() => {
         // posiciones sin pisarse: cada etiqueta de la columna izquierda queda al menos 64 px de las anteriores
@@ -441,7 +499,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         const d = b[k];
         if (!t || d === undefined || f < d - 2) return null;
         const [texto, lugar] = t.split("@");
-        const y = lugar === "arriba" ? 300 : lugar === "abajo" ? 1060 : lugar === "cierre" ? yC - 30 : lugar === "alto" ? yDe(hi) - 30 : lugar === "bajo" ? yDe(lo) - 20 : 380;
+        const y = lugar === "arriba" ? 262 : lugar === "abajo" ? 1030 : lugar === "cierre" ? yC - 30 : lugar === "alto" ? yDe(hi) - 30 : lugar === "bajo" ? yDe(lo) - 20 : 380;
         const x = lugar === "arriba" || lugar === "abajo" ? 690 : 110;
         let yy = y;
         if (x === 110) {
@@ -451,12 +509,14 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
           if (texto.length > 10) usados.push(yy + 64);
         }
         return (
-          <div key={k} style={{ position: "absolute", left: x, width: 340, top: yy, textAlign: "left", transform: `scale(${sp(f, d - 2, REBOTE)})`, transformOrigin: "0 50%", fontFamily: principalPara(texto), fontSize: lugar === "titulo" ? 52 : 44, lineHeight: 1.05, color: lugar === "abajo" ? ROJO : ORO, textShadow: "0 4px 14px rgba(0,0,0,0.85)" }}>
-            {texto}
+          <div key={k} style={{ position: "absolute", left: x === 110 ? x : 590, width: 340, top: yy, textAlign: x === 110 ? "left" : "right", transform: `scale(${sp(f, d - 2, REBOTE)})`, transformOrigin: x === 110 ? "0 50%" : "100% 50%", fontFamily: principalPara(texto), fontSize: lugar === "titulo" ? 52 : 44, lineHeight: 1.05, color: lugar === "abajo" ? ROJO : ORO, textShadow: "0 4px 14px rgba(0,0,0,0.85)" }}>
+            {x === 110 ? texto : texto.split(" · ").map((l, i) => <div key={i} style={{ fontSize: i ? 34 : 54, fontFamily: i ? SECUND : principalPara(l) }}>{l}</div>)}
           </div>
         );
       });
       })()}
+      {cambio && <Chispas desde={cT - 2} x={540} y={yToro + 60} n={22} r={240} color={CREMA} />}
+      {cambio && <Chispas desde={cO - 2} x={540} y={yOso + 60} n={22} r={240} color={ORO} />}
       {ganador && <Chispas desde={dur - 24} x={540} y={ganador === "toro" ? 300 : 1060} n={18} r={260} color={ganador === "toro" ? CREMA : ORO} />}
       {gancho && [0, 1, 2, 3, 4, 5].map((k) => <Chispas key={k} desde={5 + k * 7} x={540} y={yDe(k % 2 ? 0.88 : 0.12)} n={10} r={150} color={k % 2 ? CREMA : ORO} />)}
       {gancho && f >= gb1 - 4 && (
@@ -464,6 +524,10 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
       )}
     </AbsoluteFill>
     {!gancho && <Capitulos activo={capituloDe(modo)} />}
+    {!!p.reloj && <Reloj f={f} desde={b[0] ?? 0} hasta={b[2] ?? dur} />}
+    {gancho && (
+      <div style={{ position: "absolute", right: 50, top: 210, transform: `scale(${sp(f, 4, REBOTE)}) rotate(-4deg)`, background: ORO, color: TINTA, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 5, padding: "10px 26px", borderRadius: 40, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>PARTE 2</div>
+    )}
     {gancho && (
       <div style={{ position: "absolute", left: 0, right: 0, top: -20, textAlign: "center" }}>
         <div>
@@ -486,7 +550,8 @@ export const batalla: DefEscena = {
   C: Batalla,
   momentos: (p) => Math.max(3, arr(p, "etiquetas").length),
   alInicio: () => true,
-  sonidos: () => [
+  sonidos: (p) => [
+    ...(txt(p, "elenco") === "cambio" ? ([[1, "pop", 0.35], [2, "pop", 0.35]] as [number, string, number][]) : []),
     [0, "swoosh", 0.25],
     [1, "golpe", 0.25],
     [2, "swoosh", 0.22],
@@ -519,13 +584,15 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const t1 = final ? "¿Y la vela" : "¿Quién ganó";
   const t2 = final ? "DEL PRINCIPIO?" : "ESTA BATALLA?";
   const tam2 = encajar(t2, 860, 130, principalPara(t2));
-  const sello = sp(f, b1, REBOTE);
+  // en la respuesta: dos comprobaciones (blanca, cuerpo largo) y luego el sello
+  const [, c1 = 1e9, c2 = 1e9, c3 = b1] = b;
+  const sello = sp(f, final ? c3 : b1, REBOTE);
   return (
     <AbsoluteFill>
       <AbsoluteFill style={{ transform: `translateY(${372 * aleja - 120 * (1 - aleja)}px) scale(${0.62 + 0.63 * (1 - aleja)})`, transformOrigin: "540px 262px" }}>
         <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b0, b1]} cabecera="AAPL · 1D">
           <Halo x={540} y={560} r={380} op={0.18} />
-          <VelaReto f={f} desde={final ? -40 : 0} respuesta={final ? b1 : 1e9} />
+          <VelaReto f={f} desde={final ? -40 : 0} respuesta={final ? c1 : 1e9} />
           {!final && <div style={{ position: "absolute", left: 640, top: 380, fontFamily: PRINCIPAL, fontSize: 140, color: ORO, transform: `rotate(${Math.sin(f / 7) * 10}deg) scale(${sp(f, b0)})` }}>?</div>}
         </Escritorio>
       </AbsoluteFill>
@@ -541,21 +608,32 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
           </Revela>
         </div>
       </div>
+      {final && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 660, display: "flex", justifyContent: "center", gap: 24 }}>
+          {([["BLANCA", c1], ["CUERPO LARGO", c2]] as [string, number][]).map(([t, d]) =>
+            f >= d - 2 ? (
+              <div key={t} style={{ display: "flex", alignItems: "center", gap: 10, transform: `scale(${sp(f, d - 2, REBOTE)})`, fontFamily: F.texto, fontWeight: 800, fontSize: 32, letterSpacing: 3, color: CREMA, background: alfa(TINTA, 0.85), border: `3px solid ${ORO}`, borderRadius: 40, padding: "8px 22px" }}>
+                <span style={{ color: ORO, fontSize: 38 }}>✓</span> {t}
+              </div>
+            ) : null,
+          )}
+        </div>
+      )}
       {final && sello > 0 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 520, display: "flex", justifyContent: "center", transform: `scale(${sello}) rotate(-6deg)` }}>
           <div style={{ fontFamily: principalPara("GANARON LOS COMPRADORES"), fontSize: 50, color: TINTA, background: CREMA, border: `4px solid ${ORO}`, borderRadius: 14, padding: "6px 24px", boxShadow: `0 0 40px ${alfa(ORO, 0.5)}` }}>GANARON LOS COMPRADORES</div>
         </div>
       )}
-      {final && f >= b1 && (
+      {final && f >= c3 && (
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
-          <Magnate x={880} y={780} esc={0.55} animo="gana" arriba />
+          <Toro x={880} y={780} esc={0.5} animo="gana" />
         </svg>
       )}
     </AbsoluteFill>
   );
 };
 
-export const reto: DefEscena = { C: Reto, momentos: 2, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "respuesta" ? [[1, "exito", 0.3]] : [[0, "burbuja", 0.3]]) };
+export const reto: DefEscena = { C: Reto, momentos: (p) => (txt(p, "modo") === "respuesta" ? 4 : 2), alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "respuesta" ? [[1, "tic", 0.3], [2, "tic", 0.3], [3, "exito", 0.3]] : [[0, "burbuja", 0.3]]) };
 
 // ---------------------------------------------------------------- apps: verde y rojo
 
@@ -684,7 +762,7 @@ export const adelanto: DefEscena = { C: Adelanto, momentos: 2, sonidos: () => [[
 
 const Comenta: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
-  const [b0 = 0, b1 = 20] = b;
+  const [b0 = 0, b1 = 20, b2 = 1e9] = b;
   const guia = sp(f, b1 - 2, REBOTE);
   return (
     <AbsoluteFill>
@@ -714,9 +792,18 @@ const Comenta: React.FC<PropsEscena> = ({ b, dur }) => {
         <span style={{ fontFamily: SECUND, fontSize: 80, color: C.texto }}>Comenta</span>
         <span style={{ fontFamily: PRINCIPAL, fontSize: 130, color: ORO, background: alfa(ORO, 0.12), border: `4px solid ${ORO}`, borderRadius: 24, padding: "0 26px", transform: `rotate(${Math.sin(f / 8) * 3}deg)`, display: "inline-block" }}>VELA</span>
       </div>
+      {f >= b2 - 2 && f < dur - TRANSICION && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 850, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)}) rotate(-2deg)` }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, background: "#E9D8B4", color: "#4A3422", border: `4px solid ${ORO}`, padding: "14px 30px", borderRadius: 16, boxShadow: "0 20px 50px rgba(0,0,0,0.6)" }}>
+            <Icono nombre="play" tam={34} color="#4A3422" />
+            <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 28, letterSpacing: 4 }}>PRÓXIMO:</span>
+            <span style={{ fontFamily: SECUND, fontSize: 44 }}>¿de dónde salió?</span>
+          </div>
+        </div>
+      )}
     </AbsoluteFill>
   );
 };
-export const comenta: DefEscena = { C: Comenta, momentos: 2, alInicio: () => true, sonidos: () => [[0, "pop", 0.3], [1, "campana", 0.25]] };
+export const comenta: DefEscena = { C: Comenta, momentos: 3, alInicio: () => true, sonidos: () => [[0, "pop", 0.3], [1, "campana", 0.25], [2, "papel", 0.3]] };
 
 export { Personaje };
