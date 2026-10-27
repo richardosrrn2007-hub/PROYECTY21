@@ -109,6 +109,81 @@ export const Oso: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; 
   );
 };
 
+/** Magnate de frente (gente con plata): traje, bigote de manillar y sombrero. Origen: centro de la cabeza.
+ * arriba = true: está encima de la vela y tira con los brazos hacia abajo (comprador). false: tira hacia arriba (vendedor). */
+const PIEL = "#D9A77C";
+export const Magnate: React.FC<{ x: number; y: number; esc?: number; animo?: Animo; arriba: boolean }> = ({ x, y, esc = 1, animo = "tira", arriba }) => {
+  const f = useCurrentFrame();
+  const gana = animo === "gana";
+  const pierde = animo === "pierde";
+  const traje = arriba ? CREMA : TINTA;
+  const borde = arriba ? TINTA : LUZ;
+  const manos = arriba ? 190 : -150;
+  const sacude = animo === "tira" ? Math.sin(f / (arriba ? 2.2 : 2.4)) * 2 : gana ? Math.sin(f / 4) * 4 : 0;
+  const brazo = (s: number) =>
+    gana ? `M${s * 64} 100 Q${s * 120} 30 ${s * 96} -66` : arriba ? `M${s * 64} 100 Q${s * 74} 160 ${s * 14} ${manos}` : `M${s * 70} 110 Q${s * 130} -40 ${s * 18} ${manos}`;
+  const mano = (s: number): [number, number] => (gana ? [s * 96, -72] : [s * 14, manos + (arriba ? 6 : -6)]);
+  return (
+    <g transform={`translate(${x + sacude},${y}) scale(${esc}) rotate(${pierde ? (arriba ? 8 : -8) : 0})`}>
+      {/* brazos (mangas del traje) */}
+      {[-1, 1].map((s) => (
+        <g key={s}>
+          <path d={brazo(s)} fill="none" stroke={borde} strokeWidth={38} strokeLinecap="round" />
+          <path d={brazo(s)} fill="none" stroke={traje} strokeWidth={32} strokeLinecap="round" />
+          <circle cx={mano(s)[0]} cy={mano(s)[1]} r={15} fill={PIEL} stroke={TINTA} strokeWidth={2} />
+        </g>
+      ))}
+      {/* cuerpo: traje con solapas, camisa y corbata */}
+      <path d="M-84 200 C-90 118 -62 72 0 70 C62 72 90 118 84 200 Z" fill={traje} stroke={borde} strokeWidth={4} />
+      <path d="M-22 72 L0 130 L22 72 Z" fill="#FFFFFF" />
+      <path d="M-7 82 L7 82 L11 150 L0 166 L-11 150 Z" fill={arriba ? ORO : ROJO} />
+      <path d="M-22 72 L-6 128 L-42 96 Z M22 72 L6 128 L42 96 Z" fill={arriba ? "#E2D6BE" : "#2A231B"} stroke={borde} strokeWidth={2} />
+      {arriba && <path d="M40 110 l10 -8 l6 10" fill="none" stroke={ORO} strokeWidth={3} />}
+      {/* cuello y cabeza */}
+      <rect x={-18} y={42} width={36} height={32} rx={10} fill={PIEL} />
+      <ellipse cx={0} cy={0} rx={52} ry={58} fill={PIEL} stroke={TINTA} strokeWidth={3} />
+      <ellipse cx={-52} cy={6} rx={9} ry={14} fill={PIEL} stroke={TINTA} strokeWidth={2} />
+      <ellipse cx={52} cy={6} rx={9} ry={14} fill={PIEL} stroke={TINTA} strokeWidth={2} />
+      {/* pelo de los lados */}
+      <path d="M-50 -14 Q-56 -40 -36 -50 M50 -14 Q56 -40 36 -50" fill="none" stroke="#3A2A1C" strokeWidth={9} strokeLinecap="round" />
+      {/* ojos: gafas de sol el vendedor */}
+      {arriba ? (
+        [-1, 1].map((s) => (
+          <g key={`o${s}`}>
+            <circle cx={s * 20} cy={-6} r={pierde ? 3 : 5} fill={TINTA} />
+            <path d={gana ? `M${s * 30} -24 Q${s * 20} -30 ${s * 10} -24` : `M${s * 32} -20 L${s * 10} -15`} stroke="#3A2A1C" strokeWidth={5} strokeLinecap="round" fill="none" />
+          </g>
+        ))
+      ) : (
+        <g>
+          <rect x={-42} y={-18} width={36} height={24} rx={8} fill={TINTA} stroke={LUZ} strokeWidth={2} />
+          <rect x={6} y={-18} width={36} height={24} rx={8} fill={TINTA} stroke={LUZ} strokeWidth={2} />
+          <line x1={-6} x2={6} y1={-8} y2={-8} stroke={LUZ} strokeWidth={3} />
+          <line x1={-34} x2={-24} y1={-12} y2={-12} stroke={alfa("#FFFFFF", 0.5)} strokeWidth={2} />
+        </g>
+      )}
+      {/* nariz y bigote de manillar */}
+      <ellipse cx={0} cy={12} rx={9} ry={11} fill="#C48E66" />
+      <path d={`M0 26 C-14 20 -30 22 -40 30 C-48 36 -50 26 -44 22 M0 26 C14 20 30 22 40 30 C48 36 50 26 44 22`} fill="none" stroke="#2A1D12" strokeWidth={9} strokeLinecap="round" />
+      <path d={pierde ? "M-10 44 Q0 38 10 44" : gana ? "M-12 38 Q0 50 12 38" : "M-10 40 L10 40"} fill="none" stroke="#2A1D12" strokeWidth={3} strokeLinecap="round" />
+      {/* sombrero: copa blanca el comprador, bombín negro el vendedor */}
+      {arriba ? (
+        <g transform={gana ? `translate(0 ${-14 - Math.abs(Math.sin(f / 5)) * 12})` : undefined}>
+          <rect x={-60} y={-56} width={120} height={12} rx={6} fill={CREMA} stroke={TINTA} strokeWidth={3} />
+          <rect x={-38} y={-128} width={76} height={74} rx={6} fill={CREMA} stroke={TINTA} strokeWidth={3} />
+          <rect x={-38} y={-70} width={76} height={12} fill={ORO} />
+        </g>
+      ) : (
+        <g>
+          <ellipse cx={0} cy={-50} rx={66} ry={12} fill={TINTA} stroke={LUZ} strokeWidth={2} />
+          <path d="M-42 -50 C-42 -112 42 -112 42 -50 Z" fill={TINTA} stroke={LUZ} strokeWidth={2} />
+          <rect x={-42} y={-62} width={84} height={9} fill={ROJO} opacity={0.8} />
+        </g>
+      )}
+    </g>
+  );
+};
+
 // ---------------------------------------------------------------- la batalla
 
 /** Precio (0 = mínimo de la pantalla, 1 = máximo) a lo largo de la escena, según el modo. */
@@ -204,8 +279,8 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <path d={`M540 ${yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={8} />
         <path d={`M540 ${yC} Q${540 - Math.sin(f / 2) * 6 / tensa} ${(yOso + yC) / 2} 540 ${yOso - 150 * 1.05}`} fill="none" stroke={ORO} strokeWidth={8} />
         <circle cx={540} cy={yC} r={16} fill={ORO} stroke={TINTA} strokeWidth={3} />
-        <Toro x={540} y={yToro} esc={1.05} animo={animoToro} />
-        <Oso x={540} y={yOso} esc={1.05} animo={animoOso} />
+        <Magnate x={540} y={yToro} esc={1.05} animo={animoToro} arriba />
+        <Magnate x={540} y={yOso} esc={1.05} animo={animoOso} arriba={false} />
       </svg>
       {/* precio que sigue al nudo */}
       <div style={{ position: "absolute", left: 660, top: yC - 24, background: sube ? CREMA : TINTA, color: sube ? TINTA : CREMA, border: `2px solid ${CREMA}`, borderRadius: 10, padding: "4px 14px", fontFamily: F.texto, fontWeight: 800, fontSize: 28, fontVariantNumeric: "tabular-nums" }}>
@@ -326,7 +401,7 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
       )}
       {final && f >= b1 && (
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
-          <Toro x={880} y={760} esc={0.55} animo="gana" />
+          <Magnate x={880} y={780} esc={0.55} animo="gana" arriba />
         </svg>
       )}
     </AbsoluteFill>
