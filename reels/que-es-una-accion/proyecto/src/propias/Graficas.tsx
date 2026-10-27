@@ -318,6 +318,46 @@ export const precioDef: DefEscena = {
 
 // ---------------------------------------------------------------- ganar / perder
 
+/** Billete dibujado: verde apagado de la paleta, borde crema y el signo $ en el centro. */
+const Billete: React.FC<{ x: number; y: number; giro: number; escala?: number; op?: number; voltea?: number }> = ({ x, y, giro, escala = 1, op = 1, voltea = 1 }) => (
+  <div style={{ position: "absolute", left: x - 85, top: y - 40, width: 170, height: 80, transform: `rotate(${giro}deg) scale(${escala}, ${escala * voltea})`, opacity: op, borderRadius: 8, background: "linear-gradient(135deg, #5E8550 0%, #3F6439 100%)", border: "2px solid rgba(246,236,210,0.55)", boxShadow: "0 8px 20px rgba(0,0,0,0.45)" }}>
+    <div style={{ position: "absolute", inset: 6, borderRadius: 5, border: "1.5px solid rgba(246,236,210,0.35)" }} />
+    <div style={{ position: "absolute", left: 61, top: 16, width: 48, height: 48, borderRadius: 24, background: "rgba(246,236,210,0.18)", border: "1.5px solid rgba(246,236,210,0.5)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CLAVE, fontSize: 34, color: "#F6ECD2" }}>$</div>
+    <div style={{ position: "absolute", left: 12, top: 8, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
+    <div style={{ position: "absolute", right: 12, bottom: 6, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
+  </div>
+);
+
+/** Ganas: los billetes caen y se abren en abanico. Pierdes: salen volando. */
+const Billetes: React.FC<{ x: number; y: number; desde: number; modo: "gana" | "pierde" }> = ({ x, y, desde, modo }) => {
+  const f = useCurrentFrame();
+  if (f < desde - 2) return null;
+  const n = 6;
+  const gana = modo === "gana";
+  const col = gana ? VERDE : ROJO;
+  const cuenta = pr(f, desde, 16, Easing.out(Easing.cubic));
+  return (
+    <>
+      {Array.from({ length: n }).map((_, k) => {
+        const d = desde + k * 2;
+        if (gana) {
+          const c = sp(f, d, { damping: 11, stiffness: 140, mass: 0.6 });
+          const ab = pr(f, desde + n * 2, 10, Easing.out(Easing.back(1.6)));
+          return <Billete key={k} x={x + (k - (n - 1) / 2) * 14 * ab} y={y - 320 * (1 - c)} giro={(k - (n - 1) / 2) * 12 * ab + (1 - c) * 40} escala={1} op={Math.min(1, c * 2)} />;
+        }
+        // pierde: arrancan juntos y salen volando cada uno hacia un lado, girando
+        const t = pr(f, d, 22, Easing.in(Easing.quad));
+        const ang = -2.4 + k * 0.32;
+        return <Billete key={k} x={x + Math.cos(ang) * 520 * t} y={y + Math.sin(ang) * 420 * t + 140 * t * t} giro={(k - 2.5) * 6 + t * (k % 2 ? 260 : -220)} escala={1 - 0.35 * t} op={1 - t} voltea={Math.cos(t * Math.PI * 3)} />;
+      })}
+      <div style={{ position: "absolute", left: x + 130, top: y - 50, fontFamily: CLAVE, fontSize: 92, color: col, whiteSpace: "nowrap", transform: `scale(${sp(f, desde + 4)})`, transformOrigin: "0 50%", textShadow: `0 0 30px ${alfa(col, 0.4)}, 0 4px 14px rgba(0,0,0,0.85)` }}>
+        {gana ? "+" : "−"}
+        {numeroES(1000 * cuenta, 0)} $
+      </div>
+    </>
+  );
+};
+
 const GanarPerder: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0, b1, b2, b3, b4, b5] = b;
@@ -360,6 +400,8 @@ const GanarPerder: React.FC<PropsEscena> = ({ b }) => {
       </Caja>
       <Chispas desde={b3} x={A.h[0]} y={A.h[1]} color={VERDE} />
       <Chispas desde={b5} x={B.h[0]} y={B.h[1]} color={ROJO} />
+      <Billetes x={250} y={455} desde={b3} modo="gana" />
+      <Billetes x={260} y={820} desde={b5} modo="pierde" />
     </AbsoluteFill>
   );
 };
