@@ -1,0 +1,39 @@
+{
+  "intro": "Ya conoces las bases del método LFX. Ahora vamos a ponerlas a prueba: tres preguntas, cinco segundos para cada una. ¿Listo?",
+  "questions": [
+    {
+      "question": "¿A quién se le llama «ballena» en el trading institucional?",
+      "say": "Primera pregunta: ¿a quién se le llama ballena en el trading institucional?",
+      "options": [
+        "Quien opera con grandes cantidades de capital",
+        "Quien mantiene operaciones abiertas durante meses",
+        "Quien hace muchas operaciones pequeñas"
+      ],
+      "correct": 0,
+      "answer": "La A. Ballena es un participante con gran capital, cuyas operaciones pueden influir en el precio. Pero no controla todo el mercado."
+    },
+    {
+      "question": "En Forex, ¿qué grupo concentra gran parte del volumen negociado?",
+      "say": "Segunda pregunta: en Forex, ¿qué grupo concentra gran parte del volumen negociado?",
+      "options": [
+        "Traders individuales con su propio dinero",
+        "Empresas que compran y venden bienes",
+        "Bancos, fondos e instituciones financieras"
+      ],
+      "correct": 2,
+      "answer": "La C. Los bancos y otras instituciones financieras tienen un papel central en el volumen de Forex. También participan empresas y traders individuales."
+    },
+    {
+      "question": "¿Cuál de estos participantes es un trader retail?",
+      "say": "Última pregunta: ¿cuál de estos participantes es un trader retail?",
+      "options": [
+        "Un fondo que administra dinero de inversionistas",
+        "Una persona que opera su propia cuenta",
+        "Un banco que opera para sus clientes"
+      ],
+      "correct": 1,
+      "answer": "La B. El trader retail es un participante individual que opera por cuenta propia."
+    }
+  ],
+  "result": "¿Cuántas acertaste? Escribe tu resultado: uno, dos o tres de tres. Nos vemos en el próximo reto LFX."
+}
