@@ -651,7 +651,7 @@ export const batalla: DefEscena = {
   momentos: (p) => Math.max(3, arr(p, "etiquetas").length),
   alInicio: () => true,
   // solo suenan los momentos importantes: el resto lo ponen las frases del plan (ganar, perder, swoosh de capítulo)
-  sonidos: (p) => (txt(p, "elenco") === "cambio" ? [[1, "pop", 0.35], [2, "pop", 0.35]] : []),
+  sonidos: (p) => (txt(p, "elenco") === "cambio" ? [[1, "transforma", 0.4], [2, "transforma", 0.4]] : []),
 };
 
 // ---------------------------------------------------------------- reto: la vela del gancho

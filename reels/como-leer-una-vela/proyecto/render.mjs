@@ -105,7 +105,7 @@ const mezclarAudio = (a, fps, destino) => {
     entradas.push("-i", archivo);
     const n = entradas.filter((x) => x === "-i").length - 1;
     const ms = Math.max(0, Math.round((e.en / fps) * 1000));
-    filtros.push(`[${n}:a]atrim=0:${e.s === "ambiente" ? dur : 2},aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=${e.vol},adelay=${ms}|${ms}[e${k}]`);
+    filtros.push(`[${n}:a]atrim=0:${["ambiente", "reloj"].includes(e.s) ? dur : 2},aresample=48000,aformat=sample_fmts=fltp:channel_layouts=stereo,volume=${e.vol},adelay=${ms}|${ms}[e${k}]`);
     pistas.push(`[e${k}]`);
   });
   filtros.push(`${pistas.join("")}amix=inputs=${pistas.length}:normalize=0:duration=first,atrim=0:${dur}[m]`);

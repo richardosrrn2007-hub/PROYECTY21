@@ -36,3 +36,7 @@ Antes de empezar un vídeo nuevo, leer esto.
 
 ## Voz
 - ElevenLabs, voz clonada «JUSU» (voice_id 3FJV5P6lWp5AD8SVqCYw).
+
+## Sonidos
+- Efectos de lucha (VS, campana, puñetazos, cuerda, reloj, transformación, zip): packs CC0 de kenney.nl (impact, rpg, interface, sci-fi). Gratis y sin atribución.
+- Regla: un sonido solo en momentos importantes; swoosh solo al cambiar de capítulo; nada de ambiente de fondo.

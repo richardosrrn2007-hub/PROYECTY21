@@ -65,19 +65,24 @@
       },
       "sonidos": [
         [
+          4,
+          "vs",
+          0.5
+        ],
+        [
           29,
-          "golpe",
-          0.3
+          "punetazo",
+          0.45
         ],
         [
           42,
-          "golpe",
-          0.3
+          "punetazo2",
+          0.45
         ],
         [
           78,
-          "golpe",
-          0.3
+          "punetazo3",
+          0.5
         ]
       ]
     },
@@ -98,7 +103,14 @@
           "vendedores"
         ],
         "elenco": "cambio"
-      }
+      },
+      "sonidos": [
+        [
+          2,
+          "ring",
+          0.3
+        ]
+      ]
     },
     {
       "texto": "Abre con el *primer precio* del día… y cierra con *el último.*",
@@ -117,7 +129,14 @@
           "dia",
           "ultimo"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "abre",
+          "reloj",
+          0.3
+        ]
+      ]
     },
     {
       "texto": "Lo que pasa en medio *es la pelea.*",
@@ -154,7 +173,17 @@
         [
           2,
           "swoosh",
-          0.25
+          0.22
+        ],
+        [
+          "cierra",
+          "cuerda",
+          0.4
+        ],
+        [
+          "fin-24",
+          "punetazo3",
+          0.4
         ],
         [
           "fin-24",
@@ -181,6 +210,16 @@
         ]
       },
       "sonidos": [
+        [
+          "cierra",
+          "cuerda",
+          0.4
+        ],
+        [
+          "fin-24",
+          "punetazo",
+          0.4
+        ],
         [
           "fin-24",
           "perder",
@@ -244,6 +283,16 @@
       },
       "sonidos": [
         [
+          "bando",
+          "cuerda",
+          0.4
+        ],
+        [
+          "fin-24",
+          "punetazo3",
+          0.4
+        ],
+        [
           "fin-24",
           "ganar",
           0.35
@@ -270,6 +319,11 @@
       "sonidos": [
         [
           "freno",
+          "punetazo2",
+          0.4
+        ],
+        [
+          "freno",
           "perder",
           0.4
         ]
@@ -291,8 +345,8 @@
       "sonidos": [
         [
           2,
-          "swoosh",
-          0.25
+          "zip",
+          0.4
         ]
       ]
     },

@@ -15,7 +15,7 @@ export { ADELANTO, FPS, SOLAPE, s2f };
 
 export const T = tiempos0 as unknown as Tiempos;
 
-export const SONIDOS = ["pop", "ding", "exito", "campana", "tecla", "tic", "clic", "whoosh", "swoosh", "papel", "burbuja", "golpe", "negacion", "puff", "cristal", "proyector", "subida", "ganar", "perder", "ambiente"];
+export const SONIDOS = ["pop", "ding", "exito", "campana", "tecla", "tic", "clic", "whoosh", "swoosh", "papel", "burbuja", "golpe", "negacion", "puff", "cristal", "proyector", "subida", "ganar", "perder", "ambiente", "vs", "ring", "transforma", "punetazo", "punetazo2", "punetazo3", "cuerda", "reloj", "zip"];
 
 export const PROBLEMAS: string[] = [];
 const problema = (s: string) => PROBLEMAS.push(s);
