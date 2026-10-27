@@ -184,6 +184,99 @@ export const Magnate: React.FC<{ x: number; y: number; esc?: number; animo?: Ani
   );
 };
 
+// ---------------------------------------------------------------- relleno: marcador, público y capítulos
+
+/** Barra de fuerza a la derecha: sube (crema) cuando ganan los compradores y baja (negra) cuando ganan los vendedores. */
+const Marcador: React.FC<{ fuerza: number }> = ({ fuerza }) => {
+  const f = useCurrentFrame();
+  const x = 930,
+    y0 = Y_ALTO,
+    y1 = Y_BAJO,
+    mid = (y0 + y1) / 2;
+  const h = Math.max(-1, Math.min(1, fuerza)) * (mid - y0);
+  const pc = Math.round(50 + 50 * Math.max(-1, Math.min(1, fuerza)));
+  return (
+    <>
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, opacity: pr(f, 0, 10) }}>
+        <rect x={x - 16} y={y0} width={32} height={y1 - y0} rx={16} fill={alfa(C.texto, 0.08)} stroke={alfa(C.texto, 0.25)} strokeWidth={2} />
+        <rect x={x - 12} y={h > 0 ? mid - h : mid} width={24} height={Math.abs(h)} rx={10} fill={h > 0 ? CREMA : TINTA} stroke={h > 0 ? "none" : CREMA} strokeWidth={2} />
+        <line x1={x - 24} x2={x + 24} y1={mid} y2={mid} stroke={ORO} strokeWidth={3} />
+      </svg>
+      <div style={{ position: "absolute", left: x - 70, width: 140, top: y0 - 70, textAlign: "center", fontFamily: F.texto, fontWeight: 800, fontSize: 26, color: CREMA, fontVariantNumeric: "tabular-nums" }}>{pc}%</div>
+      <div style={{ position: "absolute", left: x - 70, width: 140, top: y1 + 16, textAlign: "center", fontFamily: F.texto, fontWeight: 800, fontSize: 26, color: alfa(CREMA, 0.6), fontVariantNumeric: "tabular-nums" }}>{100 - pc}%</div>
+    </>
+  );
+};
+
+/** Público en las esquinas de abajo: siluetas que animan a cada bando y saltan cuando su lado va ganando. */
+const Publico: React.FC<{ fuerza: number }> = ({ fuerza }) => {
+  const f = useCurrentFrame();
+  const fila = (lado: -1 | 1) =>
+    Array.from({ length: 6 }).map((_, k) => {
+      const anima = lado < 0 ? fuerza > 0.15 : fuerza < -0.15;
+      const salto = anima ? Math.abs(Math.sin((f + k * 7) / 4)) * 18 : Math.sin((f + k * 11) / 20) * 2;
+      const x = lado < 0 ? 40 + k * 62 : 1040 - k * 62;
+      const y = 1250 - (k % 2) * 26 - salto;
+      const col = lado < 0 ? alfa(CREMA, 0.55) : alfa("#000000", 0.95);
+      const borde = lado < 0 ? "none" : alfa(CREMA, 0.4);
+      return (
+        <g key={`${lado}${k}`}>
+          <circle cx={x} cy={y} r={20} fill={col} stroke={borde} strokeWidth={2} />
+          <path d={`M${x - 30} ${y + 70} Q${x} ${y + 14} ${x + 30} ${y + 70} Z`} fill={col} stroke={borde} strokeWidth={2} />
+          {anima && <path d={`M${x - 22} ${y + 34} L${x - 34} ${y - 6} M${x + 22} ${y + 34} L${x + 34} ${y - 6}`} stroke={col} strokeWidth={10} strokeLinecap="round" />}
+        </g>
+      );
+    });
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+      {fila(-1)}
+      {fila(1)}
+    </svg>
+  );
+};
+
+export const CAPITULOS = ["BATALLA", "APERTURA", "COLOR", "MECHAS", "CUERPO", "GRÁFICA"];
+/** Barra de capítulos abajo: el actual se ilumina; da sensación de progreso. */
+export const Capitulos: React.FC<{ activo: number; y?: number }> = ({ activo, y = 1425 }) => {
+  const f = useCurrentFrame();
+  return (
+    <div style={{ position: "absolute", left: 40, right: 40, top: y, display: "flex", justifyContent: "center", gap: 10, opacity: pr(f, 0, 8) }}>
+      {CAPITULOS.map((c, k) => {
+        const on = k === activo,
+          hecho = k < activo;
+        return (
+          <div key={c} style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 18, letterSpacing: 2, padding: "7px 12px", borderRadius: 20, color: on ? TINTA : hecho ? ORO : alfa(CREMA, 0.4), background: on ? ORO : "transparent", border: `2px solid ${on || hecho ? ORO : alfa(CREMA, 0.2)}`, transform: on ? `scale(${1 + 0.08 * Math.max(0, 1 - f / 12)})` : undefined }}>
+            {c}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+const capituloDe = (modo: string) => ({ gancho: -1, batalla: 0, abre: 1, blanca: 2, negra: 2, mechas: 3, fuerza: 4, rechazo: 4 } as Record<string, number>)[modo] ?? 0;
+
+/** Movimiento de cámara distinto para cada escena de batalla. */
+const camara = (modo: string, t: number) => {
+  switch (modo) {
+    case "batalla":
+      return `scale(${1 + 0.08 * t})`;
+    case "abre":
+      return `perspective(1600px) rotateY(${10 - 10 * t}deg) scale(${1.04 - 0.04 * t})`;
+    case "blanca":
+      return `scale(${1.14 - 0.14 * t}) translateY(${40 * (1 - t)}px)`;
+    case "negra":
+      return `rotate(${3 - 4 * t}deg) scale(${1.05})`;
+    case "mechas":
+      return `translateY(${60 - 100 * t}px) scale(1.03)`;
+    case "fuerza":
+      return `scale(${1 + 0.1 * t}) translateY(${30 * t}px)`;
+    case "rechazo":
+      return `perspective(1600px) rotateX(${8 - 8 * t}deg) scale(${1.06 - 0.04 * t})`;
+    default:
+      return "";
+  }
+};
+
 // ---------------------------------------------------------------- la batalla
 
 /** Precio (0 = mínimo de la pantalla, 1 = máximo) a lo largo de la escena, según el modo. */
@@ -251,7 +344,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const ganador = final && f > dur - 24 ? final : null;
   const animoToro: Animo = ganador === "toro" ? "gana" : ganador === "oso" ? "pierde" : "tira";
   const animoOso: Animo = ganador === "oso" ? "gana" : ganador === "toro" ? "pierde" : "tira";
-  const yToro = 215 + (modo === "gancho" ? 45 : 0) - Math.min(50, Math.max(0, vel) * 1100) + (ganador === "oso" ? 40 : 0);
+  const yToro = 215 + (modo === "gancho" ? 45 : 0) + (ganador === "toro" ? 40 : 0) - Math.min(50, Math.max(0, vel) * 1100) + (ganador === "oso" ? 40 : 0);
   const yOso = 1150 + Math.min(50, Math.max(0, -vel) * 1100) + (ganador === "toro" ? 40 : 0);
   const g = temblor(f, b[1] ?? 0, 6);
   const tensa = 1 + Math.abs(vel) * 40;
@@ -264,7 +357,9 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const zoomG = gancho ? 0.84 + 0.3 * acerca : 1;
   return (
     <AbsoluteFill>
-    <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG})`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
+    <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG}) ${camara(modo, pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.sin)))}`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
+      <Publico fuerza={(precio - abre) * 4} />
+      {!gancho && <Marcador fuerza={(precio - abre) * 3} />}
       <Halo x={540} y={700} r={480} op={0.14} />
       {/* eje de precio a la izquierda */}
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
@@ -286,7 +381,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
       <div style={{ position: "absolute", left: 660, top: yC - 24, background: sube ? CREMA : TINTA, color: sube ? TINTA : CREMA, border: `2px solid ${CREMA}`, borderRadius: 10, padding: "4px 14px", fontFamily: F.texto, fontWeight: 800, fontSize: 28, fontVariantNumeric: "tabular-nums" }}>
         {numeroES(228 + (precio - 0.5) * 12, 2)}
       </div>
-      <div style={{ position: "absolute", left: 160, top: yA - 46, fontFamily: SECUND, fontSize: 30, color: ORO, opacity: pr(f, 0, 10) }}>abre</div>
+      <div style={{ position: "absolute", left: 760, top: yA - 44, fontFamily: SECUND, fontSize: 30, color: ORO, opacity: pr(f, 0, 10) }}>abre</div>
       {/* etiquetas de cada momento */}
       {(() => {
         // posiciones sin pisarse: cada etiqueta de la columna izquierda queda al menos 64 px de las anteriores
@@ -317,6 +412,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
       )}
     </AbsoluteFill>
+    {!gancho && <Capitulos activo={capituloDe(modo)} />}
     {gancho && (
       <div style={{ position: "absolute", left: 0, right: 0, top: -20, textAlign: "center" }}>
         <div>
@@ -444,6 +540,7 @@ const Apps: React.FC<PropsEscena> = ({ b }) => {
         </>
       )}
       <Etiqueta desde={b0} x={540} y={1130} texto="EN TU APP" />
+      <Capitulos activo={2} />
     </AbsoluteFill>
   );
 };
@@ -470,6 +567,7 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const zoom = tendencia ? 1 : 1.9 - 0.9 * pr(f, 0, Math.max(24, b0 + 10), Easing.inOut(Easing.cubic));
   const entra = (k: number) => (tendencia ? -60 : k < n - 10 ? -60 : (k - (n - 10)) * 2);
   return (
+    <>
     <Escritorio dur={dur} cabecera="AAPL · APPLE · 1D · EJEMPLO" foco={[[0, 700], [b1, 400], [b2, 800]]} asiente={[b1, b2]}>
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: `${g.xVela(n - 1)}px 560px` }}>
         <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={20} />
@@ -487,6 +585,8 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 140, top: 340, fontFamily: principalPara("MÍNIMOS MÁS ALTOS"), fontSize: 46, color: ORO, transform: `scale(${sp(f, b2 - 2, REBOTE)})`, transformOrigin: "0 50%" }}>MÍNIMOS MÁS ALTOS ↗</div>
       )}
     </Escritorio>
+    <Capitulos activo={5} y={1460} />
+    </>
   );
 };
 export const grafica: DefEscena = { C: Grafica, momentos: 3, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "tendencia" ? [[0, "tic", 0.25], [1, "swoosh", 0.25], [2, "ding", 0.25]] : [[0, "whoosh", 0.25]]) };
