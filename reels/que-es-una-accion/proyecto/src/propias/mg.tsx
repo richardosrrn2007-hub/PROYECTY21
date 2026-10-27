@@ -32,6 +32,8 @@ if (typeof document !== "undefined") {
   for (const [nombre, archivo, peso] of [
     [VIVO, "fuentes/bricolage-grotesque-latin-800-normal.woff2", "800"],
     [CLAVE, "fuentes/anton-latin-400-normal.woff2", "400"],
+    ["BRSubManrope", "fuentes/manrope-latin-600-normal.woff2", "600"],
+    ["BRSubDM", "fuentes/dm-sans-latin-600-normal.woff2", "600"],
   ]) {
     const h = delayRender(`Cargando ${archivo}`);
     const cara = new FontFace(nombre, `url(${staticFile(archivo)})`, { weight: peso });

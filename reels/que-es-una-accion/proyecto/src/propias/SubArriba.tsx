@@ -7,11 +7,14 @@ import { useFuentes } from "../motor/fuentes";
 import { paginasLinea } from "../motor/Subtitulos";
 import type { FraseT } from "../tipos";
 import { C } from "../motor/actual";
-import { CLAVE } from "./mg";
+import { CLAVE, PRO, VIVO } from "./mg";
 
 /** Color de la caja de selección (el dorado de la marca). */
 const MARCO = C.acento;
 const TAM = 50;
+/** Letra de las palabras normales del subtítulo. */
+const SUB_FUENTE = F.texto;
+const SUB_PESO = 600;
 
 const Esquina: React.FC<{ x: "left" | "right"; y: "top" | "bottom" }> = ({ x, y }) => (
   <div style={{ position: "absolute", [x]: -6, [y]: -6, width: 10, height: 10, borderRadius: 5, background: C.texto, border: `2px solid ${MARCO}` }} />
@@ -31,8 +34,8 @@ export const SubArriba: React.FC<{ frases: FraseT[]; sin: number[]; top?: number
         if (f < a) return null;
         const t = interpolate(f, [a, a + 6], [0, 1], { extrapolateRight: "clamp" });
         const texto = g.palabras.map((p) => p.w.replace(/\*/g, "")).join(" ");
-        const base: React.CSSProperties = { fontFamily: F.texto, fontSize: TAM, lineHeight: 1.15, whiteSpace: "nowrap", opacity: t, transform: `translateY(${(1 - t) * 10}px)` };
-        if (!g.clave) return <span key={k} style={{ ...base, fontWeight: 600, color: C.suave }}>{texto}</span>;
+        const base: React.CSSProperties = { fontFamily: SUB_FUENTE, fontSize: TAM, lineHeight: 1.15, whiteSpace: "nowrap", opacity: t, transform: `translateY(${(1 - t) * 10}px)` };
+        if (!g.clave) return <span key={k} style={{ ...base, fontWeight: SUB_PESO, color: C.suave }}>{texto}</span>;
         const caja = interpolate(f, [a, a + 7], [0.85, 1], { extrapolateRight: "clamp" });
         return (
           <span key={k} style={{ ...base, position: "relative", fontFamily: CLAVE, fontWeight: 400, fontSize: TAM * 1.12, letterSpacing: 1, textTransform: "uppercase", color: C.acento, padding: "0 10px" }}>
