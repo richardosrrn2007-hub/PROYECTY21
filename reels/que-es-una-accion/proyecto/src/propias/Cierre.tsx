@@ -7,11 +7,11 @@ import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile
 import { Planeta } from "./Planeta";
 
 /** Fotogramas de la entrada al planeta (encima del final de la última escena) y del logo (después). */
-export const TRANSICION = 30;
-export const LOGO = 130;
+export const TRANSICION = 60;
+export const LOGO = 170;
 export const CIERRE = LOGO;
 /** Fotograma de la transición en que empieza el vídeo del logo. */
-export const ENTRA_LOGO = 22;
+export const ENTRA_LOGO = 44;
 
 /** Centro de la Tierra dentro del aro izquierdo del logo (sobre 1080×1920). */
 const TIERRA = { x: 412, y: 750 };
@@ -23,14 +23,14 @@ const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 export const Cierre: React.FC = () => {
   const f = useCurrentFrame();
   // 1) la escena se apaga y la cámara entra en el planeta: crece y se centra
-  const apaga = interpolate(f, [0, 16], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  const apaga = interpolate(f, [0, 32], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
   const entra = interpolate(f, [0, TRANSICION], [0, 1], { ...cl, easing: Easing.in(Easing.cubic) });
   const cx = PLANETA.x + (540 - PLANETA.x) * entra,
     cy = PLANETA.y + (960 - PLANETA.y) * entra,
     r = PLANETA.r * (1 + 0.5 * entra);
   // 2) el logo aparece muy ampliado sobre su Tierra y la cámara se aleja
-  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 10], [0, 1], cl);
-  const aleja = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 46], [0, 1], { ...cl, easing: Easing.out(Easing.cubic) });
+  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 20], [0, 1], cl);
+  const aleja = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 92], [0, 1], { ...cl, easing: Easing.out(Easing.cubic) });
   const z = ZOOM_INICIAL + (1 - ZOOM_INICIAL) * aleja;
   // la Tierra del logo empieza en el centro de la pantalla y vuelve a su sitio
   const tx = (540 - TIERRA.x) * (1 - aleja),

@@ -212,8 +212,15 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
     const flash = !sube ? Math.max(0, 1 - Math.abs(f - bA) / 10) : 0;
     const vineta = !sube && bE >= 0 ? 0.5 * Math.max(0, Math.sin(Math.min(Math.PI, ((f - bE) / 24) * Math.PI))) * (f >= bE ? 1 : 0) : 0;
     const g = temblor(f, sube ? bD : bE, sube ? 8 : 14);
+    // cámara distinta en cada una para que las gráficas seguidas no se vean iguales:
+    // sube = gira de lado y avanza hacia la punta; baja = picado con el plano torcido que se endereza
+    const cam = pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.cubic));
+    const camara = sube
+      ? `rotateY(${16 - 20 * cam}deg) rotateX(${6 - 6 * cam}deg) scale(${0.96 + 0.1 * cam})`
+      : `rotateX(${14 - 14 * cam}deg) rotateZ(${-4 + 5 * cam}deg) scale(${1.08 - 0.06 * cam})`;
     return (
-      <AbsoluteFill style={{ transform: `translate(${g.x}px,${g.y}px)` }}>
+      <AbsoluteFill style={{ perspective: 1500 }}>
+      <AbsoluteFill style={{ transform: `translate(${g.x}px,${g.y}px) ${camara}`, transformOrigin: sube ? "820px 560px" : "620px 820px" }}>
         <Rejilla op={0.6} color={sube ? ORO : ROJO} />
         <Ejes p={1} />
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
@@ -249,6 +256,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
             <AbsoluteFill style={{ top: -400, bottom: -400, background: alfa(ORO, 0.18 * flash) }} />
           </>
         )}
+      </AbsoluteFill>
       </AbsoluteFill>
     );
   }
@@ -573,8 +581,11 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
       </div>
       {boton > 0 && (
         <div style={{ position: "absolute", left: 470, right: 20, top: 1185 - bote, display: "flex", justifyContent: "center", transform: `scale(${boton})` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, border: `2px solid ${ORO}`, color: ORO, fontFamily: F.texto, fontWeight: 800, fontSize: 26, letterSpacing: 3, padding: "10px 22px", borderRadius: 40 }}>
-            <Icono nombre="bell-ring" tam={30} color={ORO} /> SÍGUEME
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, background: ORO, color: C.acentoTexto, fontFamily: F.texto, fontWeight: 800, fontSize: 26, letterSpacing: 2, padding: "8px 20px 8px 16px", borderRadius: 40 }}>
+              <Icono nombre="message-circle" tam={30} color={C.acentoTexto} /> COMENTA <span style={{ fontFamily: CLAVE, fontSize: 34, letterSpacing: 1 }}>GRÁFICA</span>
+            </div>
+            <div style={{ fontFamily: F.texto, fontWeight: 600, fontSize: 22, color: C.suave }}>y te aviso cuando salga</div>
           </div>
         </div>
       )}

@@ -2,7 +2,7 @@ import React from "react";
 import { AbsoluteFill, Composition, Img, Still } from "remotion";
 import { FPS } from "./motor/constantes";
 import { TOTAL, resumen } from "./motor/linea";
-import { Portada } from "./Portada";
+import { PortadaPropia as Portada } from "./propias/PortadaPropia";
 import { Reel } from "./Reel";
 import { CIERRE } from "./propias/Cierre";
 

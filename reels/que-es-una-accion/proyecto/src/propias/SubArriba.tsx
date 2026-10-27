@@ -11,7 +11,7 @@ import { CLAVE, PRO, VIVO } from "./mg";
 
 /** Color de la caja de selección (el dorado de la marca). */
 const MARCO = C.acento;
-const TAM = 50;
+const TAM = 55;
 /** Letra de las palabras normales del subtítulo. */
 /** Internet Friends con tildes, ñ, ¿ y ¡ añadidas (public/fuentes/internet-friends-es.ttf). */
 const SUB_FUENTE = "BRSubIF";
