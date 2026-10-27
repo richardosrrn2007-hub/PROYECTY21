@@ -72,12 +72,29 @@ const Broker: React.FC<PropsEscena> = ({ p, b, dur }) => {
           <Trazo d="M215 360 Q215 320 255 320 L455 320 Q495 320 495 360 L495 920 Q495 960 455 960 L255 960 Q215 960 215 920 Z" p={dibujo} grosor={7} color={C.texto} />
           <Trazo d="M320 345 L390 345" p={dibujo} grosor={6} color={C.suave} />
           <Trazo d="M250 640 L290 610 L325 625 L365 560 L405 580 L455 500" p={chart} grosor={6} color={VERDE} />
-          <Trazo d="M250 420 L400 420 M250 455 L350 455" p={pr(f, b0, 10)} grosor={8} color={alfa(ORO, 0.7)} />
           <Trazo d="M515 640 L670 640" p={pr(f, b2, 12)} grosor={5} guion />
         </svg>
         {boton > 0 && (
           <div style={{ position: "absolute", left: 355, top: 830, transform: `translate(-50%,-50%) scale(${boton * (pulsado ? 0.9 : 1)})`, background: pulsado ? "#FFFFFF" : ORO, color: C.acentoTexto, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 4, padding: "18px 40px", borderRadius: 14, boxShadow: `0 0 ${pulsado ? 60 : 30}px ${alfa(ORO, 0.5)}` }}>COMPRAR</div>
         )}
+        <div style={{ position: "absolute", left: 245, top: 382, width: 230, opacity: pr(f, b0, 8) }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+            <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 36, color: C.texto }}>AAPL</span>
+            <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, color: VERDE }}>+1,2 %</span>
+          </div>
+          <div style={{ fontFamily: F.texto, fontWeight: 600, fontSize: 22, color: C.suave, marginTop: 2 }}>Apple Inc.</div>
+        </div>
+        {[
+          ["NFLX", "Netflix", "−0,8 %", ROJO],
+          ["TSLA", "Tesla", "+2,4 %", VERDE],
+        ].map(([t, n, p, col], k) => (
+          <div key={t} style={{ position: "absolute", left: 245, top: 676 + k * 58, width: 230, display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.linea}`, paddingTop: 10, opacity: pr(f, b0 + 6 + k * 4, 8) }}>
+            <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, color: C.texto }}>
+              {t} <span style={{ fontWeight: 600, color: C.suave, fontSize: 18 }}>{n}</span>
+            </span>
+            <span style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 20, color: col }}>{p}</span>
+          </div>
+        ))}
         <Onda desde={toque} x={355} y={830} r0={20} r1={150} dur={14} />
         <Nodo x={800} y={640} r={115} icono="landmark" texto="BRÓKER" desde={b2 - 2} pulso={b3} />
         <Chispas desde={b2} x={800} y={640} n={14} r={230} />
@@ -146,7 +163,7 @@ const Mercado: React.FC<PropsEscena> = ({ b }) => {
     return { k, lado, x, y, desde: b1 + idx * 1.2 + (lado > 0 ? 1 : 0) };
   });
   const sube = f >= b2 ? 0.2 : 0;
-  const v = f >= b0 ? precio(f - b0, 50, f >= b3 ? 0 : sube) : 50;
+  const v = f >= b0 ? precio(f - b0, 228, f >= b3 ? 0 : sube) : 228;
   const golpe = temblor(f, b3 + 8, 6);
   const choque = (n: number) => b3 + 8 + n * 14;
   return (

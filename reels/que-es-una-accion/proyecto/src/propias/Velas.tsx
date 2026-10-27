@@ -169,7 +169,7 @@ export const GraficoVelas: React.FC<{
 };
 
 /** Anotación al estilo de la referencia: punto, línea fina en codo y etiqueta. */
-export const Nota: React.FC<{ x: number; y: number; dx: number; dy: number; texto: string; desde: number; color?: string; mano?: boolean }> = ({ x, y, dx, dy, texto, desde, color = C.texto, mano = false }) => {
+export const Nota: React.FC<{ x: number; y: number; dx: number; dy: number; texto: string; desde: number; color?: string; mano?: boolean }> = ({ x, y, dx, dy, texto, desde, color = C.texto, mano = true }) => {
   const f = useCurrentFrame();
   if (f < desde) return null;
   const t = interpolate(f, [desde, desde + 10], [0, 1], { extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) });
@@ -190,7 +190,7 @@ export const Nota: React.FC<{ x: number; y: number; dx: number; dy: number; text
           transform: `translate(${dx >= 0 ? 0 : -100}%, -50%)`,
           fontFamily: mano ? F.mano : F.texto,
           fontWeight: mano ? 400 : 600,
-          fontSize: mano ? 46 : 30,
+          fontSize: mano ? 52 : 30,
           color,
           opacity: interpolate(f, [desde + 4, desde + 12], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }),
           whiteSpace: "nowrap",

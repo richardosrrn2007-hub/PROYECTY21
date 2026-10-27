@@ -81,16 +81,16 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
     const [hx, hy] = enLinea(pts, t);
     vis[vis.length - 1] = [hx, hy];
     const g = temblor(f, b4, 8);
-    const valor = 50 + (700 - hy) / 12;
+    const valor = 228 + (700 - hy) / 10;
     return (
       <AbsoluteFill style={{ transform: `translate(${g.x}px,${g.y}px)` }}>
         <Rejilla op={0.6} />
         <Ejes p={ejes} />
-        <Etiqueta desde={b0} x={X0} y={250} texto="PRECIO" centro={false} tam={28} />
-        <Caja x={430} y={285} desde={b1 - 2} color={VERDE} tam={30}>
+        <Etiqueta desde={b0} x={X0} y={250} texto="AAPL" centro={false} tam={28} />
+        <Caja x={540} y={285} desde={b1 - 2} color={VERDE} tam={30}>
           <Icono nombre="arrow-up" tam={36} color={VERDE} /> PAGAR
         </Caja>
-        <Caja x={770} y={285} desde={b2 - 2} color={ROJO} tam={30}>
+        <Caja x={820} y={285} desde={b2 - 2} color={ROJO} tam={30}>
           <Icono nombre="arrow-down" tam={36} color={ROJO} /> ACEPTAR
         </Caja>
         {f >= b3 - 4 && (
@@ -167,7 +167,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
   // velas: el gráfico se ve en un monitor de cristal y el personaje lo analiza
   const [b0, b1, b2, b3, b4] = b;
   const n = 40;
-  const velas = serieVelas(n, 21, (k) => (k < 12 ? -0.7 : k < 28 ? 0.85 : -0.5));
+  const velas = serieVelas(n, 21, (k) => (k < 12 ? -0.7 : k < 28 ? 0.85 : -0.5), 228, 1.5);
   const marco = { x0: 110, x1: 990, y0: 320, y1: 850 };
   const LT = 20;
   const g = geometria(velas, marco, LT);
@@ -186,7 +186,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
   return (
     <Escritorio
       dur={dur}
-      cabecera="ACCIÓN · 15M"
+      cabecera="AAPL · APPLE · 15M · EJEMPLO"
       cursor={[
         [0, g.xVela(20), g.yPrecio(velas[20].c) - 40],
         [b0 - 6, xa + 10, ya + 6],
@@ -205,7 +205,7 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
           <Trazo d={`M${xa} ${ya + 40} C${xa + 60} ${ya + 40}, ${xb - 120} ${yb - 60}, ${xb} ${yb - 30}`} p={arcoP} grosor={4} color={ORO} />
         </svg>
         <Nota x={xa} y={ya + 8} dx={-50} dy={60} texto="comprar" desde={b0 - 2} color={VERDE} />
-        <Nota x={xb} y={yb - 8} dx={-60} dy={-50} texto="vender" desde={b1 - 2} color={ROJO} />
+        <Nota x={xb} y={yb - 8} dx={70} dy={-22} texto="vender" desde={b1 - 2} color={ROJO} />
         {f >= b3 + 6 && (
           <div style={{ position: "absolute", left: (xa + xb) / 2 - 40, top: (ya + yb) / 2 - 10, fontFamily: F.mano, fontSize: 60, color: ORO, transform: `rotate(-12deg) scale(${sp(f, b3 + 6)})`, whiteSpace: "nowrap" }}>el movimiento</div>
         )}
@@ -369,7 +369,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const [b0, b1, b2, b3] = b;
   const n = 22;
   const K = 15;
-  const velas = serieVelas(n, 7, (k) => (k === K ? 2.6 : k < K ? 0.3 : -0.35), 52, 0.5);
+  const velas = serieVelas(n, 7, (k) => (k === K ? 2.6 : k < K ? 0.3 : -0.35), 231, 1.4);
   velas[K] = { ...velas[K], h: velas[K].c + 0.6, l: velas[K].o - 0.55 };
   const marco = { x0: 120, x1: 990, y0: 330, y1: 850 };
   const LT = 20;
@@ -394,7 +394,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const bote = f > b3 + 20 ? Math.abs(Math.sin((f - b3) / 6)) * 8 : 0;
   return (
     <AbsoluteFill>
-      <Escritorio dur={dur} cabecera="ACCIÓN · 15M" seInclina={b2 - 4} asiente={[b1 + 10, notas + 6]} cursor={[[0, 760, 640], [b1, g.xVela(6), 620], [b2 - 8, ox + 14, oy], [notas + 24, ox + 200, oy + 120]]} clics={[b2 - 6]}>
+      <Escritorio dur={dur} cabecera="AAPL · APPLE · 1D · EJEMPLO" seInclina={b2 - 4} asiente={[b1 + 10, notas + 6]} cursor={[[0, 760, 640], [b1, g.xVela(6), 620], [b2 - 8, ox + 14, oy], [notas + 24, ox + 200, oy + 120]]} clics={[b2 - 6]}>
         <AbsoluteFill style={{ transform: `translate(${tx}px,${ty}px) scale(${z})`, transformOrigin: `${ox}px ${oy}px` }}>
           <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} vivo={false} letra={LT} opacidad={(k) => (k === K ? 1 : 1 - 0.85 * m)} ejes={1 - m} />
         </AbsoluteFill>

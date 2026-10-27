@@ -151,7 +151,7 @@ const Pizza: React.FC<PropsEscena> = ({ p, b }) => {
         )}
         <Onda desde={b3} x={540} y={660} r0={R} r1={R + 200} dur={18} grosor={6} />
         <Onda desde={b3 + 6} x={540} y={660} r0={R} r1={R + 260} dur={20} grosor={4} />
-        <Etiqueta desde={b1} x={540} y={1000} texto="LA EMPRESA" />
+        <Etiqueta desde={b1} x={540} y={1000} texto="LA EMPRESA · EJ: APPLE" />
         <Caja x={540} y={300} desde={b3} tam={44}>
           PIZZA GIGANTE
         </Caja>
@@ -239,7 +239,7 @@ const Pizza: React.FC<PropsEscena> = ({ p, b }) => {
     capas = (
       <>
         <Halo x={540} y={640} r={420} op={0.22} />
-        <Etiqueta desde={b0} x={540} y={240} texto="PUEDES COMPRAR" />
+        <Etiqueta desde={b0} x={540} y={240} texto="PUEDES COMPRAR · AAPL" />
         {f >= b1 && (
           <div style={{ position: "absolute", left: 0, right: 0, top: 920, display: "flex", justifyContent: "center", alignItems: "baseline", gap: 26, transform: `scale(${sp(f, b1)})` }}>
             <Cuenta desde={b3} dur={16} de={1} a={0.25} dec={2} tam={140} color={f >= b3 ? ORO : C.texto} />
