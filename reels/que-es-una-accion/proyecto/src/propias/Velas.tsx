@@ -19,16 +19,21 @@ export type Vela = { o: number; h: number; l: number; c: number; v: number };
  * positiva sube, negativa baja.
  */
 export const serieVelas = (n: number, semilla: number, rumbo: (k: number) => number, base = 48, vol = 0.55): Vela[] => {
+  // Como un gráfico real: volatilidad por rachas, cuerpos de tamaños muy distintos (dojis incluidos),
+  // mechas desiguales y alguna mecha larga de vez en cuando.
+  const gauss = (s: number) => (rnd(s) + rnd(s + 0.37) + rnd(s + 0.71) - 1.5) / 0.75;
   const out: Vela[] = [];
   let c = base;
   for (let k = 0; k < n; k++) {
     const o = c;
-    const ruido = (rnd(semilla + k * 3.17) - 0.5) * 2;
-    c = o + (rumbo(k) + ruido * 0.9) * vol;
-    const h = Math.max(o, c) + Math.pow(rnd(semilla + k * 5.31), 1.6) * vol * 0.9;
-    const l = Math.min(o, c) - Math.pow(rnd(semilla + k * 7.77), 1.6) * vol * 0.9;
-    const v = 0.35 + 0.65 * rnd(semilla + k * 9.13) + Math.abs(c - o) / vol / 3;
-    out.push({ o, h, l, c, v });
+    const racha = 0.55 + 0.75 * Math.abs(Math.sin(k / 4.3 + semilla)) + 0.25 * rnd(semilla + k * 1.9);
+    const v = vol * racha;
+    c = o + rumbo(k) * vol * 0.8 + gauss(semilla + k * 3.17) * v * 0.75;
+    const larga = (s: number) => (rnd(s) > 0.88 ? 2.6 : 1);
+    const h = Math.max(o, c) + Math.pow(rnd(semilla + k * 5.31), 2.2) * v * 0.9 * larga(semilla + k * 8.1);
+    const l = Math.min(o, c) - Math.pow(rnd(semilla + k * 7.77), 2.2) * v * 0.9 * larga(semilla + k * 6.3);
+    const vo = 0.3 + 0.5 * rnd(semilla + k * 9.13) + Math.abs(c - o) / vol / 2.5 + (h - l) / vol / 6;
+    out.push({ o, h, l, c, v: vo });
   }
   return out;
 };
@@ -87,7 +92,7 @@ export const GraficoVelas: React.FC<{
   let ultima = -1;
   vis.forEach((v, k) => (v ? (ultima = k) : null));
   if (vivo && ultima >= 0) vis[ultima] = enFormacion(velas[ultima], f, entra(ultima), forma, true);
-  const ancho = Math.max(6, g.hueco * 0.62);
+  const ancho = Math.max(5, g.hueco * 0.56);
   const maxVol = Math.max(...velas.map((v) => v.v));
   const xEje = marco.x1 - g.anchoEje + 14;
   const niveles = 5;
@@ -144,8 +149,8 @@ export const GraficoVelas: React.FC<{
         const alto = Math.max(3, yB - yA);
         return (
           <g key={k} opacity={opacidad ? opacidad(k) : 1}>
-            <line x1={x} x2={x} y1={g.yPrecio(v.h)} y2={g.yPrecio(v.l)} stroke={col} strokeWidth={2.5} />
-            <rect x={x - ancho / 2 + 1.25} y={yA} width={ancho - 2.5} height={alto} rx={1} fill={alza ? TV.alcista : TV.bajista} stroke={col} strokeWidth={2.5} />
+            <line x1={x} x2={x} y1={g.yPrecio(v.h)} y2={g.yPrecio(v.l)} stroke={col} strokeWidth={1.8} />
+            <rect x={x - ancho / 2 + 1.25} y={yA} width={ancho - 2} height={alto} rx={0.5} fill={alza ? TV.alcista : TV.bajista} stroke={col} strokeWidth={2} />
           </g>
         );
       })}
