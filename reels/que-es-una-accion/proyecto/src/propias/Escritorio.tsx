@@ -80,7 +80,7 @@ const Brazo: React.FC<{ hombro: [number, number]; mano: [number, number]; codo: 
   );
 };
 
-export type Pose = "mesa" | "celebra" | "cabeza";
+export type Pose = "mesa" | "celebra" | "cabeza" | "lanza";
 type Brazos = { codoI: [number, number]; manoI: [number, number]; codoD: [number, number]; manoD: [number, number] };
 const mezcla = (a: [number, number], b: [number, number], t: number): [number, number] => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
 
@@ -112,8 +112,11 @@ export const Personaje: React.FC<{
   const enMesa: Brazos = mesa
     ? { codoI: [100, 1156], manoI: [236, MESA_Y - 4], codoD: [404, 1156], manoD: [mx - 6, my - 2] }
     : { codoI: [104, 1190], manoI: [130, 1236], codoD: [396, 1190], manoD: [370, 1236] };
+  const impulso = pose === "lanza" ? Math.abs(Math.sin(((f - cambio) / 9) * Math.PI)) : 0;
   const fin: Brazos =
-    pose === "celebra"
+    pose === "lanza"
+      ? { codoI: enMesa.codoI, manoI: enMesa.manoI, codoD: [420, 1050], manoD: [470 + 40 * impulso, 985 - 30 * impulso] }
+      : pose === "celebra"
       ? { codoI: [70, 1010 - bota], manoI: [96, 870 - bota], codoD: [430, 1010 - bota], manoD: [404, 870 - bota] }
       : { codoI: [70, 1030], manoI: [cx - 44, cy - 34], codoD: [430, 1030], manoD: [cx + 44, cy - 34] };
   const b: Brazos = { codoI: mezcla(enMesa.codoI, fin.codoI, t), manoI: mezcla(enMesa.manoI, fin.manoI, t), codoD: mezcla(enMesa.codoD, fin.codoD, t), manoD: mezcla(enMesa.manoD, fin.manoD, t) };

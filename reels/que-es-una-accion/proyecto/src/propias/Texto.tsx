@@ -87,10 +87,10 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
       <Rejilla />
       {/* el protagonista ya está frente a su monitor desde el primer segundo */}
       {/* la cámara empieza dentro de la pantalla y se aleja hasta mostrarlo a él */}
-      <AbsoluteFill style={{ transform: `translateY(${372 * aleja - 120 * (1 - aleja)}px) scale(${0.62 + 0.63 * (1 - aleja)})`, transformOrigin: "540px 262px" }}>
+      <AbsoluteFill style={{ transform: `translateY(${372 * aleja - 20 * (1 - aleja)}px) scale(${0.62 + 0.3 * (1 - aleja)})`, transformOrigin: "540px 262px" }}>
         <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b1, b3]} cabecera="APPLE · EMPRESA">
           <Halo x={540} y={600} r={380} op={0.18 + 0.12 * pr(f, b1, 10)} />
-          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} hueco={sale} />
+          <Edificio cx={540} base={830} esc={0.9} dibujo={1} ventanas={-30} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} hueco={sale} />
           <Chispas desde={b2 + 2} x={540} y={640} n={16} r={260} />
         </Escritorio>
         {/* una columna (una acción) sale de la pantalla flotando */}
@@ -106,7 +106,7 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
       <Etiqueta desde={-20} x={540} y={190} texto="¿TE IMAGINAS SER…" tam={28} />
       <div style={{ position: "absolute", top: 245, left: 0, right: 0, textAlign: "center" }}>
         <div>
-          <Revela desde={b0 - 2} tam={tam1} fuente={fz}>
+          <Revela desde={-12} tam={tam1} fuente={fz}>
             Dueño de
           </Revela>
         </div>

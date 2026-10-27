@@ -520,7 +520,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   // gráfico realista: más velas, cuerpos largos y mechas proporcionadas
   const n = 30;
   const K = 22;
-  const velas = serieVelas(n, 7, (k) => (k === K ? 2.4 : k < 10 ? -0.4 : k < K ? 0.7 : -0.4), 224, 2.1);
+  const velas = serieVelas(n, 7, (k) => (k === K ? 2.4 : Math.sin(k / 3.6) * 1.1 + 0.15), 224, 2.0);
   const marco = { x0: 110, x1: 990, y0: 330, y1: 850 };
   const LT = 20;
   const g = geometria(velas, marco, LT);

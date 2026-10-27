@@ -121,7 +121,7 @@ const Broker: React.FC<PropsEscena> = ({ p, b, dur }) => {
       {/* tú: el protagonista manda billetes al bróker */}
       {f >= b1 - 4 && (
         <AbsoluteFill style={{ opacity: pr(f, b1 - 4, 8) }}>
-          <Personaje mesa={false} dx={-75} dy={-240} escala={0.85} mira={0.6} pose="celebra" cambio={1e9} />
+          <Personaje mesa={false} dx={-75} dy={-240} escala={0.85} mira={0.6} pose="lanza" cambio={b2 - 6} />
           <div style={{ position: "absolute", left: 175 - 100, width: 200, top: 1020, textAlign: "center", fontFamily: F.texto, fontWeight: 800, fontSize: 28, letterSpacing: 7, color: C.texto }}>TÚ</div>
         </AbsoluteFill>
       )}

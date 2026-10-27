@@ -91,7 +91,14 @@
           "verdad",
           "mira"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Imagina que una empresa es una *pizza gigante.*",
@@ -105,7 +112,14 @@
           "pizza",
           "gigante"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Cada rebanada representa *una acción.*",
@@ -159,7 +173,14 @@
           "aqui",
           "interesante"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "No necesitas comprar la *pizza completa.*",
@@ -174,7 +195,14 @@
           "pizza",
           "completa"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Puedes comprar *una sola acción,* o incluso *una fracción,* si está disponible.",
@@ -219,7 +247,14 @@
           "como",
           "compras"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Normalmente utilizas *un bróker.*",
@@ -233,7 +268,14 @@
           "un",
           "broker"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Un *intermediario* que te permite enviar *órdenes* de compra y venta *al mercado.*",
@@ -249,7 +291,29 @@
           "venta",
           "mercado"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ],
+        [
+          "ordenes",
+          "papel",
+          0.25
+        ],
+        [
+          "ordenes+9",
+          "papel",
+          0.2
+        ],
+        [
+          "ordenes+18",
+          "papel",
+          0.2
+        ]
+      ]
     },
     {
       "texto": "En ese mercado hay personas *comprando* y *vendiendo.*",
@@ -262,7 +326,14 @@
           "comprando",
           "vendiendo"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Y cuando cambia cuánto están dispuestas a *pagar* o *aceptar,* *el precio se mueve.*",
@@ -277,7 +348,14 @@
           "precio",
           "mueve"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Si compras y el precio *sube,* tu acción *vale más.*",
@@ -291,7 +369,14 @@
           "vale",
           "mas"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Pero ojo, también puede *bajar,* y entonces tu inversión *pierde valor.*",
@@ -306,7 +391,14 @@
           "pierde",
           "valor"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Si vendes por encima del precio que pagaste, *puedes ganar.* Si vendes por debajo, *pierdes.*",
@@ -321,7 +413,24 @@
           "debajo",
           "pierdes"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ],
+        [
+          "ganar+2",
+          "papel",
+          0.3
+        ],
+        [
+          "pierdes+3",
+          "papel",
+          0.25
+        ]
+      ]
     },
     {
       "texto": "Y también debes considerar *las comisiones.*",
@@ -350,6 +459,11 @@
           "comisiones+18",
           "tic",
           0.45
+        ],
+        [
+          "inicio",
+          "whoosh",
+          0.16
         ]
       ]
     },
@@ -375,7 +489,14 @@
           "eso",
           "trading"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Comprar y vender buscando aprovechar *los movimientos del precio.*",
@@ -390,7 +511,14 @@
           "movimientos",
           "precio"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "Pero *nada está garantizado.*",
@@ -419,7 +547,14 @@
           "nada",
           "garantizado"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ]
+      ]
     },
     {
       "texto": "En el próximo video aprendemos *a leer una gráfica.*",
@@ -433,7 +568,44 @@
           "leer",
           "grafica"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "inicio",
+          "whoosh",
+          0.16
+        ],
+        [
+          "leer+10",
+          "tic",
+          0.35
+        ],
+        [
+          "leer+16",
+          "tic",
+          0.35
+        ],
+        [
+          "leer+22",
+          "tic",
+          0.35
+        ],
+        [
+          "leer+28",
+          "tic",
+          0.35
+        ],
+        [
+          "leer+36",
+          "ding",
+          0.25
+        ],
+        [
+          160,
+          "whoosh",
+          0.25
+        ]
+      ]
     }
   ],
   "portada": {
