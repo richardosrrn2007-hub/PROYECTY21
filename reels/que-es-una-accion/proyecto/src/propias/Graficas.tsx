@@ -187,12 +187,15 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
     <Escritorio
       dur={dur}
       cabecera="ACCIÓN · 15M"
-      foco={[
-        [0, 800],
-        [b0 - 4, xa],
-        [b1 - 4, xb],
-        [b4 - 4, g.xVela(n - 1)],
+      cursor={[
+        [0, g.xVela(20), g.yPrecio(velas[20].c) - 40],
+        [b0 - 6, xa + 10, ya + 6],
+        [b1 - 6, xb + 10, yb - 6],
+        [b3 - 2, xa + 30, ya - 20],
+        [b3 + 14, xb - 30, yb + 30],
+        [b4 - 4, g.xVela(n - 1) + 12, g.yPrecio(velas[n - 1].c)],
       ]}
+      clics={[b0 - 2, b1 - 2, b4]}
       asiente={[b0, b1, b3]}
     >
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: "900px 560px" }}>
@@ -391,7 +394,7 @@ const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const bote = f > b3 + 20 ? Math.abs(Math.sin((f - b3) / 6)) * 8 : 0;
   return (
     <AbsoluteFill>
-      <Escritorio dur={dur} cabecera="ACCIÓN · 15M" seInclina={b2 - 4} asiente={[b1 + 10, notas + 6]} foco={[[0, 700], [b1, 400], [b2 - 6, ox]]}>
+      <Escritorio dur={dur} cabecera="ACCIÓN · 15M" seInclina={b2 - 4} asiente={[b1 + 10, notas + 6]} cursor={[[0, 760, 640], [b1, g.xVela(6), 620], [b2 - 8, ox + 14, oy], [notas + 24, ox + 200, oy + 120]]} clics={[b2 - 6]}>
         <AbsoluteFill style={{ transform: `translate(${tx}px,${ty}px) scale(${z})`, transformOrigin: `${ox}px ${oy}px` }}>
           <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} vivo={false} letra={LT} opacidad={(k) => (k === K ? 1 : 1 - 0.85 * m)} ejes={1 - m} />
         </AbsoluteFill>
