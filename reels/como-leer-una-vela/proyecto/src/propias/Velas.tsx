@@ -8,9 +8,11 @@ import { F, alfa } from "../motor/estilos";
 import { numeroES, rnd } from "../motor/anim";
 import { PRO } from "./mg";
 /** Velas monocromas de la marca: alcistas rellenas en crema, bajistas huecas con borde crema. */
-export type Tema = { borde: string; alcista: string; bajista: string; rejilla: string; eje: string; etiqueta: string; etiquetaTexto: string; volumen: string };
+export type Tema = { borde: string; alcista: string; bajista: string; rejilla: string; eje: string; etiqueta: string; etiquetaTexto: string; volumen: string; color?: boolean };
 export const OSCURO: Tema = { borde: "#F6ECD2", alcista: "#F6ECD2", bajista: "#000000", rejilla: "#1C1915", eje: "#8C826E", etiqueta: "#F6ECD2", etiquetaTexto: "#000000", volumen: "#F6ECD2" };
 /** Gráfico "de papel" como en los análisis de Order Block: alcistas blancas con borde, bajistas negras. */
+/** Como TradingView: velas verdes y rojas (mecha y borde del mismo color), rejilla gris azulada. */
+export const TRADINGVIEW: Tema = { borde: "#089981", alcista: "#089981", bajista: "#F23645", rejilla: "#2A2E39", eje: "#B2B5BE", etiqueta: "#089981", etiquetaTexto: "#FFFFFF", volumen: "#089981", color: true };
 export const PAPEL: Tema = { borde: "#141414", alcista: "#FFFFFF", bajista: "#141414", rejilla: "#E4DDCC", eje: "#6B6458", etiqueta: "#141414", etiquetaTexto: "#FFFFFF", volumen: "#141414" };
 
 export type Vela = { o: number; h: number; l: number; c: number; v: number };
@@ -85,7 +87,9 @@ export const GraficoVelas: React.FC<{
   /** etiquetas de hora debajo (una cada `cada` velas) */
   horas?: { desde: number; paso: number; cada: number };
   volumen?: boolean;
-}> = ({ velas, marco, entra, forma = 8, vivo = true, opacidad, ejes = 1, tema = OSCURO, letra = 26, horas, volumen = true }) => {
+  /** etiqueta de fecha debajo de cada vela ("" = sin etiqueta) */
+  fechas?: string[];
+}> = ({ velas, marco, entra, forma = 8, vivo = true, opacidad, ejes = 1, tema = OSCURO, letra = 26, horas, volumen = true, fechas }) => {
   const TV = tema;
   const f = useCurrentFrame();
   const g = geometria(velas, marco, letra);
@@ -99,7 +103,7 @@ export const GraficoVelas: React.FC<{
   const niveles = 5;
   const ultimoP = ultima >= 0 ? vis[ultima]!.c : velas[0].o;
   const sube = ultima >= 0 ? vis[ultima]!.c >= vis[ultima]!.o : true;
-  const colUlt = TV.etiqueta;
+  const colUlt = TV.color ? (sube ? TV.alcista : TV.bajista) : TV.etiqueta;
   void sube;
   const yUlt = g.yPrecio(ultimoP);
   const yVolBase = marco.y1;
@@ -133,10 +137,18 @@ export const GraficoVelas: React.FC<{
             </text>
           );
         })}
+      {fechas &&
+        fechas.map((t, k) =>
+          t ? (
+            <text key={`d${k}`} x={g.xVela(k)} y={marco.y1 + letra + 8} textAnchor="middle" fill={TV.eje} fontFamily={F.texto} fontWeight={600} fontSize={letra * 0.85} opacity={ejes}>
+              {t}
+            </text>
+          ) : null,
+        )}
       {volumen && vis.map((v, k) => {
         if (!v) return null;
         const h = (v.v / maxVol) * g.altoVol;
-        const col = TV.volumen;
+        const col = TV.color ? (v.c >= v.o ? TV.alcista : TV.bajista) : TV.volumen;
         return <rect key={`v${k}`} x={g.xVela(k) - ancho / 2} y={yVolBase - h} width={ancho} height={h} fill={alfa(col, v.c >= v.o ? 0.2 : 0.1)} opacity={(opacidad ? opacidad(k) : 1) * ejes} />;
       })}
       {/* velas */}
@@ -144,7 +156,7 @@ export const GraficoVelas: React.FC<{
         if (!v) return null;
         const x = g.xVela(k);
         const alza = v.c >= v.o;
-        const col = TV.borde;
+        const col = TV.color ? (alza ? TV.alcista : TV.bajista) : TV.borde;
         const yA = g.yPrecio(Math.max(v.o, v.c)),
           yB = g.yPrecio(Math.min(v.o, v.c));
         const alto = Math.max(3, yB - yA);

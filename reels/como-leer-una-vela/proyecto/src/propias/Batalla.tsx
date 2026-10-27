@@ -10,7 +10,8 @@ import { arr, txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { Escritorio, Personaje } from "./Escritorio";
 import { TRANSICION } from "./Cierre";
-import { GraficoVelas, geometria, serieVelas } from "./Velas";
+import { GraficoVelas, PAPEL, geometria, serieVelas } from "./Velas";
+import { AAPL_DIARIO } from "./aapl_diario";
 import { Chispas, Etiqueta, Halo, ORO, PRINCIPAL, REBOTE, ROJO, Revela, SECUND, Trazo, VERDE, encajar, pr, principalPara, sp, temblor } from "./mg";
 
 const CREMA = "#F2E8D5";
@@ -770,17 +771,20 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const f = useCurrentFrame();
   const tendencia = txt(p, "modo") === "tendencia";
   const [b0 = 0, b1 = 20, b2 = 40] = b;
-  const n = 36;
-  const velas = serieVelas(n, 33, (k) => 0.55 + Math.sin(k / 2.6) * 1.0, 220, 1.6);
-  const marco = { x0: 110, x1: 990, y0: 320, y1: 850 };
+  // datos reales: Apple diario, 27 abr 2016 – 16 feb 2017 (estilo papel, como los análisis en TradingView)
+  const velas = AAPL_DIARIO;
+  const n = velas.length;
+  const marco = { x0: 110, x1: 990, y0: 320, y1: 812 };
   const g = geometria(velas, marco, 20);
   // mínimos más altos: los valles locales
+  // mínimos de giro: el más bajo de 9 velas a cada lado
+  const VENT = 9;
   const valles: number[] = [];
   velas.forEach((v, k) => {
-    if (k > 1 && k < n - 2 && v.l < velas[k - 1].l && v.l < velas[k + 1].l && v.l < velas[k - 2].l && v.l < velas[k + 2].l) valles.push(k);
+    if (k >= VENT && k < n - VENT && velas.slice(k - VENT, k + VENT + 1).every((w) => w.l >= v.l)) valles.push(k);
   });
   const subiendo = valles.filter((k, i) => i === 0 || velas[k].l > velas[valles[i - 1]].l);
-  const pts = subiendo.map((k) => [g.xVela(k), g.yPrecio(velas[k].l) + 14] as [number, number]);
+  const pts = subiendo.map((k) => [g.xVela(k), g.yPrecio(velas[k].l) + 9] as [number, number]);
   const linea = pr(f, b1, 20, Easing.inOut(Easing.cubic));
   const zoom = tendencia ? 1 : 1.9 - 0.9 * pr(f, 0, Math.max(24, b0 + 10), Easing.inOut(Easing.cubic));
   const LLEGA = 18;
@@ -799,27 +803,38 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
     vW = lerp(100, g.hueco * 0.62);
   return (
     <>
-    <Escritorio dur={dur} cabecera="AAPL · APPLE · 1D · EJEMPLO" foco={[[0, 700], [b1, 400], [b2, 800]]} asiente={[b1, b2]}>
+    <Escritorio dur={dur} cabecera="AAPL · APPLE INC. · 1D · NASDAQ" foco={[[0, 700], [b1, 400], [b2, 800]]} asiente={[b1, b2]}>
       <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: `${g.xVela(n - 1)}px 560px` }}>
-        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={20} />
+        <div style={{ position: "absolute", left: marco.x0 - 20, top: marco.y0 - 70, width: marco.x1 - marco.x0 + 40, height: marco.y1 - marco.y0 + 120, background: "#DBDBDB", borderRadius: 6 }} />
+        <div style={{ position: "absolute", left: marco.x0, top: marco.y0 - 52, fontFamily: F.texto, fontSize: 19, color: "#8A8A8A", whiteSpace: "nowrap" }}>
+          Apple Inc. · 1D · NASDAQ <span style={{ color: "#141414", fontWeight: 700 }}>&nbsp;O 135,67 &nbsp;H 135,90 &nbsp;L 134,84 &nbsp;C 135,35</span>
+        </div>
+        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={20} tema={PAPEL} fechas={velas.map((v, k) => (k === 0 ? "" : v.fecha))} volumen={false} />
         {!tendencia && f < LLEGA + 4 && (
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: 1 - pr(f, LLEGA, 4) }}>
             <line x1={vx} x2={vx} y1={vHi} y2={vLo} stroke={CREMA} strokeWidth={lerp(8, 2.5)} />
-            <rect x={vx - vW / 2} y={vTop} width={vW} height={Math.max(2, vBot - vTop)} fill={CREMA} stroke={CREMA} strokeWidth={lerp(3, 1)} style={{ filter: `drop-shadow(0 0 ${12 * (1 - vuela)}px ${ORO})` }} />
+            <rect x={vx - vW / 2} y={vTop} width={vW} height={Math.max(2, vBot - vTop)} fill={vuela > 0.8 ? "#FFFFFF" : CREMA} stroke={vuela > 0.8 ? "#141414" : CREMA} strokeWidth={lerp(3, 1)} style={{ filter: `drop-shadow(0 0 ${12 * (1 - vuela)}px ${ORO})` }} />
           </svg>
         )}
         {tendencia && (
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {pts.length > 1 && <Trazo d={pts.map(([x, y], i) => `${i ? "L" : "M"}${x} ${y}`).join(" ")} p={linea} grosor={6} color={ORO} />}
             {pts.map(([x, y], i) => {
-              const s = sp(f, b0 + i * 6, REBOTE);
-              return s > 0 ? <circle key={i} cx={x} cy={y} r={11 * s} fill={ORO} stroke={TINTA} strokeWidth={3} /> : null;
+              const s = sp(f, b0 + i * 5, REBOTE);
+              if (s <= 0) return null;
+              return (
+                <g key={i}>
+                  <line x1={x} x2={x + 70} y1={y} y2={y} stroke="#2E8B57" strokeWidth={2.5} strokeDasharray="7 6" opacity={Math.min(1, s)} />
+                  <text x={x + 35} y={y + 22} textAnchor="middle" fontFamily={F.texto} fontWeight={700} fontSize={15} fill="#2E8B57" opacity={Math.min(1, s)}>mín ↑</text>
+                  <circle cx={x} cy={y} r={7 * s} fill={ORO} stroke={TINTA} strokeWidth={2} />
+                </g>
+              );
             })}
           </svg>
         )}
       </AbsoluteFill>
       {tendencia && f >= b2 - 2 && (
-        <div style={{ position: "absolute", left: 140, top: 340, fontFamily: principalPara("MÍNIMOS MÁS ALTOS"), fontSize: 46, color: ORO, transform: `scale(${sp(f, b2 - 2, REBOTE)})`, transformOrigin: "0 50%" }}>MÍNIMOS MÁS ALTOS ↗</div>
+        <div style={{ position: "absolute", left: 140, top: 340, fontFamily: principalPara("MÍNIMOS MÁS ALTOS"), fontSize: 46, color: TINTA, transform: `scale(${sp(f, b2 - 2, REBOTE)})`, transformOrigin: "0 50%" }}>MÍNIMOS MÁS ALTOS ↗</div>
       )}
     </Escritorio>
     </>
