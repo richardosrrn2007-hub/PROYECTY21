@@ -54,10 +54,13 @@
       "sinSubtitulos": true,
       "escena": {
         "tipo": "propia",
-        "nombre": "Reto",
+        "nombre": "Batalla",
+        "modo": "gancho",
+        "etiquetas": [],
         "en": [
           "batalla",
-          "vela"
+          "vela",
+          "vela+10"
         ]
       }
     },

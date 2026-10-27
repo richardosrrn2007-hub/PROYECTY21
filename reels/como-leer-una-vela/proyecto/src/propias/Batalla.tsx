@@ -127,6 +127,11 @@ const recorrido = (modo: string, b: number[], dur: number): Clave[] => {
       return [[0, 0.22], [b0, 0.45], [b1, 0.85], [fin, 0.95]];
     case "rechazo":
       return [[0, 0.4], [b0, 0.62], [b1, 0.98], [b2, 0.5], [fin, 0.48]];
+    case "gancho": {
+      const out: Clave[] = [[0, 0.5]];
+      for (let t = 5, k = 0; t < fin; t += 7, k++) out.push([t, k % 2 ? 0.12 + 0.08 * ((k * 7) % 3) / 2 : 0.88 - 0.08 * ((k * 5) % 3) / 2]);
+      return out;
+    }
     case "abre":
       return [[0, 0.45], [b0, 0.45], [b1, 0.7], [b2, 0.35], [fin, 0.78]];
     default:
@@ -171,13 +176,20 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const ganador = final && f > dur - 24 ? final : null;
   const animoToro: Animo = ganador === "toro" ? "gana" : ganador === "oso" ? "pierde" : "tira";
   const animoOso: Animo = ganador === "oso" ? "gana" : ganador === "toro" ? "pierde" : "tira";
-  const yToro = 215 - Math.max(0, vel) * 1100 + (ganador === "oso" ? 40 : 0);
-  const yOso = 1150 + Math.max(0, -vel) * 1100 + (ganador === "toro" ? 40 : 0);
+  const yToro = 215 + (modo === "gancho" ? 45 : 0) - Math.min(50, Math.max(0, vel) * 1100) + (ganador === "oso" ? 40 : 0);
+  const yOso = 1150 + Math.min(50, Math.max(0, -vel) * 1100) + (ganador === "toro" ? 40 : 0);
   const g = temblor(f, b[1] ?? 0, 6);
   const tensa = 1 + Math.abs(vel) * 40;
   const etiquetas = arr<string>(p, "etiquetas");
+  const gancho = modo === "gancho";
+  const [gb0 = 0, gb1 = 20] = b;
+  // golpe de cámara en cada cambio de sentido
+  const choque = gancho ? temblor(f, Math.floor((f - 5) / 7) * 7 + 5, 10, 6) : { x: 0, y: 0 };
+  const acerca = gancho ? pr(f, gb1 - 4, 16, Easing.inOut(Easing.cubic)) : 0;
+  const zoomG = gancho ? 0.84 + 0.3 * acerca : 1;
   return (
-    <AbsoluteFill style={{ transform: `translate(${g.x}px,${g.y}px)` }}>
+    <AbsoluteFill>
+    <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG})`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
       <Halo x={540} y={700} r={480} op={0.14} />
       {/* eje de precio a la izquierda */}
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
@@ -187,6 +199,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <line x1={540} x2={540} y1={yDe(hi)} y2={yDe(lo)} stroke={CREMA} strokeWidth={8} />
         {/* cuerpo de la vela */}
         <rect x={540 - 95} y={Math.min(yA, yC)} width={190} height={Math.max(4, Math.abs(yC - yA))} rx={4} fill={sube ? CREMA : TINTA} stroke={CREMA} strokeWidth={5} />
+        {gancho && <circle cx={540} cy={yC} r={Math.min(150, 70 + Math.abs(vel) * 600)} fill="none" stroke={ORO} strokeWidth={3} opacity={Math.min(1, Math.abs(vel) * 25)} />}
         {/* cuerda */}
         <path d={`M540 ${yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={8} />
         <path d={`M540 ${yC} Q${540 - Math.sin(f / 2) * 6 / tensa} ${(yOso + yC) / 2} 540 ${yOso - 150 * 1.05}`} fill="none" stroke={ORO} strokeWidth={8} />
@@ -224,6 +237,25 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
       });
       })()}
       {ganador && <Chispas desde={dur - 24} x={540} y={ganador === "toro" ? 300 : 1060} n={18} r={260} color={ganador === "toro" ? CREMA : ORO} />}
+      {gancho && [0, 1, 2, 3, 4, 5].map((k) => <Chispas key={k} desde={5 + k * 7} x={540} y={yDe(k % 2 ? 0.88 : 0.12)} n={10} r={150} color={k % 2 ? CREMA : ORO} />)}
+      {gancho && f >= gb1 - 4 && (
+        <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
+      )}
+    </AbsoluteFill>
+    {gancho && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: -20, textAlign: "center" }}>
+        <div>
+          <Revela desde={-12} tam={74} fuente={SECUND}>
+            ¿Quién ganó
+          </Revela>
+        </div>
+        <div>
+          <Revela desde={gb0 - 4} tam={encajar("ESTA BATALLA?", 900, 128, principalPara("ESTA BATALLA?"))} color={ORO} fuente={principalPara("ESTA BATALLA?")}>
+            ESTA BATALLA?
+          </Revela>
+        </div>
+      </div>
+    )}
     </AbsoluteFill>
   );
 };
