@@ -10,7 +10,7 @@ import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
 import { Escritorio, Personaje } from "./Escritorio";
 import { Nodo } from "./Broker";
-import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
+import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, CLAVE, Billete, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
   X1 = 960,
@@ -326,16 +326,6 @@ export const precioDef: DefEscena = {
 
 // ---------------------------------------------------------------- ganar / perder
 
-/** Billete dibujado: verde apagado de la paleta, borde crema y el signo $ en el centro. */
-const Billete: React.FC<{ x: number; y: number; giro: number; escala?: number; op?: number; voltea?: number }> = ({ x, y, giro, escala = 1, op = 1, voltea = 1 }) => (
-  <div style={{ position: "absolute", left: x - 85, top: y - 40, width: 170, height: 80, transform: `rotate(${giro}deg) scale(${escala}, ${escala * voltea})`, opacity: op, borderRadius: 8, background: "linear-gradient(135deg, #5E8550 0%, #3F6439 100%)", border: "2px solid rgba(246,236,210,0.55)", boxShadow: "0 8px 20px rgba(0,0,0,0.45)" }}>
-    <div style={{ position: "absolute", inset: 6, borderRadius: 5, border: "1.5px solid rgba(246,236,210,0.35)" }} />
-    <div style={{ position: "absolute", left: 61, top: 16, width: 48, height: 48, borderRadius: 24, background: "rgba(246,236,210,0.18)", border: "1.5px solid rgba(246,236,210,0.5)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CLAVE, fontSize: 34, color: "#F6ECD2" }}>$</div>
-    <div style={{ position: "absolute", left: 12, top: 8, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
-    <div style={{ position: "absolute", right: 12, bottom: 6, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
-  </div>
-);
-
 /** Ganas: los billetes caen y se abren en abanico. Pierdes: salen volando. */
 const Billetes: React.FC<{ x: number; y: number; desde: number; modo: "gana" | "pierde" }> = ({ x, y, desde, modo }) => {
   const f = useCurrentFrame();
@@ -520,45 +510,94 @@ export const comision: DefEscena = {
 
 // ---------------------------------------------------------------- cierre
 
+/** Vela grande para enseñar a leerla: precios de ejemplo y su posición en pantalla. */
+const VELA = { o: 232.1, c: 235.8, h: 237.2, l: 230.9 };
+const VY = (p: number) => 360 + ((VELA.h - p) / (VELA.h - VELA.l)) * 460;
+
 const Proximo: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0, b1, b2, b3] = b;
-  const n = 22;
-  const K = 15;
-  const velas = serieVelas(n, 7, (k) => (k === K ? 2.6 : k < K ? 0.3 : -0.35), 231, 1.4);
-  velas[K] = { ...velas[K], h: velas[K].c + 0.6, l: velas[K].o - 0.55 };
-  const marco = { x0: 120, x1: 990, y0: 330, y1: 850 };
+  // gráfico realista: más velas, cuerpos largos y mechas proporcionadas
+  const n = 30;
+  const K = 22;
+  const velas = serieVelas(n, 7, (k) => (k === K ? 2.4 : k < 10 ? -0.4 : k < K ? 0.7 : -0.4), 224, 2.1);
+  const marco = { x0: 110, x1: 990, y0: 330, y1: 850 };
   const LT = 20;
   const g = geometria(velas, marco, LT);
-  const entra = (k: number) => b1 - 8 + k * 1.6;
-  const m = pr(f, b2 - 4, 22, Easing.inOut(Easing.cubic));
-  const z = 1 + 1.5 * m;
+  const entra = (k: number) => b1 - 12 + k * 1.1;
+  // al decir "leer", el gráfico se apaga y la vela K crece hasta ocupar la pantalla
+  const m = pr(f, b2 - 6, 18, Easing.inOut(Easing.cubic));
   const ox = g.xVela(K),
     oy = g.yPrecio((velas[K].o + velas[K].c) / 2);
-  const tx = (560 - ox) * m,
-    ty = (580 - oy) * m;
-  const P = (x: number, y: number): [number, number] => [ox + tx + (x - ox) * z, oy + ty + (y - oy) * z];
-  const v = velas[K];
-  const ancho = Math.max(5, g.hueco * 0.56);
-  const [hx, hy] = P(ox, g.yPrecio(v.h));
-  const [cx1, cy1] = P(ox + ancho / 2, g.yPrecio(v.c));
-  const [ox1, oy1] = P(ox + ancho / 2, g.yPrecio(v.o));
-  const [lx, ly] = P(ox, g.yPrecio(v.l));
-  const notas = b2 + 12;
+  const CX = 430,
+    CY = (VY(VELA.h) + VY(VELA.l)) / 2;
+  const vx = ox + (CX - ox) * m,
+    vy = oy + (CY - oy) * m,
+    ve = 0.25 + 0.75 * m;
+  const notas = b2 + 10;
+  const niveles: [string, number, string, number][] = [
+    ["Máximo", VELA.h, C.texto, notas],
+    ["Cierre", VELA.c, VERDE, notas + 6],
+    ["Apertura", VELA.o, C.texto, notas + 12],
+    ["Mínimo", VELA.l, C.texto, notas + 18],
+  ];
   const fz = fuenteTitulo(["Cómo leer", "una gráfica"]);
   const boton = sp(f, b3 + 10);
   const bote = f > b3 + 20 ? Math.abs(Math.sin((f - b3) / 6)) * 8 : 0;
   return (
     <AbsoluteFill>
-      <Escritorio dur={dur} cabecera="AAPL · APPLE · 1D · EJEMPLO" seInclina={b2 - 4} asiente={[b1 + 10, notas + 6]} cursor={[[0, 760, 640], [b1, g.xVela(6), 620], [b2 - 8, ox + 14, oy], [notas + 24, ox + 200, oy + 120]]} clics={[b2 - 6]}>
-        <AbsoluteFill style={{ transform: `translate(${tx}px,${ty}px) scale(${z})`, transformOrigin: `${ox}px ${oy}px` }}>
-          <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} vivo={false} letra={LT} opacidad={(k) => (k === K ? 1 : 1 - 0.85 * m)} ejes={1 - m} />
+      <Escritorio
+        dur={dur}
+        cabecera="AAPL · APPLE · 1D · EJEMPLO"
+        seInclina={b2 - 4}
+        asiente={[b1 + 10, notas + 6, notas + 18]}
+        cursor={[[0, 760, 640], [b1, g.xVela(8), 620], [b2 - 8, ox + 14, oy], [notas, 560, VY(VELA.h)], [notas + 6, 560, VY(VELA.c)], [notas + 12, 560, VY(VELA.o)], [notas + 18, 560, VY(VELA.l)], [notas + 30, 300, 600]]}
+        clics={[b2 - 8]}
+      >
+        <AbsoluteFill style={{ opacity: 1 - m }}>
+          <GraficoVelas velas={velas} marco={marco} entra={entra} forma={4} vivo={false} letra={LT} />
         </AbsoluteFill>
-        <Nota x={hx} y={hy} dx={110} dy={-10} texto="máximo" desde={notas} />
-        <Nota x={cx1} y={cy1} dx={140} dy={20} texto="cierre" desde={notas + 4} color={VERDE} />
-        <Nota x={ox1} y={oy1} dx={140} dy={-20} texto="apertura" desde={notas + 8} />
-        <Nota x={lx} y={ly} dx={-110} dy={10} texto="mínimo" desde={notas + 12} />
-        {f >= notas + 8 && <div style={{ position: "absolute", left: ox1 - 300, top: (cy1 + oy1) / 2 - 40, fontFamily: PRO, fontWeight: 700, fontSize: 40, letterSpacing: 1, color: ORO, transform: `scale(${sp(f, notas + 8)})` }}>cuerpo</div>}
+        {m > 0 && (
+          <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+            <g transform={`translate(${vx},${vy}) scale(${ve}) translate(${-CX},${-CY})`} opacity={Math.min(1, m * 2)}>
+              <line x1={CX} x2={CX} y1={VY(VELA.h)} y2={VY(VELA.l)} stroke="#F6ECD2" strokeWidth={6} />
+              <rect x={CX - 48} y={VY(VELA.c)} width={96} height={VY(VELA.o) - VY(VELA.c)} rx={4} fill="#F6ECD2" />
+            </g>
+            {/* líneas de cada nivel hasta el eje de precios */}
+            {niveles.map(([, p, col, d]) => {
+              const t = pr(f, d, 10);
+              if (t <= 0) return null;
+              const y = VY(p);
+              return <line key={p} x1={CX + 60} x2={CX + 60 + (840 - CX) * t} y1={y} y2={y} stroke={col} strokeWidth={2.5} strokeDasharray="8 8" opacity={0.85} />;
+            })}
+            {/* llave del cuerpo */}
+            {pr(f, notas + 24, 10) > 0 && (
+              <path d={`M${CX - 70} ${VY(VELA.c)} q-18 0 -18 18 L${CX - 88} ${(VY(VELA.c) + VY(VELA.o)) / 2 - 12} q0 12 -14 12 q14 0 14 12 L${CX - 88} ${VY(VELA.o) - 18} q0 18 18 18`} fill="none" stroke={ORO} strokeWidth={4} opacity={pr(f, notas + 24, 10)} />
+            )}
+          </svg>
+        )}
+        {niveles.map(([nombre, p, col, d]) => {
+          const t = pr(f, d + 4, 8);
+          if (t <= 0) return null;
+          const y = VY(p);
+          return (
+            <React.Fragment key={nombre}>
+              <div style={{ position: "absolute", left: CX + 76, top: y - 42, fontFamily: PRO, fontWeight: 700, fontSize: 32, color: col, opacity: t, transform: `translateX(${(1 - t) * 20}px)` }}>{nombre}</div>
+              <div style={{ position: "absolute", left: 846, top: y - 19, width: 130, height: 38, borderRadius: 8, background: col === VERDE ? VERDE : "#F6ECD2", color: "#000", fontFamily: PRO, fontWeight: 700, fontSize: 24, display: "flex", alignItems: "center", justifyContent: "center", opacity: t, fontVariantNumeric: "tabular-nums" }}>
+                {numeroES(p, 2)}
+              </div>
+            </React.Fragment>
+          );
+        })}
+        {f >= notas + 26 && (
+          <div style={{ position: "absolute", left: CX - 270, top: (VY(VELA.c) + VY(VELA.o)) / 2 - 24, width: 160, textAlign: "right", fontFamily: PRO, fontWeight: 700, fontSize: 34, color: ORO, transform: `scale(${sp(f, notas + 26)})`, transformOrigin: "100% 50%" }}>cuerpo</div>
+        )}
+        {f >= notas + 30 && (
+          <>
+            <div style={{ position: "absolute", left: CX - 230, top: (VY(VELA.h) + VY(VELA.c)) / 2 - 18, width: 170, textAlign: "right", fontFamily: PRO, fontWeight: 700, fontSize: 24, color: C.suave, opacity: pr(f, notas + 30, 8) }}>mecha</div>
+            <div style={{ position: "absolute", left: CX - 230, top: (VY(VELA.o) + VY(VELA.l)) / 2 - 18, width: 170, textAlign: "right", fontFamily: PRO, fontWeight: 700, fontSize: 24, color: C.suave, opacity: pr(f, notas + 30, 8) }}>mecha</div>
+          </>
+        )}
       </Escritorio>
       {f >= b0 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 180, display: "flex", justifyContent: "center", transform: `scale(${sp(f, b0 - 2)})` }}>

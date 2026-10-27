@@ -245,3 +245,14 @@ export const Caja: React.FC<{ x: number; y: number; desde: number; children: Rea
 export const Halo: React.FC<{ x: number; y: number; r: number; color?: string; op?: number }> = ({ x, y, r, color = ORO, op = 0.28 }) => (
   <div style={{ position: "absolute", left: x - r, top: y - r, width: r * 2, height: r * 2, borderRadius: "50%", background: `radial-gradient(circle, ${alfa(color, op)} 0%, ${alfa(color, 0)} 70%)` }} />
 );
+
+/** Billete dibujado: verde apagado de la paleta, borde crema y el signo $ en el centro. */
+export const Billete: React.FC<{ x: number; y: number; giro: number; escala?: number; op?: number; voltea?: number }> = ({ x, y, giro, escala = 1, op = 1, voltea = 1 }) => (
+  <div style={{ position: "absolute", left: x - 85, top: y - 40, width: 170, height: 80, transform: `rotate(${giro}deg) scale(${escala}, ${escala * voltea})`, opacity: op, borderRadius: 8, background: "linear-gradient(135deg, #5E8550 0%, #3F6439 100%)", border: "2px solid rgba(246,236,210,0.55)", boxShadow: "0 8px 20px rgba(0,0,0,0.45)" }}>
+    <div style={{ position: "absolute", inset: 6, borderRadius: 5, border: "1.5px solid rgba(246,236,210,0.35)" }} />
+    <div style={{ position: "absolute", left: 61, top: 16, width: 48, height: 48, borderRadius: 24, background: "rgba(246,236,210,0.18)", border: "1.5px solid rgba(246,236,210,0.5)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: CLAVE, fontSize: 34, color: "#F6ECD2" }}>$</div>
+    <div style={{ position: "absolute", left: 12, top: 8, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
+    <div style={{ position: "absolute", right: 12, bottom: 6, fontFamily: CLAVE, fontSize: 16, color: "rgba(246,236,210,0.7)" }}>100</div>
+  </div>
+);
+

@@ -12,7 +12,7 @@ import { CLAVE, PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo,
 // ---------------------------------------------------------------- edificio
 
 /** Edificio dibujado con líneas, partido en 4 columnas (las "acciones") que se pueden separar. */
-export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo: number; ventanas: number; separa?: number; resalta?: number; op?: number; encender?: number }> = ({
+export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo: number; ventanas: number; separa?: number; resalta?: number; op?: number; encender?: number; hueco?: number }> = ({
   cx,
   base,
   esc = 1,
@@ -22,6 +22,7 @@ export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo
   resalta = 0,
   op = 1,
   encender = 1e9,
+  hueco = 0,
 }) => {
   const f = useCurrentFrame();
   // rascacielos moderno de oficinas: cuatro bloques de alturas distintas (la columna 2 es la más alta y es
@@ -39,8 +40,15 @@ export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo
           const x = x0 + c * anchoCol;
           const oro = c === 2 && resalta > 0;
           const filas = Math.floor((alto - 70) / 62);
+          if (c === 2 && hueco > 0.5) {
+            return (
+              <g key={c} transform={`translate(${dx},0)`}>
+                <rect x={x + 4} y={-alto} width={anchoCol - 8} height={alto} fill={alfa(ORO, 0.05)} stroke={ORO} strokeWidth={4} strokeDasharray="14 12" opacity={0.85} />
+              </g>
+            );
+          }
           return (
-            <g key={c} transform={`translate(${dx},${dy})`}>
+            <g key={c} transform={`translate(${dx},${dy})`} opacity={c === 2 ? 1 - hueco * 2 : 1}>
               {oro && <rect x={x} y={-alto} width={anchoCol} height={alto} fill={alfa(ORO, 0.22 * resalta)} />}
               <Trazo d={`M${x} 0 L${x} ${-alto} L${x + anchoCol} ${-alto} L${x + anchoCol} 0 Z`} p={dibujo} grosor={oro ? 8 : 6} />
               {c === 2 && <Trazo d={`M${x + anchoCol / 2} ${-alto} L${x + anchoCol / 2} ${-alto - 70}`} p={dibujo} grosor={5} />}
@@ -82,7 +90,7 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
       <AbsoluteFill style={{ transform: `translateY(${372 * aleja - 120 * (1 - aleja)}px) scale(${0.62 + 0.63 * (1 - aleja)})`, transformOrigin: "540px 262px" }}>
         <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b1, b3]} cabecera="APPLE · EMPRESA">
           <Halo x={540} y={600} r={380} op={0.18 + 0.12 * pr(f, b1, 10)} />
-          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
+          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} hueco={sale} />
           <Chispas desde={b2 + 2} x={540} y={640} n={16} r={260} />
         </Escritorio>
         {/* una columna (una acción) sale de la pantalla flotando */}
@@ -91,7 +99,7 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
             {Array.from({ length: 7 }).map((_, r) =>
               [0, 1].map((w) => <div key={`${r}-${w}`} style={{ position: "absolute", left: 15 + w * 36, top: 30 + r * 56, width: 26, height: 30, borderRadius: 3, background: ORO }} />),
             )}
-            <div style={{ position: "absolute", left: "50%", top: "100%", marginTop: 22, transform: "translateX(-50%)", whiteSpace: "nowrap", fontFamily: CLAVE, fontSize: 52, color: C.acentoTexto, background: ORO, padding: "0 16px", borderRadius: 10, opacity: pr(f, b2 + 8, 8) }}>1 ACCIÓN</div>
+            <div style={{ position: "absolute", left: "50%", top: "100%", marginTop: 22, transform: "translateX(-50%)", whiteSpace: "nowrap", fontFamily: CLAVE, fontSize: 52, color: C.acentoTexto, background: ORO, padding: "0 16px", borderRadius: 10, opacity: pr(f, b2 + 8, 8) }}>TU ACCIÓN</div>
           </div>
         )}
       </AbsoluteFill>
