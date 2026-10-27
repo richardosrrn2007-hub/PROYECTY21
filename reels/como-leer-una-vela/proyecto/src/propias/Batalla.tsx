@@ -398,7 +398,8 @@ const camara = (modo: string, t: number) => {
     case "negra":
       return `rotate(${3 - 4 * t}deg) scale(${1.05})`;
     case "mechas":
-      return `translateY(${60 - 100 * t}px) scale(1.03)`;
+      // zoom dentro de la vela: los personajes salen de plano y solo queda la vela con la cuerda
+      return `scale(${1 + 0.62 * Easing.inOut(Easing.cubic)(Math.min(1, t * 3.5))})`;
     case "fuerza":
       return `scale(${1 + 0.1 * t}) translateY(${30 * t}px)`;
     case "rechazo":
@@ -467,6 +468,47 @@ const Partes: React.FC<{ partes: string[]; b: number[]; f: number; yAbre: number
         );
       })}
     </svg>
+  );
+};
+
+/** Primer plano de anime: pantalla partida con el toro y el oso apretando, líneas de velocidad y la vela que tiembla en medio. */
+const PrimerPlano: React.FC<{ f: number; dur: number; precio: number; abre: number; tinte: number; fzAntes: number }> = ({ f, dur, precio, abre, tinte, fzAntes }) => {
+  const entra = pr(f, 0, 8, Easing.out(Easing.cubic));
+  const tiembla = Math.sin(f * 2.3) * 6;
+  const lineas = (cx: number, cy: number, col: string, semilla: number) =>
+    Array.from({ length: 24 }).map((_, k) => {
+      const a = (k / 24) * Math.PI * 2 + semilla;
+      const r0 = 300 + rnd(k + semilla * 10) * 120 + ((f * 50) % 220);
+      return <line key={k} x1={cx + Math.cos(a) * r0} y1={cy + Math.sin(a) * r0} x2={cx + Math.cos(a) * (r0 + 320)} y2={cy + Math.sin(a) * (r0 + 320)} stroke={col} strokeWidth={4 + rnd(k) * 6} opacity={0.45} />;
+    });
+  // la vela de la pelea, pequeña, en la diagonal: se estira arriba y abajo
+  const yv = 900,
+    alto = (precio - abre) * 520;
+  return (
+    <AbsoluteFill>
+      <div style={{ position: "absolute", left: -200, top: -600, width: 1480, height: 1900, clipPath: "polygon(0 0, 100% 0, 100% 58%, 0 74%)", background: `linear-gradient(160deg, #3A3326, #1A1611)`, transform: `translate(${(1 - entra) * -700 + tiembla}px, 0)` }}>
+        <svg width={1480} height={1900} style={{ position: "absolute", left: 0, top: 0 }}>
+          {lineas(700, 1150, alfa(CREMA, 0.3), 0.3)}
+          <Toro x={600} y={1120} esc={2.5} animo="tira" />
+        </svg>
+      </div>
+      <div style={{ position: "absolute", left: -200, top: -600, width: 1480, height: 3000, clipPath: "polygon(0 49.6%, 100% 39.4%, 100% 100%, 0 100%)", background: `linear-gradient(160deg, #120E0B, #000)`, transform: `translate(${(1 - entra) * 700 - tiembla}px, 0)` }}>
+        <svg width={1480} height={3000} style={{ position: "absolute", left: 0, top: 0 }}>
+          {lineas(760, 1950, alfa(ROJO, 0.35), 1.1)}
+          <Oso x={880} y={1980} esc={2.5} animo="tira" />
+        </svg>
+      </div>
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+        <line x1={-200} y1={806} x2={1280} y2={502} stroke={ORO} strokeWidth={10} />
+        <g transform={`translate(${540 + tiembla * 0.5} ${yv - 140})`}>
+          <rect x={-70} y={-70} width={140} height={360} rx={16} fill={alfa("#000", 0.75)} stroke={ORO} strokeWidth={4} />
+          <line x1={0} x2={0} y1={-40} y2={260} stroke={CREMA} strokeWidth={8} />
+          <rect x={-36} y={Math.min(110, 110 - alto)} width={72} height={Math.max(6, Math.abs(alto))} fill={alto >= 0 ? CREMA : TINTA} stroke={CREMA} strokeWidth={4} />
+        </g>
+      </svg>
+      <Vida fz={tinte} fzAntes={fzAntes} y={-128} gana={null} />
+      {void dur}
+    </AbsoluteFill>
   );
 };
 
@@ -580,7 +622,9 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const animoToro: Animo = ganador === "toro" ? "gana" : ganador === "oso" ? "pierde" : "tira";
   const animoOso: Animo = ganador === "oso" ? "gana" : ganador === "toro" ? "pierde" : "tira";
   const yToro = 215 + (modo === "gancho" ? 45 : 0) + (ganador === "toro" ? 40 : 0) - Math.min(50, Math.max(0, vel) * 1100) + (ganador === "oso" ? 40 : 0);
-  const yOso = 1150 + Math.min(50, Math.max(0, -vel) * 1100) + (ganador === "toro" ? 40 : 0);
+  const ko = modo === "fuerza" && ganador ? sp(f, dur - 24, REBOTE) : 0;
+  const yOso = 1150 + Math.min(50, Math.max(0, -vel) * 1100) + (ganador === "toro" ? 40 : 0) - 150 * ko;
+  const repeticion = modo === "rechazo";
   const g = temblor(f, b[1] ?? 0, 6);
   const tensa = 1 + Math.abs(vel) * 40;
   const etiquetas = arr<string>(p, "etiquetas");
@@ -605,10 +649,11 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const acerca = gancho ? pr(f, gb1 - 4, 16, Easing.inOut(Easing.cubic)) : 0;
   const zoomG = gancho ? 0.84 + 0.3 * acerca : 1;
   const vsFin = 24;
+  if (modo === "pelea") return <PrimerPlano f={f} dur={dur} precio={precio} abre={abre} tinte={tinte} fzAntes={Math.max(-1, Math.min(1, (precioEn(f - 10, claves) - abre) * 3))} />;
   return (
     <AbsoluteFill style={{ filter: imp.filtro, transform: `scale(${imp.zoom})` }}>
     <AbsoluteFill style={{ background: `radial-gradient(ellipse at 50% 45%, ${alfa(tinte > 0 ? VERDE : ROJO, 0.3 * Math.abs(tinte))} 0%, transparent 65%)` }} />
-    <AbsoluteFill style={{ transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG}) ${camara(modo, pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.sin)))}`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
+    <AbsoluteFill style={{ filter: [repeticion ? "sepia(0.35) contrast(1.12) saturate(0.8)" : "", ko > 0 ? `grayscale(${0.75 * Math.min(1, ko)})` : ""].join(" ").trim() || undefined, transform: `translate(${g.x + choque.x}px,${g.y + choque.y + (gancho ? 90 : 0)}px) scale(${zoomG}) ${camara(modo, pr(f, 0, Math.max(30, dur), Easing.inOut(Easing.sin)))}`, transformOrigin: `540px ${gancho ? 330 : 700}px` }}>
       <Publico fuerza={(precio - abre) * 4} />
       {(gancho || modo === "pelea") && <Ordenes fuerzaEn={(t) => (precioEn(t + 3, claves) - precioEn(t - 3, claves)) * 40} nudo={(t) => yDe(precioEn(t, claves))} />}
       <Halo x={540} y={700} r={480} op={0.14} />
@@ -654,6 +699,16 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         );
       });
       })()}
+      <Partes partes={arr<string>(p, "partes")} b={b} f={f} yAbre={yA} yCierre={yC} yMax={yDe(hi)} yMin={yDe(lo)} tam={modo === "mechas" ? 24 : 36} xt={modo === "mechas" ? 690 : 760} />
+      {/* repetición: rastro del precio en el tiempo, hacia la derecha */}
+      {repeticion && (
+        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+          {Array.from({ length: Math.floor(f / 2) }).map((_, i) => {
+            const t = i * 2;
+            return <circle key={i} cx={660 + (t / Math.max(1, dur)) * 300} cy={yDe(precioEn(t, claves))} r={4} fill={ORO} opacity={0.35 + 0.65 * (t / Math.max(1, f))} />;
+          })}
+        </svg>
+      )}
       {cambio && <Chispas desde={cT - 2} x={540} y={yToro + 60} n={22} r={240} color={CREMA} />}
       {cambio && <Chispas desde={cO - 2} x={540} y={yOso + 60} n={22} r={240} color={ORO} />}
       {ganador && <Chispas desde={dur - 24} x={540} y={ganador === "toro" ? 300 : 1060} n={18} r={260} color={ganador === "toro" ? CREMA : ORO} />}
@@ -662,9 +717,21 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
       )}
     </AbsoluteFill>
-    {!gancho && <Vida fz={tinte} fzAntes={Math.max(-1, Math.min(1, (precioEn(f - 10, claves) - abre) * 3))} y={-128} gana={ganador} />}
     {gancho && f < vsFin + 6 && <Versus f={f} fin={vsFin} />}
-    <Partes partes={arr<string>(p, "partes")} b={b} f={f} yAbre={yA} yCierre={yC} yMax={yDe(hi)} yMin={yDe(lo)} />
+    {ko > 0 && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: 860, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 300, color: ROJO, WebkitTextStroke: `9px ${TINTA}`, transform: `scale(${3 - 2 * Math.min(1, ko)}) rotate(-8deg)`, opacity: Math.min(1, ko * 2), textShadow: "0 14px 40px rgba(0,0,0,0.8)" }}>K.O.</div>
+    )}
+    {repeticion && (
+      <>
+        <AbsoluteFill style={{ background: "repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 2px, transparent 2px, transparent 5px)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", left: 70, top: 1320, display: "flex", alignItems: "center", gap: 14, fontFamily: F.texto, fontWeight: 800, fontSize: 40, letterSpacing: 6, color: "#FFFFFF", textShadow: "0 0 12px rgba(255,255,255,0.6)" }}>
+          <span style={{ opacity: Math.floor(f / 12) % 2 ? 0.25 : 1 }}>▶</span> REPETICIÓN
+        </div>
+        <div style={{ position: "absolute", right: 70, top: 1320, fontFamily: F.texto, fontWeight: 700, fontSize: 34, color: "#FFFFFF", opacity: 0.8, fontVariantNumeric: "tabular-nums" }}>
+          00:{String(Math.floor(f / 30)).padStart(2, "0")}:{String(f % 30).padStart(2, "0")}
+        </div>
+      </>
+    )}
     {!!p.reloj && <Reloj f={f} desde={b[0] ?? 0} hasta={b[2] ?? dur} />}
     {gancho && (
       <div style={{ position: "absolute", right: 50, top: 210, transform: `scale(${sp(f, 26, REBOTE)}) rotate(-4deg)`, background: ORO, color: TINTA, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 5, padding: "10px 26px", borderRadius: 40, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>PARTE 2</div>
@@ -730,7 +797,7 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b0, b1]} cabecera="AAPL · 1D">
           <Halo x={540} y={560} r={380} op={0.18} />
           <VelaReto f={f} desde={final ? -40 : 0} respuesta={final ? c1 : 1e9} />
-          {final && <Partes partes={["cierre@0", "apertura@0", "maximo@1", "minimo@1"]} b={[c1, c2]} f={f} yCierre={360} yAbre={690} yMax={290} yMin={750} xCuerpo={606} xMecha={546} xt={700} tam={52} />}
+          {final && <Partes partes={["cierre@0", "apertura@2", "maximo@1", "minimo@3"]} b={[c1, c2, c1 + 16, c2 + 8]} f={f} yCierre={360} yAbre={690} yMax={290} yMin={750} xCuerpo={606} xMecha={546} xt={700} tam={52} />}
           {!final && <div style={{ position: "absolute", left: 640, top: 380, fontFamily: PRINCIPAL, fontSize: 140, color: ORO, transform: `rotate(${Math.sin(f / 7) * 10}deg) scale(${sp(f, b0)})` }}>?</div>}
         </Escritorio>
       </AbsoluteFill>
