@@ -119,15 +119,15 @@
         "nombre": "Batalla",
         "modo": "abre",
         "reloj": true,
-        "etiquetas": [
-          "APERTURA · PRIMER PRECIO@titulo",
-          "",
-          "CIERRE · ÚLTIMO PRECIO@cierre"
-        ],
+        "etiquetas": [],
         "en": [
           "abre",
           "dia",
           "ultimo"
+        ],
+        "partes": [
+          "apertura@0",
+          "cierre@2"
         ]
       },
       "sonidos": [
@@ -245,15 +245,17 @@
         "tipo": "propia",
         "nombre": "Batalla",
         "modo": "mechas",
-        "etiquetas": [
-          "MÁXIMO DEL DÍA@alto",
-          "MÍNIMO DEL DÍA@bajo",
-          ""
-        ],
+        "etiquetas": [],
         "en": [
           "alto",
           "bajo",
           "mechas"
+        ],
+        "partes": [
+          "apertura@2",
+          "cierre@2",
+          "maximo@0",
+          "minimo@1"
         ]
       },
       "sonidos": [

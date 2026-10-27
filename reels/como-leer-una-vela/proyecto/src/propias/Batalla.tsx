@@ -431,6 +431,45 @@ const Reloj: React.FC<{ f: number; desde: number; hasta: number }> = ({ f, desde
   );
 };
 
+/** Partes de la vela señaladas como en un libro: una línea fina sale de cada parte hacia la derecha con su nombre.
+ * Cada entrada es "parte@momento" (parte: apertura, cierre, maximo, minimo). */
+const Partes: React.FC<{ partes: string[]; b: number[]; f: number; yAbre: number; yCierre: number; yMax: number; yMin: number; xCuerpo?: number; xMecha?: number; xt?: number; tam?: number }> = ({ partes, b, f, yAbre, yCierre, yMax, yMin, xCuerpo = 635, xMecha = 553, xt = 760, tam = 36 }) => {
+  const def: Record<string, { y: number; x0: number; texto: string; color: string }> = {
+    maximo: { y: yMax, x0: xMecha, texto: "MÁXIMO", color: ORO },
+    cierre: { y: yCierre, x0: xCuerpo, texto: "CIERRE", color: CREMA },
+    apertura: { y: yAbre, x0: xCuerpo, texto: "APERTURA", color: CREMA },
+    minimo: { y: yMin, x0: xMecha, texto: "MÍNIMO", color: ORO },
+  };
+  // de arriba abajo, con un hueco mínimo entre etiquetas para que no se pisen
+  const vis = partes
+    .map((t) => t.split("@"))
+    .map(([nombre, m]) => ({ nombre, d: b[Number(m)] ?? 0 }))
+    .filter((x) => def[x.nombre] && f >= x.d - 2)
+    .sort((x, z) => def[x.nombre].y - def[z.nombre].y);
+  let ultimo = -1e9;
+  const filas = vis.map((x) => {
+    const yy = Math.max(def[x.nombre].y, ultimo + tam * 1.45);
+    ultimo = yy;
+    return { ...x, ...def[x.nombre], yy };
+  });
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+      {filas.map((x) => {
+        const k = sp(f, x.d - 2, REBOTE);
+        return (
+          <g key={x.nombre} opacity={Math.min(1, k)}>
+            <circle cx={x.x0} cy={x.y} r={tam / 6} fill={x.color} />
+            <path d={`M${x.x0} ${x.y} L${x.x0 + (xt - 20 - x.x0) * 0.5} ${x.y} L${xt - 20} ${x.yy}`} fill="none" stroke={x.color} strokeWidth={tam / 12} strokeDasharray={`${400 * Math.min(1, k)} 400`} />
+            <text x={xt} y={x.yy + tam * 0.32} fontFamily={F.texto} fontWeight={800} fontSize={tam} letterSpacing={3} fill={x.color} style={{ paintOrder: "stroke", stroke: "#000", strokeWidth: 6 }} transform={`translate(${(1 - Math.min(1, k)) * 30} 0)`}>
+              {x.texto}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+
 /** Arranque "VS": pantalla partida en diagonal con los dos magnates, líneas de velocidad y un VS que golpea. */
 const Versus: React.FC<{ f: number; fin: number }> = ({ f, fin }) => {
   const entra = pr(f, 0, 6, Easing.out(Easing.cubic));
@@ -623,8 +662,9 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
       )}
     </AbsoluteFill>
-    {!gancho && <Vida fz={tinte} fzAntes={Math.max(-1, Math.min(1, (precioEn(f - 10, claves) - abre) * 3))} y={-112} gana={ganador} />}
+    {!gancho && <Vida fz={tinte} fzAntes={Math.max(-1, Math.min(1, (precioEn(f - 10, claves) - abre) * 3))} y={-128} gana={ganador} />}
     {gancho && f < vsFin + 6 && <Versus f={f} fin={vsFin} />}
+    <Partes partes={arr<string>(p, "partes")} b={b} f={f} yAbre={yA} yCierre={yC} yMax={yDe(hi)} yMin={yDe(lo)} />
     {!!p.reloj && <Reloj f={f} desde={b[0] ?? 0} hasta={b[2] ?? dur} />}
     {gancho && (
       <div style={{ position: "absolute", right: 50, top: 210, transform: `scale(${sp(f, 26, REBOTE)}) rotate(-4deg)`, background: ORO, color: TINTA, fontFamily: F.texto, fontWeight: 800, fontSize: 34, letterSpacing: 5, padding: "10px 26px", borderRadius: 40, boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>PARTE 2</div>
@@ -690,6 +730,7 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b0, b1]} cabecera="AAPL · 1D">
           <Halo x={540} y={560} r={380} op={0.18} />
           <VelaReto f={f} desde={final ? -40 : 0} respuesta={final ? c1 : 1e9} />
+          {final && <Partes partes={["cierre@0", "apertura@0", "maximo@1", "minimo@1"]} b={[c1, c2]} f={f} yCierre={360} yAbre={690} yMax={290} yMin={750} xCuerpo={606} xMecha={546} xt={700} tam={52} />}
           {!final && <div style={{ position: "absolute", left: 640, top: 380, fontFamily: PRINCIPAL, fontSize: 140, color: ORO, transform: `rotate(${Math.sin(f / 7) * 10}deg) scale(${sp(f, b0)})` }}>?</div>}
         </Escritorio>
       </AbsoluteFill>
@@ -705,17 +746,6 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
           </Revela>
         </div>
       </div>
-      {final && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 660, display: "flex", justifyContent: "center", gap: 24 }}>
-          {([["BLANCA", c1], ["CUERPO LARGO", c2]] as [string, number][]).map(([t, d]) =>
-            f >= d - 2 ? (
-              <div key={t} style={{ display: "flex", alignItems: "center", gap: 10, transform: `scale(${sp(f, d - 2, REBOTE)})`, fontFamily: F.texto, fontWeight: 800, fontSize: 32, letterSpacing: 3, color: CREMA, background: alfa(TINTA, 0.85), border: `3px solid ${ORO}`, borderRadius: 40, padding: "8px 22px" }}>
-                <span style={{ color: ORO, fontSize: 38 }}>✓</span> {t}
-              </div>
-            ) : null,
-          )}
-        </div>
-      )}
       {final && sello > 0 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 520, display: "flex", justifyContent: "center", transform: `scale(${sello}) rotate(-6deg)` }}>
           <div style={{ fontFamily: principalPara("GANARON LOS COMPRADORES"), fontSize: 50, color: TINTA, background: CREMA, border: `4px solid ${ORO}`, borderRadius: 14, padding: "6px 24px", boxShadow: `0 0 40px ${alfa(ORO, 0.5)}` }}>GANARON LOS COMPRADORES</div>
@@ -723,7 +753,7 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
       )}
       {final && f >= c3 && (
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
-          <Toro x={880} y={780} esc={0.5} animo="gana" />
+          <Toro x={190} y={800} esc={0.5} animo="gana" />
         </svg>
       )}
     </AbsoluteFill>
