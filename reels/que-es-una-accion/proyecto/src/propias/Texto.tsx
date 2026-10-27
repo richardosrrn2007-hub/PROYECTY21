@@ -24,31 +24,36 @@ export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo
   encender = 1e9,
 }) => {
   const f = useCurrentFrame();
-  const anchoCol = 105,
-    alto = 340;
+  // rascacielos moderno de oficinas: cuatro bloques de alturas distintas (la columna 2 es la más alta y es
+  // la "acción" que se separa), ventanas en cuadrícula y una antena arriba
+  const anchoCol = 105;
+  const ALTOS = [380, 460, 520, 420];
   const x0 = -2 * anchoCol;
   return (
     <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: op }}>
       <g transform={`translate(${cx},${base}) scale(${esc})`}>
-        <g transform={`translate(0,${-separa * 30})`}>
-          <Trazo d={`M${x0 - 22} ${-alto} L0 ${-alto - 100} L${-x0 + 22} ${-alto} Z`} p={dibujo} grosor={7} />
-        </g>
         {[0, 1, 2, 3].map((c) => {
+          const alto = ALTOS[c];
           const dx = (c - 1.5) * 46 * separa;
           const dy = c === 2 ? -40 * resalta : 0;
           const x = x0 + c * anchoCol;
           const oro = c === 2 && resalta > 0;
+          const filas = Math.floor((alto - 70) / 62);
           return (
             <g key={c} transform={`translate(${dx},${dy})`}>
               {oro && <rect x={x} y={-alto} width={anchoCol} height={alto} fill={alfa(ORO, 0.22 * resalta)} />}
               <Trazo d={`M${x} 0 L${x} ${-alto} L${x + anchoCol} ${-alto} L${x + anchoCol} 0 Z`} p={dibujo} grosor={oro ? 8 : 6} />
-              {[0, 1, 2].map((r) => {
-                const k = sp(f, ventanas + (c * 3 + r) * 2);
-                const luz = f >= encender + (r * 4 + c) * 2;
-                if (k <= 0 || (c === 1 && r === 2)) return null;
-                return <rect key={r} x={x + 30} y={-alto + 44 + r * 92} width={45} height={50} rx={6} fill={oro || luz ? ORO : alfa(ORO, 0.3)} style={{ transformBox: "fill-box", transformOrigin: "center", transform: `scale(${k})` }} />;
-              })}
-              {c === 1 && <Trazo d={`M${x + 28} 0 L${x + 28} -95 L${x + 78} -95 L${x + 78} 0`} p={pr(f, ventanas, 12)} grosor={6} />}
+              {c === 2 && <Trazo d={`M${x + anchoCol / 2} ${-alto} L${x + anchoCol / 2} ${-alto - 70}`} p={dibujo} grosor={5} />}
+              {c === 2 && dibujo > 0.9 && <circle cx={x + anchoCol / 2} cy={-alto - 74} r={7} fill={ORO} opacity={0.6 + 0.4 * Math.sin(f / 5)} />}
+              {Array.from({ length: filas }).map((_, r) =>
+                [0, 1].map((w) => {
+                  const k = sp(f, ventanas + (c * filas + r) * 0.8);
+                  const luz = f >= encender + (r * 4 + c) * 1.2;
+                  if (k <= 0 || (c === 1 && r >= filas - 2)) return null;
+                  return <rect key={`${r}-${w}`} x={x + 18 + w * 40} y={-alto + 34 + r * 62} width={29} height={34} rx={3} fill={oro || luz ? ORO : alfa(ORO, 0.3)} style={{ transformBox: "fill-box", transformOrigin: "center", transform: `scale(${k})` }} />;
+                }),
+              )}
+              {c === 1 && <Trazo d={`M${x + 22} 0 L${x + 22} -100 L${x + 83} -100 L${x + 83} 0 M${x + 52} 0 L${x + 52} -100`} p={pr(f, ventanas, 12)} grosor={5} />}
             </g>
           );
         })}
@@ -82,10 +87,10 @@ const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
         </Escritorio>
         {/* una columna (una acción) sale de la pantalla flotando */}
         {sale > 0 && (
-          <div style={{ position: "absolute", left: 540, top: 524, width: 95, height: 306, transform: `translate(${300 * sale}px, ${130 * sale - 40 * Math.sin(sale * Math.PI)}px) scale(${1 + 0.55 * sale}) rotate(${8 * sale + Math.sin(f / 8) * 2 * sale}deg)`, transformOrigin: "50% 100%", border: `5px solid ${ORO}`, background: alfa(ORO, 0.22), boxShadow: `0 0 50px ${alfa(ORO, 0.5)}`, borderRadius: 4 }}>
-            {[0, 1, 2].map((r) => (
-              <div key={r} style={{ position: "absolute", left: 25, top: 40 + r * 83, width: 40, height: 45, borderRadius: 5, background: ORO }} />
-            ))}
+          <div style={{ position: "absolute", left: 540, top: 362, width: 95, height: 468, transform: `translate(${300 * sale}px, ${190 * sale - 40 * Math.sin(sale * Math.PI)}px) scale(${1 + 0.22 * sale}) rotate(${8 * sale + Math.sin(f / 8) * 2 * sale}deg)`, transformOrigin: "50% 100%", border: `5px solid ${ORO}`, background: alfa(ORO, 0.22), boxShadow: `0 0 50px ${alfa(ORO, 0.5)}`, borderRadius: 4 }}>
+            {Array.from({ length: 7 }).map((_, r) =>
+              [0, 1].map((w) => <div key={`${r}-${w}`} style={{ position: "absolute", left: 15 + w * 36, top: 30 + r * 56, width: 26, height: 30, borderRadius: 3, background: ORO }} />),
+            )}
             <div style={{ position: "absolute", left: "50%", top: "100%", marginTop: 22, transform: "translateX(-50%)", whiteSpace: "nowrap", fontFamily: CLAVE, fontSize: 52, color: C.acentoTexto, background: ORO, padding: "0 16px", borderRadius: 10, opacity: pr(f, b2 + 8, 8) }}>1 ACCIÓN</div>
           </div>
         )}
