@@ -25,10 +25,9 @@ if (typeof document !== "undefined") {
   (document.fonts as unknown as { add: (c: FontFace) => void }).add(cara);
   cara.load().then(() => continueRender(h));
 }
-const SIN_GLIFO = /[áéíóúÁÉÍÓÚñÑ¿¡üÜ%€]/;
-/** Fuente de título para un grupo de textos: Internet Friends si todos se pueden escribir con ella. */
-export const fuenteTitulo = (textos: string[]) => (textos.some((t) => SIN_GLIFO.test(t)) ? F.mano : DISPLAY);
-export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : 400);
+/** Fuente de los títulos: Space Grotesk en todo el vídeo (dos tipografías en total: Inter y Space Grotesk). */
+export const fuenteTitulo = (_textos?: string[]) => PRO;
+export const pesoDe = (fuente: string) => (fuente === F.titulo ? ESTILO.fuentes.titulo.peso : fuente === F.texto ? 800 : fuente === PRO ? 700 : 400);
 
 export const ORO = C.acento;
 export const VERDE = C.exito;

@@ -5,8 +5,9 @@ import { C } from "../motor/actual";
 import { F, alfa } from "../motor/estilos";
 import { rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
+import { Escritorio } from "./Escritorio";
 import { arr } from "../escenas/util";
-import { DISPLAY, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
+import { PRO, Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Revela, Trazo, ancho, encajar, fuenteTitulo, pesoDe, pr, sp, temblor } from "./mg";
 
 // ---------------------------------------------------------------- edificio
 
@@ -57,21 +58,20 @@ export const Edificio: React.FC<{ cx: number; base: number; esc?: number; dibujo
   );
 };
 
-const Gancho: React.FC<PropsEscena> = ({ b }) => {
+const Gancho: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0, b1, b2, b3] = b;
   const t = temblor(f, b3, 16);
-  const fz = fuenteTitulo(["Dueño de", "una empresa"]);
-  const tam1 = encajar("Dueño de", 820, 150, fz);
-  const tam2 = encajar("una empresa", 860, 150, fz);
+  const fz = fuenteTitulo();
+  const tam1 = encajar("Dueño de", 760, 120, fz);
+  const tam2 = encajar("una empresa", 860, 120, fz);
   const tachon = pr(f, b3 + 3, 8);
   const sello = sp(f, b3, { damping: 9, stiffness: 220, mass: 0.6 });
   return (
     <AbsoluteFill style={{ transform: `translate(${t.x}px,${t.y}px)` }}>
       <Rejilla />
-      <Halo x={540} y={820} r={480} op={0.18 + 0.1 * pr(f, b1, 10)} />
-      <Etiqueta desde={-20} x={540} y={200} texto="¿TE IMAGINAS SER…" tam={30} />
-      <div style={{ position: "absolute", top: 270, left: 0, right: 0, textAlign: "center" }}>
+      <Etiqueta desde={-20} x={540} y={190} texto="¿TE IMAGINAS SER…" tam={28} />
+      <div style={{ position: "absolute", top: 245, left: 0, right: 0, textAlign: "center" }}>
         <div>
           <Revela desde={b0 - 2} tam={tam1} fuente={fz}>
             Dueño de
@@ -83,19 +83,25 @@ const Gancho: React.FC<PropsEscena> = ({ b }) => {
           </Revela>
         </div>
       </div>
-      <Edificio cx={540} base={1030} esc={0.85} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
-      <Chispas desde={b2 + 2} x={540} y={850} n={16} r={260} />
-      <div style={{ position: "absolute", top: 1040, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 26 }}>
-        <Revela desde={b2} tam={64} color={C.texto}>
-          SIN COMPRARLA
+      <div style={{ position: "absolute", top: 512, left: 0, right: 0, display: "flex", justifyContent: "center", alignItems: "center", gap: 20 }}>
+        <Revela desde={b2} tam={50} color={C.texto} fuente={fz}>
+          sin comprarla
         </Revela>
         {f >= b3 && (
           <div style={{ position: "relative", transform: `scale(${0.6 + 0.4 * sello}) rotate(${-4 * sello}deg)` }}>
-            <div style={{ fontFamily: DISPLAY, fontSize: 64, color: C.acentoTexto, background: ORO, padding: "6px 22px", borderRadius: 12 }}>ENTERA</div>
-            <div style={{ position: "absolute", left: -10, top: "50%", height: 9, width: `${tachon * 108}%`, background: ROJO, borderRadius: 5, transform: "rotate(-6deg)" }} />
+            <div style={{ fontFamily: PRO, fontWeight: 700, fontSize: 46, color: C.acentoTexto, background: ORO, padding: "2px 18px", borderRadius: 10 }}>entera</div>
+            <div style={{ position: "absolute", left: -10, top: "50%", height: 8, width: `${tachon * 108}%`, background: ROJO, borderRadius: 5, transform: "rotate(-6deg)" }} />
           </div>
         )}
       </div>
+      {/* el protagonista ya está frente a su monitor desde el primer segundo */}
+      <AbsoluteFill style={{ transform: "translateY(330px) scale(0.62)", transformOrigin: "540px 262px" }}>
+        <Escritorio dur={dur} foco={[[0, 540]]} asiente={[b1, b3]} cabecera="APPLE · EMPRESA">
+          <Halo x={540} y={600} r={380} op={0.18 + 0.12 * pr(f, b1, 10)} />
+          <Edificio cx={540} base={830} esc={0.9} dibujo={pr(f, 0, 10, Easing.out(Easing.cubic))} ventanas={10} encender={b1 + 4} separa={pr(f, b2, 12, Easing.out(Easing.back(1.6)))} resalta={pr(f, b2 + 6, 10)} />
+          <Chispas desde={b2 + 2} x={540} y={640} n={16} r={260} />
+        </Escritorio>
+      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -181,7 +187,7 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const lineas = arr<string[]>(p, "lineas").map((l) => (Array.isArray(l) ? l : [String(l)]));
   const efectos = arr<Efecto>(p, "efectos");
   const fz = fuenteTitulo(lineas.flat());
-  const esc = fz === DISPLAY ? 1 : 1.3;
+  const esc = 1;
   const tams = lineas.map((l, k) => encajar(l.join(" "), efectos[k] === "sello" ? 700 : 860, (efectos[k] === "enorme" ? 290 : efectos[k] === "sello" ? 100 : 150) * esc, fz));
   const alto = tams.reduce((s, t, k) => s + t * (efectos[k] === "sello" ? 1.25 : 1.1), 0);
   const ultimo = b.length ? b[b.length - 1] : 0;
@@ -201,7 +207,7 @@ const Kinetico: React.FC<PropsEscena> = ({ p, b, dur }) => {
         </div>
       ))}
       {pregunta >= 0 && kq > 0 && (
-        <div style={{ position: "absolute", left: 540, top: 650, transform: `translate(-50%,-50%) scale(${kq}) rotate(${(1 - kq) * -40 + Math.sin(f / 10) * 6}deg)`, fontFamily: DISPLAY, fontSize: 860, lineHeight: 1, color: "transparent", WebkitTextStroke: `6px ${alfa(ORO, 0.35)}` }}>?</div>
+        <div style={{ position: "absolute", left: 540, top: 650, transform: `translate(-50%,-50%) scale(${kq}) rotate(${(1 - kq) * -40 + Math.sin(f / 10) * 6}deg)`, fontFamily: PRO, fontWeight: 700, fontSize: 860, lineHeight: 1, color: "transparent", WebkitTextStroke: `6px ${alfa(ORO, 0.35)}` }}>?</div>
       )}
       <Halo x={540} y={650} r={520} op={0.16} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 650 - alto / 2, textAlign: "center", transform: `translate(${t.x}px,${t.y}px) scale(${empuje})`, transformOrigin: "50% 50%" }}>

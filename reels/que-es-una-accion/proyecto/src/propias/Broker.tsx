@@ -8,6 +8,7 @@ import { numeroES, rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { txt } from "../escenas/util";
 import { Icono, Onda } from "../piezas/basicas";
+import { ManoPulsa } from "./Escritorio";
 import { Chispas, Etiqueta, Halo, ORO, ROJO, Rejilla, Trazo, VERDE, pr, sp, temblor } from "./mg";
 
 /** Nodo redondo con icono y etiqueta. */
@@ -96,6 +97,7 @@ const Broker: React.FC<PropsEscena> = ({ p, b, dur }) => {
           </div>
         ))}
         <Onda desde={toque} x={355} y={830} r0={20} r1={150} dur={14} />
+        <ManoPulsa x={362} y={838} toque={toque} />
         <Nodo x={800} y={640} r={115} icono="landmark" texto="BRÓKER" desde={b2 - 2} pulso={b3} />
         <Chispas desde={b2} x={800} y={640} n={14} r={230} />
         <Flujo desde={b3 - 6} x1={515} y1={640} x2={690} y2={640} cada={16} viaje={18} etiquetas={[["ORDEN", ORO]]} hasta={dur - 18} />

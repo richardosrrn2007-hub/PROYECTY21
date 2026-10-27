@@ -8,7 +8,7 @@ import type { DefEscena, PropsEscena } from "../tipos";
 import { txt } from "../escenas/util";
 import { Icono } from "../piezas/basicas";
 import { GraficoVelas, Nota, geometria, serieVelas } from "./Velas";
-import { Escritorio } from "./Escritorio";
+import { Escritorio, Personaje } from "./Escritorio";
 import { Caja, Chispas, Cuenta, Etiqueta, Halo, ORO, ROJO, Rejilla, PRO, Revela as Revela2, Trazo, VERDE, fuenteTitulo, pr, sp, temblor } from "./mg";
 
 const X0 = 120,
@@ -236,8 +236,8 @@ const Precio: React.FC<PropsEscena> = ({ p, b, dur }) => {
           </div>
         )}
         {sube && <Chispas desde={bD} x={hx} y={hy} n={16} r={200} color={VERDE} />}
-        {sube && <Etiqueta desde={bD - 2} x={540} y={1050} texto="TU ACCIÓN VALE MÁS" color={VERDE} />}
         {sube && <Posicion x={560} y={830} desde={bC} compra={218.4} ahora={270.82} col={VERDE} />}
+        <Personaje mesa={false} pose={sube ? "celebra" : "cabeza"} cambio={sube ? bC : bD - 4} dx={290} dy={190} escala={0.85} mira={sube ? 0.3 : 0} />
         <EjePrecios op={1} base={sube ? 233.38 : 212.93} k={sube ? 0.1248 : 0.1015} />
         {!sube && (
           <>
