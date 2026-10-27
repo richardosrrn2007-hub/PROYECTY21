@@ -66,8 +66,8 @@ const Brazo: React.FC<{ hombro: [number, number]; mano: [number, number]; codo: 
     py = mano[1] - Math.sin(ang) * 16;
   return (
     <g>
-      <path d={d} fill="none" stroke={LUZ} strokeWidth={42} strokeLinecap="round" />
-      <path d={d} fill="none" stroke={TELA} strokeWidth={38} strokeLinecap="round" />
+      <path d={d} fill="none" stroke={LUZ} strokeWidth={36} strokeLinecap="round" />
+      <path d={d} fill="none" stroke={TELA} strokeWidth={32} strokeLinecap="round" />
       <path d={d} fill="none" stroke={TELA_SOMBRA} strokeWidth={12} strokeLinecap="round" opacity={0.5} transform="translate(4,6)" />
       <circle cx={px} cy={py} r={17} fill={TELA_SOMBRA} />
       <g transform={`translate(${mano[0]},${mano[1]}) rotate(${(ang * 180) / Math.PI - 90})`}>
@@ -86,8 +86,8 @@ const Personaje: React.FC<{ mira: number; inclina: number; asiente: number; rato
   const cx = 250 + mira * 10,
     cy = 1000 - inclina * 18 + asiente * 6;
   const [mx, my] = raton;
-  const hI: [number, number] = [148, 1092 + r],
-    hD: [number, number] = [352, 1092 + r];
+  const hI: [number, number] = [140, 1104 + r],
+    hD: [number, number] = [360, 1104 + r];
   // rizos del pelo alrededor de la cabeza (se mecen un poco)
   const rizos = Array.from({ length: 13 }).map((_, k) => {
     const a = Math.PI * (0.95 + (k / 12) * 1.1);
@@ -106,11 +106,11 @@ const Personaje: React.FC<{ mira: number; inclina: number; asiente: number; rato
       <rect x={170} y={MESA_Y - 16} width={190} height={14} rx={4} fill="#14110D" stroke={alfa(CREMA, 0.3)} strokeWidth={1.5} />
       <ellipse cx={mx} cy={my} rx={22} ry={12} fill="#14110D" stroke={alfa(CREMA, 0.45)} strokeWidth={1.5} />
       {/* brazos (detrás del cuerpo) */}
-      <Brazo hombro={hI} codo={[92, 1150]} mano={[232, MESA_Y - 4]} />
-      <Brazo hombro={hD} codo={[420, 1150]} mano={[mx - 6, my - 2]} />
+      <Brazo hombro={hI} codo={[100, 1156]} mano={[236, MESA_Y - 4]} />
+      <Brazo hombro={hD} codo={[404, 1156]} mano={[mx - 6, my - 2]} />
       {/* espalda con capucha */}
       <path
-        d={`M66 1240 C70 ${1160 + r} 100 ${1104 + r} 160 ${1086 + r - inclina * 6} C200 ${1074 + r} ${cx - 40} ${cy + 74} ${cx} ${cy + 72} C${cx + 40} ${cy + 74} 300 ${1074 + r} 340 ${1086 + r - inclina * 6} C400 ${1104 + r} 430 ${1160 + r} 434 1240 Z`}
+        d={`M186 1240 C176 1196 134 ${1156 + r} 118 ${1114 + r} C112 ${1094 + r} 150 ${1082 + r} 192 ${1077 + r - inclina * 6} C220 ${1072 + r} ${cx - 36} ${cy + 74} ${cx} ${cy + 72} C${cx + 36} ${cy + 74} 280 ${1072 + r} 308 ${1077 + r - inclina * 6} C350 ${1082 + r} 388 ${1094 + r} 382 ${1114 + r} C366 ${1156 + r} 324 1196 314 1240 Z`}
         fill="url(#pj-tela)"
         stroke={LUZ}
         strokeWidth={2.5}
@@ -119,7 +119,7 @@ const Personaje: React.FC<{ mira: number; inclina: number; asiente: number; rato
       <path d={`M${cx - 62} ${cy + 78} C${cx - 58} ${cy + 130} ${cx + 58} ${cy + 130} ${cx + 62} ${cy + 78} C${cx + 30} ${cy + 96} ${cx - 30} ${cy + 96} ${cx - 62} ${cy + 78} Z`} fill={TELA} stroke={LUZ} strokeWidth={2} />
       <path d={`M${cx - 40} ${cy + 96} C${cx - 20} ${cy + 116} ${cx + 20} ${cy + 116} ${cx + 40} ${cy + 96}`} fill="none" stroke={TELA_SOMBRA} strokeWidth={6} strokeLinecap="round" />
       <path d={`M${cx} ${cy + 124} L${cx} 1240`} stroke={TELA_SOMBRA} strokeWidth={3} opacity={0.7} />
-      <path d={`M120 ${1150 + r} q30 20 60 6 M320 ${1150 + r} q30 14 60 -4`} fill="none" stroke={TELA_SOMBRA} strokeWidth={4} strokeLinecap="round" />
+      <path d={`M168 ${1150 + r} q26 26 54 30 M332 ${1150 + r} q-26 26 -54 30`} fill="none" stroke={TELA_SOMBRA} strokeWidth={4} strokeLinecap="round" />
       {/* cuello, orejas y cabeza */}
       <g transform={`rotate(${mira * 5} ${cx} ${cy + 50})`}>
         <rect x={cx - 22} y={cy + 30} width={44} height={44} rx={12} fill={PIEL_SOMBRA} />
