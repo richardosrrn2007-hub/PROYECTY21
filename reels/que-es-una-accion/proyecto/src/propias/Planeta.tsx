@@ -18,8 +18,9 @@ const LUCES = Array.from({ length: 420 }).map((_, k) => {
 });
 const ESTRELLAS = Array.from({ length: 90 }).map((_, k) => ({ x: rnd(k * 11.1) * 1080, y: rnd(k * 13.7) * 1920, s: 0.6 + rnd(k * 3.1) * 1.4, b: rnd(k * 5.5) }));
 
-export const Planeta: React.FC = () => {
+export const Planeta: React.FC<{ cx?: number; cy?: number; r?: number; estrellas?: boolean; sombra?: boolean; borde?: number }> = ({ cx: CXp = CX, cy: CYp = CY, r: Rp = R, estrellas = true, sombra = true, borde = 5 }) => {
   const f = useCurrentFrame();
+  const escalaP = Rp / R;
   const giro = f * 0.00045;
   return (
     <AbsoluteFill>
@@ -44,25 +45,25 @@ export const Planeta: React.FC = () => {
             <feGaussianBlur stdDeviation="3" />
           </filter>
         </defs>
-        {ESTRELLAS.map((e, k) => (
+        {estrellas && ESTRELLAS.map((e, k) => (
           <circle key={k} cx={e.x} cy={e.y} r={e.s} fill="#F6ECD2" opacity={0.15 + 0.25 * (0.5 + 0.5 * Math.sin(f / 20 + e.b * 9))} />
         ))}
-        <circle cx={CX} cy={CY} r={R * 1.06} fill="url(#pl-halo)" />
-        <circle cx={CX} cy={CY} r={R} fill="url(#pl-cuerpo)" />
+        <circle cx={CXp} cy={CYp} r={Rp * 1.06} fill="url(#pl-halo)" />
+        <circle cx={CXp} cy={CYp} r={Rp} fill="url(#pl-cuerpo)" />
         <g filter="url(#pl-brillo)">
           {LUCES.map((l, k) => {
             const a = l.a + giro;
-            return <circle key={k} cx={CX + Math.cos(a) * l.r * R} cy={CY + Math.sin(a) * l.r * R} r={l.s * 1.8} fill="#F0A955" opacity={0.45 + 0.4 * l.b} />;
+            return <circle key={k} cx={CXp + Math.cos(a) * l.r * Rp} cy={CYp + Math.sin(a) * l.r * Rp} r={l.s * 1.8 * Math.max(0.35, escalaP)} fill="#F0A955" opacity={0.45 + 0.4 * l.b} />;
           })}
         </g>
         {LUCES.map((l, k) => {
           const a = l.a + giro;
-          return <circle key={`n${k}`} cx={CX + Math.cos(a) * l.r * R} cy={CY + Math.sin(a) * l.r * R} r={l.s * 0.55} fill="#FFE2B0" opacity={0.6 + 0.4 * l.b} />;
+          return <circle key={`n${k}`} cx={CXp + Math.cos(a) * l.r * Rp} cy={CYp + Math.sin(a) * l.r * Rp} r={l.s * 0.55 * Math.max(0.35, escalaP)} fill="#FFE2B0" opacity={0.6 + 0.4 * l.b} />;
         })}
-        <circle cx={CX} cy={CY} r={R} fill="none" stroke="url(#pl-borde)" strokeWidth={5} />
+        <circle cx={CXp} cy={CYp} r={Rp} fill="none" stroke="url(#pl-borde)" strokeWidth={borde} />
       </svg>
       {/* sombra para que el contenido de la izquierda se lea bien */}
-      <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.35) 100%)" }} />
+      {sombra && <AbsoluteFill style={{ background: "linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 55%, rgba(0,0,0,0.35) 100%)" }} />}
     </AbsoluteFill>
   );
 };

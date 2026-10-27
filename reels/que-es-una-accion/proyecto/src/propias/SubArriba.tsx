@@ -13,8 +13,9 @@ import { CLAVE, PRO, VIVO } from "./mg";
 const MARCO = C.acento;
 const TAM = 50;
 /** Letra de las palabras normales del subtítulo. */
-const SUB_FUENTE = F.texto;
-const SUB_PESO = 600;
+/** Internet Friends con tildes, ñ, ¿ y ¡ añadidas (public/fuentes/internet-friends-es.ttf). */
+const SUB_FUENTE = "BRSubIF";
+const SUB_PESO = 400;
 
 const Esquina: React.FC<{ x: "left" | "right"; y: "top" | "bottom" }> = ({ x, y }) => (
   <div style={{ position: "absolute", [x]: -6, [y]: -6, width: 10, height: 10, borderRadius: 5, background: C.texto, border: `2px solid ${MARCO}` }} />
@@ -34,7 +35,7 @@ export const SubArriba: React.FC<{ frases: FraseT[]; sin: number[]; top?: number
         if (f < a) return null;
         const t = interpolate(f, [a, a + 6], [0, 1], { extrapolateRight: "clamp" });
         const texto = g.palabras.map((p) => p.w.replace(/\*/g, "")).join(" ");
-        const base: React.CSSProperties = { fontFamily: SUB_FUENTE, fontSize: TAM, lineHeight: 1.15, whiteSpace: "nowrap", opacity: t, transform: `translateY(${(1 - t) * 10}px)` };
+        const base: React.CSSProperties = { fontFamily: SUB_FUENTE, fontSize: TAM * 1.08, letterSpacing: 1, lineHeight: 1.15, whiteSpace: "nowrap", opacity: t, transform: `translateY(${(1 - t) * 10}px)` };
         if (!g.clave) return <span key={k} style={{ ...base, fontWeight: SUB_PESO, color: C.suave }}>{texto}</span>;
         const caja = interpolate(f, [a, a + 7], [0.85, 1], { extrapolateRight: "clamp" });
         return (

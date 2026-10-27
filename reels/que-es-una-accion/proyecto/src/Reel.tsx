@@ -5,11 +5,12 @@ import { C, CON_PERSONAJE, PLAN, SUBTITULOS } from "./motor/actual";
 import { Escena, Semitono } from "./motor/Escena";
 import { Fondo } from "./motor/Fondo";
 import { Lienzo } from "./motor/Lienzo";
-import { CAMBIOS_POSE, EFECTOS, ESCENAS, HAY_VOZ, T, corte } from "./motor/linea";
+import { CAMBIOS_POSE, EFECTOS, ESCENAS, HAY_VOZ, T, TOTAL, corte } from "./motor/linea";
 import { Personaje } from "./motor/Personaje";
 import { SubtitulosBloque, SubtitulosLinea } from "./motor/Subtitulos";
 import { SubArriba } from "./propias/SubArriba";
 import { Planeta } from "./propias/Planeta";
+import { CIERRE, Cierre, TRANSICION } from "./propias/Cierre";
 
 const SIN_SUBTITULOS = PLAN.frases.map((f, i) => (f.sinSubtitulos ? i : -1)).filter((i) => i >= 0);
 
@@ -38,6 +39,10 @@ export const Reel: React.FC = () => (
     {SUBTITULOS === "bloque" && <SubtitulosBloque frases={T.frases} sin={SIN_SUBTITULOS} />}
     {(SUBTITULOS as string) === "arriba" && <SubArriba frases={T.frases} sin={SIN_SUBTITULOS} />}
     {CON_PERSONAJE && <Personaje cambios={CAMBIOS_POSE} />}
+    {/* cierre de marca: el planeta se convierte en el logo de Origine */}
+    <Sequence from={TOTAL - TRANSICION} durationInFrames={TRANSICION + CIERRE} name="Cierre Origine">
+      <Cierre />
+    </Sequence>
     {HAY_VOZ && <Audio src={staticFile("voz.wav")} />}
     {EFECTOS.map((x, k) => (
       <Sequence key={k} from={Math.max(0, x.en)} durationInFrames={60} layout="none">

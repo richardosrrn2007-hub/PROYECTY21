@@ -34,6 +34,7 @@ if (typeof document !== "undefined") {
     [CLAVE, "fuentes/anton-latin-400-normal.woff2", "400"],
     ["BRSubManrope", "fuentes/manrope-latin-600-normal.woff2", "600"],
     ["BRSubDM", "fuentes/dm-sans-latin-600-normal.woff2", "600"],
+    ["BRSubIF", "fuentes/internet-friends-es.ttf", "400"],
   ]) {
     const h = delayRender(`Cargando ${archivo}`);
     const cara = new FontFace(nombre, `url(${staticFile(archivo)})`, { weight: peso });

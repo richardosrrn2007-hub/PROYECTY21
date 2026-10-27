@@ -5,6 +5,7 @@
 import tiempos0 from "../datos/tiempos.json";
 import { BIBLIOTECA } from "../escenas";
 import { PROPIAS } from "../propias";
+import { CIERRE } from "../propias/Cierre";
 import type { DefEscena, Entrada, Momento, PalabraEscena, Tiempos } from "../tipos";
 import { C, CON_PERSONAJE, ESTILO, PLAN, POSE_BASE, POSES } from "./actual";
 export { CON_PERSONAJE, ESTILO, PLAN, POSES };
@@ -241,5 +242,5 @@ export const resumen = () => ({
   problemas: PROBLEMAS,
   avisos: AVISOS,
   /** Lo que necesita render.mjs para mezclar el audio con ffmpeg (más rápido que renderizarlo). */
-  audio: { fotogramas: TOTAL, voz: HAY_VOZ ? "voz.wav" : null, efectos: EFECTOS.map((e) => ({ en: e.en, s: e.s, vol: e.vol })) },
+  audio: { fotogramas: TOTAL + CIERRE, voz: HAY_VOZ ? "voz.wav" : null, efectos: EFECTOS.map((e) => ({ en: e.en, s: e.s, vol: e.vol })), extras: [{ archivo: "logo.mp4", en: TOTAL, vol: 0.9 }] },
 });
