@@ -1,54 +1,47 @@
-// Cierre de marca en un solo movimiento de cámara: la escena final se apaga mientras la cámara se mete en el
-// planeta del fondo (crece y se centra); al llenar la pantalla, el plano pasa al vídeo del logo de Origine
-// muy ampliado sobre la Tierra de su aro izquierdo, y la cámara se aleja hasta mostrar el logo entero.
-// No se redibuja el logo: se usa el vídeo real, así no hay salto de estilo.
+// Cierre de marca: el logo de Origine aparece en la pantalla del monitor que ya está en la última escena.
+// La vela se apaga en el cristal, el vídeo del logo empieza dentro de la pantalla y la pantalla crece hasta
+// ocupar todo el vídeo (como si la cámara entrara en el monitor). Sin cambiar de escena ni de estilo.
 import React from "react";
 import { AbsoluteFill, Easing, OffthreadVideo, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
-import { Planeta } from "./Planeta";
 
-/** Fotogramas de la entrada al planeta (encima del final de la última escena) y del logo (después). */
+/** Fotogramas del paso al logo (encima del final de la última escena) y del logo a pantalla completa (después). */
 export const TRANSICION = 60;
 export const LOGO = 110;
 export const CIERRE = LOGO;
-/** Fotograma de la transición en que empieza el vídeo del logo. */
-export const ENTRA_LOGO = 44;
+/** Fotograma de la transición en que empieza el vídeo del logo (dentro del monitor). */
+export const ENTRA_LOGO = 10;
 
-/** Centro de la Tierra dentro del aro izquierdo del logo (sobre 1080×1920). */
-const TIERRA = { x: 412, y: 750 };
-const PLANETA = { x: 1250, y: 1080, r: 900 };
-/** Ampliación del logo al empezar (la Tierra del aro llena la pantalla). */
-const ZOOM_INICIAL = 3.6;
+/** Cristal del monitor en la pantalla al final de la última escena (medido sobre el render, 1080×1920). */
+const CRISTAL = { x0: 24, y0: 534, x1: 1056, y1: 1218, radio: 18 };
 const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
 
 export const Cierre: React.FC = () => {
   const f = useCurrentFrame();
-  // 1) la escena se apaga y la cámara entra en el planeta: crece y se centra
-  const apaga = interpolate(f, [0, 32], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
-  const entra = interpolate(f, [0, TRANSICION], [0, 1], { ...cl, easing: Easing.in(Easing.cubic) });
-  const cx = PLANETA.x + (540 - PLANETA.x) * entra,
-    cy = PLANETA.y + (960 - PLANETA.y) * entra,
-    r = PLANETA.r * (1 + 0.5 * entra);
-  // 2) el logo aparece muy ampliado sobre su Tierra y la cámara se aleja
-  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 20], [0, 1], cl);
-  const aleja = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 92], [0, 1], { ...cl, easing: Easing.out(Easing.cubic) });
-  const z = ZOOM_INICIAL + (1 - ZOOM_INICIAL) * aleja;
-  // la Tierra del logo empieza en el centro de la pantalla y vuelve a su sitio
-  const tx = (540 - TIERRA.x) * (1 - aleja),
-    ty = (960 - TIERRA.y) * (1 - aleja);
-  const desenfoque = 6 * (1 - logo) + 2 * Math.max(0, 1 - aleja * 3);
+  // 1) la pantalla se apaga (la vela se va)
+  const apaga = interpolate(f, [0, 12], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  // 2) el logo empieza dentro del cristal
+  const logo = interpolate(f, [ENTRA_LOGO, ENTRA_LOGO + 12], [0, 1], cl);
+  // 3) el cristal crece hasta ocupar todo y lo de alrededor se va a negro
+  const crece = interpolate(f, [26, TRANSICION], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  const fuera = interpolate(f, [22, 48], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  const arriba = CRISTAL.y0 * (1 - crece),
+    derecha = (1080 - CRISTAL.x1) * (1 - crece),
+    abajo = (1920 - CRISTAL.y1) * (1 - crece),
+    izquierda = CRISTAL.x0 * (1 - crece),
+    radio = CRISTAL.radio * (1 - crece);
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{ background: "#000", opacity: apaga }} />
-      {logo < 1 && (
-        <AbsoluteFill style={{ opacity: apaga * (1 - logo), filter: entra > 0.6 ? `blur(${(entra - 0.6) * 10}px)` : undefined }}>
-          <Planeta cx={cx} cy={cy} r={r} estrellas sombra={false} />
-        </AbsoluteFill>
-      )}
+      {/* lo de alrededor del monitor se apaga mientras la pantalla crece */}
+      <AbsoluteFill style={{ background: "#000", opacity: fuera }} />
+      {/* la pantalla se apaga antes de que entre el logo */}
+      <div style={{ position: "absolute", left: CRISTAL.x0, top: CRISTAL.y0, width: CRISTAL.x1 - CRISTAL.x0, height: CRISTAL.y1 - CRISTAL.y0, borderRadius: CRISTAL.radio, background: "#000", opacity: apaga * (1 - crece) }} />
       <Sequence from={ENTRA_LOGO} layout="none">
-        <AbsoluteFill style={{ opacity: logo, transform: `translate(${tx}px, ${ty}px) scale(${z})`, transformOrigin: `${TIERRA.x}px ${TIERRA.y}px`, filter: desenfoque > 0.2 ? `blur(${desenfoque}px)` : undefined }}>
+        <AbsoluteFill style={{ clipPath: `inset(${arriba}px ${derecha}px ${abajo}px ${izquierda}px round ${radio}px)`, opacity: logo }}>
           <OffthreadVideo src={staticFile("logo.mp4")} style={{ width: 1080, height: 1920 }} volume={0.9} />
         </AbsoluteFill>
       </Sequence>
+      {/* reflejo del cristal mientras todavía es pantalla */}
+      <div style={{ position: "absolute", left: izquierda, top: arriba, right: derecha, bottom: abajo, borderRadius: radio, border: `2px solid rgba(246,236,210,${0.3 * (1 - crece)})`, background: `linear-gradient(115deg, transparent 40%, rgba(246,236,210,${0.06 * (1 - crece)}) 48%, transparent 56%)`, pointerEvents: "none" }} />
     </AbsoluteFill>
   );
 };
