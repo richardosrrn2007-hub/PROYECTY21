@@ -391,9 +391,9 @@ const recorrido = (modo: string, b: number[], dur: number): Clave[] => {
     case "rechazo":
       return [[0, 0.4], [b0, 0.62], [b1, 0.98], [b2, 0.5], [fin, 0.48]];
     case "gancho": {
-      const out: Clave[] = [[0, 0.5]];
-      for (let t = 5, k = 0; t < fin; t += 7, k++) out.push([t, k % 2 ? 0.12 + 0.08 * ((k * 7) % 3) / 2 : 0.88 - 0.08 * ((k * 5) % 3) / 2]);
-      return out;
+      // abre abajo, sube a la mecha de arriba, cae a la de abajo, y acaba cerrando arriba: blanca y de cuerpo largo
+      const k = Math.max(0.5, (b1 - 8) / 80);
+      return [[0, 0.32], [8 * k, 0.6], [18 * k, 0.22], [28 * k, 0.97], [40 * k, 0.05], [52 * k, 0.7], [62 * k, 0.45], [74 * k, 0.84], [Math.max(76 * k + 1, fin), 0.82]];
     }
     case "pelea": {
       const out: Clave[] = [[0, 0.62]];
@@ -460,7 +460,9 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const popOso = cambio ? sp(f, cO - 2, REBOTE) : 1;
   const [gb0 = 0, gb1 = 20] = b;
   // golpe de cámara en cada cambio de sentido
-  const choque = gancho ? temblor(f, Math.floor((f - 5) / 7) * 7 + 5, 10, 6) : { x: 0, y: 0 };
+  const golpes = gancho ? [claves[3][0], claves[4][0], claves[7][0]] : [];
+  const ultimoGolpe = golpes.filter((t) => t <= f).pop() ?? -100;
+  const choque = gancho ? temblor(f, ultimoGolpe, 12, 6) : { x: 0, y: 0 };
   const acerca = gancho ? pr(f, gb1 - 4, 16, Easing.inOut(Easing.cubic)) : 0;
   const zoomG = gancho ? 0.84 + 0.3 * acerca : 1;
   return (
@@ -474,15 +476,15 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
         <line x1={150} x2={150} y1={Y_ALTO - 30} y2={Y_BAJO + 30} stroke={alfa(C.texto, 0.18)} strokeWidth={2} />
         <line x1={170} x2={910} y1={yA} y2={yA} stroke={alfa(ORO, 0.6)} strokeWidth={2.5} strokeDasharray="10 10" />
-        {/* mecha */}
-        <line x1={540} x2={540} y1={yDe(hi)} y2={yDe(lo)} stroke={CREMA} strokeWidth={8} />
+        {/* mecha: barra ancha crema por debajo de la cuerda, para que se lea aunque la cuerda pase por encima */}
+        <rect x={540 - 13} y={yDe(hi) - 4} width={26} height={Math.max(8, yDe(lo) - yDe(hi) + 8)} rx={13} fill={CREMA} stroke={TINTA} strokeWidth={3} />
+        {/* cuerda */}
+        <path d={`M540 ${toroYa ? yToro + 20 + 235 * 0.95 : yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={5} />
+        <path d={`M540 ${yC} Q${540 - Math.sin(f / 2) * 6 / tensa} ${(yOso + yC) / 2} 540 ${yOso - 150 * 1.05}`} fill="none" stroke={ORO} strokeWidth={5} />
         {/* cuerpo de la vela */}
         <rect x={540 - 95} y={Math.min(yA, yC)} width={190} height={Math.max(4, Math.abs(yC - yA))} rx={4} fill={sube ? CREMA : TINTA} stroke={CREMA} strokeWidth={5} />
         {gancho && <circle cx={540} cy={yC} r={Math.min(150, 70 + Math.abs(vel) * 600)} fill="none" stroke={ORO} strokeWidth={3} opacity={Math.min(1, Math.abs(vel) * 25)} />}
-        {/* cuerda */}
-        <path d={`M540 ${toroYa ? yToro + 20 + 235 * 0.95 : yToro + 190 * 1.05} Q${540 + Math.sin(f / 2) * 6 / tensa} ${(yToro + yC) / 2} 540 ${yC}`} fill="none" stroke={ORO} strokeWidth={8} />
-        <path d={`M540 ${yC} Q${540 - Math.sin(f / 2) * 6 / tensa} ${(yOso + yC) / 2} 540 ${yOso - 150 * 1.05}`} fill="none" stroke={ORO} strokeWidth={8} />
-        <circle cx={540} cy={yC} r={16} fill={ORO} stroke={TINTA} strokeWidth={3} />
+        <circle cx={540} cy={yC} r={13} fill="none" stroke={ORO} strokeWidth={5} />
         {toroYa ? <Toro x={540} y={yToro + 20} esc={0.95 * popToro} animo={animoToro} /> : <Magnate x={540} y={yToro} esc={1.05} animo={animoToro} arriba />}
         {osoYa ? <Oso x={540} y={yOso} esc={1.05 * popOso} animo={animoOso} /> : <Magnate x={540} y={yOso} esc={1.05} animo={animoOso} arriba={false} />}
       </svg>
@@ -518,7 +520,7 @@ const Batalla: React.FC<PropsEscena> = ({ p, b, dur }) => {
       {cambio && <Chispas desde={cT - 2} x={540} y={yToro + 60} n={22} r={240} color={CREMA} />}
       {cambio && <Chispas desde={cO - 2} x={540} y={yOso + 60} n={22} r={240} color={ORO} />}
       {ganador && <Chispas desde={dur - 24} x={540} y={ganador === "toro" ? 300 : 1060} n={18} r={260} color={ganador === "toro" ? CREMA : ORO} />}
-      {gancho && [0, 1, 2, 3, 4, 5].map((k) => <Chispas key={k} desde={5 + k * 7} x={540} y={yDe(k % 2 ? 0.88 : 0.12)} n={10} r={150} color={k % 2 ? CREMA : ORO} />)}
+      {gancho && golpes.map((t, k) => <Chispas key={k} desde={t} x={540} y={yDe(precioEn(t, claves))} n={12} r={170} color={k % 2 ? ORO : CREMA} />)}
       {gancho && f >= gb1 - 4 && (
         <div style={{ position: "absolute", left: 540 - 120, top: (yA + yC) / 2 - 140, width: 240, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 240, color: ORO, textShadow: "0 0 40px rgba(0,0,0,0.9)", transform: `scale(${sp(f, gb1 - 4, REBOTE)}) rotate(${Math.sin(f / 6) * 8}deg)` }}>?</div>
       )}
@@ -550,12 +552,8 @@ export const batalla: DefEscena = {
   C: Batalla,
   momentos: (p) => Math.max(3, arr(p, "etiquetas").length),
   alInicio: () => true,
-  sonidos: (p) => [
-    ...(txt(p, "elenco") === "cambio" ? ([[1, "pop", 0.35], [2, "pop", 0.35]] as [number, string, number][]) : []),
-    [0, "swoosh", 0.25],
-    [1, "golpe", 0.25],
-    [2, "swoosh", 0.22],
-  ],
+  // solo suenan los momentos importantes: el resto lo ponen las frases del plan (ganar, perder, swoosh de capítulo)
+  sonidos: (p) => (txt(p, "elenco") === "cambio" ? [[1, "pop", 0.35], [2, "pop", 0.35]] : []),
 };
 
 // ---------------------------------------------------------------- reto: la vela del gancho
@@ -633,7 +631,7 @@ const Reto: React.FC<PropsEscena> = ({ p, b, dur }) => {
   );
 };
 
-export const reto: DefEscena = { C: Reto, momentos: (p) => (txt(p, "modo") === "respuesta" ? 4 : 2), alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "respuesta" ? [[1, "tic", 0.3], [2, "tic", 0.3], [3, "exito", 0.3]] : [[0, "burbuja", 0.3]]) };
+export const reto: DefEscena = { C: Reto, momentos: (p) => (txt(p, "modo") === "respuesta" ? 4 : 2), alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "respuesta" ? [[1, "tic", 0.3], [2, "tic", 0.3], [3, "ganar", 0.4]] : [[0, "burbuja", 0.3]]) };
 
 // ---------------------------------------------------------------- apps: verde y rojo
 
@@ -673,7 +671,7 @@ const Apps: React.FC<PropsEscena> = ({ b }) => {
     </AbsoluteFill>
   );
 };
-export const apps: DefEscena = { C: Apps, momentos: 2, sonidos: () => [[0, "pop", 0.25], [1, "ding", 0.25]] };
+export const apps: DefEscena = { C: Apps, momentos: 2, sonidos: () => [[1, "ding", 0.22]] };
 
 // ---------------------------------------------------------------- gráfica y tendencia
 
@@ -718,7 +716,7 @@ const Grafica: React.FC<PropsEscena> = ({ p, b, dur }) => {
     </>
   );
 };
-export const grafica: DefEscena = { C: Grafica, momentos: 3, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "tendencia" ? [[0, "tic", 0.25], [1, "swoosh", 0.25], [2, "ding", 0.25]] : [[0, "whoosh", 0.25]]) };
+export const grafica: DefEscena = { C: Grafica, momentos: 3, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "tendencia" ? [[2, "ding", 0.25]] : []) };
 
 // ---------------------------------------------------------------- adelanto en papel sepia
 
@@ -804,6 +802,6 @@ const Comenta: React.FC<PropsEscena> = ({ b, dur }) => {
     </AbsoluteFill>
   );
 };
-export const comenta: DefEscena = { C: Comenta, momentos: 3, alInicio: () => true, sonidos: () => [[0, "pop", 0.3], [1, "campana", 0.25], [2, "papel", 0.3]] };
+export const comenta: DefEscena = { C: Comenta, momentos: 3, alInicio: () => true, sonidos: () => [[1, "campana", 0.25], [2, "papel", 0.25]] };
 
 export { Personaje };

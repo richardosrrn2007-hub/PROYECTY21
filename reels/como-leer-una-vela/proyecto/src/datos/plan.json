@@ -52,83 +52,6 @@
     {
       "texto": "¿Quién ganó *esta batalla?* La respuesta está en *esta vela.*",
       "sinSubtitulos": true,
-      "sonidos": [
-        [
-          5,
-          "golpe",
-          0.22
-        ],
-        [
-          12,
-          "swoosh",
-          0.18
-        ],
-        [
-          19,
-          "golpe",
-          0.22
-        ],
-        [
-          26,
-          "swoosh",
-          0.18
-        ],
-        [
-          33,
-          "golpe",
-          0.22
-        ],
-        [
-          40,
-          "swoosh",
-          0.18
-        ],
-        [
-          47,
-          "golpe",
-          0.22
-        ],
-        [
-          54,
-          "swoosh",
-          0.18
-        ],
-        [
-          61,
-          "golpe",
-          0.22
-        ],
-        [
-          68,
-          "swoosh",
-          0.18
-        ],
-        [
-          75,
-          "golpe",
-          0.22
-        ],
-        [
-          82,
-          "swoosh",
-          0.18
-        ],
-        [
-          89,
-          "golpe",
-          0.22
-        ],
-        [
-          96,
-          "swoosh",
-          0.18
-        ],
-        [
-          103,
-          "golpe",
-          0.22
-        ]
-      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -139,7 +62,29 @@
           "vela",
           "vela+10"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          0,
+          "ambiente",
+          0.18
+        ],
+        [
+          29,
+          "golpe",
+          0.3
+        ],
+        [
+          42,
+          "golpe",
+          0.3
+        ],
+        [
+          78,
+          "golpe",
+          0.3
+        ]
+      ]
     },
     {
       "texto": "Cada vela es *un día de pelea* entre *compradores* y *vendedores.*",
@@ -198,18 +143,6 @@
     {
       "texto": "Si cierra más arriba, es *blanca:* ganaron los *compradores.*",
       "entrada": "barrido",
-      "sonidos": [
-        [
-          "fin-24",
-          "golpe",
-          0.35
-        ],
-        [
-          "fin-22",
-          "exito",
-          0.22
-        ]
-      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -224,22 +157,22 @@
           "blanca",
           "compradores"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          2,
+          "swoosh",
+          0.25
+        ],
+        [
+          "fin-24",
+          "ganar",
+          0.4
+        ]
+      ]
     },
     {
       "texto": "Si cierra más abajo, es *negra:* ganaron los *vendedores.*",
-      "sonidos": [
-        [
-          "fin-24",
-          "golpe",
-          0.35
-        ],
-        [
-          "fin-22",
-          "negacion",
-          0.22
-        ]
-      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -254,7 +187,14 @@
           "negra",
           "vendedores"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "fin-24",
+          "perder",
+          0.45
+        ]
+      ]
     },
     {
       "texto": "En muchas apps las verás en *verde y rojo.*",
@@ -284,22 +224,17 @@
           "bajo",
           "mechas"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          2,
+          "swoosh",
+          0.25
+        ]
+      ]
     },
     {
       "texto": "Cuerpo largo: un bando dominó *con fuerza.*",
-      "sonidos": [
-        [
-          "fin-24",
-          "golpe",
-          0.35
-        ],
-        [
-          "fin-22",
-          "exito",
-          0.22
-        ]
-      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -314,17 +249,17 @@
           "bando",
           "fuerza"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "fin-24",
+          "ganar",
+          0.35
+        ]
+      ]
     },
     {
       "texto": "Mecha larga: un bando *lo intentó…* y el otro *lo frenó.*",
-      "sonidos": [
-        [
-          "freno",
-          "golpe",
-          0.35
-        ]
-      ],
       "escena": {
         "tipo": "propia",
         "nombre": "Batalla",
@@ -339,7 +274,14 @@
           "intento",
           "freno"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          "freno",
+          "perder",
+          0.4
+        ]
+      ]
     },
     {
       "texto": "Junta muchas velas y tienes *la gráfica* de esa guerra.",
@@ -353,7 +295,14 @@
           "grafica",
           "guerra"
         ]
-      }
+      },
+      "sonidos": [
+        [
+          2,
+          "swoosh",
+          0.25
+        ]
+      ]
     },
     {
       "texto": "Si cada *mínimo* es más alto que el anterior, los compradores *van ganando.*",
