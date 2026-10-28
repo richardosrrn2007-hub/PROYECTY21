@@ -408,7 +408,7 @@ function Hero(parent, n) {
     parts.spot = el("ellipse", { cx: 0, cy: 120, rx: 170, ry: 30, fill: C.em, opacity: 0.18 }, g);
     parts.cone = el("path", { d: "M-60 -240 L60 -240 L190 120 L-190 120 Z", fill: C.em, opacity: 0.07 }, g);
     parts.person = el("g", {}, g);
-    const pi = icon(parts.person, "user", 230, C.white, 1.6);
+    ilDefs(); const pi = ilPerson(parts.person, 0, -10, 2.2, "url(#ilShirtG)"); parts.person.setAttribute("filter", "url(#ilShadow)");
     parts.q = el("text", { x: 120, y: -60, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 110, fill: C.em }, g, "?");
     parts.side = [["pie", -300], ["bank", 300]].map(([nm, x]) => { const s = el("g", {}, g); const c = el("circle", { r: 62, fill: C.card, stroke: C.stroke, "stroke-width": 3 }, s); icon(s, nm, 62, C.grey, 2); return { s, x }; });
   }
@@ -578,8 +578,8 @@ function Info3(parent, ws) {
   const g = el("g", {}, parent);
   const card = el("g", {}, g);
   el("circle", { cx: 0, cy: 0, r: 190, fill: C.card, stroke: C.em, "stroke-width": 6 }, card);
-  icon(card, "user", 150, C.white, 1.7).setAttribute("transform", "translate(0,-40)");
-  icon(card, "laptop", 120, C.em, 1.8).setAttribute("transform", "translate(0,95)");
+  const tr3 = IL.trader(card); tr3.g.setAttribute("transform", "translate(0,0) scale(1.05)");
+  card.addEventListener && (card._art = tr3);
   const tag1 = el("g", {}, g);
   el("rect", { x: -250, y: -50, width: 500, height: 100, rx: 50, fill: C.em }, tag1);
   el("text", { x: 0, y: 18, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 48, fill: C.bg }, tag1, "CUENTA PROPIA");
@@ -599,6 +599,7 @@ function Info3(parent, ws) {
       if (a <= 0) return;
       const k = P(t, Math.min(tP, t0 + 0.6), 0.6, E.backBig);
       card.setAttribute("transform", `translate(540,${700 + Math.sin(t * 2) * 6}) scale(${k})`);
+      card._art.update(t);
       const k1 = P(t, tC - 0.1, 0.45, E.backBig);
       op(tag1, k1 > 0 ? 1 : 0); tag1.setAttribute("transform", `translate(540,950) scale(${k1})`);
       const kw = P(t, tS - 0.3, 0.45, E.backBig);
@@ -862,7 +863,7 @@ function updateOutro(t) {
 
 // ---------- Leo ----------
 const leo = createLeo(leoLayer);
-const LEFT = { x: 250, y: 1905, s: 0.9 }, CENTER = { x: 540, y: 1915, s: 1.18 };
+const LEFT = { x: 250, y: 1915, s: 1.06 }, CENTER = { x: 540, y: 1925, s: 1.32 };
 const poseKeys = []; // [t, nombre, mano der, mano izq]
 const posKeys = [];
 const jumps = [];
