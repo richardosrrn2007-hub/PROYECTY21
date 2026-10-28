@@ -7,7 +7,7 @@ const LF = {
   top: "#22305A", topS: "#18223F", topL: "#2D3E70", collar: "#A32A3A",
   pants: "#2F333B", pantsS: "#24272D", shoe: "#F2F2F2", shoeS: "#C9CDD3", sole: "#3A3F47",
 };
-const UA = 118, FA = 106; // largo de brazo y antebrazo
+const UA = 100, FA = 88; // largo de brazo y antebrazo
 
 function createLeo(parent) {
   const root = el("g", {}, parent);
@@ -31,13 +31,13 @@ function createLeo(parent) {
   const upper = el("g", { transform: "translate(0,56)" }, bodyG);
   // Torso (sudadera ajustada, cintura algo más estrecha que el pecho, sin caja ancha)
   const torso = el("g", {}, upper);
-  el("path", { d: "M-64 -380 C-62 -420 -60 -440 -64 -470 C-70 -510 -90 -540 -96 -566 C-100 -586 -88 -600 -64 -606 C-48 -610 -32 -610 -22 -614 L22 -614 C32 -610 48 -610 64 -606 C88 -600 100 -586 96 -566 C90 -540 70 -510 64 -470 C60 -440 62 -420 64 -380 Z", fill: LF.top }, torso);
-  el("path", { d: "M40 -608 C72 -602 100 -586 96 -566 C90 -540 70 -510 64 -470 C60 -440 62 -420 64 -380 L38 -380 C44 -430 48 -480 58 -528 C64 -560 58 -592 40 -608 Z", fill: LF.topS }, torso);
+  el("path", { d: "M-64 -340 C-62 -400 -60 -430 -64 -470 C-70 -510 -90 -540 -96 -566 C-100 -586 -88 -600 -64 -606 C-48 -610 -32 -610 -22 -614 L22 -614 C32 -610 48 -610 64 -606 C88 -600 100 -586 96 -566 C90 -540 70 -510 64 -470 C60 -430 62 -400 64 -340 Z", fill: LF.top }, torso);
+  el("path", { d: "M40 -608 C72 -602 100 -586 96 -566 C90 -540 70 -510 64 -470 C60 -430 62 -400 64 -340 L38 -340 C44 -430 48 -480 58 -528 C64 -560 58 -592 40 -608 Z", fill: LF.topS }, torso);
   el("path", { d: "M-74 -596 C-62 -572 -48 -560 -26 -556 C-50 -550 -70 -560 -86 -576 Z", fill: LF.topL, opacity: 0.75 }, torso); // brillo
   el("path", { d: "M-82 -546 C-58 -524 -28 -522 -6 -532 M82 -546 C58 -524 28 -522 6 -532", stroke: "#131B33", "stroke-width": 3.5, fill: "none", "stroke-linecap": "round" }, torso); // pectorales
   el("path", { d: "M-56 -470 C-40 -462 -24 -462 -10 -468 M50 -452 C36 -446 22 -446 12 -452 M-52 -428 C-36 -420 -20 -422 -8 -428", stroke: "#131B33", "stroke-width": 2.5, fill: "none", "stroke-linecap": "round", opacity: 0.8 }, torso); // pliegues
-  el("path", { d: "M-64 -380 L64 -380 L66 -362 L-66 -362 Z", fill: LF.topS }, torso); // puño elástico
-  for (let x = -58; x <= 58; x += 8) el("path", { d: `M${x} -378 V-364`, stroke: "#141C34", "stroke-width": 1.6 }, torso);
+  el("path", { d: "M-64 -340 L64 -340 L66 -322 L-66 -322 Z", fill: LF.topS }, torso); // puño elástico
+  for (let x = -58; x <= 58; x += 8) el("path", { d: `M${x} -338 V-324`, stroke: "#141C34", "stroke-width": 1.6 }, torso);
   // cremallera y cuello
   el("path", { d: "M-3 -596 L-3 -520 L3 -520 L3 -596 Z", fill: "#141C34" }, torso);
   el("rect", { x: -3, y: -540, width: 6, height: 14, rx: 2, fill: "#C9CED6" }, torso);
@@ -68,8 +68,11 @@ function createLeo(parent) {
   const browL = el("path", { stroke: LF.hair, "stroke-width": 4.5, "stroke-linecap": "round", fill: "none" }, h);
   const browR = el("path", { stroke: LF.hair, "stroke-width": 4.5, "stroke-linecap": "round", fill: "none" }, h);
   el("path", { d: "M2 -700 L-3 -684 L4 -682", stroke: LF.skinS, "stroke-width": 3, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, h);
-  const mouth = el("path", { fill: "#6B2A24" }, h);
-  const teeth = el("path", { fill: "#fff" }, h);
+  const mouth = el("path", { fill: "#4E1A17" }, h);
+  const tongue = el("ellipse", { fill: "#D0645C" }, h);
+  const teeth = el("path", { fill: "#FFFFFF" }, h);
+  const teethL = el("path", { fill: "#F1EEE8" }, h);
+  const lipL = el("path", { fill: "#C98272" }, h);
   const mline = el("path", { stroke: "#8A4A40", "stroke-width": 3, fill: "none", "stroke-linecap": "round" }, h);
   // flequillo de lado (mechones con picos, como en la foto)
   el("path", { d: "M-48 -712 C-58 -770 -20 -790 12 -786 C44 -784 60 -762 50 -712 L44 -730 L38 -716 L30 -738 L18 -722 L10 -744 L-2 -726 L-12 -746 L-22 -728 L-32 -742 L-40 -722 Z", fill: LF.hair }, h);
@@ -95,7 +98,7 @@ function createLeo(parent) {
     el("path", { d: `M-10 6 C-4 12 4 12 10 6`, stroke: "#131B33", "stroke-width": 2.5, fill: "none", "stroke-linecap": "round" }, fo); // pliegue del codo
     el("rect", { x: -15, y: FA - 14, width: 30, height: 14, rx: 3, fill: LF.topS }, fo);
     for (let x = -10; x <= 10; x += 5) el("path", { d: `M${x} ${FA - 12} V${FA - 2}`, stroke: "#141C34", "stroke-width": 1.4 }, fo);
-    const hand = el("g", { transform: `translate(0,${FA + 2}) scale(1.12)` }, fo);
+    const hand = el("g", { transform: `translate(0,${FA + 2}) scale(1.02)` }, fo);
     const fist = el("g", {}, hand), open = el("g", {}, hand), point = el("g", {}, hand);
     el("path", { d: "M-12 0 C-15 12 -13 26 0 28 C13 26 15 12 12 0 Z", fill: LF.skin }, fist);
     el("path", { d: "M-12 0 C-16 18 -14 34 -8 44 L-4 44 L-4 26 L0 46 L5 46 L5 26 L9 44 L13 42 L12 20 C14 12 14 6 12 0 Z", fill: LF.skin }, open);
@@ -117,19 +120,29 @@ function createLeo(parent) {
     const lx = clamp(s.lookX ?? 0, -1, 1) * 3, ly = clamp(s.lookY ?? 0, -1, 1) * 2;
     const bl = clamp(s.blink ?? 0);
     for (const e of eyes) {
-      e.g.setAttribute("transform", `translate(${lx.toFixed(2)},${ly.toFixed(2)}) translate(0,-704) scale(1,${(1 - bl * 0.9).toFixed(3)}) translate(0,704)`);
+      const sq = Math.max(0, (s.smile ?? 0.5) - 0.75) * 0.6; // ojos entrecerrados al sonreír
+      e.g.setAttribute("transform", `translate(${lx.toFixed(2)},${ly.toFixed(2)}) translate(0,-704) scale(1,${(Math.max(0.08, 1 - bl * 0.92 - sq)).toFixed(3)}) translate(0,704)`);
     }
     const b = s.brow ?? 0, think = s.mood === "think";
     browL.setAttribute("d", `M-24 ${(-716 - b * 4 - (think ? 2 : 0)).toFixed(1)} Q-16 ${(-720 - b * 5).toFixed(1)} -8 ${(-716 - b * 4).toFixed(1)}`);
     browR.setAttribute("d", `M8 ${(-716 - b * 4).toFixed(1)} Q16 ${(-720 - b * 5 - (think ? 4 : 0)).toFixed(1)} 24 ${(-716 - b * 4 + (think ? 2 : 0)).toFixed(1)}`);
     const o = clamp(s.mouth ?? 0), sm = clamp(s.smile ?? 0.5, -1, 1);
-    const w = 10 + sm * 3, y0 = -664 - sm * 1.5, lo = y0 + 2 + o * 13 + Math.max(0, sm) * 3;
-    if (o > 0.08) {
-      mouth.setAttribute("d", `M${-w} ${y0} Q0 ${y0 - 2} ${w} ${y0} Q0 ${lo + 3} ${-w} ${y0} Z`);
-      teeth.setAttribute("d", `M${-w * 0.7} ${y0} Q0 ${y0 - 1.5} ${w * 0.7} ${y0} L${w * 0.6} ${y0 + 3} Q0 ${y0 + 4} ${-w * 0.6} ${y0 + 3} Z`);
+    // forma de la boca: alterna entre abierta-ancha (A, E) y redonda (O, U) según la sílaba
+    const round = 0.5 + 0.5 * Math.sin((s.t ?? 0) * 11.3 + Math.sin((s.t ?? 0) * 3.1) * 2);
+    const w = 11 + sm * 3 + o * (4 - round * 6), y0 = -664 - sm * 1.5;
+    const hh = o * 17 * (0.8 + round * 0.35), lo = y0 + hh + Math.max(0, sm) * 2;
+    if (o > 0.06) {
+      mouth.setAttribute("d", `M${-w} ${y0} C${-w * 0.6} ${y0 - 3} ${w * 0.6} ${y0 - 3} ${w} ${y0} C${w * 0.85} ${lo + 4} ${-w * 0.85} ${lo + 4} ${-w} ${y0} Z`);
+      const tu = Math.min(5.5, 2 + hh * 0.35);
+      teeth.setAttribute("d", `M${-w * 0.82} ${y0 - 0.5} C${-w * 0.4} ${y0 - 2.2} ${w * 0.4} ${y0 - 2.2} ${w * 0.82} ${y0 - 0.5} L${w * 0.72} ${y0 + tu} C${w * 0.3} ${y0 + tu + 1} ${-w * 0.3} ${y0 + tu + 1} ${-w * 0.72} ${y0 + tu} Z`);
+      const showL = hh > 7;
+      teethL.setAttribute("d", showL ? `M${-w * 0.55} ${lo + 1.5} C${-w * 0.2} ${lo - 2.5} ${w * 0.2} ${lo - 2.5} ${w * 0.55} ${lo + 1.5} C${w * 0.2} ${lo + 3.5} ${-w * 0.2} ${lo + 3.5} ${-w * 0.55} ${lo + 1.5} Z` : "");
+      tongue.setAttribute("cx", 0); tongue.setAttribute("cy", (lo - hh * 0.2).toFixed(1));
+      tongue.setAttribute("rx", (w * 0.5).toFixed(1)); tongue.setAttribute("ry", Math.max(0, hh * 0.25).toFixed(1));
+      lipL.setAttribute("d", `M${-w * 0.7} ${lo + 3} C${-w * 0.3} ${lo + 7} ${w * 0.3} ${lo + 7} ${w * 0.7} ${lo + 3} C${w * 0.3} ${lo + 5} ${-w * 0.3} ${lo + 5} ${-w * 0.7} ${lo + 3} Z`);
       mline.setAttribute("d", "");
     } else {
-      mouth.setAttribute("d", ""); teeth.setAttribute("d", "");
+      mouth.setAttribute("d", ""); teeth.setAttribute("d", ""); teethL.setAttribute("d", ""); lipL.setAttribute("d", ""); tongue.setAttribute("ry", 0);
       mline.setAttribute("d", `M${-w} ${y0} Q0 ${(y0 + 1 + sm * 5).toFixed(1)} ${w} ${y0}`);
     }
     for (const [arm, sA, eA, hd] of [[armL, s.shL ?? 14, s.elL ?? -12, s.handL ?? "fist"], [armR, s.shR ?? -14, s.elR ?? 12, s.handR ?? "fist"]]) {
@@ -150,7 +163,7 @@ const POSE = {
   present: { shL: 60, elL: 40, shR: -60, elR: -40, tilt: 0, brow: 0.5, smile: 0.7 },
   explainR: { shL: 8, elL: -6, shR: -55, elR: -75, tilt: 3, brow: 0.3, smile: 0.5 },
   explainL: { shL: 55, elL: 75, shR: -8, elR: 6, tilt: -3, brow: 0.3, smile: 0.5 },
-  think: { shL: -35, elL: -150, shR: -5, elR: 103, tilt: 7, brow: -0.2, smile: -0.1 },
+  think: { shL: -12, elL: -112, shR: 12, elR: 104, tilt: 7, brow: -0.2, smile: -0.1 },
   cheer: { shL: 150, elL: 20, shR: -150, elR: -20, tilt: 0, brow: 1, smile: 1 },
   shrug: { shL: 45, elL: 80, shR: -45, elR: -80, tilt: 6, brow: 0.8, smile: 0 },
 };

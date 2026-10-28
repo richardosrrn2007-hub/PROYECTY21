@@ -32,13 +32,21 @@ function icon(parent, name, size = 64, color = C.white, sw = 2) {
 
 // ---------- Medición de texto ----------
 const mctx = document.createElement("canvas").getContext("2d");
-function measure(text, size, weight = 900, family = FONT) { mctx.font = `${weight} ${size}px "${family}"`; return mctx.measureText(text).width; }
+const mText = el("text", { x: -9999, y: -9999, opacity: 0 }, svg);
+function measure(text, size, weight = 900, family = FONT) {
+  // mide con el mismo motor SVG que dibuja (el canvas puede usar otra fuente)
+  mText.setAttribute("font-family", family); mText.setAttribute("font-weight", weight); mText.setAttribute("font-size", size);
+  mText.textContent = text === " " ? "a a" : text;
+  const w = mText.getComputedTextLength();
+  if (text === " ") { mText.textContent = "aa"; return w - mText.getComputedTextLength(); }
+  return w;
+}
 
 // Texto cinético palabra a palabra, sincronizado con la voz
 function Kinetic(parent, words, o) {
   const g = el("g", {}, parent);
   const size = o.size, weight = o.weight ?? 900, fam = o.family ?? FONT, lh = o.lh ?? size * 1.12;
-  const space = Math.max(measure(" ", size, weight, fam), size * 0.28);
+  const space = Math.max(measure(" ", size, weight, fam), size * 0.36) + (o.extraGap ?? 0);
   const items = words.map((w) => ({ t: w[0], text: o.upper ? w[2].toUpperCase() : w[2], w: measure(o.upper ? w[2].toUpperCase() : w[2], size, weight, fam) }));
   const lines = [[]]; let lw = 0;
   for (const it of items) {
@@ -241,7 +249,7 @@ function Captions(words, pos) {
   const list = chunks(words).map((ws, i, arr) => {
     const cg = el("g", {}, g);
     const sz = pos.size ?? 50;
-    const k = Kinetic(cg, ws, { x: pos.x, y: pos.y + (pos.bubble ? 26 : 0), width: pos.w - 60, size: sz, weight: 900, family: FONT, lh: sz * 1.12, upper: true, color: pos.bubble ? C.ink : C.white });
+    const k = Kinetic(cg, ws, { extraGap: sz * 0.22, x: pos.x, y: pos.y + (pos.bubble ? 26 : 0), width: pos.w - 60, size: sz, weight: 900, family: FONT, lh: sz * 1.12, upper: true, color: pos.bubble ? C.ink : C.white });
     const nk = k.height > sz * 1.2 ? -sz * 0.56 : 0;
     k.g.setAttribute("transform", `translate(0,${nk})`);
     const t0 = ws[0][0] - 0.08, t1 = i < arr.length - 1 ? arr[i + 1][0][0] - 0.08 : ws[ws.length - 1][1] + 0.5;
@@ -257,7 +265,8 @@ function Captions(words, pos) {
         bubble.setAttribute("transform", `translate(${pos.x - pos.w / 2},${pos.y + 100}) scale(${s}) translate(${-(pos.x - pos.w / 2)},${-(pos.y + 100)})`);
       }
       for (const c of list) {
-        const vis = t >= c.t0 && t < c.t1;
+        const last = c === list[list.length - 1];
+        const vis = t >= c.t0 && t < c.t1 + (last ? 0.3 : 0);
         c.cg.style.display = vis ? "" : "none";
         if (!vis) continue;
         c.k.update(t);
@@ -699,7 +708,7 @@ for (const q of Q) {
   el("text", { x: 0, y: 62, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 190, fill: C.bg }, q.big, "ABC"[q.correct]);
   addBurst(q.tr + 0.05, 540, CARD_Y[q.correct], 70, 0.9);
   addBurst(q.tr + 0.1, 540, 395, 50, 0.7);
-  addBurst(q.tr + 0.2, 130, 1450, 40, 0.8); addBurst(q.tr + 0.2, 380, 1450, 40, 0.8);
+  addBurst(q.tr + 0.2, 90, 1250, 40, 0.8); addBurst(q.tr + 0.2, 360, 1250, 40, 0.8);
 }
 function updateQuestion(q, t) {
   q.inter.update(t, q.tq - 0.15);
@@ -861,7 +870,7 @@ function updateOutro(t) {
 
 // ---------- Leo ----------
 const leo = createLeo(leoLayer);
-const LEFT = { x: 245, y: 1925, s: 0.98 }, CENTER = { x: 540, y: 1935, s: 1.2 };
+const LEFT = { x: 225, y: 2075, s: 1.02 }, CENTER = { x: 540, y: 2120, s: 1.25 };
 const poseKeys = []; // [t, nombre, mano der, mano izq]
 const posKeys = [];
 const jumps = [];
@@ -911,6 +920,7 @@ function leoState(t) {
   s.shL += Math.sin(t * 4.3 + 1) * 4 * talk;
   s.tilt += Math.sin(t * 2.3) * 2 + Math.sin(t * 6.1) * 2.5 * talk;
   s.headY = -Math.abs(Math.sin(t * 9)) * 4 * talk;
+  s.brow += Math.sin(t * 4.7) * 0.5 * talk; s.t = t;
   s.mouth = name === "cheer" && talk < 0.1 ? 0.35 : Math.pow(talk, 0.9) * (0.75 + 0.25 * Math.sin(t * 31));
   s.blink = 0; for (const b of blinkT) { const d = t - b; if (d >= 0 && d < 0.16) s.blink = Math.sin((d / 0.16) * Math.PI); }
   s.ear = Math.sin(t * 2.7) * 4;
@@ -966,7 +976,7 @@ function renderAt(t) {
     const ph = ((t - thinking.tc) * 0.8 + i / 3) % 1;
     m.style.display = "";
     m.setAttribute("x", (st.x + 120 + i * 60 + Math.sin(t * 3 + i) * 10).toFixed(1));
-    m.setAttribute("y", (st.y - 600 - ph * 120).toFixed(1));
+    m.setAttribute("y", (st.y - 850 * st.scale - ph * 120).toFixed(1));
     m.setAttribute("opacity", Math.sin(ph * Math.PI).toFixed(2));
     m.setAttribute("font-size", 50 + i * 16);
   });

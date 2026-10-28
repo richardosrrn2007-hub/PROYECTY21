@@ -5,7 +5,7 @@ description: Crea reels verticales animados (motion graphics) para LFX / Leonard
 
 # Reels LFX con motion graphics
 
-Kit reutilizable en `leo-videos/_kit/`. Primer video hecho con él: `leo-videos/reto-lfx-01/` (versión final `reto-lfx-01-v5.mp4`).
+Kit reutilizable en `leo-videos/_kit/`. Primer video hecho con él: `leo-videos/reto-lfx-01/` (versión final `reto-lfx-01-v6.mp4`).
 No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
 
 ## Preferencias del cliente (Leo)
@@ -16,7 +16,7 @@ No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
 - Reloj de cuenta atrás con **tic-tac** (5 s completos, sin pistas sobre la respuesta). Le gusta tal como está.
 - **Regla de velas**: cada vela abre exactamente en el cierre de la anterior (serie continua). Vale para fondo e infografías.
 - Fondo: ciudad/avenida de velas japonesas 3D (`bg3d.js`), reacciona al tic-tac y a los aciertos.
-- Personaje Leo: 2D semirrealista basado en su foto (pelo castaño oscuro con flequillo de lado, piel clara), **en forma**: hombros anchos, cintura estrecha, bíceps. Ropa de la foto: sudadera azul marino de media cremallera, cuello rojo de camisa, "LFX" pequeño bordado. Mueve brazos y manos, parpadea, boca sincronizada con la voz.
+- Personaje Leo (aprobado): estilo **kit vectorial plano** (como los kits de personaje de Freepik), cuerpo completo, sombreado a dos tonos. Archivo `web/leo-flat.js` (el `index.html` lo carga en lugar de `leo.js`). Look de su foto: pelo oscuro con flequillo de lado, sudadera azul marino de media cremallera, cuello rojo de camisa, "LFX" pequeño, pantalón oscuro, zapatillas blancas. Cuerpo musculoso en V pero **proporciones profesionales**: torso largo, brazos que llegan a la cadera (nada de brazos gigantes con cuerpo chico). Al hablar se ven dientes arriba/abajo, lengua y labio; cejas se mueven; ojos se entrecierran al sonreír. Pose "pensar" = brazos cruzados. En escena: encuadre de rodillas arriba, `LEFT {x:225,y:2075,s:1.02}`. Hoja de referencia: `leo-videos/reto-lfx-01/leo-kit-vectorial.jpg`.
 - Cierre LFX de 4 s: logo original con halo y destello, "COMUNIDAD GRATUITA LFX" + "Link en mi descripción". **Sin flecha.**
 - Respuestas cortas, una sola recomendación, datos concretos (ver preferencias del usuario).
 
@@ -47,6 +47,7 @@ No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
 
 ## Errores ya resueltos (no repetir)
 - La pregunta debe caber en 2 líneas (auto-ajuste de tamaño) o la palabra final queda tapada.
-- Subtítulos: trozos de ≤ 20 caracteres para que no se salgan del bocadillo.
+- Subtítulos: trozos de ≤ 20 caracteres para que no se salgan del bocadillo, y espacio extra entre palabras (el rebote de la animación las junta).
+- Medir texto con el motor SVG (`getComputedTextLength`), no con canvas: el canvas usa otra fuente.
 - Elementos de capas globales (transiciones, subtítulos) se actualizan siempre, no solo cuando su escena es visible.
 - Higgsedit (skill video-editing de PROYECTO21) no sirve para este estilo: sin pivotes de brazos ni partículas. Usar este kit.
