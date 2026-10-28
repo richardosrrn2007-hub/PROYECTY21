@@ -78,7 +78,7 @@ def wt(words, rx, nth=0):
     return words[0][0]
 
 # Intro
-put(whoosh(0.6), 0.0, 0.8); put(pop(), 0.12, 0.7)
+put(whoosh(0.6, False), 0.05, 0.8); put(slam(0.5), 0.65, 0.9); put(pop(), 0.12, 0.7)
 for d in [0.25, 0.38, 0.5, 0.75, 0.87, 1.05]: put(pop(500, 1100, 0.09), S["intro"]["at"] + d, 0.45)
 iw = WORDS["intro"]
 put(pop(380, 900), wt(iw, "Tres") - 0.1, 0.7); put(pop(380, 900), wt(iw, "Cinco") - 0.1, 0.7)
@@ -87,7 +87,7 @@ put(sparkle(), wt(iw, "Vamos"), 0.8); put(thud(), wt(iw, "Vamos") + 0.4, 0.6)
 INFO_RX = {1: ["ballena", "influir", "Pero", "controla"], 2: ["Bancos", "empresas", "traders"], 3: ["persona", "cuenta", "propio$", "dinero"]}
 for n in (1, 2, 3):
     tq, tc, tr, ta = S[f"q{n}q"]["at"], S[f"count{n}"]["at"], S[f"reveal{n}"]["at"], S[f"q{n}a"]["at"]
-    put(whoosh(0.5), tq - 0.2, 0.9); put(slam(), tq + 0.05, 0.85); put(whoosh(0.45, False), tq + 1.05, 0.7)
+    put(rise(0.35), tq - 0.15, 0.9); put(slam(), tq + 0.15, 0.9); put(whoosh(0.5), tq + 1.0, 0.75); put(pop(500, 900), tq + 1.2, 0.5)
     put(pop(300, 700, 0.14), tq + 1.0, 0.6)  # símbolo
     qw = WORDS[f"q{n}q"]
     start = next(i for i, w in enumerate(qw) if re.search(r"pregunta\.$", w[2])) + 1
@@ -99,6 +99,13 @@ for n in (1, 2, 3):
     for k in range(5):
         put(tick(3300, 0.05, 0.9 if k < 3 else 1.1), tc + k, 1.0)
         put(tick(2300, 0.05, 0.7 if k < 3 else 0.9), tc + k + 0.5, 1.0)
+        if k >= 3:  # últimos 2 s: el tic-tac se acelera
+            put(tick(2800, 0.04, 0.55), tc + k + 0.25, 1.0); put(tick(2800, 0.04, 0.55), tc + k + 0.75, 1.0)
+    put(rise(2.0), tc + 3, 0.6)
+    # imágenes de cada alternativa: aparecen y vuelan a su tarjeta
+    letters = [w[0] for w in WORDS[f"q{n}o"] if w[2] in ("A.", "B.", "C.")]
+    ends = [letters[1], letters[2], S[f"q{n}o"]["end"] + 0.05]
+    for e in ends: put(whoosh(0.45), e - 0.5, 0.55); put(pop(700, 1300, 0.08), e - 0.02, 0.45)
     put(bell(), tr, 1.0); put(sparkle(1.2), tr + 0.05, 1.0); put(thud(), tr + 0.03, 0.5); put(thud(), tr + 0.12, 0.4)
     put(whoosh(0.5), ta - 0.15, 0.6)
     aw = WORDS[f"q{n}a"]
@@ -118,7 +125,7 @@ for rx in ["^Una", "^dos", "^tres$"]: put(pop(420, 900), wt(rw, rx) - 0.1, 0.6);
 put(bell((1568, 2093, 2637), 0.08), wt(rw, r"^tres\."), 0.9); put(sparkle(1.2), wt(rw, r"^tres\.") + 0.05, 1.0)
 # Cierre
 o = TL["outro"]["at"]
-put(whoosh(0.7), o + 0.1, 0.8); put(bell((784, 1175), 0.12, 1.8), o + 0.5, 0.45)
+put(whoosh(0.7), o + 0.1, 0.8); put(slam(0.5), o + 0.25, 0.5); put(bell((784, 1175), 0.12, 1.8), o + 0.5, 0.45); put(sparkle(0.9), o + 1.1, 0.7)
 
 # ---------- Música (lo-fi suave, 100 bpm) ----------
 bpm = 100; beat = 60 / bpm

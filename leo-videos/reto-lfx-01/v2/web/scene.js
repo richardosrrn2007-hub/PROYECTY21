@@ -106,9 +106,24 @@ const candleBand = el("g", { opacity: 0.1 }, bg);
 }
 const dots = [];
 for (let i = 0; i < 26; i++) dots.push(el("circle", { r: 2 + (i % 3), fill: i % 4 === 0 ? C.em : "#fff", opacity: 0.25 }, bg));
-const watermark = el("image", { href: "logo-lfx.png", x: 250, y: 1020, width: 580, height: 212, opacity: 0.035 }, bg);
+const city = createCity(bg);
+glows.forEach((g) => (g.style.display = "none")); grid.style.display = "none"; candleBand.style.display = "none";
+dots.forEach((d) => bg.appendChild(d));
 
+function bgFx(t) {
+  // reacciones del fondo: pulso en cada tic-tac, impulso verde en cada revelado, oscurecer al final del reloj
+  let pulse = 0, pump = 0, dark = 0;
+  for (const n of [1, 2, 3]) {
+    const tc = S[`count${n}`].at, tr = S[`reveal${n}`].at;
+    if (t >= tc && t < tr) { const ph = (t - tc) % 0.5; pulse = Math.exp(-ph * 9); }
+    if (t >= tr) pump = Math.max(pump, Math.exp(-(t - tr) * 1.4));
+    dark = Math.max(dark, win(t, tr - 2, tr + 0.1, 0.4, 0.15));
+  }
+  if (t >= res.tFinal) pump = Math.max(pump, Math.exp(-(t - res.tFinal) * 1.4));
+  return { pulse, pump, dark };
+}
 function updateBg(t) {
+  city.update(t, bgFx(t));
   glows[0].setAttribute("cx", 540 + Math.sin(t * 0.21) * 380); glows[0].setAttribute("cy", 520 + Math.cos(t * 0.17) * 260);
   glows[1].setAttribute("cx", 540 + Math.cos(t * 0.15) * 420); glows[1].setAttribute("cy", 1400 + Math.sin(t * 0.19) * 240);
   candleBand.setAttribute("transform", `translate(${-((t * 22) % 960)},0)`);
@@ -119,11 +134,13 @@ function updateBg(t) {
 }
 
 // ---------- Capas ----------
-const layer = { scenes: el("g", {}, svg) };
-const hud = el("g", {}, svg);
-layer.caption = el("g", {}, svg);
-const leoLayer = el("g", {}, svg);
-layer.fx = el("g", {}, svg);
+const tension = el("rect", { width: W, height: H, fill: "#000", opacity: 0 }, svg);
+const cam = el("g", {}, svg);
+const layer = { scenes: el("g", {}, cam) };
+const hud = el("g", {}, cam);
+layer.caption = el("g", {}, cam);
+const leoLayer = el("g", {}, cam);
+layer.fx = el("g", {}, cam);
 layer.trans = el("g", {}, svg);
 layer.outro = el("g", {}, svg);
 
@@ -137,7 +154,36 @@ for (let i = 0; i < 3; i++) {
   hudPills.push(el("rect", { x: 760 + i * 92, y: 128, width: 80, height: 16, rx: 8, fill: "#262B34" }, hud));
   hudFill.push(el("rect", { x: 760 + i * 92, y: 128, width: 0, height: 16, rx: 8, fill: C.em }, hud));
 }
+const tick = el("g", {}, hud);
+{
+  const cp = el("clipPath", { id: "tickClip" }, hud);
+  el("rect", { x: 376, y: 106, width: 360, height: 60, rx: 30 }, cp);
+  el("rect", { x: 376, y: 106, width: 360, height: 60, rx: 30, fill: C.card, stroke: C.stroke, "stroke-width": 3 }, tick);
+}
+const tickIn = el("g", { "clip-path": "url(#tickClip)" }, tick);
+const tickRow = el("g", {}, tickIn);
+const PAIRS = ["EUR/USD", "GBP/USD", "XAU/USD", "USD/JPY", "AUD/USD", "US30", "NAS100", "USD/CAD"];
+const tickItems = [];
+{
+  let x = 0;
+  for (let r = 0; r < 3; r++) for (const pr of PAIRS) {
+    const tx = el("text", { x, y: 147, "font-family": FONT2, "font-weight": 800, "font-size": 26, fill: C.grey }, tickRow, pr);
+    const w = measure(pr, 26, 800, FONT2);
+    const ar = el("text", { x: x + w + 10, y: 147, "font-family": FONT2, "font-weight": 900, "font-size": 24, fill: C.em }, tickRow, "▲");
+    tickItems.push({ ar, i: tickItems.length });
+    x += w + 60;
+  }
+  tickRow.dataset.w = x / 3;
+}
 function updateHud(t) {
+  const loopW = +tickRow.dataset.w;
+  tickRow.setAttribute("transform", `translate(${(396 - ((t * 70) % loopW)).toFixed(1)},0)`);
+  const fx = bgFx(t);
+  tickItems.forEach((it) => {
+    const up = fx.pump > 0.3 || Math.sin(it.i * 2.7 + Math.floor(t / 1.5) * 1.3) > -0.2;
+    it.ar.textContent = up ? "▲" : "▼";
+    it.ar.setAttribute("fill", up ? C.em : "#8B919C");
+  });
   const a = win(t, S.q1q.at + 0.9, TL.outro.at, 0.4, 0.3);
   op(hud, a);
   for (let i = 0; i < 3; i++) {
@@ -177,6 +223,8 @@ function updateFx(t) {
 function chunks(words, maxw = 4) {
   const out = []; let cur = [];
   for (const w of words) {
+    const len = cur.reduce((n, x) => n + x[2].length + 1, 0);
+    if (cur.length && len + w[2].length > 20) { out.push(cur); cur = []; }
     cur.push(w);
     if (cur.length >= maxw || /[.,?!]$/.test(w[2])) { out.push(cur); cur = []; }
   }
@@ -236,8 +284,9 @@ function Card(parent, o) {
   const border = el("rect", { x: -w / 2, y: -h / 2, width: w, height: h, rx: 34, fill: "none", stroke: C.em, "stroke-width": 5, opacity: 0 }, inner);
   const badge = el("circle", { cx: -w / 2 + 74, cy: 0, r: 40, fill: "#232933" }, inner);
   const letter = el("text", { x: -w / 2 + 74, y: 16, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 44, fill: C.white }, inner, o.letter);
-  const ic = icon(inner, o.icon, 58, C.em, 2);
-  ic.setAttribute("transform", `translate(${-w / 2 + 178},0)`);
+  el("circle", { cx: -w / 2 + 178, cy: 0, r: 46, fill: "#1A1F27" }, inner);
+  const slot = el("g", {}, inner);
+  const mini = o.illus ? IL[o.illus](slot) : null;
   const lsz = Math.min(44, Math.floor(44 * 590 / measure(o.label, 44, 800)));
   el("text", { x: -w / 2 + 236, y: 15, "font-family": FONT, "font-weight": 800, "font-size": lsz, fill: C.white }, inner, o.label);
   const chk = el("g", { transform: `translate(${w / 2 - 70},0)` }, inner);
@@ -246,7 +295,13 @@ function Card(parent, o) {
   return {
     g, center: () => o,
     update(t, s) {
-      // s: {tin, tr, correct, tmove, ymove, tout}
+      // s: {tin, tr, correct, tmove, ymove, tout, tarrive}
+      if (mini) {
+        const ka = P(t, s.tarrive ?? s.tin, 0.3, E.backBig);
+        op(slot, ka > 0 ? 1 : 0);
+        slot.setAttribute("transform", `translate(${-w / 2 + 178},0) scale(${(0.3 * ka).toFixed(4)})`);
+        mini.update(t);
+      }
       const a = clamp((t - s.tin) / 0.15) * (1 - P(t, s.tout, 0.35, E.in));
       op(g, a);
       if (a <= 0) return;
@@ -305,7 +360,8 @@ function Clock(parent, cx, cy) {
       const el5 = t - t0, sec = Math.floor(el5);
       const tickPhase = el5 - sec;
       const shake = el5 >= 0 && el5 < 5 ? Math.sin(tickPhase * Math.PI * 6) * 5 * Math.exp(-tickPhase * 6) : 0;
-      g.setAttribute("transform", `translate(${cx},${cy}) scale(${(kin * (1 + burst * 0.35)).toFixed(4)}) rotate(${shake.toFixed(2)})`);
+      const tense = 1 + 0.1 * P(t, t1 - 2, 0.4, E.backBig);
+      g.setAttribute("transform", `translate(${cx},${cy - (tense - 1) * 60}) scale(${(kin * tense * (1 + burst * 0.35)).toFixed(4)}) rotate(${(shake * (tense > 1.05 ? 1.8 : 1)).toFixed(2)})`);
       const n = clamp(5 - sec, 1, 5);
       num.textContent = el5 < 0 ? "5" : String(n);
       const pulse = el5 >= 0 && el5 < 5 ? 1 + 0.18 * Math.exp(-tickPhase * 7) : 1;
@@ -566,36 +622,43 @@ function Info3(parent, ws) {
 // ---------- Transición "PREGUNTA N" ----------
 function Interstitial(n) {
   const g = el("g", {}, layer.trans);
-  const circ = el("circle", { cx: 540, cy: 960, r: 0, fill: C.em }, g);
-  const ring = el("circle", { cx: 540, cy: 960, r: 0, fill: "none", stroke: C.white, "stroke-width": 10, opacity: 0.5 }, g);
-  const lab = el("text", { x: 540, y: 700, "text-anchor": "middle", "font-family": FONT2, "font-weight": 900, "font-size": 58, fill: C.bg, "letter-spacing": 16 }, g, n === 3 ? "ÚLTIMA PREGUNTA" : "PREGUNTA");
-  const num = el("text", { x: 540, y: 1160, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 480, fill: C.bg }, g, String(n));
-  const of = el("text", { x: 540, y: 1290, "text-anchor": "middle", "font-family": FONT2, "font-weight": 800, "font-size": 46, fill: C.bg, opacity: 0.6, "letter-spacing": 8 }, g, `DE 3`);
+  const wick = el("rect", { x: 532, y: 0, width: 16, height: 0, rx: 8, fill: C.em }, g);
+  const body = el("rect", { x: 220, y: 960, width: 640, height: 0, rx: 40, fill: C.em }, g);
+  const shine = el("rect", { x: 250, y: 960, width: 60, height: 0, rx: 30, fill: "#fff", opacity: 0.18 }, g);
+  const lab = el("text", { x: 540, y: 640, "text-anchor": "middle", "font-family": FONT2, "font-weight": 900, "font-size": n === 3 ? 46 : 54, fill: C.bg, "letter-spacing": 12 }, g, n === 3 ? "ÚLTIMA PREGUNTA" : "PREGUNTA");
+  const num = el("text", { x: 540, y: 1150, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 460, fill: C.bg }, g, String(n));
+  const of = el("text", { x: 540, y: 1290, "text-anchor": "middle", "font-family": FONT2, "font-weight": 800, "font-size": 44, fill: C.bg, opacity: 0.6, "letter-spacing": 8 }, g, "DE 3");
   return {
     update(t, t0) {
-      const t1 = t0 + 1.25;
-      if (t < t0 || t > t1 + 0.45) { g.style.display = "none"; return; }
+      const t1 = t0 + 1.2;
+      if (t < t0 || t > t1 + 0.5) { g.style.display = "none"; return; }
       g.style.display = "";
-      const kIn = P(t, t0, 0.42, E.out), kOut = P(t, t1, 0.42, E.in);
-      circ.setAttribute("r", (1200 * kIn).toFixed(1));
-      ring.setAttribute("r", (1300 * P(t, t0 + 0.15, 0.6, E.out)).toFixed(1));
-      ring.setAttribute("opacity", (0.5 * (1 - P(t, t0 + 0.15, 0.6))).toFixed(2));
-      const kn = P(t, t0 + 0.18, 0.55, E.backBig);
-      num.setAttribute("transform", `translate(540,1000) scale(${kn}) rotate(${(1 - kn) * -25}) translate(-540,-1000)`);
-      op(num, clamp((t - t0 - 0.18) / 0.1));
-      const kl = P(t, t0 + 0.28, 0.4, E.backBig);
-      lab.setAttribute("transform", `translate(0,${(1 - kl) * 40})`); op(lab, kl);
-      op(of, P(t, t0 + 0.4, 0.3) * 0.6);
-      g.setAttribute("transform", `translate(0,${(-H * kOut).toFixed(1)})`);
+      const kw = P(t, t0, 0.3, E.out);                 // la mecha sube
+      wick.setAttribute("y", (1920 * (1 - kw)).toFixed(1)); wick.setAttribute("height", (1920 * kw).toFixed(1));
+      const kb = P(t, t0 + 0.12, 0.45, E.backBig);     // el cuerpo crece desde el centro
+      const bh = 1500 * kb, open = P(t, t1, 0.45, E.inOut); // y se abre a pantalla completa
+      const bw = lerp(640, 1300, open), bx = 540 - bw / 2;
+      const bh2 = lerp(bh, 2200, open);
+      body.setAttribute("x", bx.toFixed(1)); body.setAttribute("width", bw.toFixed(1));
+      body.setAttribute("y", (960 - bh2 / 2).toFixed(1)); body.setAttribute("height", bh2.toFixed(1));
+      shine.setAttribute("x", (bx + 40).toFixed(1)); shine.setAttribute("y", (960 - bh2 / 2 + 40).toFixed(1)); shine.setAttribute("height", Math.max(0, bh2 - 80).toFixed(1));
+      const fade = 1 - P(t, t1 + 0.15, 0.3);
+      g.setAttribute("opacity", fade.toFixed(3));
+      const kn = P(t, t0 + 0.3, 0.5, E.backBig);
+      num.setAttribute("transform", `translate(540,1000) scale(${(kn * (1 + open * 0.6)).toFixed(4)}) rotate(${((1 - kn) * -25).toFixed(2)}) translate(-540,-1000)`);
+      op(num, clamp((t - t0 - 0.3) / 0.1) * (1 - open));
+      const kl = P(t, t0 + 0.4, 0.4, E.backBig);
+      lab.setAttribute("transform", `translate(0,${((1 - kl) * 40).toFixed(1)})`); op(lab, kl * (1 - open));
+      op(of, P(t, t0 + 0.5, 0.3) * 0.6 * (1 - open));
     },
   };
 }
 
 // ---------- Construcción de escenas ----------
 const Q = [
-  { n: 1, correct: 0, hl: /ballena/i, icons: ["coins", "calendar", "zap"], labels: ["Mucho capital", "Operaciones de meses", "Muchas operaciones pequeñas"], info: Info1 },
-  { n: 2, correct: 2, hl: /volumen|forex/i, icons: ["user", "factory", "bank"], labels: ["Traders individuales", "Empresas", "Bancos y fondos"], info: Info2 },
-  { n: 3, correct: 1, hl: /trader|retail/i, icons: ["pie", "user", "bank"], labels: ["Un fondo de inversión", "Una persona", "Un banco"], info: Info3 },
+  { n: 1, correct: 0, illus: ["coins", "calendar", "swarm"], hl: /ballena/i, icons: ["coins", "calendar", "zap"], labels: ["Mucho capital", "Operaciones de meses", "Muchas operaciones pequeñas"], info: Info1 },
+  { n: 2, correct: 2, illus: ["trader", "company", "bank"], hl: /volumen|forex/i, icons: ["user", "factory", "bank"], labels: ["Traders individuales", "Empresas", "Bancos y fondos"], info: Info2 },
+  { n: 3, correct: 1, illus: ["fund", "retail", "bankClients"], hl: /trader|retail/i, icons: ["pie", "user", "bank"], labels: ["Un fondo de inversión", "Una persona", "Un banco"], info: Info3 },
 ];
 const CARD_Y = [840, 1010, 1180];
 for (const q of Q) {
@@ -615,7 +678,18 @@ for (const q of Q) {
   q.clock = Clock(q.g, 540, 395);
   const ow = TL.words[`q${k}o`];
   q.optT = ["A.", "B.", "C."].map((L) => ow.find((w) => w[2] === L)[0]);
-  q.cards = [0, 1, 2].map((i) => Card(q.g, { id: `${k}${i}`, x: 540, y: CARD_Y[i], letter: "ABC"[i], icon: q.icons[i], label: q.labels[i] }));
+  q.cards = [0, 1, 2].map((i) => Card(q.g, { id: `${k}${i}`, x: 540, y: CARD_Y[i], letter: "ABC"[i], icon: q.icons[i], label: q.labels[i], illus: q.illus[i] }));
+  q.optEnd = [q.optT[1], q.optT[2], S[`q${k}o`].end + 0.05];
+  q.flyers = [0, 1, 2].map((i) => {
+    const fg = el("g", {}, q.g);
+    const halo = el("circle", { r: 190, fill: C.em, opacity: 0.12 }, fg);
+    el("circle", { r: 168, fill: "none", stroke: C.em, "stroke-width": 4, opacity: 0.4, "stroke-dasharray": "14 18" }, fg);
+    const art = IL[q.illus[i]](fg);
+    const badge = el("g", { transform: "translate(-150,-130)" }, fg);
+    el("circle", { r: 46, fill: C.em }, badge);
+    el("text", { x: 0, y: 17, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 50, fill: C.bg }, badge, "ABC"[i]);
+    return { fg, art, halo, badge, t0: q.optT[i] - 0.1, tf: q.optEnd[i] - 0.5 };
+  });
   q.infoObj = q.info(q.g, TL.words[`q${k}a`]);
   q.inter = Interstitial(k);
   q.caps = Captions(TL.words[`q${k}a`], { x: 760, y: 1470, w: 560, bubble: true, size: 44 });
@@ -626,6 +700,7 @@ for (const q of Q) {
   el("text", { x: 0, y: 62, "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 190, fill: C.bg }, q.big, "ABC"[q.correct]);
   addBurst(q.tr + 0.05, 540, CARD_Y[q.correct], 70, 0.9);
   addBurst(q.tr + 0.1, 540, 395, 50, 0.7);
+  addBurst(q.tr + 0.2, 130, 1450, 40, 0.8); addBurst(q.tr + 0.2, 380, 1450, 40, 0.8);
 }
 function updateQuestion(q, t) {
   q.inter.update(t, q.tq - 0.15);
@@ -634,11 +709,22 @@ function updateQuestion(q, t) {
   q.g.style.display = vis ? "" : "none";
   if (!vis) return;
   const tIn = q.tq + 1.0, tOut = q.tnext - 0.05;
-  q.hero.update(t, tIn, q.tc);
+  q.hero.update(t, tIn, q.optT[0] - 0.05);
+  q.flyers.forEach((f, i) => {
+    const kin = P(t, f.t0, 0.5, E.backBig), kf2 = P(t, f.tf, 0.5, E.inOut);
+    const vis2 = t >= f.t0 && t < f.tf + 0.5;
+    f.fg.style.display = vis2 ? "" : "none";
+    if (!vis2) return;
+    f.art.update(t);
+    const tx = lerp(540, 238, kf2), ty = lerp(400, CARD_Y[i], kf2) - Math.sin(kf2 * Math.PI) * 120;
+    const sc = lerp(1.25 * kin, 0.3, kf2);
+    f.fg.setAttribute("transform", `translate(${tx.toFixed(1)},${(ty + Math.sin(t * 2.4) * 8 * (1 - kf2)).toFixed(1)}) scale(${sc.toFixed(4)}) rotate(${((1 - kin) * -20 + kf2 * 360).toFixed(2)})`);
+    op(f.halo, 0.12 * (1 - kf2)); op(f.badge, 1 - kf2);
+  });
   q.kin.update(t, q.ta - 0.1);
   q.clock.update(t, q.tc, q.tr);
   q.cards.forEach((c, i) => c.update(t, {
-    tin: q.optT[i] - 0.12, tr: q.tr, correct: i === q.correct,
+    tin: q.optT[i] - 0.12, tr: q.tr, correct: i === q.correct, tarrive: q.flyers[i].tf + 0.45,
     tmove: q.ta - 0.1, ymove: 270, tout: i === q.correct ? tOut - 0.35 : 1e9,
   }));
   const kb = P(t, q.tr, 0.5, E.backBig), kbo = P(t, q.ta - 0.3, 0.35, E.in);
@@ -749,19 +835,29 @@ const outBg = el("rect", { width: W, height: H, fill: "#0A0B10" }, outro);
 const outLogo = el("image", { href: "logo-lfx.png", x: 205, y: 705, width: 686, height: 251 }, outro);
 const outT1 = el("text", { x: 540, y: 1100, "text-anchor": "middle", "font-family": FONT2, "font-weight": 900, "font-size": 50, fill: C.white, "letter-spacing": 5 }, outro, "COMUNIDAD GRATUITA LFX");
 const outT2 = el("text", { x: 540, y: 1168, "text-anchor": "middle", "font-family": FONT2, "font-weight": 600, "font-size": 38, fill: C.em }, outro, "Link en mi descripción");
-const outLine = el("rect", { x: 118, y: 780, width: 5, height: 520, rx: 2.5, fill: C.em }, outro);
-const outArrow = el("path", { d: "M92 806 L120.5 776 L149 806", stroke: C.em, "stroke-width": 5, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, outro);
+const outGlowG = el("radialGradient", { id: "outGlow" }, outro);
+el("stop", { offset: "0%", "stop-color": C.em, "stop-opacity": 0.35 }, outGlowG); el("stop", { offset: "100%", "stop-color": C.em, "stop-opacity": 0 }, outGlowG);
+const outGlow = el("circle", { cx: 540, cy: 830, r: 0, fill: "url(#outGlow)" }, outro);
+outro.insertBefore(outGlow, outLogo);
+const outRing = el("circle", { cx: 540, cy: 830, r: 0, fill: "none", stroke: C.em, "stroke-width": 4, opacity: 0 }, outro);
+const outSweepClip = el("clipPath", { id: "logoClip" }, outro);
+el("rect", { x: 205, y: 705, width: 686, height: 251 }, outSweepClip);
+const outSweep = el("rect", { x: 0, y: 690, width: 90, height: 290, fill: "#fff", opacity: 0.22, transform: "skewX(-18)", "clip-path": "url(#logoClip)" }, outro);
 function updateOutro(t) {
   const t0 = TL.outro.at;
   if (t < t0 - 0.05) { outro.style.display = "none"; return; }
   outro.style.display = "";
   op(outBg, P(t, t0, 0.35));
   const up = (d, el2, dist = 160) => { const k = P(t, t0 + d, 0.8, E.out); op(el2, P(t, t0 + d, 0.4)); el2.setAttribute("transform", `translate(0,${((1 - k) * dist).toFixed(1)})`); };
-  up(0.25, outLogo); up(0.5, outT1); up(0.65, outT2);
-  const kl = P(t, t0 + 0.35, 0.9, E.out);
-  outLine.setAttribute("transform", `translate(0,${1300 * (1 - kl)}) scale(1,${kl.toFixed(4)})`);
-  op(outLine, P(t, t0 + 0.35, 0.2));
-  up(1.0, outArrow, 520);
+  const kL = P(t, t0 + 0.2, 0.9, E.backBig);
+  op(outLogo, P(t, t0 + 0.2, 0.35));
+  outLogo.setAttribute("transform", `translate(548,830) scale(${(0.7 + 0.3 * kL).toFixed(4)}) translate(-548,-830)`);
+  outGlow.setAttribute("r", (520 * P(t, t0 + 0.2, 1.2, E.out)).toFixed(1));
+  const kr = P(t, t0 + 0.3, 1.1, E.out);
+  outRing.setAttribute("r", (200 + 600 * kr).toFixed(1)); outRing.setAttribute("opacity", (0.6 * (1 - kr)).toFixed(2));
+  const ks = P(t, t0 + 1.1, 0.9, E.inOut);
+  outSweep.setAttribute("x", (150 + ks * 1000).toFixed(1)); op(outSweep, ks > 0 && ks < 1 ? 0.22 : 0);
+  up(0.7, outT1, 80); up(0.85, outT2, 80);
 }
 
 // ---------- Leo ----------
@@ -775,10 +871,12 @@ function pk(t, name, hr = "fist", hl = "fist") { poseKeys.push([t, name, hr, hl]
   const iw = TL.words.intro;
   pk(0, "rest"); pk(0.5, "wave", "open"); pk(wt(iw, /Listo/) - 0.1, "explainR", "open");
   pk(wt(iw, /Tres/) - 0.15, "present", "open", "open"); pk(wt(iw, /Vamos/) - 0.15, "cheer");
-  jumps.push([0.0, 260, 0.6], [wt(iw, /Vamos/) - 0.05, 120, 0.45]);
-  posKeys.push([0, { ...CENTER, y: 2500 }], [0.05, { ...CENTER, y: 2500 }], [0.55, CENTER], [S.q1q.at - 0.2, CENTER], [S.q1q.at + 1.0, LEFT]);
+  jumps.push([wt(iw, /Vamos/) - 0.05, 120, 0.45]);
+  posKeys.push([0, CENTER], [S.q1q.at - 0.3, CENTER], [S.q1q.at - 0.05, { ...CENTER, x: -420 }]);
   for (const q of Q) {
-    pk(q.tq - 0.1, "rest"); pk(q.tq + 0.9, "pointUp", "point");
+    pk(q.tq - 0.1, "rest"); pk(q.tq + 1.0, "wave", "open"); pk(q.tq + 1.9, "pointUp", "point");
+    if (q.n > 1) posKeys.push([q.tq - 0.4, LEFT], [q.tq - 0.05, { ...LEFT, x: -320 }]);
+    posKeys.push([q.tq + 1.0, { ...LEFT, x: -320 }], [q.tq + 1.55, LEFT]);
     q.optT.forEach((ot, i) => pk(ot - 0.15, i % 2 ? "explainR" : "point", i % 2 ? "open" : "point"));
     pk(q.tc - 0.3, "think"); pk(q.tr, "cheer"); jumps.push([q.tr + 0.02, 160, 0.42], [q.tr + 0.5, 90, 0.36]);
     const aw = TL.words[`q${q.n}a`];
@@ -818,8 +916,12 @@ function leoState(t) {
   s.blink = 0; for (const b of blinkT) { const d = t - b; if (d >= 0 && d < 0.16) s.blink = Math.sin((d / 0.16) * Math.PI); }
   s.ear = Math.sin(t * 2.7) * 4;
   // posición
+  posKeys.sort((a, b) => a[0] - b[0]);
   const pos = kf(t, posKeys.map(([tt, v]) => [tt, { x: v.x, y: v.y, s: v.s }]), E.inOut);
+  const drop = t < 0.65 ? -2100 * (1 - E.in(clamp(t / 0.65))) : 0; // cae desde arriba
+  pos.y += drop;
   let jump = 0, squash = 0;
+  if (t >= 0.65 && t < 0.95) squash += Math.sin(((t - 0.65) / 0.3) * Math.PI) * 2.2;
   for (const [j0, hgt, d] of jumps) {
     const u = (t - j0) / d;
     if (u >= 0 && u <= 1) jump += 4 * hgt * u * (1 - u);
@@ -834,8 +936,24 @@ function leoState(t) {
 // signos de interrogación al pensar
 const thinkMarks = [0, 1, 2].map((i) => el("text", { "text-anchor": "middle", "font-family": FONT, "font-weight": 900, "font-size": 70, fill: C.em }, leoLayer, "?"));
 
+function camera(t) {
+  let sc = 1, cx = 540, cy = 960, dx = 0, dy = 0;
+  for (const q of Q) {
+    // temblor cuando cae el número de la pregunta
+    const sh = t - (q.tq + 0.15);
+    if (sh > 0 && sh < 0.45) { const a = 14 * Math.exp(-sh * 9); dx += Math.sin(sh * 70) * a; dy += Math.cos(sh * 55) * a; }
+    // zoom rápido a la tarjeta correcta en el revelado
+    const pz = win(t, q.tr, q.ta - 0.1, 0.12, 0.45);
+    if (pz > 0) { sc *= 1 + 0.08 * E.out(pz); cy = lerp(cy, CARD_Y[q.correct], E.out(pz)); }
+    // zoom lento durante la explicación
+    if (t > q.ta && t < q.te + 0.4) sc *= 1 + 0.035 * clamp((t - q.ta) / (q.te - q.ta));
+  }
+  cam.setAttribute("transform", `translate(${(cx + dx).toFixed(2)},${(cy + dy).toFixed(2)}) scale(${sc.toFixed(4)}) translate(${-cx},${-cy})`);
+  tension.setAttribute("opacity", (bgFx(t).dark * 0.35).toFixed(3));
+}
 function renderAt(t) {
   updateBg(t);
+  camera(t);
   updateHud(t);
   updateIntro(t);
   for (const q of Q) updateQuestion(q, t);
