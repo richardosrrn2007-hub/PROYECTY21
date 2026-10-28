@@ -1,0 +1,52 @@
+---
+name: lfx-reels
+description: Crea reels verticales animados (motion graphics) para LFX / Leonardo (Método LFX, trading): cuestionarios, explicaciones y retos con el personaje Leo, voz clonada de Leo, fondo 3D de velas, ilustraciones animadas, reloj tic-tac, confeti y cierre LFX. Úsala para cualquier video de Leo o "Reto LFX".
+---
+
+# Reels LFX con motion graphics
+
+Kit reutilizable en `leo-videos/_kit/`. Primer video hecho con él: `leo-videos/reto-lfx-01/` (versión final `reto-lfx-01-v5.mp4`).
+No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
+
+## Preferencias del cliente (Leo)
+- Formato 1080×1920, 30 fps, MP4. Volumen −14/−15 LUFS, pico < −1 dBTP.
+- Colores: negro, gris, blanco y verde esmeralda (`#2FD39A`). Tipografía Inter Display / Inter.
+- Mucho motion graphic y poco texto: palabras que entran cuando se dicen, símbolos animados, cámara viva.
+- Cada vez que se nombra algo (alternativa, ejemplo), se muestra una **ilustración concreta y animada**, grande, que luego se reduce y vuela a su tarjeta. Ejemplos con detalle y vida, nada de iconos de línea sueltos.
+- Reloj de cuenta atrás con **tic-tac** (5 s completos, sin pistas sobre la respuesta). Le gusta tal como está.
+- **Regla de velas**: cada vela abre exactamente en el cierre de la anterior (serie continua). Vale para fondo e infografías.
+- Fondo: ciudad/avenida de velas japonesas 3D (`bg3d.js`), reacciona al tic-tac y a los aciertos.
+- Personaje Leo: 2D semirrealista basado en su foto (pelo castaño oscuro con flequillo de lado, piel clara), **en forma**: hombros anchos, cintura estrecha, bíceps. Ropa de la foto: sudadera azul marino de media cremallera, cuello rojo de camisa, "LFX" pequeño bordado. Mueve brazos y manos, parpadea, boca sincronizada con la voz.
+- Cierre LFX de 4 s: logo original con halo y destello, "COMUNIDAD GRATUITA LFX" + "Link en mi descripción". **Sin flecha.**
+- Respuestas cortas, una sola recomendación, datos concretos (ver preferencias del usuario).
+
+## Voz
+- ElevenLabs, voz clonada de Leo: **LEOPUPRIME**, `voice_id Gj9upVGwYXkkr7bSsufy`, modelo `eleven_v4`. Generar todo el guion en una sola toma (voz uniforme) con etiquetas `[energetic, friendly]`, `[excited]`, `[warm]`. Coste aprox.: 1.250 créditos por toma de ~80 s.
+- Elegir la toma con mejor transcripción (Whisper).
+- PROYECTO21 (Higgsfield) tiene 0 créditos: no usarlo para generar; su sandbox (`sandbox_exec`) sí sirve gratis para Whisper:
+  `faster_whisper` modelo `small`, `language="es"`, `word_timestamps=True` → `words.json` ([inicio, fin, palabra]).
+  Subir archivos al sandbox con `media_upload` + `curl PUT` (cabecera `If-None-Match: *`) + `media_confirm`.
+
+## Flujo
+1. Guion: intro, pregunta + opciones leídas ("A: …"), respuesta, cierre. Ajustar duración (con las 3 opciones leídas sale ~1:45).
+2. Voz → `audio/voice.wav` (48 kHz mono) y `words.json` con Whisper.
+3. `timeline.py`: define los cortes de la toma (`SEG`) y los huecos (5 s de reloj tras cada bloque de opciones). Genera `web/timeline.js` + `audio/voice_track.wav` + envolvente de boca.
+4. `web/scene.js`: adaptar `Q` (respuesta correcta, ilustraciones `illus`, etiquetas cortas, palabra a resaltar `hl`, infografía `info`) y textos de intro/resultado.
+5. Vista previa: `cd web && node frames.js ../frames 2.5 16 30.7 …` y revisar las imágenes antes de renderizar.
+6. Sonido: `python3 sound.py` → `audio/mix.wav` (voz + efectos sintetizados + música lo-fi con ducking). Normalizar en dos pasadas (`loudnorm` con `linear=true`) + `alimiter` con sobremuestreo a 192 kHz.
+7. Render: 4 procesos en paralelo, `node render.js ../out/pN.mp4 30 INICIO FIN` (Playwright + Chromium + ffmpeg), concat y mux del audio.
+8. Control de calidad: extraer fotogramas del MP4 final y revisarlos. Guardar en `leo-videos/<nombre>/`, commit y push.
+
+## Componentes (archivos en `_kit/web/`)
+- `lib.js`: easing, `P`/`tw`/`win`/`kf`, helpers SVG. Todo es función pura de `t`.
+- `leo.js`: personaje (`createLeo`, `POSE`: rest, wave, point, pointUp, present, explainR/L, think, cheer, shrug).
+- `bg3d.js`: `createCity` (avenida de velas 3D, cuadrícula, niebla; `update(t, {pulse, pump, dark})`).
+- `illus.js` / `illus2.js`: ilustraciones animadas `IL.*` (coins, calendar, swarm, trader, company, bank, fund, retail, bankClients), `ilHuman` (persona con brazos y parpadeo), `Whale` (ballena jorobada detallada), `ilCoin`, `ilBank`.
+- `scene.js`: `Kinetic` (texto palabra a palabra), `Captions` (subtítulos karaoke en bocadillo), `Card` (tarjeta de opción con revelado), `Clock` (reloj tic-tac), `Hero` (símbolo por pregunta), `Info1/2/3` (infografías: precio + ballena, mercado-océano, barras de volumen, cuenta propia), `Interstitial` (transición con vela gigante), HUD con cinta de cotizaciones, confeti, cámara (temblor, zoom), resultado interactivo (botones 1/3-3/3 con mano), cierre LFX.
+- `sound.py`: efectos sintetizados (whoosh, pop, tic/tac, campana, golpe, destellos, monedas, subida) + música.
+
+## Errores ya resueltos (no repetir)
+- La pregunta debe caber en 2 líneas (auto-ajuste de tamaño) o la palabra final queda tapada.
+- Subtítulos: trozos de ≤ 20 caracteres para que no se salgan del bocadillo.
+- Elementos de capas globales (transiciones, subtítulos) se actualizan siempre, no solo cuando su escena es visible.
+- Higgsedit (skill video-editing de PROYECTO21) no sirve para este estilo: sin pivotes de brazos ni partículas. Usar este kit.
