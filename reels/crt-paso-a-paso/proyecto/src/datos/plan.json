@@ -79,11 +79,12 @@
           "swoosh",
           0.25
         ]
-      ]
+      ],
+      "voz": "No fue mala suerte. Es el ce erre te: el precio fue a buscar liquidez."
     },
     {
       "texto": "Paso uno: *C1.* El 10 de junio, el oro deja un *rango:* de 4.067 a 4.257.",
-      "voz": "Paso uno: C1. El diez de junio, el oro deja un rango: de cuatro mil sesenta y siete a cuatro mil doscientos cincuenta y siete.",
+      "voz": "Paso uno: ce uno. El diez de junio, el oro deja un rango: de cuatro mil sesenta y siete a cuatro mil doscientos cincuenta y siete.",
       "emocion": "[segura]",
       "entrada": "barrido",
       "escena": {
@@ -107,7 +108,7 @@
     },
     {
       "texto": "Paso dos: *C2.* Barre el mínimo hasta *4.023…*",
-      "voz": "Paso dos: C2. Barre el mínimo hasta cuatro mil veintitrés…",
+      "voz": "Paso dos: ce dos. Barre el mínimo hasta cuatro mil veintitrés…",
       "entrada": "corte",
       "escena": {
         "tipo": "propia",
@@ -158,7 +159,7 @@
     },
     {
       "texto": "*Entrada* en 4.061. *Stop* debajo del barrido, en 4.020. *TP1,* la mitad del rango. *TP2,* el máximo de C1.",
-      "voz": "Entrada en cuatro mil sesenta y uno. Stop debajo del barrido, en cuatro mil veinte. TP1, la mitad del rango. TP2, el máximo de C1.",
+      "voz": "Entrada en cuatro mil sesenta y uno. Stop debajo del barrido, en cuatro mil veinte. Te pe uno, la mitad del rango. Te pe dos, el máximo de ce uno.",
       "entrada": "corte",
       "escena": {
         "tipo": "propia",
@@ -173,7 +174,7 @@
     },
     {
       "texto": "Riesgo: 42 dólares. Recorrido hasta TP2: 196. *Uno a cuatro coma siete.* Y no siempre sale: por eso el *stop va siempre.*",
-      "voz": "Riesgo: cuarenta y dos dólares. Recorrido hasta TP2: ciento noventa y seis. Uno a cuatro coma siete. Y no siempre sale: por eso el stop va siempre.",
+      "voz": "Riesgo: cuarenta y dos dólares. Recorrido hasta te pe dos: ciento noventa y seis. Uno a cuatro coma siete. Y no siempre sale: por eso el stop va siempre.",
       "escena": {
         "tipo": "propia",
         "nombre": "Rr",
@@ -200,7 +201,8 @@
         "titulo": "AMD",
         "sub": "por sesiones",
         "clave": "amd"
-      }
+      },
+      "voz": "La vela no es el análisis. Es la firma. En el próximo: a eme de. Comenta ce erre te."
     }
   ],
   "portada": {

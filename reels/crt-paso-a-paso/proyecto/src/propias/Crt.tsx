@@ -10,7 +10,7 @@ import { GraficoVelas, OSCURO, PAPEL, continua, geometria, type Marco } from "./
 import { XAU_H1, iH, N5 } from "./xau_h1";
 import { BancoCapa } from "./Banco";
 import type { VelaFecha } from "./xau";
-import { CREMA, DOJI, Fondo, MARCO, Nivel, Rotulo, TINTA, VelaG, Velocidad, cl, latido } from "./Doji";
+import { CREMA, DOJI, Fondo, MARCO, Nivel, Rotulo, TINTA, VelaG, Velocidad, cl, enPalabra, latido } from "./Doji";
 import { Chispas, Halo, ORO, PRINCIPAL, PRO, REBOTE, ROJO, SECUND, VERDE, Trazo, pr, sp, temblor } from "./mg";
 
 const H1 = continua(XAU_H1) as VelaFecha[];
@@ -404,15 +404,19 @@ const Gestion: React.FC<PropsEscena> = ({ b, dur }) => {
 
 // ---------------------------------------------------------------- 7 · R:R real
 
-const Rr: React.FC<PropsEscena> = ({ b }) => {
+const Rr: React.FC<PropsEscena> = ({ b, palabras, dur }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 25, b2 = 50, b3 = 75] = b;
+  const w42 = enPalabra(palabras, "42", b0 + 10),
+    wDol = enPalabra(palabras, "dolares", b0 + 14),
+    wCiento = enPalabra(palabras, "196", b1 + 40),
+    fin = dur - 24;
   const riesgo = N5.entrada - N5.sl,
     tp1 = N5.tp1 - N5.entrada,
     tp2 = N5.tp2 - N5.entrada;
   const ESC = 2.6; // px por dólar
   const BASE = 1000;
-  const rR = pr(f, b0 - 4, 12) * riesgo * ESC;
+  const rR = pr(f, b0 - 4, Math.max(12, w42 + 10 - (b0 - 4)), Easing.linear) * riesgo * ESC; // crece hasta que dice «42»
   const rW = pr(f, b1 - 4, 30, Easing.inOut(Easing.cubic)) * tp2 * ESC;
   const ratio = f < b1 ? 1 : 1 + (tp2 / riesgo - 1) * pr(f, b1, 34, Easing.inOut(Easing.cubic));
   const t = temblor(f, b3, 14, 10);
@@ -421,24 +425,28 @@ const Rr: React.FC<PropsEscena> = ({ b }) => {
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
         <line x1={160} x2={920} y1={BASE} y2={BASE} stroke={CREMA} strokeWidth={4} />
         {/* riesgo (abajo) y recorrido (arriba) */}
-        <rect x={330} y={BASE} width={160} height={rR} fill={alfa(ROJO, 0.85)} rx={8} />
-        <rect x={590} y={BASE - rW} width={160} height={rW} fill={alfa(VERDE, 0.85)} rx={8} />
+        <rect x={330} y={BASE} width={160} height={rR} fill={alfa(ROJO, 0.85)} rx={8} transform={`scale(1 ${latido(f, wDol, 0.25, 12)})`} style={{ transformOrigin: `410px ${BASE}px` }} />
+        {f >= b3 + 20 && <line x1={300} x2={520} y1={BASE + rR + 4} y2={BASE + rR + 4} stroke={ROJO} strokeWidth={8} opacity={0.4 + 0.6 * Math.abs(Math.sin((f - b3) / 4))} />}
+        <rect x={590} y={BASE - rW} width={160} height={rW} fill={alfa(VERDE, 0.85 * latido(f, wCiento + 14, 0.18, 14))} rx={8} />
         {f >= b1 + 10 && <line x1={570} x2={770} y1={BASE - tp1 * ESC} y2={BASE - tp1 * ESC} stroke={CREMA} strokeWidth={3} strokeDasharray="10 8" opacity={pr(f, b1 + 10, 8)} />}
       </svg>
-      {f >= b0 - 2 && <div style={{ position: "absolute", left: 300, width: 220, top: BASE + rR + 14, textAlign: "center", fontFamily: PRO, fontSize: 40, color: ROJO, opacity: pr(f, b0, 8) }}>−{numeroES(riesgo, 0)} $<div style={{ fontSize: 24, color: CREMA }}>riesgo</div></div>}
-      {f >= b1 && <div style={{ position: "absolute", left: 560, width: 220, top: BASE - rW - 90, textAlign: "center", fontFamily: PRO, fontSize: 40, color: VERDE, opacity: pr(f, b1 + 20, 8) }}>+{numeroES(tp2, 0)} $<div style={{ fontSize: 24, color: CREMA }}>hasta TP2</div></div>}
+      {f >= b0 - 2 && <div style={{ position: "absolute", left: 300, width: 220, top: BASE + rR + 14, textAlign: "center", fontFamily: PRO, fontSize: 40, color: ROJO, opacity: pr(f, b0, 8), transform: `scale(${latido(f, wDol, 0.3, 12)})` }}>−{numeroES(riesgo, 0)} $<div style={{ fontSize: 24, color: CREMA }}>riesgo</div></div>}
+      {f >= b1 && <div style={{ position: "absolute", left: 560, width: 220, top: BASE - rW - 90, textAlign: "center", fontFamily: PRO, fontSize: 40, color: VERDE, opacity: pr(f, b1 + 20, 8), transform: `scale(${latido(f, wCiento, 0.35, 12)})` }}>+{numeroES(tp2, 0)} $<div style={{ fontSize: 24, color: CREMA }}>hasta TP2</div></div>}
       {f >= b1 + 10 && <div style={{ position: "absolute", left: 790, top: BASE - tp1 * ESC - 22, fontFamily: PRO, fontSize: 26, color: CREMA, opacity: pr(f, b1 + 10, 8) }}>TP1 · 1:2,4</div>}
       <div style={{ position: "absolute", left: 0, right: 0, top: 170, textAlign: "center", opacity: pr(f, b0, 8) }}>
         <span style={{ fontFamily: PRINCIPAL, fontSize: f >= b2 ? 170 : 130, color: f >= b2 ? ORO : CREMA, display: "inline-block", transform: `scale(${latido(f, b2 - 2, 0.25, 12)})` }}>1 : {numeroES(ratio, 1)}</span>
       </div>
       {f >= b3 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b3 - 2, REBOTE)}) rotate(-3deg)` }}>
-          <span style={{ fontFamily: PRINCIPAL, fontSize: 64, color: CREMA, border: `6px solid ${ROJO}`, borderRadius: 16, padding: "4px 26px", background: "rgba(0,0,0,0.6)" }}>
+          <span style={{ display: "inline-block", fontFamily: PRINCIPAL, fontSize: 64, color: CREMA, border: `6px solid ${ROJO}`, borderRadius: 16, padding: "4px 26px", background: "rgba(0,0,0,0.6)", transform: `scale(${latido(f, fin, 0.15, 12)})` }}>
             el <span style={{ color: ROJO }}>STOP</span> va siempre
           </span>
         </div>
       )}
       <Chispas desde={b2 - 2} x={540} y={260} n={18} r={360} color={ORO} />
+      <Chispas desde={wCiento} x={670} y={BASE - tp2 * ESC} n={14} r={200} color={VERDE} />
+      <Chispas desde={wCiento + 16} x={670} y={BASE - tp1 * ESC} n={12} r={180} color={CREMA} />
+      <Chispas desde={b2 + 24} x={670} y={BASE - tp2 * ESC} n={16} r={240} color={ORO} />
       <BancoCapa x={920} y={760} esc={0.6} gesto="sorpresa" desde={b2 - 2} />
       {f >= b2 + 4 && <div style={{ position: "absolute", left: 60, top: 640, transform: `scale(${sp(f, b2 + 4, REBOTE)}) rotate(-10deg)`, fontFamily: PRINCIPAL, fontSize: 120, color: ROJO, textShadow: "4px 4px 0 #000" }}>K.O.</div>}
     </AbsoluteFill>

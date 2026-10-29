@@ -860,13 +860,21 @@ const Firma: React.FC<PropsEscena> = ({ p, b, dur, palabras }) => {
         <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO, display: "inline-block", transform: `scale(${latido(f, wCrt, 0.25, 12)})` }}>{titulo}</span>
         {f >= wPaso - 2 && <div style={{ fontFamily: SECUND, fontSize: 56, color: CREMA, opacity: pr(f, wPaso - 2, 6), transform: `translateY(${(1 - pr(f, wPaso - 2, 10)) * 40}px)` }}>{sub}</div>}
         {f >= wCrt + 14 && (
-          <div style={{ marginTop: 18, display: "inline-block", fontFamily: PRO, fontSize: 44, color: "#16120E", background: ORO, borderRadius: 40, padding: "8px 30px", transform: `scale(${sp(f, wCrt + 14, REBOTE) * latido(f, wPaso + 4, 0.12, 10)})`, boxShadow: `0 0 40px ${alfa(ORO, 0.5)}` }}>
+          <div style={{ marginTop: 18, display: "inline-block", fontFamily: PRO, fontSize: 44, color: "#16120E", background: ORO, borderRadius: 40, padding: "8px 30px", transform: `scale(${sp(f, wCrt + 14, REBOTE) * latido(f, wPaso + 4, 0.12, 10) * latido(f, enPalabra(palabras, "comenta", wPaso + 30), 0.3, 14)})`, boxShadow: `0 0 40px ${alfa(ORO, 0.5)}` }}>
             Comenta <b>CRT</b>
           </div>
         )}
       </div>
     )}
     <Chispas desde={wPaso + 8} x={540} y={1330} n={20} r={380} color={ORO} />
+    <Chispas desde={enPalabra(palabras, "comenta", wPaso + 30)} x={540} y={1420} n={18} r={300} color={ORO} />
+    <Chispas desde={enPalabra(palabras, "comenta", wPaso + 30) + 16} x={540} y={1420} n={18} r={360} color={CREMA} />
+    {(() => {
+      const w = enPalabra(palabras, "crt", wPaso + 40);
+      const k = pr(f, w + 4, 36, Easing.out(Easing.cubic));
+      return f >= w + 4 && f < w + 42 ? <div style={{ position: "absolute", left: 540 - 700 * k, top: 1380 - 700 * k, width: 1400 * k, height: 1400 * k, borderRadius: "50%", background: `radial-gradient(circle, ${alfa(ORO, 0)} 55%, ${alfa(ORO, 0.75 * (1 - k * 0.7))} 70%, ${alfa(ORO, 0)} 72%)`, pointerEvents: "none" }} /> : null;
+    })()}
+    {f >= enPalabra(palabras, "comenta", wPaso + 30) && f < enPalabra(palabras, "comenta", wPaso + 30) + 40 && <div style={{ position: "absolute", left: 0, right: 0, top: 1100, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 70, color: ORO, opacity: 1 - pr(f, enPalabra(palabras, "comenta", wPaso + 30) + 24, 14), transform: `translateY(${-pr(f, enPalabra(palabras, "comenta", wPaso + 30), 30) * 120}px)` }}>CRT</div>}
     <Chispas desde={wPaso + 20} x={300} y={500} n={14} r={260} color={CREMA} />
     </>
   );
