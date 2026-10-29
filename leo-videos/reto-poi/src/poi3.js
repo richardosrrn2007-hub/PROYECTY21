@@ -171,11 +171,11 @@ el("path", { d: "M520 1720 L540 1600 L600 1560", stroke: "#2B2F37", "stroke-widt
 el("path", { d: "M580 1540 L640 1560 L620 1600 L560 1580 Z", fill: "#2B2F37" }, lamp);
 const lampLight = el("path", { d: "M600 1590 L520 1720 L720 1720 L630 1600 Z", fill: "#FFE7A8", opacity: 0.35 }, lamp);
 // toro LFX en el escritorio
-el("image", { href: "logo-lfx.png", x: 470, y: 1660, width: 150, height: 55, opacity: 0.95 }, deskG);
+// (un solo logo en escena: el del portátil)
 const mug = el("g", { transform: "translate(990,1662)" }, deskG);
 el("rect", { x: -26, y: 0, width: 52, height: 60, rx: 8, fill: "#FFFFFF" }, mug);
 el("path", { d: "M26 14 C46 14 46 40 26 40", stroke: "#FFFFFF", "stroke-width": 9, fill: "none" }, mug);
-el("text", { x: 0, y: 40, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 20, fill: P2.blue }, mug, "LFX");
+// taza sin texto
 
 function drawUI(st) {
   titleG.textContent = ""; capG.textContent = "";
