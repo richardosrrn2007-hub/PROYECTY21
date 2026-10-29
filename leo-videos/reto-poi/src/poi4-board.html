@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#05060A}</style></head><body>
+<svg id="stage" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="bg3d.js"></script><script src="leo-flat.js"></script><script src="real.js"></script>
+<script>
+const load=(src)=>new Promise(r=>{const s=document.createElement('script');s.src=src;s.onload=r;document.body.appendChild(s);});
+Promise.all([document.fonts.load('900 64px "Inter Display"'),document.fonts.load('800 64px "Inter"'),document.fonts.load('500 64px "Inter"')])
+.then(()=>load('poi3.js')).then(()=>load('poi4.js')).then(()=>{
+  const {N,IDX,TF}=POIDATA;
+  const full={tf:'H4',i0:IDX.start,i1:N+8,pmin:Math.min(...TF.H4.slice(IDX.start).map(c=>c.l))-0.4,pmax:Math.max(...TF.H4.slice(IDX.start).map(c=>c.h))+0.6};
+  const Z=(o={})=>({A:{from:IDX.aCross,op:1,...o.A},B:{from:IDX.bStart,op:1,...o.B},C:{from:IDX.acc0,op:1,...o.C}});
+  const T=[["¿CUÁL ES EL ",0],["PUNTO",1]], T2=[["DE INTERÉS?",1],["  A · B · C",0]];
+  const w=(s,o={})=>({w:s,...o});
+  window.STATES={
+   hook:{t:0.6,view:{...full,zones:Z()},leo:'pointUp',handR:'point',mouth:0.7,smile:0.9,hook:true,progress:0.02},
+   intro:{t:2,view:{...full,zones:Z()},title:[T,T2],leo:'type',typing:true,mouth:0.5,lookX:0.6,lookY:0.4,progress:0.08,
+     kin:[w("¿PUNTO"),w("DE INTERÉS?",{blue:true,icon:'target'})],kinActive:1,kinY:1250,kinX:715,kinSize:54},
+   count:{t:4,pip:true,view:{...full,zones:Z()},title:[T,T2],count:3,countP:0.4,countAt:[920,1300],pipPose:'think',mouth:0,smile:0.3,progress:0.3,
+     sticker:"PAUSA Y COMENTA TU LETRA",stickerY:1560,kin:[w("¿A,"),w("B"),w("o C?",{blue:true,icon:'clock'})],kinActive:2,kinY:1310,kinX:470},
+   reveal:{t:5,zoom:1,view:{...full,zones:Z({A:{op:0.45,labOp:0.4},B:{op:0.45,labOp:0.4},C:{strong:1,labCol:'#2962FF'}})},banner:'C · VAMOS A COMPROBARLA',title:[T,T2],leo:'cheer',mouth:0.8,smile:1,react:true,progress:0.45,
+     kin:[w("LA"),w("C",{blue:true})],kinActive:1,kinY:1360,kinX:800},
+   weekly:{t:6,pip:true,view:{tf:'W1',i0:TF.W1.length-30,i1:TF.W1.length+1.5,pmin:Math.min(...TF.W1.slice(-30).map(c=>c.l))-0.5,pmax:Math.max(...TF.W1.slice(-30).map(c=>c.h))+0.5,cursor:[150+27,10+28],zones:{C:{from:0,op:1,strong:0.6}}},step:[["1 · ",1],["CONTEXTO MAYOR",0]],pipPose:'explainR',mouth:0.5,progress:0.6,
+     kin:[w("MIRA"),w("SEMANAL",{blue:true,icon:'candle'})],kinActive:1},
+   history:{t:7,pip:true,view:{tf:'H4',i0:IDX.start-2,i1:IDX.acc0+12,pmin:Math.min(...TF.H4.slice(IDX.start,IDX.acc0+12).map(c=>c.l))-0.3,pmax:Math.max(...TF.H4.slice(IDX.start,IDX.acc0+12).map(c=>c.h))+0.3,zones:{C:{from:IDX.start-10,op:1,strong:0.8}},marks:[{kind:'circle',i:IDX.touch[0].i,p:IDX.touch[0].p},{kind:'arrow',i:IDX.touch[0].i,p:IDX.touch[0].p-0.25},{kind:'circle',i:IDX.touch[1].i,p:IDX.touch[1].p},{kind:'arrow',i:IDX.touch[1].i,p:IDX.touch[1].p-0.25}]},step:[["3 · ",1],["REVISA SU HISTORIA",0]],pipPose:'explainR',mouth:0.6,smile:0.8,progress:0.75,
+     kin:[w("YA"),w("REACCIONÓ",{blue:true,icon:'history'})],kinActive:1},
+   outro:{t:9,view:{...full,zones:Z()},outro4:true,progress:1},
+  };
+  window.READY=true;});
+</script></body></html>

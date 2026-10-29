@@ -184,7 +184,7 @@ function drawUI(st) {
   if (st.step) { el("rect", { x: 70, y: 110, width: 940, height: 100, rx: 50, fill: "#fff", filter: "url(#soft)" }, titleG); rich(titleG, st.step, 540, 177, 50); }
   if (st.cap) { const g = el("g", {}, capG); el("rect", { x: 580, y: 1300, width: 460, height: 150, rx: 30, fill: "#fff", filter: "url(#soft)" }, g); el("path", { d: "M600 1420 L556 1448 L630 1430 Z", fill: "#fff" }, g); st.cap.forEach((ln, i) => rich(g, ln, 810, 1363 + i * 54, 40)); }
   if (st.count != null) {
-    const g = el("g", { transform: "translate(870,1180)" }, titleG);
+    const g = el("g", { transform: `translate(${(st.countAt ?? [870, 1180]).join(",")})` }, titleG);
     el("circle", { r: 78, fill: "#fff", filter: "url(#soft)" }, g);
     el("circle", { r: 64, fill: "none", stroke: "#E1E5F0", "stroke-width": 12 }, g);
     el("circle", { r: 64, fill: "none", stroke: P2.blue, "stroke-width": 12, "stroke-dasharray": `${2 * Math.PI * 64}`, "stroke-dashoffset": `${2 * Math.PI * 64 * st.countP}`, transform: "rotate(-90)", "stroke-linecap": "round" }, g);
