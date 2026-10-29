@@ -16,6 +16,11 @@ import { Chispas, Cuenta, Halo, ORO, PRINCIPAL, PRO, REBOTE, ROJO, SECUND, VERDE
 const CREMA = "#F2E8D5";
 const TINTA = "#141414";
 const cl = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
+/** Fotograma (relativo a la escena) en que se oye la palabra que empieza por `w`; si no está, `def`. */
+const enPalabra = (palabras: PropsEscena["palabras"], w: string, def: number) =>
+  palabras.find((x) => x.w.toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g, "").startsWith(w))?.f ?? def;
+/** Latido 1 → 1+k → 1 que dura `d` fotogramas desde `a` (para que algo "respire" en un tramo sin cambios). */
+const latido = (f: number, a: number, k = 0.08, d = 12) => (f < a || f > a + d ? 1 : 1 + k * Math.sin(((f - a) / d) * Math.PI));
 
 // ---------------------------------------------------------------- vela suelta (dibujo grande)
 
@@ -67,7 +72,7 @@ const Tres: React.FC<PropsEscena> = ({ b }) => {
         const esDoji = i === 1;
         const lado = i === 0 ? -1 : i === 2 ? 1 : 0;
         const blur = esDoji ? 7 * (1 - salta) : 7 + 5 * aparta;
-        const esc = esDoji ? 1 + 0.45 * salta : 1 - 0.18 * aparta;
+        const esc = (esDoji ? 1 + 0.45 * salta : 1 - 0.18 * aparta) * latido(f, b1 + 4 + i * 7, 0.12, 12);
         const dy = (1 - e) * 500 + (esDoji ? -60 * salta : 0);
         const op = esDoji ? 0.55 + 0.45 * salta : 0.55 - 0.25 * aparta;
         return (
@@ -168,9 +173,10 @@ const DojiZoom: React.FC<PropsEscena> = ({ p, b }) => {
 
 // ---------------------------------------------------------------- 4 · el dato de Bulkowski (doji estrella alcista)
 
-const Dato: React.FC<PropsEscena> = ({ b }) => {
+const Dato: React.FC<PropsEscena> = ({ b, palabras }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 20, b2 = 40] = b;
+  const fuente = enPalabra(palabras, "bulkowski", b1 - 4);
   // patrón: vela negra alta y doji debajo. Lo que "se espera" (sube) frente a lo que pasó (siguió cayendo)
   const espera = pr(f, b0, 16, Easing.inOut(Easing.cubic));
   const real = pr(f, b2 - 6, 18, Easing.inOut(Easing.cubic));
@@ -182,6 +188,7 @@ const Dato: React.FC<PropsEscena> = ({ b }) => {
           <VelaG x={300} y={520} alto={600} ancho={86} v={{ o: 0.05, c: 0.62, h: 0, l: 0.68 }} />
           <VelaG x={420} y={520} alto={600} ancho={86} v={{ o: 0.8, c: 0.805, h: 0.74, l: 0.88 }} />
         </g>
+        {f >= b1 - 2 && <circle cx={420} cy={1003} r={50 * latido(f, b1 - 2, 0.3, 14)} fill="none" stroke={ORO} strokeWidth={5} opacity={pr(f, b1 - 2, 6)} />}
         {/* lo que se espera: giro al alza */}
         <Trazo d="M470 990 C 560 990, 640 820, 760 640" p={espera} color={ORO} grosor={8} guion op={1 - 0.6 * tacha} />
         {espera > 0.95 && <path d="M760 640 l-46 6 M760 640 l-4 46" stroke={ORO} strokeWidth={8} strokeLinecap="round" opacity={1 - 0.6 * tacha} />}
@@ -191,16 +198,17 @@ const Dato: React.FC<PropsEscena> = ({ b }) => {
         {real > 0.95 && <path d="M780 1290 l-8 -46 M780 1290 l-46 -4" stroke={CREMA} strokeWidth={9} strokeLinecap="round" />}
       </svg>
       <div style={{ position: "absolute", left: 600, top: 520, fontFamily: PRO, fontSize: 38, color: ORO, opacity: pr(f, b0 + 6, 8) * (1 - 0.6 * tacha) }}>¿GIRO?</div>
-      {f >= b1 - 4 && (
-        <div style={{ position: "absolute", left: 90, top: 1640, transform: `scale(${sp(f, b1 - 4)})`, transformOrigin: "0 50%", fontFamily: PRO, fontSize: 32, color: CREMA, opacity: 0.85 }}>
+      {f >= fuente - 2 && (
+        <div style={{ position: "absolute", left: 90, top: 1640, transform: `scale(${sp(f, fuente - 2)})`, transformOrigin: "0 50%", fontFamily: PRO, fontSize: 32, color: CREMA, opacity: 0.85 }}>
           Fuente: Bulkowski · thepatternsite.com
           <div style={{ fontSize: 26, opacity: 0.7, marginTop: 6 }}>Doji estrella alcista · pruebas históricas</div>
         </div>
       )}
       {f >= b2 - 4 && (
         <div style={{ position: "absolute", left: 600, top: 1210, transform: `scale(${sp(f, b2 - 4, REBOTE)})`, transformOrigin: "0 50%" }}>
-          <Cuenta desde={b2 - 4} de={0} a={64} sufijo=" %" tam={150} color={ORO} />
+          <div style={{ display: "inline-block", transform: `scale(${latido(f, b2 + 30, 0.1, 12)})`, transformOrigin: "0 50%" }}><Cuenta desde={b2 - 4} de={0} a={64} sufijo=" %" tam={150} color={ORO} /></div>
           <div style={{ fontFamily: SECUND, fontSize: 44, color: CREMA, marginTop: -10 }}>siguió cayendo</div>
+          {f >= b2 + 18 && <div style={{ fontFamily: PRO, fontSize: 34, color: ORO, marginTop: 14, opacity: pr(f, b2 + 18, 8), transform: `translateX(${(1 - pr(f, b2 + 18, 10)) * 40}px)` }}>solo el 36 % giró</div>}
         </div>
       )}
     </AbsoluteFill>
@@ -314,7 +322,7 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <GraficoVelas velas={velas} marco={marco} entra={entra} forma={6} letra={20} tema={PAPEL} vivo={false} volumen={false} opacidad={foco} fechas={velas.map((v, j) => (zoom > 1.6 || j % 3 === 0 || j === c1 || j === c2 ? v.fecha : ""))} />
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
           {/* rango de C1 */}
-          {rect > 0 && <rect x={x1} y={yH} width={(MARCO.x1 - 110 - x1) * rect} height={yL - yH} fill={alfa(ORO, 0.16)} stroke={ORO} strokeWidth={3} />}
+          {rect > 0 && <rect x={x1} y={yH} width={(MARCO.x1 - 110 - x1) * rect} height={yL - yH} fill={alfa(ORO, modo === "rango" ? 0.16 + 0.4 * (latido(f, b2 + 10, 1, 14) - 1) + 0.4 * (latido(f, b2 + 28, 1, 14) - 1) : 0.16)} stroke={ORO} strokeWidth={3} />}
           {(modo === "rango" || ya(1)) && (
             <>
               <Nivel y={yH} x0={x1} p={modo === "rango" ? pr(f, b1 - 2, 10) : 1} color="#9C7A45" texto={numeroES(V1.h, 1)} guion={false} />
@@ -351,6 +359,10 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
           )}
         </svg>
         {modo === "entra" && <Rotulo x={560} y={420} desde={b2 - 2} tam={44}>1D · DIARIO</Rotulo>}
+        {modo === "entra" && <Rotulo x={300} y={760} desde={b1 - 2} tam={40} color="#7A5C2E">JUNIO 2026</Rotulo>}
+        {modo === "entra" && f >= b1 + 8 && f <= b1 + 30 && (
+          <div style={{ position: "absolute", top: MARCO.y0 - 60, height: MARCO.y1 - MARCO.y0 + 100, left: MARCO.x0 - 160 + (MARCO.x1 - MARCO.x0 + 200) * pr(f, b1 + 8, 22, Easing.inOut(Easing.cubic)), width: 140, background: `linear-gradient(90deg, transparent, ${alfa(ORO, 0.55)}, transparent)` }} />
+        )}
         {modo === "rango" && <Rotulo x={(x1 + MARCO.x1 - 110) / 2} y={yH - 34} desde={b0 + 4} tam={34} color="#7A5C2E">RANGO · 10 JUN</Rotulo>}
         {orden >= 2 && <Rotulo x={xC2} y={yMin2 + 44} desde={modo === "barre" ? b1 : -99} tam={30} color={ROJO}>BARRIDO {numeroES(V2.l, 1)}</Rotulo>}
         {modo === "barre" && <Rotulo x={xC2 - 130} y={yL + 24} desde={b2} tam={30} color={ROJO}>STOPS</Rotulo>}
@@ -359,6 +371,13 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
         
       </AbsoluteFill>
     </Escritorio>
+    {modo === "rango" && f >= b2 + 10 && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 + 10, REBOTE)})` }}>
+        <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>rango de </span>
+        <span style={{ display: "inline-block", transform: `scale(${latido(f, b2 + 36, 0.18, 12)})` }}><Cuenta desde={b2 + 10} de={0} a={V1.h - V1.l} sufijo=" $" tam={78} color={ORO} /></span>
+        {f >= b2 + 46 && <div style={{ fontFamily: PRO, fontSize: 36, color: CREMA, marginTop: 8, opacity: pr(f, b2 + 46, 8), transform: `translateY(${(1 - pr(f, b2 + 46, 10)) * 30}px)` }}>1,8 veces su ATR de 14 días</div>}
+      </div>
+    )}
     {modo === "sube" && f >= b2 - 2 && (
       <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
         <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>objetivo </span>
@@ -443,7 +462,7 @@ const Mayo: React.FC<PropsEscena> = ({ p, b, dur }) => {
 
 // ---------------------------------------------------------------- 12 · porcentajes de Bulkowski
 
-const Porcentajes: React.FC<PropsEscena> = ({ b }) => {
+const Porcentajes: React.FC<PropsEscena> = ({ b, palabras }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 20, b2 = 40] = b;
   const filas = [
@@ -453,6 +472,9 @@ const Porcentajes: React.FC<PropsEscena> = ({ b }) => {
   const X0 = 140,
     W = 800;
   const moneda = sp(f, b2 - 4, REBOTE);
+  const fuente = enPalabra(palabras, "bulkowski", 0),
+    velas = enPalabra(palabras, "velas", 12),
+    w63 = enPalabra(palabras, "63", b1 + 30);
   return (
     <AbsoluteFill>
       {filas.map((r, i) => {
@@ -460,10 +482,10 @@ const Porcentajes: React.FC<PropsEscena> = ({ b }) => {
         const k = pr(f, r.desde - 2, 18, Easing.out(Easing.cubic));
         if (f < r.desde - 4) return null;
         return (
-          <div key={r.nombre} style={{ position: "absolute", left: X0, top: y, width: W, opacity: pr(f, r.desde - 4, 6) }}>
+          <div key={r.nombre} style={{ position: "absolute", left: X0, top: y, width: W, opacity: pr(f, r.desde - 4, 6), transform: `translateX(${(1 - pr(f, r.desde - 4, 16, Easing.out(Easing.exp))) * 420}px)` }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
               <span style={{ fontFamily: SECUND, fontSize: 50, color: CREMA }}>{r.nombre}</span>
-              <Cuenta desde={r.desde - 2} de={0} a={r.v} sufijo=" %" tam={96} color={ORO} />
+              <span style={{ display: "inline-block", transform: `scale(${latido(f, i ? w63 : r.desde + 14, 0.2, 12)})` }}><Cuenta desde={r.desde - 2} de={0} a={r.v} sufijo=" %" tam={96} color={ORO} /></span>
             </div>
             <div style={{ position: "relative", height: 34, borderRadius: 17, background: alfa(CREMA, 0.12), marginTop: 10 }}>
               <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${r.v * k}%`, borderRadius: 17, background: ORO }} />
@@ -472,7 +494,19 @@ const Porcentajes: React.FC<PropsEscena> = ({ b }) => {
           </div>
         );
       })}
-      <div style={{ position: "absolute", left: X0 + W / 2 - 60, top: 1170, fontFamily: PRO, fontSize: 30, color: CREMA, opacity: 0.8 * pr(f, b0, 8) }}>50 % = azar</div>
+      <div style={{ position: "absolute", left: X0 + W / 2 - 60, top: 1170, fontFamily: PRO, fontSize: 30, color: CREMA, opacity: 0.8 * pr(f, b0 + 22, 8), transform: `scale(${latido(f, b0 + 22, 0.25, 14)})` }}>50 % = azar</div>
+      {f >= w63 + 14 && <div style={{ position: "absolute", left: 0, right: 0, top: 1220, textAlign: "center", fontFamily: PRO, fontSize: 36, color: ORO, opacity: pr(f, w63 + 14, 8), transform: `translateY(${(1 - pr(f, w63 + 14, 10)) * 30}px)` }}>solo 10-13 puntos más que el azar</div>}
+      {/* al decir «velas», tres velas pequeñas; luego cada fila lleva su icono */}
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+        {[0, 1, 2].map((i) => {
+          const e = sp(f, velas - 4 + i * 4, REBOTE);
+          if (e <= 0 || f > b0 + 10) return null;
+          return <g key={i} opacity={Math.min(1, e) * (1 - pr(f, b0 + 2, 8))} transform={`translate(${380 + i * 160} ${(1 - e) * 120})`}><VelaG x={0} y={300} alto={200} ancho={50} v={[MARTILLO, DOJI, ENVUELVE][i]} /></g>;
+        })}
+        {f >= b0 + 16 && <g opacity={pr(f, b0 + 16, 8)} transform={`translate(${X0 + W + 20} ${600}) scale(${sp(f, b0 + 16, REBOTE) * latido(f, b0 + 28, 0.3, 12)})`}><VelaG x={0} y={-40} alto={150} ancho={40} v={MARTILLO} color={ORO} /></g>}
+        {f >= b1 + 12 && <g opacity={pr(f, b1 + 12, 8)} transform={`translate(${X0 + W + 20} ${900}) scale(${sp(f, b1 + 12, REBOTE)})`}><VelaG x={-14} y={-40} alto={150} ancho={26} v={PREVIA} color={ORO} /><VelaG x={16} y={-40} alto={150} ancho={30} v={ENVUELVE} color={ORO} /></g>}
+      </svg>
+      {f >= fuente && f < b0 + 10 && <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: PRO, fontSize: 40, color: CREMA, opacity: pr(f, fuente, 8) * (1 - pr(f, b0 + 2, 8)) }}>Thomas Bulkowski · pruebas históricas</div>}
       {moneda > 0 && (
         <div style={{ position: "absolute", left: 540 - 110, top: 1290, width: 220, height: 220, borderRadius: "50%", background: `radial-gradient(circle at 35% 35%, #F0D59A, ${ORO} 60%, #8C6A36)`, transform: `scale(${moneda}) scaleX(${Math.cos((f - b2) * 0.35)})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: PRINCIPAL, fontSize: 64, color: "#3A2A12", boxShadow: `0 0 60px ${alfa(ORO, 0.4)}` }}>
           {Math.cos((f - b2) * 0.35) > 0 ? "50/50" : ""}
@@ -485,7 +519,7 @@ const Porcentajes: React.FC<PropsEscena> = ({ b }) => {
 
 // ---------------------------------------------------------------- 13 · capas del análisis
 
-const Capas: React.FC<PropsEscena> = ({ b }) => {
+const Capas: React.FC<PropsEscena> = ({ b, palabras }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 15, b2 = 30, b3 = 45] = b;
   const capas = [
@@ -500,13 +534,22 @@ const Capas: React.FC<PropsEscena> = ({ b }) => {
     <AbsoluteFill>
       {f >= b0 - 2 && f < b1 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 420, textAlign: "center", transform: `scale(${sp(f, b0 - 2, REBOTE)})` }}>
-          <span style={{ fontFamily: SECUND, fontSize: 64, color: CREMA }}>esto tiene nombre…</span>
+          <span style={{ fontFamily: SECUND, fontSize: 76, color: CREMA }}>{"esto tiene nombre…".slice(0, Math.round(18 * pr(f, b0 - 2, 14, Easing.linear)))}</span>
+          <div style={{ height: 10, background: ORO, borderRadius: 5, margin: "14px auto 0", width: 700 * pr(f, b0, 16, Easing.inOut(Easing.cubic)) }} />
         </div>
       )}
       {f >= b1 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 360, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)})` }}>
           <div style={{ fontFamily: PRINCIPAL, fontSize: 150, color: ORO, lineHeight: 1 }}>CRT</div>
-          <div style={{ fontFamily: PRO, fontSize: 34, color: CREMA, letterSpacing: 2, marginTop: 10, opacity: pr(f, b1 + 4, 10) }}>RANGO · BARRIDO · CIERRE DENTRO</div>
+          <div style={{ fontFamily: PRO, fontSize: 38, letterSpacing: 2, marginTop: 14, opacity: pr(f, b1 + 4, 10), display: "flex", justifyContent: "center", gap: 18 }}>
+            {[["RANGO", "rango"], ["BARRIDO", "barrido"], ["CIERRE DENTRO", "cierre"]].map(([t, w]) => {
+              const a = enPalabra(palabras, w, b1 + 20);
+              const on = pr(f, a - 2, 6);
+              return (
+                <span key={t} style={{ color: on > 0.5 ? "#16120E" : CREMA, background: alfa(ORO, on), borderRadius: 8, padding: "2px 10px", transform: `scale(${latido(f, a - 2, 0.25, 10)})`, display: "inline-block" }}>{t}</span>
+              );
+            })}
+          </div>
         </div>
       )}
       {capas.map((c, i) => {
@@ -534,28 +577,45 @@ const Capas: React.FC<PropsEscena> = ({ b }) => {
 
 // ---------------------------------------------------------------- 14 · la firma y el próximo vídeo
 
-const Firma: React.FC<PropsEscena> = ({ b, dur }) => {
+const Firma: React.FC<PropsEscena> = ({ b, dur, palabras }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 20, b2 = 40] = b;
   const firma = pr(f, b0 - 6, 22, Easing.inOut(Easing.cubic));
+  const wCrt = enPalabra(palabras, "crt", b1 + 20),
+    wPaso = enPalabra(palabras, "paso", b2);
   return (
-    <Escritorio dur={dur} apagaEn={dur - TRANSICION} cabecera="PRÓXIMO VÍDEO" foco={[[0, 540]]} asiente={[b0, b1]}>
+    <>
+    <Escritorio dur={dur} apagaEn={dur - TRANSICION} cabecera="PRÓXIMO VÍDEO" cursor={[[0, 420, 760], [b0 + 4, 320, 700], [b1 - 6, 700, 520], [b1 + 10, 760, 470]]} clics={[wCrt]} asiente={[b0, b1]}>
+      <Chispas desde={b0 + 16} x={300} y={490} n={12} r={160} color={ORO} />
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
         <VelaG x={300} y={340} alto={300} ancho={80} v={DOJI} color={CREMA} />
         <Trazo d="M140 700 C 190 630, 240 740, 280 680 S 350 640, 390 700 S 450 660, 500 690" p={firma} color={ORO} grosor={7} />
       </svg>
-      <div style={{ position: "absolute", left: 60, width: 520, top: 735, textAlign: "center", opacity: pr(f, b0, 8), whiteSpace: "nowrap" }}>
-        <span style={{ fontFamily: SECUND, fontSize: 34, color: CREMA }}>la vela es </span>
-        <span style={{ fontFamily: PRINCIPAL, fontSize: 52, color: ORO }}>LA FIRMA</span>
-      </div>
       {f >= b1 - 2 && (
-        <div style={{ position: "absolute", left: 580, top: 400, width: 360, transform: `scale(${sp(f, b1 - 2, REBOTE)}) rotate(-3deg)`, background: CREMA, borderRadius: 18, padding: 26, boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}>
+        <div style={{ position: "absolute", left: 580, top: 400, width: 360, transform: `scale(${sp(f, b1 - 2, REBOTE) * latido(f, wCrt, 0.12, 10)}) rotate(-3deg)`, background: CREMA, borderRadius: 18, padding: 26, boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}>
           <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, letterSpacing: 4, color: "#9C7A45" }}>PARTE 2</div>
           <div style={{ fontFamily: PRINCIPAL, fontSize: 84, color: "#16120E", lineHeight: 1 }}>CRT</div>
           <div style={{ fontFamily: SECUND, fontSize: 34, color: "#16120E", opacity: pr(f, b2 - 2, 8) }}>paso a paso</div>
         </div>
       )}
     </Escritorio>
+    {/* abajo, como en las otras escenas: primero la firma, luego el próximo vídeo */}
+    {f >= b0 && f < b1 + 2 && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b0, REBOTE)})`, opacity: 1 - pr(f, b1 - 4, 6) }}>
+        <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>la vela es </span>
+        <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO }}>LA FIRMA</span>
+      </div>
+    )}
+    {f >= b1 + 2 && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b1 + 2, REBOTE)})` }}>
+        <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>parte 2 → </span>
+        <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO, display: "inline-block", transform: `scale(${latido(f, wCrt, 0.25, 12)})` }}>CRT</span>
+        {f >= wPaso - 2 && <div style={{ fontFamily: SECUND, fontSize: 56, color: CREMA, opacity: pr(f, wPaso - 2, 6), transform: `translateY(${(1 - pr(f, wPaso - 2, 10)) * 40}px)` }}>paso a paso</div>}
+      </div>
+    )}
+    <Chispas desde={wPaso + 8} x={540} y={1330} n={20} r={380} color={ORO} />
+    <Chispas desde={wPaso + 20} x={300} y={500} n={14} r={260} color={CREMA} />
+    </>
   );
 };
 
