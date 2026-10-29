@@ -1,0 +1,922 @@
+{
+ "voz": null,
+ "motor": "sin-voz",
+ "duracion": 54.9,
+ "frases": [
+  {
+   "texto": "Voy a adivinar qué te pasó. Entraste en largo. Te barrieron el stop. Y minutos después, el precio subió sin ti.",
+   "inicio": 0.35,
+   "fin": 6.76,
+   "palabras": [
+    {
+     "w": "Voy",
+     "t": 0.35,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 0.529,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "adivinar",
+     "t": 0.707,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "qué",
+     "t": 1.421,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "te",
+     "t": 1.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "pasó.",
+     "t": 1.779,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Entraste",
+     "t": 2.136,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 2.671,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "largo.",
+     "t": 2.85,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "Te",
+     "t": 3.207,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "barrieron",
+     "t": 3.386,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "el",
+     "t": 3.921,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "stop.",
+     "t": 4.1,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "Y",
+     "t": 4.279,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "minutos",
+     "t": 4.457,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "después,",
+     "t": 4.993,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 5.51,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 5.689,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "subió",
+     "t": 6.046,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "sin",
+     "t": 6.403,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "ti.",
+     "t": 6.581,
+     "clave": true,
+     "g": 2
+    }
+   ]
+  },
+  {
+   "texto": "No fue mala suerte. Es el CRT: el precio fue a buscar liquidez.",
+   "inicio": 7.11,
+   "fin": 10.663,
+   "palabras": [
+    {
+     "w": "No",
+     "t": 7.11,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "fue",
+     "t": 7.289,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mala",
+     "t": 7.467,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "suerte.",
+     "t": 7.824,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Es",
+     "t": 8.181,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 8.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT:",
+     "t": 8.539,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "el",
+     "t": 8.877,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 9.056,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "fue",
+     "t": 9.413,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 9.591,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "buscar",
+     "t": 9.77,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "liquidez.",
+     "t": 10.127,
+     "clave": true,
+     "g": 4
+    }
+   ]
+  },
+  {
+   "texto": "Paso uno: C1. El 10 de junio, el oro deja un rango: de 4.067 a 4.257.",
+   "inicio": 11.013,
+   "fin": 18.457,
+   "palabras": [
+    {
+     "w": "Paso",
+     "t": 11.013,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "uno:",
+     "t": 11.37,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "C1.",
+     "t": 11.887,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "El",
+     "t": 12.066,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "10",
+     "t": 12.244,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 12.423,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "junio,",
+     "t": 12.601,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 13.119,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "oro",
+     "t": 13.297,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "deja",
+     "t": 13.654,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 14.011,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rango:",
+     "t": 14.19,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "de",
+     "t": 14.707,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.067",
+     "t": 14.886,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 16.314,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.257.",
+     "t": 16.493,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Paso dos: C2. Barre el mínimo hasta 4.023…",
+   "inicio": 18.807,
+   "fin": 22.181,
+   "palabras": [
+    {
+     "w": "Paso",
+     "t": 18.807,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dos:",
+     "t": 19.164,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "C2.",
+     "t": 19.503,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "Barre",
+     "t": 19.681,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 20.039,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mínimo",
+     "t": 20.217,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "hasta",
+     "t": 20.753,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.023…",
+     "t": 21.11,
+     "clave": true,
+     "g": 8
+    }
+   ]
+  },
+  {
+   "texto": "…y cierra de vuelta dentro. Eso es el Turtle Soup.",
+   "inicio": 22.531,
+   "fin": 25.21,
+   "palabras": [
+    {
+     "w": "…y",
+     "t": 22.531,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cierra",
+     "t": 22.71,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 23.067,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vuelta",
+     "t": 23.246,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dentro.",
+     "t": 23.603,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "Eso",
+     "t": 23.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 24.317,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 24.496,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Turtle",
+     "t": 24.674,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "Soup.",
+     "t": 25.031,
+     "clave": true,
+     "g": 10
+    }
+   ]
+  },
+  {
+   "texto": "Paso tres: bajamos a una hora. El precio rompe su último máximo: CHoCH. Y vuelve al Order Block.",
+   "inicio": 25.56,
+   "fin": 31.416,
+   "palabras": [
+    {
+     "w": "Paso",
+     "t": 25.56,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tres:",
+     "t": 25.917,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "bajamos",
+     "t": 26.256,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 26.791,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 26.97,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "hora.",
+     "t": 27.327,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "El",
+     "t": 27.684,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 27.863,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rompe",
+     "t": 28.22,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "su",
+     "t": 28.577,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "último",
+     "t": 28.756,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "máximo:",
+     "t": 29.291,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CHoCH.",
+     "t": 29.987,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "Y",
+     "t": 30.166,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vuelve",
+     "t": 30.344,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "al",
+     "t": 30.701,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Order",
+     "t": 30.88,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "Block.",
+     "t": 31.237,
+     "clave": true,
+     "g": 13
+    }
+   ]
+  },
+  {
+   "texto": "Entrada en 4.061. Stop debajo del barrido, en 4.020. TP1, la mitad del rango. TP2, el máximo de C1.",
+   "inicio": 31.766,
+   "fin": 39.389,
+   "palabras": [
+    {
+     "w": "Entrada",
+     "t": 31.766,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "en",
+     "t": 32.301,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.061.",
+     "t": 32.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Stop",
+     "t": 33.909,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "debajo",
+     "t": 34.087,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 34.623,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "barrido,",
+     "t": 34.801,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 35.497,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.020.",
+     "t": 35.676,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "TP1,",
+     "t": 36.569,
+     "clave": true,
+     "g": 16
+    },
+    {
+     "w": "la",
+     "t": 36.907,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mitad",
+     "t": 37.086,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 37.443,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rango.",
+     "t": 37.621,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "TP2,",
+     "t": 37.979,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "el",
+     "t": 38.317,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "máximo",
+     "t": 38.496,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 39.031,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "C1.",
+     "t": 39.21,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Riesgo: 42 dólares. Recorrido hasta TP2: 196. Uno a cuatro coma siete. Y no siempre sale: por eso el stop va siempre.",
+   "inicio": 39.739,
+   "fin": 48.254,
+   "palabras": [
+    {
+     "w": "Riesgo:",
+     "t": 39.739,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "42",
+     "t": 40.256,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dólares.",
+     "t": 40.97,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Recorrido",
+     "t": 41.506,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "hasta",
+     "t": 42.22,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "TP2:",
+     "t": 42.577,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "196.",
+     "t": 42.916,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Uno",
+     "t": 43.987,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "a",
+     "t": 44.344,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "cuatro",
+     "t": 44.523,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "coma",
+     "t": 44.88,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "siete.",
+     "t": 45.237,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "Y",
+     "t": 45.594,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no",
+     "t": 45.773,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "siempre",
+     "t": 45.951,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sale:",
+     "t": 46.309,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "por",
+     "t": 46.826,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "eso",
+     "t": 47.004,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 47.361,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "stop",
+     "t": 47.54,
+     "clave": true,
+     "g": 19
+    },
+    {
+     "w": "va",
+     "t": 47.719,
+     "clave": true,
+     "g": 19
+    },
+    {
+     "w": "siempre.",
+     "t": 47.897,
+     "clave": true,
+     "g": 19
+    }
+   ]
+  },
+  {
+   "texto": "La vela no es el análisis. Es la firma. En el próximo: AMD. Comenta CRT.",
+   "inicio": 48.604,
+   "fin": 53.05,
+   "palabras": [
+    {
+     "w": "La",
+     "t": 48.604,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vela",
+     "t": 48.783,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no",
+     "t": 49.14,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 49.319,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 49.497,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "análisis.",
+     "t": 49.676,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Es",
+     "t": 50.39,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 50.569,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "firma.",
+     "t": 50.747,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "En",
+     "t": 51.104,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 51.283,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "próximo:",
+     "t": 51.461,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "AMD.",
+     "t": 52.157,
+     "clave": true,
+     "g": 21
+    },
+    {
+     "w": "Comenta",
+     "t": 52.336,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT.",
+     "t": 52.871,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  }
+ ]
+}

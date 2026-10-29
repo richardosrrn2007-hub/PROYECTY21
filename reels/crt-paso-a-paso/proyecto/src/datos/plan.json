@@ -1,0 +1,212 @@
+{
+  "titulo": "CRT paso a paso",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#000000",
+      "fondo2": "#050403",
+      "manchas": [
+        "#120C05",
+        "#000000",
+        "#0A0703"
+      ],
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "Voy a adivinar qué te pasó. Entraste en *largo.* Te *barrieron el stop.* Y minutos después, el precio *subió sin ti.*",
+      "emocion": "[intrigante]",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Pov",
+        "en": [
+          "largo",
+          "barrieron",
+          "subio"
+        ]
+      }
+    },
+    {
+      "texto": "No fue mala suerte. Es el *CRT:* el precio fue a buscar *liquidez.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Ciclo",
+        "en": [
+          "suerte",
+          "crt",
+          "liquidez"
+        ]
+      },
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.25
+        ]
+      ]
+    },
+    {
+      "texto": "Paso uno: *C1.* El 10 de junio, el oro deja un *rango:* de 4.067 a 4.257.",
+      "voz": "Paso uno: C1. El diez de junio, el oro deja un rango: de cuatro mil sesenta y siete a cuatro mil doscientos cincuenta y siete.",
+      "emocion": "[segura]",
+      "entrada": "barrido",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "rango",
+          "4.067",
+          "4.257"
+        ],
+        "modo": "rango"
+      },
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.25
+        ]
+      ]
+    },
+    {
+      "texto": "Paso dos: *C2.* Barre el mínimo hasta *4.023…*",
+      "voz": "Paso dos: C2. Barre el mínimo hasta cuatro mil veintitrés…",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "barre",
+          "minimo",
+          "4.023"
+        ],
+        "modo": "barre"
+      }
+    },
+    {
+      "texto": "…y cierra de vuelta *dentro.* Eso es el *Turtle Soup.*",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "cierra",
+          "dentro",
+          "turtle"
+        ],
+        "modo": "cierre",
+        "rotulo": "TURTLE SOUP"
+      }
+    },
+    {
+      "texto": "Paso tres: bajamos a *una hora.* El precio rompe su último máximo: *CHoCH.* Y vuelve al *Order Block.*",
+      "voz": "Paso tres: bajamos a una hora. El precio rompe su último máximo: chok. Y vuelve al Order Block.",
+      "entrada": "barrido",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Hora",
+        "en": [
+          "hora",
+          "choch",
+          "order"
+        ]
+      },
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.25
+        ]
+      ]
+    },
+    {
+      "texto": "*Entrada* en 4.061. *Stop* debajo del barrido, en 4.020. *TP1,* la mitad del rango. *TP2,* el máximo de C1.",
+      "voz": "Entrada en cuatro mil sesenta y uno. Stop debajo del barrido, en cuatro mil veinte. TP1, la mitad del rango. TP2, el máximo de C1.",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Gestion",
+        "en": [
+          "entrada",
+          "stop",
+          "tp1",
+          "tp2"
+        ]
+      }
+    },
+    {
+      "texto": "Riesgo: 42 dólares. Recorrido hasta TP2: 196. *Uno a cuatro coma siete.* Y no siempre sale: por eso el *stop va siempre.*",
+      "voz": "Riesgo: cuarenta y dos dólares. Recorrido hasta TP2: ciento noventa y seis. Uno a cuatro coma siete. Y no siempre sale: por eso el stop va siempre.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Rr",
+        "en": [
+          "riesgo",
+          "recorrido",
+          "uno",
+          "siempre"
+        ]
+      }
+    },
+    {
+      "texto": "La vela no es el análisis. Es *la firma.* En el próximo: *AMD.* Comenta CRT.",
+      "emocion": "[cercana]",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Firma",
+        "en": [
+          "firma",
+          "proximo",
+          "amd"
+        ],
+        "parte": "PARTE 3",
+        "titulo": "AMD",
+        "sub": "por sesiones",
+        "clave": "amd"
+      }
+    }
+  ],
+  "portada": {
+    "lineas": [
+      "*CRT*",
+      "paso a paso"
+    ],
+    "oscura": true
+  }
+}
