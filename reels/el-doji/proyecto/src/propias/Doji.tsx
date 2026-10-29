@@ -43,6 +43,74 @@ const DOJI: Forma = { o: 0.5, c: 0.505, h: 0, l: 1 };
 const PREVIA: Forma = { o: 0.42, c: 0.62, h: 0.36, l: 0.7 };
 const ENVUELVE: Forma = { o: 0.72, c: 0.18, h: 0.1, l: 0.8 };
 
+// ---------------------------------------------------------------- Bulkowski (personaje)
+
+/**
+ * Thomas Bulkowski como personaje de la serie (ilustración, no retrato): ingeniero que pasó a trader y probó
+ * 103 patrones de velas. Gafas, pelo canoso, camisa y corbata, el libro «103 VELAS» y un bolígrafo para señalar.
+ * Entra con rebote en `desde`; en `senala` levanta el bolígrafo hacia el dato; se ajusta las gafas y hojea el libro.
+ */
+const Bulkowski: React.FC<{ x: number; y: number; esc?: number; desde: number; senala?: number; gafas?: number; mira?: number }> = ({ x, y, esc = 1, desde, senala = 1e9, gafas = 1e9, mira = 1 }) => {
+  const f = useCurrentFrame();
+  const e = sp(f, desde, REBOTE);
+  if (e <= 0) return null;
+  const T = TINTA,
+    PIEL = "#D9A77C",
+    CANA = "#C9C3B8";
+  const parpadea = (f - desde) % 70 < 4 && f - desde > 10;
+  const resp = Math.sin(f / 9) * 3; // respira
+  const brazo = pr(f, senala, 10, Easing.out(Easing.back(2)));
+  const ajusta = Math.max(0, Math.sin(Math.min(1, Math.max(0, (f - gafas) / 16)) * Math.PI));
+  const hoja = Math.sin(f / 5) > 0.7 ? 1 : 0; // hojea el libro de vez en cuando
+  const cabeza = Math.sin(f / 13) * 3 + (brazo > 0 ? -4 * mira : 0);
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", pointerEvents: "none" }}>
+      <g transform={`translate(${x} ${y + (1 - e) * 260}) scale(${esc * Math.min(1, 0.6 + 0.4 * e)})`} opacity={Math.min(1, e * 1.5)}>
+        {/* cuerpo: camisa, chaleco y corbata dorada */}
+        <g transform={`translate(0 ${resp})`}>
+          <path d="M-125 330 L-105 120 Q0 80 105 120 L125 330 Z" fill="#2B3446" stroke={T} strokeWidth={5} />
+          <path d="M-42 104 L0 175 L42 104 Z" fill={CREMA} stroke={T} strokeWidth={4} />
+          <path d="M-10 118 L10 118 L16 200 L0 222 L-16 200 Z" fill={ORO} stroke={T} strokeWidth={3} />
+          {/* libro «103 VELAS» en el brazo izquierdo */}
+          <g transform={`translate(-70 190) rotate(${-8 + hoja * 3})`}>
+            <rect x={-70} y={-55} width={130} height={150} rx={8} fill="#7A1F1A" stroke={T} strokeWidth={5} />
+            <rect x={48} y={-50} width={14} height={140} fill={CREMA} stroke={T} strokeWidth={2} />
+            <text x={-5} y={0} textAnchor="middle" fontFamily={PRO} fontSize={34} fill={ORO}>103</text>
+            <text x={-5} y={36} textAnchor="middle" fontFamily={PRO} fontSize={22} fill={CREMA}>VELAS</text>
+            {hoja > 0 && <path d="M60 -48 Q30 10 58 88" fill="none" stroke={CREMA} strokeWidth={4} />}
+          </g>
+          {/* brazo derecho con bolígrafo: baja → señala */}
+          <g transform={`translate(85 140) rotate(${20 - 110 * brazo - 70 * ajusta * (1 - brazo)})`}>
+            <rect x={-18} y={0} width={36} height={120} rx={18} fill="#2B3446" stroke={T} strokeWidth={4} />
+            <circle cx={0} cy={128} r={20} fill={PIEL} stroke={T} strokeWidth={4} />
+            <rect x={-4} y={140} width={8} height={60} rx={3} fill={ORO} stroke={T} strokeWidth={2} />
+          </g>
+        </g>
+        {/* cabeza */}
+        <g transform={`rotate(${cabeza} 0 60)`}>
+          <rect x={-22} y={50} width={44} height={40} rx={12} fill={PIEL} />
+          <ellipse cx={0} cy={0} rx={62} ry={72} fill={PIEL} stroke={T} strokeWidth={4} />
+          {/* pelo canoso a los lados, entradas arriba */}
+          <path d="M-62 -6 Q-66 -60 -30 -70 Q-46 -40 -48 -4 Z" fill={CANA} stroke={T} strokeWidth={3} />
+          <path d="M62 -6 Q66 -60 30 -70 Q46 -40 48 -4 Z" fill={CANA} stroke={T} strokeWidth={3} />
+          <path d="M-30 -70 Q0 -82 30 -70" fill="none" stroke={CANA} strokeWidth={6} strokeLinecap="round" />
+          {/* gafas (suben un poco al ajustarlas) */}
+          <g transform={`translate(0 ${-6 * ajusta})`}>
+            {[-24, 24].map((dx) => (
+              <circle key={dx} cx={dx} cy={-2} r={20} fill={alfa(CREMA, 0.25)} stroke={T} strokeWidth={5} />
+            ))}
+            <line x1={-4} x2={4} y1={-4} y2={-4} stroke={T} strokeWidth={5} />
+            {[-24, 24].map((dx) => (parpadea ? <line key={`o${dx}`} x1={dx - 8} x2={dx + 8} y1={-2} y2={-2} stroke={T} strokeWidth={4} /> : <circle key={`o${dx}`} cx={dx + 3 * mira} cy={-2} r={5} fill={T} />))}
+          </g>
+          {/* bigote y boca */}
+          <path d="M-22 30 Q0 20 22 30 Q0 40 -22 30 Z" fill={CANA} stroke={T} strokeWidth={3} />
+          <path d={brazo > 0.5 ? "M-12 46 Q0 56 12 46" : "M-10 48 L10 48"} fill="none" stroke={T} strokeWidth={4} strokeLinecap="round" />
+        </g>
+      </g>
+    </svg>
+  );
+};
+
 // ---------------------------------------------------------------- 1 · tres velas borrosas, salta el doji
 
 const Tres: React.FC<PropsEscena> = ({ b }) => {
@@ -198,10 +266,11 @@ const Dato: React.FC<PropsEscena> = ({ b, palabras }) => {
         {real > 0.95 && <path d="M780 1290 l-8 -46 M780 1290 l-46 -4" stroke={CREMA} strokeWidth={9} strokeLinecap="round" />}
       </svg>
       <div style={{ position: "absolute", left: 600, top: 520, fontFamily: PRO, fontSize: 38, color: ORO, opacity: pr(f, b0 + 6, 8) * (1 - 0.6 * tacha) }}>¿GIRO?</div>
+      <Bulkowski x={250} y={1100} esc={0.95} desde={fuente - 4} gafas={fuente + 14} senala={b2 - 2} />
       {f >= fuente - 2 && (
         <div style={{ position: "absolute", left: 90, top: 1640, transform: `scale(${sp(f, fuente - 2)})`, transformOrigin: "0 50%", fontFamily: PRO, fontSize: 32, color: CREMA, opacity: 0.85 }}>
-          Fuente: Bulkowski · thepatternsite.com
-          <div style={{ fontSize: 26, opacity: 0.7, marginTop: 6 }}>Doji estrella alcista · pruebas históricas</div>
+          Thomas Bulkowski · Encyclopedia of Candlestick Charts
+          <div style={{ fontSize: 26, opacity: 0.7, marginTop: 6 }}>Doji estrella alcista · thepatternsite.com</div>
         </div>
       )}
       {f >= b2 - 4 && (
@@ -507,6 +576,7 @@ const Porcentajes: React.FC<PropsEscena> = ({ b, palabras }) => {
         {f >= b1 + 12 && <g opacity={pr(f, b1 + 12, 8)} transform={`translate(${X0 + W + 20} ${900}) scale(${sp(f, b1 + 12, REBOTE)})`}><VelaG x={-14} y={-40} alto={150} ancho={26} v={PREVIA} color={ORO} /><VelaG x={16} y={-40} alto={150} ancho={30} v={ENVUELVE} color={ORO} /></g>}
       </svg>
       {f >= fuente && f < b0 + 10 && <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: PRO, fontSize: 40, color: CREMA, opacity: pr(f, fuente, 8) * (1 - pr(f, b0 + 2, 8)) }}>Thomas Bulkowski · pruebas históricas</div>}
+      {f < b0 + 16 && <Bulkowski x={540 - 760 * pr(f, b0 - 4, 16, Easing.in(Easing.cubic))} y={760} esc={1.15} desde={fuente - 2} gafas={velas - 6} senala={velas + 4} />}
       {moneda > 0 && (
         <div style={{ position: "absolute", left: 540 - 110, top: 1290, width: 220, height: 220, borderRadius: "50%", background: `radial-gradient(circle at 35% 35%, #F0D59A, ${ORO} 60%, #8C6A36)`, transform: `scale(${moneda}) scaleX(${Math.cos((f - b2) * 0.35)})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: PRINCIPAL, fontSize: 64, color: "#3A2A12", boxShadow: `0 0 60px ${alfa(ORO, 0.4)}` }}>
           {Math.cos((f - b2) * 0.35) > 0 ? "50/50" : ""}
