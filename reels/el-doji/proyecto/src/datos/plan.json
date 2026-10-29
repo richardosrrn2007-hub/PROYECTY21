@@ -209,15 +209,15 @@
       ]
     },
     {
-      "texto": "…y se rompe. *Sin contexto,* la vela *no basta.*",
+      "texto": "…y se rompe. El patrón solo *no basta:* necesita una *zona clave.*",
       "entrada": "corte",
       "escena": {
         "tipo": "propia",
         "nombre": "Mayo",
         "en": [
           "rompe",
-          "contexto",
-          "basta"
+          "basta",
+          "clave"
         ],
         "modo": "rompe"
       }

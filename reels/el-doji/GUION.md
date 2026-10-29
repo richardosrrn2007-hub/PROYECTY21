@@ -14,9 +14,9 @@
 | 8 | Y cierra dentro del rango. Eso es lo que importa. | Punto de cierre 4.211 con flecha de vuelta; «LO QUE IMPORTA» |
 | 9 | Después, indecisión… y dos días más tarde supera el máximo del rango. | Círculo en el 12 jun; línea hasta el máximo de C1; «objetivo 4.257,6 ✓» |
 | 10 | Ahora mayo. Un doji perfecto. El mismo patrón… | 19-21 may: rango, barrido, doji con cuerpo 1 %; ✓ barrido ✓ cierre dentro ✓ doji |
-| 11 | …y se rompe. Sin contexto, la vela no basta. | 27 may rompe 4.453; X roja sobre el doji; sello «SIN CONTEXTO» |
+| 11 | …y se rompe. El patrón solo no basta: necesita una zona clave. | 27 may rompe 4.453; X roja sobre el doji; sello «NO BASTA» · «necesita ZONA CLAVE» |
 | 12 | Bulkowski probó más velas: martillo, 60 %. Envolvente, 63 %. Poco más que una moneda. | Barras 60 % y 63 % con marca del 50 % (azar); moneda 50/50 |
-| 13 | Esto tiene nombre: CRT. Rango, barrido y cierre dentro. Y encaja con AMD y SMC. | «CRT · rango · barrido · cierre dentro»; capas zona, CRT, AMD, SMC; la vela pequeña arriba |
+| 13 | Esto tiene nombre: CRT. Rango, barrido y cierre dentro. Y encaja con AMD y SMC. | «CRT · rango · barrido · cierre dentro»; capas zona clave, CRT, AMD, SMC; la vela pequeña arriba |
 | 14 | La vela no es el análisis. Es la firma. En el próximo: CRT, paso a paso. | Doji que se firma; tarjeta «PARTE 2 · CRT»; la tele se apaga y logo |
 
 ## Gráfico
@@ -27,3 +27,7 @@
 ## Datos
 - Precios: OANDA:XAUUSD diario leído vela a vela en TradingView (`proyecto/src/propias/xau.ts`). Dibujo con `continua()`; niveles con el precio real.
 - Porcentajes: Thomas Bulkowski, thepatternsite.com — martillo 60 % (Hammer.html), envolvente alcista 63 % (BullEngulfing.html), doji estrella alcista: continuación bajista 64 % (DojiStarBull.html). Sus pruebas no son en oro.
+
+## Fuentes de CRT revisadas
+- PDF «Candle Range Theory (CRT)» de Legacy Trading (Descargas/VIDEOS ORIGUINE/MATERIALSTA): 3 velas = PO3/AMD; turtle soup = mecha fuera y cierre dentro; el barrido tiene que darse en una zona clave de temporalidad mayor; TP2 en el extremo de C1. No hemos comprobado la zona clave de junio ni de mayo, por eso el vídeo no afirma que mayo «no tuviera contexto».
+- Para la parte 2: entrada en C3 (50 % del rango de C2), confirmaciones (zona clave, CRT dentro de CRT, lugar, horario del rango y del barrido).

@@ -428,7 +428,13 @@ const Mayo: React.FC<PropsEscena> = ({ p, b, dur }) => {
       )}
       {rompe && f >= b1 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)}) rotate(-4deg)` }}>
-          <span style={{ fontFamily: PRINCIPAL, fontSize: 88, color: ROJO, border: `8px solid ${ROJO}`, borderRadius: 16, padding: "4px 28px", background: "rgba(0,0,0,0.6)" }}>SIN CONTEXTO</span>
+          <span style={{ fontFamily: PRINCIPAL, fontSize: 88, color: ROJO, border: `8px solid ${ROJO}`, borderRadius: 16, padding: "4px 28px", background: "rgba(0,0,0,0.6)" }}>NO BASTA</span>
+          {f >= b2 - 2 && (
+            <div style={{ marginTop: 28, transform: `rotate(4deg) scale(${sp(f, b2 - 2, REBOTE)})` }}>
+              <span style={{ fontFamily: SECUND, fontSize: 44, color: CREMA }}>necesita </span>
+              <span style={{ fontFamily: PRINCIPAL, fontSize: 60, color: ORO }}>ZONA CLAVE</span>
+            </div>
+          )}
         </div>
       )}
     </>
@@ -483,7 +489,7 @@ const Capas: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 15, b2 = 30, b3 = 45] = b;
   const capas = [
-    { t: "ZONA · LIQUIDEZ", desde: b1 + 6 },
+    { t: "ZONA CLAVE", desde: b1 + 6 },
     { t: "CRT", desde: b1 + 12 },
     { t: "AMD", desde: b2 },
     { t: "SMC", desde: b3 },
