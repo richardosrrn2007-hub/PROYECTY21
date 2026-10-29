@@ -5,7 +5,7 @@ description: Crea reels verticales animados (motion graphics) para LFX / Leonard
 
 # Reels LFX con motion graphics
 
-Kit reutilizable en `leo-videos/_kit/`. Primer video hecho con él: `leo-videos/reto-lfx-01/` (versión final `reto-lfx-01-v6.mp4`).
+Kit reutilizable en `leo-videos/_kit/`. Primer video hecho con él: `leo-videos/reto-lfx-01/` (versión final `reto-lfx-01-v6.mp4`). Segundo: `leo-videos/reto-poi/` (reto sobre gráfica estilo TradingView, código en `src/`).
 No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
 
 ## Preferencias del cliente (Leo)
@@ -19,6 +19,12 @@ No rehagas los componentes: copia el kit y cambia guion, tiempos y escenas.
 - Personaje Leo (aprobado): estilo **kit vectorial plano** (como los kits de personaje de Freepik), cuerpo completo, sombreado a dos tonos. Archivo `web/leo-flat.js` (el `index.html` lo carga en lugar de `leo.js`). Look de su foto: pelo oscuro con flequillo de lado, sudadera azul marino de media cremallera, cuello rojo de camisa, "LFX" pequeño, pantalón oscuro, zapatillas blancas. Cuerpo musculoso en V pero **proporciones profesionales**: torso largo, brazos que llegan a la cadera (nada de brazos gigantes con cuerpo chico). Al hablar se ven dientes arriba/abajo, lengua y labio; cejas se mueven; ojos se entrecierran al sonreír. Pose "pensar" = brazos cruzados. En escena: encuadre de rodillas arriba, `LEFT {x:225,y:2075,s:1.02}`. Hoja de referencia: `leo-videos/reto-lfx-01/leo-kit-vectorial.jpg`.
 - Cierre LFX de 4 s: logo original con halo y destello, "COMUNIDAD GRATUITA LFX" + "Link en mi descripción". **Sin flecha.**
 - Respuestas cortas, una sola recomendación, datos concretos (ver preferencias del usuario).
+
+## Formato "reto sobre gráfica" (Reto POI, `leo-videos/reto-poi/src/`)
+- Estudio oscuro con la avenida de velas 3D; pantalla grande estilo TradingView (`poi3.js`) con datos de GBPJPY verificados (`gen_poi.py` comprueba que la respuesta correcta lo sea).
+- Capa viral (`poi4.js`): gancho "¿A, B o C?" en el primer segundo, Leo en un círculo (abajo a la izquierda) mientras la gráfica ocupa la pantalla, subtítulos palabra a palabra (1-3 palabras, la palabra dicha entra con rebote, clave en azul subrayada + icono), cartel "Pausa y comenta tu letra" en la cuenta atrás, barra de progreso + "RETO LFX #NN", cierre oscuro con logo.
+- Animación por tiempo: `poi-video.js` (`renderAt(t)`), tiempos sacados de las palabras de Whisper (nunca a mano). Voz en dos tramos con los 5 s de reloj en medio (`timeline_poi.py`).
+- Tipografías probadas (`tipografias.jpg`): Inter Display, Montserrat, Poppins, Anton, Bebas Neue, Archivo Black, Sora, Bricolage Grotesque, Outfit. Se descargan de Google Fonts a `~/.fonts`. El nombre de familia debe coincidir con `fc-list` (p. ej. "Poppins Black", no "Poppins").
 
 ## Voz
 - ElevenLabs, voz clonada de Leo: **LEOPUPRIME**, `voice_id Gj9upVGwYXkkr7bSsufy`, modelo `eleven_v4`. Generar todo el guion en una sola toma (voz uniforme) con etiquetas `[energetic, friendly]`, `[excited]`, `[warm]`. Coste aprox.: 1.250 créditos por toma de ~80 s.

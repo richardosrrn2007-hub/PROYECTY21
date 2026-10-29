@@ -5,7 +5,7 @@ const P2 = {
   bg: "#E6E8EC", ink: "#111318", ink2: "#3A3F48", grey: "#8A8F98", grid: "#F0F1F4",
   bull: "#FFFFFF", bullB: "#4A4E57", bear: "#15171C", wick: "#3E424A", blue: "#2962FF", band: "#BFD0FF",
 };
-const FONTP = "Inter Display", FONTP2 = "Inter";
+const FONTP = window.FONT_OVERRIDE || "Inter Display", FONTP2 = "Inter";
 const svg = document.getElementById("stage");
 
 // ---------- Datos reales GBPJPY (Yahoo Finance, 1h agregado a 4h/D/W; cada vela abre en el cierre anterior) ----------
@@ -206,7 +206,7 @@ function renderState(st) {
   camG.setAttribute("transform", `translate(540,${cy}) scale(${s}) translate(-540,${-cy + z * 40})`);
   glassR.setAttribute("x", MON.x + ((st.t ?? 0) * 60) % 400 - 200);
   const typing = st.typing ? Math.sin((st.t ?? 0) * 20) * 6 : 0;
-  leo.update({ t: st.t ?? 0, x: 330, y: 2150, scale: 1.18, ...POSE[st.leo ?? "rest"], ...(st.leo === "type" ? { shL: -22, elL: -70 + typing, shR: 22, elR: 70 - typing, tilt: 0, brow: 0.2, smile: 0.5 } : {}), handR: st.handR ?? "fist", handL: st.handL ?? "fist", mouth: st.mouth ?? 0, smile: st.smile ?? 0.6, brow: st.brow ?? 0.3, lookX: st.lookX ?? 0, lookY: st.lookY ?? 0 });
+  leo.update({ t: st.t ?? 0, x: 330, y: 2150, scale: 1.18, ...POSE[st.leo ?? "rest"], ...(st.leo === "type" ? { shL: -22, elL: -70 + typing, shR: 22, elR: 70 - typing, tilt: 0, brow: 0.2, smile: 0.5 } : {}), handR: st.handR ?? "fist", handL: st.handL ?? "fist", mouth: st.mouth ?? 0, smile: st.smile ?? 0.6, brow: st.brow ?? 0.3, lookX: st.lookX ?? 0, lookY: st.lookY ?? 0, blink: st.blink ?? 0, jump: st.jump ?? 0 });
   drawUI(st);
 }
 POSE.type = { shL: -22, elL: -70, shR: 22, elR: 70, tilt: 0, brow: 0.2, smile: 0.5 };
