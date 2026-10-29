@@ -9,7 +9,7 @@ const T = {
   buscamos: wt("^buscamos$"), acumulando: wt("^acumulando$"), interaccion: wt("^interacción$"), compras: wt("^compras$"), ventas: wt("^ventas$"),
   marcamos: wt("^marcamos$"), revisamos2: wt("^revisamos$", 1), disputas: wt("^disputas$"), reacciones: wt("^reacciones$"), candidata: wt("^candidata$"),
   eso: wt("^eso$"), observar: wt("^observar$"), entrada: wt("^entrada$"), acertaste: wt("^acertaste$"), like: wt("^like$"), comunidad: wt("^comunidad$"),
-  outro: TL.outro, total: TL.total,
+  outro: TL.outro, total: TL.total, tiempo: wt("^tiempo$"), pasado: wt("^pasado$", 1),
 };
 
 // ---------- Subtítulos: grupos de 1 a 3 palabras ----------
@@ -152,6 +152,17 @@ window.renderAt = function (t) {
   else if (t >= T.eso - 0.1 && t < T.acertaste - 0.3) st.step = [["PUNTO ", 0], ["DE INTERÉS", 1]];
   Object.assign(st, captionAt(t));
   if (t >= T.outro) st.outro4 = t - T.outro;
+  // ---- v2: ritmo ----
+  st.whip = [[T.semanal, 1], [T.diario, -1], [T.cuatro, 1]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
+  st.kick = [T.buscamos, T.interaccion, T.marcamos, T.disputas, T.reacciones, T.candidata, T.eso].reduce((a, tk) => a + (t >= tk ? 0.045 * Math.exp(-(t - tk) / 0.22) : 0), 0);
+  for (const [w, tw0] of [["TIEMPO", T.tiempo], ["PASADO", T.pasado], ["DISPUTAS", T.disputas], ["REACCIONES", T.reacciones], ["CANDIDATA", T.candidata], ["OBSERVAR", T.observar]])
+    if (t >= tw0 - 0.05 && t < tw0 + 0.75) st.punch = { w, tt: t - tw0 + 0.05 };
+  if (t > T.compras - 0.25 && t < T.marcamos) { st.tug = Math.min(clamp((t - T.compras + 0.25) / 0.4), 1 - clamp((t - T.marcamos + 0.3) / 0.3)); st.tugI0 = I.acc0; st.tugI1 = I.acc1; }
+  st.rewind = win(t, T.revisamos2, T.revisamos2 + 1.3, 0.15, 0.25);
+  if (t > T.c1 + 0.3 && t < T.primero - 0.45) { st.tags = t - T.c1 - 0.3; st.tagFrom = { A: I.aCross, B: I.bStart, C: I.acc0 }; }
+  if (t >= T.entrada - 0.1) st.stamp = t - T.entrada + 0.1;
+  if (t >= T.disputas && t < T.eso - 0.1) { const two = t >= T.reacciones; st.counter = { n: two ? 2 : 1, kn: (t - (two ? T.reacciones : T.disputas)) / 0.3, k: (t - T.disputas) / 0.3 }; }
+  for (const [ch, te] of [["🤔", T.c0 + 0.6], ["🔥", T.candidata + 0.2], ["👀", T.observar]]) if (t >= te && t < te + 1.6) st.emoji = { ch, tt: t - te };
   window.renderState(st);
   // capa extra: cadena de temporalidades y "zona con historia"
   xG.textContent = "";

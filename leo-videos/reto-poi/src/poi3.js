@@ -83,6 +83,7 @@ function drawChart(v) {
   const data = TF[v.tf];
   const toX = (i) => PLOT.x + ((i - v.i0) / (v.i1 - v.i0)) * PLOT.w;
   const toY = (p) => PLOT.y + (1 - (p - v.pmin) / (v.pmax - v.pmin)) * PLOT.h;
+  window.LASTMAP = { toX, toY };
   const step = v.pmax - v.pmin > 8 ? 2 : v.pmax - v.pmin > 4 ? 1 : 0.5;
   for (let p = Math.ceil(v.pmin / step) * step; p <= v.pmax; p += step) {
     const y = toY(p);
