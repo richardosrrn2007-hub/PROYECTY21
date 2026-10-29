@@ -31,7 +31,7 @@ const CHUNKS = [];
   CHUNKS.forEach((c, i) => { const nx = CHUNKS[i + 1]; c.from = c[0].t0 - 0.06; c.to = nx && nx[0].t0 - c[c.length - 1].t1 < 0.7 ? nx[0].t0 - 0.06 : c[c.length - 1].t1 + 0.45; });
 }
 function captionAt(t) {
-  if (t >= T.c0 - 0.3 && t < T.c1) return { kin: [{ w: "¿A," }, { w: "B" }, { w: "o C?", blue: true, icon: "clock" }], kinActive: 2, kinPop: P(t, T.c0 - 0.3, 0.5, E.lin), kinX: 470 };
+  if (t >= T.c0 - 0.3 && t < T.c1) return { kin: [{ w: "¿A," }, { w: "B" }, { w: "o C?", blue: true, icon: "clock" }], kinActive: 2, kinPop: P(t, T.c0 - 0.3, 0.5, E.lin), kinX: 400, kinY: 1690, kinSize: 76 };
   const c = CHUNKS.find((c) => t >= c.from && t < c.to);
   if (!c) return {};
   let a = 0; c.forEach((o, i) => { if (t >= o.t0 - 0.06) a = i; });
@@ -122,6 +122,9 @@ window.renderAt = function (t) {
   if (t >= T.primero - 0.4 && t < T.acertaste - 0.3) st.pipK = pin2;
   if (t >= T.acertaste - 0.3) st.pipK = 1 - pout2;
   if (t >= T.acertaste - 0.3) st.zoom = 1 - 0.6 * P(t, T.acertaste - 0.3, 0.8, E.inOut);
+  st.pipK = 0;
+  st.fullK = t < T.mira - 0.1 ? 0 : t < T.c1 ? P(t, T.mira - 0.1, 1.1, E.inOut) : t < T.primero - 0.4 ? 1 - P(t, T.c1, 0.7, E.inOut) : t < T.acertaste - 0.3 ? P(t, T.primero - 0.4, 0.9, E.inOut) : 1 - P(t, T.acertaste - 0.3, 0.8, E.inOut);
+  const FULLM = st.fullK > 0.5;
   st.view = chartAt(t);
   // título
   if (t > 1.0 && t < T.primero - 0.3) {
@@ -129,7 +132,7 @@ window.renderAt = function (t) {
     st.title = k > 0 ? [[["¿CUÁL ES EL ", 0], ["PUNTO", 1]], [["DE INTERÉS?", 1], ["  A · B · C", 0]]] : null;
   }
   // Leo en el escritorio
-  if (t < 1.4) { st.leo = "pointUp"; st.handR = "point"; st.smile = 0.9; }
+  if (t < T.mira) { st.leo = "wave"; st.handR = "open"; st.smile = 0.95; st.over = { tilt: Math.sin(t * 2) * 3, shR: -150 + Math.sin(t * 10) * 16, elR: -25 + Math.sin(t * 10 + 0.6) * 22 }; }
   else if (t < T.tienes) { st.leo = "explainR"; st.handR = "open"; st.lookX = 0.5; st.lookY = -0.2; }
   else if (t < T.vamos + 1) { st.leo = "cheer"; st.smile = 1; st.handR = "open"; st.handL = "open"; st.jump = Math.max(0, Math.sin(clamp((t - T.laC) / 0.5) * Math.PI)) * 40; }
   else { st.leo = t < T.like + 0.6 ? "pointUp" : "present"; st.handR = t < T.like + 0.6 ? "point" : "open"; st.smile = 0.9; }
@@ -137,11 +140,11 @@ window.renderAt = function (t) {
   if (t >= T.c0 - 0.4 && t < T.c1) { st.pipPose = "think"; st.mood = "think"; st.smile = 0.2; st.lookX = 0.4; st.lookY = -0.6; st.handR = "fist"; }
   else { st.pipPose = Math.floor(t / 2.6) % 2 ? "explainR" : "present"; st.smile = st.smile ?? 0.75; }
   // gancho
-  if (t < 1.5) { const a = t < 1.15 ? 1 : 1 - P(t, 1.15, 0.35, E.lin); st.hook = { a, s: E.backBig(clamp(t / 0.45)) }; }
+
   // cuenta atrás
   if (t >= T.c0 - 0.2 && t < T.c1) {
-    const e = Math.max(0, t - T.c0); st.count = Math.max(1, 5 - Math.floor(e)); st.countP = e % 1; st.countAt = [920, 1300];
-    st.sticker = "PAUSA Y COMENTA TU LETRA"; st.stickerY = 1560 + (1 - E.backBig(P(t, T.c0, 0.5, E.lin))) * 400;
+    const e = Math.max(0, t - T.c0); st.count = Math.max(1, 5 - Math.floor(e)); st.countP = e % 1; st.countAt = [880, 1680];
+    st.sticker = "PAUSA Y COMENTA TU LETRA"; st.stickerX = 540; st.stickerY = 1845 + (1 - E.backBig(P(t, T.c0, 0.5, E.lin))) * 300;
   }
   // revelado
   if (t >= T.c1 && t < T.primero - 0.4) { st.banner = "C · VAMOS A COMPROBARLA"; st.react = win(t, T.c1 + 0.2, T.primero - 0.5, 0.25, 0.3); }
@@ -151,12 +154,13 @@ window.renderAt = function (t) {
   else if (t >= T.marcamos - 0.2 && t < T.eso - 0.1) st.step = [["3 · ", 1], ["REVISA SU HISTORIA", 0]];
   else if (t >= T.eso - 0.1 && t < T.acertaste - 0.3) st.step = [["PUNTO ", 0], ["DE INTERÉS", 1]];
   Object.assign(st, captionAt(t));
+  if (st.kin && FULLM && st.kinY == null) { st.kinY = 1690; st.kinX = 540; st.kinSize = 70; }
   if (t >= T.outro) st.outro4 = t - T.outro;
   // ---- v2: ritmo ----
   st.whip = [[T.semanal, 1], [T.diario, -1], [T.cuatro, 1]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
   st.kick = [T.buscamos, T.interaccion, T.marcamos, T.disputas, T.reacciones, T.candidata, T.eso].reduce((a, tk) => a + (t >= tk ? 0.045 * Math.exp(-(t - tk) / 0.22) : 0), 0);
   const PL = [["TIEMPO", T.tiempo], ["VELAS", T.velas], ["PASADO", T.pasado], ["DISPUTAS", T.disputas], ["REACCIONES", T.reacciones], ["CANDIDATA", T.candidata], ["OBSERVAR", T.observar], ["AUTOMÁTICA", T.automatica]];
-  PL.forEach(([w, tw0], n) => { const dur = Math.min(1.15, (PL[n + 1]?.[1] ?? 1e9) - tw0 - 0.02); if (t >= tw0 - 0.05 && t < tw0 - 0.05 + dur) st.punch = { w, tt: t - tw0 + 0.05, dur }; });
+  PL.forEach(([w, tw0], n) => { const dur = Math.min(1.15, (PL[n + 1]?.[1] ?? 1e9) - tw0 - 0.02); if (t >= tw0 - 0.05 && t < tw0 - 0.05 + dur) st.punch = { w, tt: t - tw0 + 0.05, dur, y: 1700 }; });
   if (t > T.compras - 0.2 && t < T.marcamos - 0.2) st.flank = Math.min(clamp((t - T.compras + 0.2) / 0.3), 1 - clamp((t - T.marcamos + 0.45) / 0.25));
   // lista de criterios
   if (t >= T.buscamos && t < T.acertaste - 0.3) st.check = { k: Math.min((t - T.buscamos) / 0.5, 1 - clamp((t - T.acertaste + 0.7) / 0.4)), items: [
@@ -164,12 +168,10 @@ window.renderAt = function (t) {
   // entrada de cada paso
   for (const ts of [T.primero - 0.3, T.buscamos - 0.2, T.marcamos - 0.2, T.eso - 0.1]) if (t >= ts && t < ts + 0.45) st.stepK = (t - ts) / 0.45;
   // Leo asoma de cuerpo entero para señalar la gráfica
-  for (const [a, b] of [[T.marcamos - 0.15, T.pasado - 0.15], [T.eso - 0.1, T.observar - 0.15]]) if (t >= a && t < b) st.leoOut = Math.min((t - a) / 0.35, 1 - clamp((t - b + 0.3) / 0.3));
   if (t >= T.like - 0.1) st.hearts = t - T.like + 0.1;
   st.rewind = win(t, T.revisamos2, T.revisamos2 + 1.3, 0.15, 0.25);
   if (t > T.c1 + 0.3 && t < T.primero - 0.45) { st.tags = t - T.c1 - 0.3; st.tagFrom = { A: I.aCross, B: I.bStart, C: I.acc0 }; }
   if (t >= T.disputas && t < T.eso - 0.1) { const two = t >= T.reacciones; st.counter = { n: two ? 2 : 1, kn: (t - (two ? T.reacciones : T.disputas)) / 0.3, k: (t - T.disputas) / 0.3 }; }
-  for (const [ch, te] of [["🤔", T.c0 + 0.6], ["🔥", T.candidata + 0.2], ["👀", T.observar]]) if (t >= te && t < te + 1.6) st.emoji = { ch, tt: t - te };
   window.renderState(st);
   // capa extra: cadena de temporalidades y "zona con historia"
   xG.textContent = "";
@@ -178,15 +180,15 @@ window.renderAt = function (t) {
     const g = el("g", { opacity: P(t, T.primero, 0.4).toFixed(3) }, xG);
     items.forEach(([s, ta], i) => {
       const x = 230 + i * 310, on = t >= ta, k = E.backBig(clamp((t - ta) / 0.35));
-      const b = el("g", { transform: `translate(${x},300) scale(${on ? 0.9 + 0.1 * k : 0.9})` }, g);
+      const b = el("g", { transform: `translate(${x},1860) scale(${on ? 0.9 + 0.1 * k : 0.9})` }, g);
       el("rect", { x: -120, y: -36, width: 240, height: 72, rx: 36, fill: on ? P2.blue : "#1B2030", stroke: on ? "#fff" : "#3A4258", "stroke-width": 3 }, b);
       el("text", { x: 0, y: 14, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 34, fill: on ? "#fff" : "#8A90A0" }, b, s);
-      if (i < 2) el("path", { d: `M${x + 128} 300 l26 0 m-10 -10 l10 10 l-10 10`, stroke: t >= items[i + 1][1] ? BLUE2 : "#3A4258", "stroke-width": 6, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
+      if (i < 2) el("path", { d: `M${x + 128} 1860 l26 0 m-10 -10 l10 10 l-10 10`, stroke: t >= items[i + 1][1] ? BLUE2 : "#3A4258", "stroke-width": 6, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
     });
   }
   if (t >= T.eso - 0.1 && t < T.acertaste - 0.3) {
     const k = E.backBig(P(t, T.eso, 0.4, E.lin));
-    const g = el("g", { transform: `translate(540,300) scale(${k.toFixed(3)})` }, xG);
+    const g = el("g", { transform: `translate(860,${MON.y + 120}) scale(${(0.8 * k).toFixed(3)})` }, xG);
     el("rect", { x: -200, y: -34, width: 400, height: 68, rx: 34, fill: P2.blue }, g);
     el("text", { x: 0, y: 13, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 34, fill: "#fff" }, g, "ZONA CON HISTORIA");
   }

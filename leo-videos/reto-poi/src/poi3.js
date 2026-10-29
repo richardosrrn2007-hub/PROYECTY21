@@ -207,7 +207,7 @@ function renderState(st) {
   camG.setAttribute("transform", `translate(540,${cy}) scale(${s}) translate(-540,${-cy + z * 40})`);
   glassR.setAttribute("x", MON.x + ((st.t ?? 0) * 60) % 400 - 200);
   const typing = st.typing ? Math.sin((st.t ?? 0) * 20) * 6 : 0;
-  leo.update({ t: st.t ?? 0, x: 330, y: 2150, scale: 1.18, ...POSE[st.leo ?? "rest"], ...(st.leo === "type" ? { shL: -22, elL: -70 + typing, shR: 22, elR: 70 - typing, tilt: 0, brow: 0.2, smile: 0.5 } : {}), handR: st.handR ?? "fist", handL: st.handL ?? "fist", mouth: st.mouth ?? 0, smile: st.smile ?? 0.6, brow: st.brow ?? 0.3, lookX: st.lookX ?? 0, lookY: st.lookY ?? 0, blink: st.blink ?? 0, jump: st.jump ?? 0 });
+  leo.update({ t: st.t ?? 0, x: 330, y: 2150, scale: 1.18, ...POSE[st.leo ?? "rest"], ...(st.leo === "type" ? { shL: -22, elL: -70 + typing, shR: 22, elR: 70 - typing, tilt: 0, brow: 0.2, smile: 0.5 } : {}), ...(st.over ?? {}), handR: st.handR ?? "fist", handL: st.handL ?? "fist", mouth: st.mouth ?? 0, smile: st.smile ?? 0.6, brow: st.brow ?? 0.3, lookX: st.lookX ?? 0, lookY: st.lookY ?? 0, blink: st.blink ?? 0, jump: st.jump ?? 0 });
   drawUI(st);
 }
 POSE.type = { shL: -22, elL: -70, shR: 22, elR: 70, tilt: 0, brow: 0.2, smile: 0.5 };
