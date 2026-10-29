@@ -8,7 +8,7 @@ import { pizza } from "./Pizza";
 import { broker, mercado } from "./Broker";
 import { comision, ganarPerder, precioDef, proximo } from "./Graficas";
 import { adelanto, apps, batalla, comenta, grafica, reto } from "./Batalla";
-import { capas, dato, dojiZoom, firma, mayo, oro, porcentajes, tres } from "./Doji";
+import { capas, dato, dojiZoom, engana, firma, mayo, oro, porcentajes, tres } from "./Doji";
 import { banderas, comentaJ, dojima, futuros, homma, hoy, mapa, mascaras, origen, pincel, rico, viaje } from "./Japon";
 
 export const PROPIAS: Record<string, DefEscena> = {
@@ -40,6 +40,7 @@ export const PROPIAS: Record<string, DefEscena> = {
   Viaje: viaje,
   Hoy: hoy,
   Comenta: comentaJ,
+  Engana: engana,
   Tres: tres,
   DojiZoom: dojiZoom,
   Dato: dato,

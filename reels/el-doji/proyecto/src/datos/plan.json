@@ -50,6 +50,19 @@
   "personaje": false,
   "frases": [
     {
+      "texto": "Esta vela *engaña a casi todos.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Engana",
+        "en": [
+          "vela",
+          "engana",
+          "todos"
+        ]
+      },
+      "sinSubtitulos": false
+    },
+    {
       "texto": "Estas tres velas salen en *todos los gráficos.* Hoy, *la primera.*",
       "escena": {
         "tipo": "propia",
@@ -220,19 +233,6 @@
           "clave"
         ],
         "modo": "rompe"
-      }
-    },
-    {
-      "texto": "Bulkowski probó más velas: *martillo, 60 %. Envolvente, 63 %.* Poco más que *una moneda.*",
-      "voz": "Bulkowski probó más velas: martillo, sesenta por ciento. Envolvente, sesenta y tres por ciento. Poco más que una moneda.",
-      "escena": {
-        "tipo": "propia",
-        "nombre": "Porcentajes",
-        "en": [
-          "martillo",
-          "envolvente",
-          "moneda"
-        ]
       }
     },
     {

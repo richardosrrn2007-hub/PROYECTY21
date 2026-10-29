@@ -1,21 +1,21 @@
 # Vídeo 4 · El doji (parte 1 de «Las 3 velas que más vas a ver»)
 
-~62 s (estimado sin voz, 165 ppm). Estilo de la serie: planeta, dorado #D4AA6E, crema, subtítulos arriba, cierre de la tele.
+63,6 s con voz (frase 12 de Bulkowski quitada; frase 0 nueva, 43 créditos). Estilo de la serie: planeta, dorado #D4AA6E, crema, subtítulos arriba, cierre de la tele.
 
 | # | Voz | En pantalla |
 |---|---|---|
-| 1 | Estas tres velas salen en todos los gráficos. Hoy, la primera. | Martillo, doji y envolvente borrosas sobre el planeta; el doji salta al frente («1 / 3») |
+| 0 | Esta vela engaña a casi todos. | Doji enorme con rayos dorados y líneas de velocidad; glitch y «ENGAÑA» |
+| 1 | Estas tres velas salen en todos los gráficos. Hoy, la primera. | «Elige tu vela»: tres cartas con siluetas borrosas, el selector salta y se revela el DOJI («1 / 3») |
 | 2 | El doji: abre y cierra casi al mismo precio. | Doji gigante; líneas de APERTURA y CIERRE; «apertura ≈ cierre» |
 | 3 | Compradores y vendedores empatan. El mercado duda. | Flecha verde desde abajo, roja desde arriba, chocan en el cuerpo: EMPATE; «?» |
 | 4 | Muchos lo ven como señal de giro. Pero Bulkowski probó el doji estrella: siguió cayendo el 64 %. | Doji estrella alcista: flecha esperada (sube) tachada; real (baja); contador 64 % · fuente |
 | 5 | Vamos al oro real. Junio de 2026, gráfico diario. | Monitor: XAUUSD diario (OANDA) estilo papel, velas reales entrando |
 | 6 | El 10 de junio deja un rango: de 4.067 a 4.257. | Rectángulo sobre C1 y niveles 4.258 / 4.067 |
-| 7 | Al día siguiente barre el mínimo… donde estaban los stops. | Mecha de C2 hasta 4.023,9; stops (x rojas) que saltan |
+| 7 | Al día siguiente barre el mínimo… donde estaban los stops. | Pantalla completa: la mecha atraviesa el mínimo, golpe, los stops saltan; «STOPS» |
 | 8 | Y cierra dentro del rango. Eso es lo que importa. | Punto de cierre 4.211 con flecha de vuelta; «LO QUE IMPORTA» |
 | 9 | Después, indecisión… y dos días más tarde supera el máximo del rango. | Círculo en el 12 jun; línea hasta el máximo de C1; «objetivo 4.257,6 ✓» |
 | 10 | Ahora mayo. Un doji perfecto. El mismo patrón… | 19-21 may: rango, barrido, doji con cuerpo 1 %; ✓ barrido ✓ cierre dentro ✓ doji |
 | 11 | …y se rompe. El patrón solo no basta: necesita una zona clave. | 27 may rompe 4.453; X roja sobre el doji; sello «NO BASTA» · «necesita ZONA CLAVE» |
-| 12 | Bulkowski probó más velas: martillo, 60 %. Envolvente, 63 %. Poco más que una moneda. | Barras 60 % y 63 % con marca del 50 % (azar); moneda 50/50 |
 | 13 | Esto tiene nombre: CRT. Rango, barrido y cierre dentro. Y encaja con AMD y SMC. | «CRT · rango · barrido · cierre dentro»; capas zona clave, CRT, AMD, SMC; la vela pequeña arriba |
 | 14 | La vela no es el análisis. Es la firma. En el próximo: CRT, paso a paso. | Doji que se firma; tarjeta «PARTE 2 · CRT»; la tele se apaga y logo |
 

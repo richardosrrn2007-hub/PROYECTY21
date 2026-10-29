@@ -4,13 +4,14 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { F, alfa } from "../motor/estilos";
-import { numeroES } from "../motor/anim";
+import { numeroES, rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { txt } from "../escenas/util";
 import { Escritorio } from "./Escritorio";
 import { GraficoVelas, PAPEL, continua, geometria, type Marco } from "./Velas";
 import { TRANSICION } from "./Cierre";
 import { XAU, idx, type VelaFecha } from "./xau";
+import { Oso, Toro } from "./Batalla";
 import { Chispas, Cuenta, Halo, ORO, PRINCIPAL, PRO, REBOTE, ROJO, SECUND, VERDE, Trazo, pr, principalPara, sp, temblor } from "./mg";
 
 const CREMA = "#F2E8D5";
@@ -113,52 +114,153 @@ const Bulkowski: React.FC<{ x: number; y: number; esc?: number; desde: number; s
 
 // ---------------------------------------------------------------- 1 · tres velas borrosas, salta el doji
 
-const Tres: React.FC<PropsEscena> = ({ b }) => {
+// ---------------------------------------------------------------- 0 · «Esta vela engaña a casi todos»
+
+/** Líneas de velocidad de anime desde un punto (cambian cada 2 fotogramas). */
+const Velocidad: React.FC<{ x: number; y: number; n?: number; r0?: number; op?: number }> = ({ x, y, n = 46, r0 = 480, op = 1 }) => {
+  const f = useCurrentFrame();
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, opacity: op }}>
+      {Array.from({ length: n }).map((_, i) => {
+        const sem = Math.floor(f / 2) * 97 + i * 13;
+        const a = (i / n) * Math.PI * 2 + rnd(sem) * 0.08;
+        const ra = r0 + rnd(sem + 1) * 260;
+        return <line key={i} x1={x + Math.cos(a) * ra} y1={y + Math.sin(a) * ra} x2={x + Math.cos(a) * 1500} y2={y + Math.sin(a) * 1500} stroke={i % 3 ? CREMA : ORO} strokeWidth={2 + rnd(sem + 2) * 5} opacity={0.18 + 0.22 * rnd(sem + 3)} />;
+      })}
+    </svg>
+  );
+};
+
+const Engana: React.FC<PropsEscena> = ({ b, dur }) => {
+  const f = useCurrentFrame();
+  const [b0 = 0, b1 = 15, b2 = 30] = b;
+  const e = sp(f, -2, REBOTE);
+  // al decir «engaña»: glitch (copias desplazadas en rojo y crema) y temblor
+  const g = f >= b1 - 2 && f < b1 + 12 ? 1 - (f - (b1 - 2)) / 14 : 0;
+  const dx = g * (rnd(Math.floor(f / 1.5)) - 0.5) * 60;
+  const t = temblor(f, b1 - 2, 18, 12);
+  const empuje = 1 + 0.12 * pr(f, 0, dur, Easing.inOut(Easing.cubic));
+  const doji = (color: string, ox: number, op: number) => (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: ox, top: 0, opacity: op }}>
+      <VelaG x={540} y={420} alto={1080} ancho={230} v={DOJI} color={color} />
+    </svg>
+  );
+  return (
+    <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px) scale(${empuje})`, transformOrigin: "540px 960px" }}>
+      <Halo x={540} y={960} r={560} op={0.35} />
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+        <g transform={`translate(540 960) rotate(${f * 0.6})`}>
+          {Array.from({ length: 14 }).map((_, i) => (
+            <path key={i} d="M0 0 L-40 -1200 L40 -1200 Z" transform={`rotate(${(i * 360) / 14})`} fill={alfa(ORO, i % 2 ? 0.07 : 0.14)} />
+          ))}
+        </g>
+      </svg>
+      <Velocidad x={540} y={960} op={0.7} />
+      <AbsoluteFill style={{ transform: `scale(${0.6 + 0.4 * e})`, transformOrigin: "540px 960px", opacity: Math.min(1, e * 2) }}>
+        {g > 0 && doji(ROJO, dx - 14, 0.7 * g)}
+        {g > 0 && doji("#7FD8E8", -dx + 14, 0.5 * g)}
+        {doji(CREMA, dx * 0.3, 1)}
+      </AbsoluteFill>
+      {f >= b1 - 2 && <div style={{ position: "absolute", left: 0, right: 0, top: 1170, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)}) rotate(-4deg)` }}><span style={{ fontFamily: PRINCIPAL, fontSize: 120, color: ROJO, textShadow: "0 0 30px rgba(217,115,94,0.6)" }}>ENGAÑA</span></div>}
+      <Chispas desde={b2 - 2} x={540} y={960} n={18} r={420} color={ORO} />
+    </AbsoluteFill>
+  );
+};
+
+/** Velas del oro que son doji, martillo o envolvente (para marcarlas en el gancho). */
+const PATRONES = (() => {
+  const v = continua(XAU);
+  return v
+    .map((c, k) => {
+      const r = c.h - c.l,
+        cu = Math.abs(c.c - c.o);
+      const doji = cu <= 0.12 * r;
+      const martillo = Math.min(c.o, c.c) - c.l >= 2 * cu && c.h - Math.max(c.o, c.c) <= cu;
+      const p = v[k - 1];
+      const envuelve = !!p && (c.c - c.o) * (p.c - p.o) < 0 && Math.max(c.o, c.c) >= Math.max(p.o, p.c) && Math.min(c.o, c.c) <= Math.min(p.o, p.c);
+      return doji || martillo || envuelve ? k : -1;
+    })
+    .filter((k) => k >= 0);
+})();
+const MARCO_GANCHO: Marco = { x0: -40, x1: 1280, y0: 560, y1: 1500 };
+
+const Tres: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 20, b2 = 40] = b;
-  const salta = sp(f, b2 - 4, REBOTE);
-  const aparta = pr(f, b2 - 4, 16, Easing.inOut(Easing.cubic));
-  const velas = [
-    { x: 250, nombre: "MARTILLO", dibujo: <VelaG x={250} y={760} alto={420} v={MARTILLO} /> },
-    { x: 540, nombre: "DOJI", dibujo: <VelaG x={540} y={760} alto={420} v={DOJI} /> },
-    {
-      x: 830,
-      nombre: "ENVOLVENTE",
-      dibujo: (
-        <>
-          <VelaG x={785} y={760} alto={420} ancho={62} v={PREVIA} />
-          <VelaG x={875} y={760} alto={420} ancho={78} v={ENVUELVE} />
-        </>
-      ),
-    },
+  // «Elige tu vela», como la selección de personaje de un juego de lucha:
+  // 1) fondo vivo (líneas de velocidad, el oro real pasando, el planeta) y tres cartas con siluetas borrosas «???»
+  // 2) un selector dorado salta de carta en carta y se para en el doji
+  // 3) destello: el doji se revela con sus «estadísticas»; las otras quedan para los próximos vídeos
+  // 4) la cámara entra en la carta del doji (enlaza con la escena siguiente, que es el doji enorme)
+  const revela = b2 - 4;
+  const sel: [number, number][] = [
+    [b0 + 6, 0],
+    [b0 + 18, 1],
+    [b0 + 30, 2],
+    [b1 - 4, 0],
+    [b1 + 10, 2],
+    [b1 + 22, 1],
   ];
+  let actual = -1;
+  sel.forEach(([a, k]) => (f >= a ? (actual = k) : null));
+  const ultimoSalto = sel.filter(([a]) => f >= a).pop()?.[0] ?? 0;
+  const flash = interpolate(f, [revela, revela + 1, revela + 7], [0, 0.7, 0], cl);
+  const t = temblor(f, revela, 20, 10);
+  const r = sp(f, revela, REBOTE);
+  const entra = pr(f, dur - 12, 12, Easing.in(Easing.cubic)); // la cámara entra en la carta del doji
+  const velasXau = continua(XAU);
+  const cartas = [
+    { x: 215, nombre: "MARTILLO", v: [MARTILLO] },
+    { x: 540, nombre: "DOJI", v: [DOJI] },
+    { x: 865, nombre: "ENVOLVENTE", v: [PREVIA, ENVUELVE] },
+  ];
+  const W = 290,
+    H = 520,
+    Y = 980;
   return (
-    <AbsoluteFill>
-      {velas.map((v, i) => {
-        const e = sp(f, b0 + i * 5, REBOTE);
+    <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px) scale(${1 + 2.6 * entra})`, transformOrigin: `540px ${Y}px` }}>
+      {/* el oro real pasando rápido detrás */}
+      <AbsoluteFill style={{ opacity: 0.28, transform: `translateX(${-500 * pr(f, 0, dur, Easing.linear)}px)` }}>
+        <GraficoVelas velas={velasXau} marco={{ x0: -60, x1: 1700, y0: 620, y1: 1360 }} entra={() => -60} forma={1} letra={20} vivo={false} volumen={false} ejes={0} />
+      </AbsoluteFill>
+      {/* líneas de velocidad de anime: cambian cada 2 fotogramas */}
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+        {Array.from({ length: 46 }).map((_, i) => {
+          const sem = Math.floor(f / 2) * 97 + i * 13;
+          const a = (i / 46) * Math.PI * 2 + rnd(sem) * 0.08;
+          const r0 = 520 + rnd(sem + 1) * 260,
+            r1 = 1300;
+          return <line key={i} x1={540 + Math.cos(a) * r0} y1={Y + Math.sin(a) * r0} x2={540 + Math.cos(a) * r1} y2={Y + Math.sin(a) * r1} stroke={i % 3 ? CREMA : ORO} strokeWidth={2 + rnd(sem + 2) * 5} opacity={0.18 + 0.2 * rnd(sem + 3)} />;
+        })}
+      </svg>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: PRINCIPAL, fontSize: 70, color: CREMA, opacity: pr(f, 2, 8) * (1 - pr(f, revela, 6)), transform: `scale(${latido(f, b0 + 6, 0.08, 10)})` }}>ELIGE TU VELA</div>
+      {cartas.map((c, i) => {
+        const e = sp(f, i * 3, REBOTE);
         if (e <= 0) return null;
-        const esDoji = i === 1;
-        const lado = i === 0 ? -1 : i === 2 ? 1 : 0;
-        const blur = esDoji ? 7 * (1 - salta) : 7 + 5 * aparta;
-        const esc = (esDoji ? 1 + 0.45 * salta : 1 - 0.18 * aparta) * latido(f, b1 + 4 + i * 7, 0.12, 12);
-        const dy = (1 - e) * 500 + (esDoji ? -60 * salta : 0);
-        const op = esDoji ? 0.55 + 0.45 * salta : 0.55 - 0.25 * aparta;
+        const doji = i === 1;
+        const revelada = doji && f >= revela;
+        const lado = !doji && f >= revela;
+        const enfocada = actual === i && f < revela;
+        const salto = enfocada ? latido(f, ultimoSalto, 0.1, 8) : 1;
+        const esc = (doji ? 1 + 0.18 * r : lado ? 0.88 : 1) * salto;
+        const blur = revelada ? 0 : lado ? 10 : 7;
         return (
-          <div key={i} style={{ position: "absolute", inset: 0, opacity: op, filter: `blur(${blur}px)`, transform: `translate(${lado * 70 * aparta}px, ${dy}px) scale(${esc})`, transformOrigin: `${v.x}px 970px` }}>
-            {esDoji && salta > 0.05 && <Halo x={540} y={970} r={330} op={0.3 * Math.min(1, salta)} />}
-            <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
-              {v.dibujo}
+          <div key={c.nombre} style={{ position: "absolute", left: c.x - W / 2, top: Y - H / 2 + (1 - e) * 600, width: W, height: H, transform: `scale(${esc})`, opacity: lado ? 0.55 : 1, zIndex: doji ? 2 : 1 }}>
+            <div style={{ position: "absolute", inset: 0, borderRadius: 22, background: `linear-gradient(180deg, ${alfa(ORO, revelada ? 0.35 : 0.12)}, rgba(0,0,0,0.85))`, border: `4px solid ${enfocada || revelada ? ORO : alfa(CREMA, 0.35)}`, boxShadow: enfocada || revelada ? `0 0 50px ${alfa(ORO, 0.6)}` : "none" }} />
+            <svg width={W} height={H} style={{ position: "absolute", left: 0, top: 0, filter: `blur(${blur}px)`, opacity: revelada ? 1 : 0.6 }}>
+              {c.v.length === 1 ? <VelaG x={W / 2} y={70} alto={300} ancho={70} v={c.v[0]} /> : <><VelaG x={W / 2 - 34} y={70} alto={300} ancho={50} v={c.v[0]} /><VelaG x={W / 2 + 34} y={70} alto={300} ancho={60} v={c.v[1]} /></>}
             </svg>
-            <div style={{ position: "absolute", left: v.x - 200, width: 400, top: 1240, textAlign: "center", fontFamily: SECUND, fontSize: 40, color: CREMA, opacity: pr(f, b1 - 2 + i * 3, 10) }}>{v.nombre}</div>
+            <div style={{ position: "absolute", left: 0, right: 0, top: 395, textAlign: "center", fontFamily: revelada ? PRINCIPAL : PRO, fontSize: revelada ? 58 : 44, color: revelada ? ORO : CREMA, letterSpacing: revelada ? 0 : 6 }}>{revelada ? c.nombre : lado ? "PRÓXIMO" : "???"}</div>
           </div>
         );
       })}
-      {f >= b2 - 4 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1390, textAlign: "center", transform: `scale(${salta})` }}>
-          <span style={{ fontFamily: PRINCIPAL, fontSize: 92, color: ORO }}>1 / 3</span>
+      {f >= revela && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", transform: `scale(${r}) rotate(-3deg)` }}>
+          <span style={{ fontFamily: PRINCIPAL, fontSize: 96, color: ORO, textShadow: `0 0 40px ${alfa(ORO, 0.6)}` }}>1 / 3</span>
         </div>
       )}
-      <Chispas desde={b2 - 2} x={540} y={910} n={16} r={300} color={CREMA} />
+      <AbsoluteFill style={{ background: "#FFF3DC", opacity: flash, pointerEvents: "none" }} />
+      <Chispas desde={revela} x={540} y={Y} n={20} r={380} color={ORO} />
     </AbsoluteFill>
   );
 };
@@ -204,6 +306,13 @@ const DojiZoom: React.FC<PropsEscena> = ({ p, b }) => {
                   {k1 > 0 && <path d={`M${X - 220} ${yS + 70} L${X - 220} ${yS} L${X - 255} ${yS + 40} M${X - 220} ${yS} L${X - 185} ${yS + 40}`} stroke={VERDE} strokeWidth={14} fill="none" strokeLinecap="round" strokeLinejoin="round" />}
                   {k2 > 0 && <path d={`M${X + 220} ${yB - 70} L${X + 220} ${yB} L${X + 185} ${yB - 40} M${X + 220} ${yB} L${X + 255} ${yB - 40}`} stroke={ROJO} strokeWidth={14} fill="none" strokeLinecap="round" strokeLinejoin="round" />}
                   {choca >= 1 && <circle cx={X} cy={yA} r={40 + 160 * pr(f, b2, 14)} fill="none" stroke={ORO} strokeWidth={6} opacity={1 - pr(f, b2, 14)} />}
+                  {/* toro (compradores) y oso (vendedores), pequeños y de fondo: empujan cada uno desde su lado */}
+                  <g opacity={0.75 * k1}>
+                    <Toro x={X - 300 + 40 * k1} y={yA + 330 - 60 * k1} esc={0.42} animo={f >= b2 ? "tira" : "tira"} />
+                  </g>
+                  <g opacity={0.85 * k2} style={{ filter: `drop-shadow(0 0 3px ${CREMA}) drop-shadow(0 0 2px ${CREMA})` }}>
+                    <Oso x={X + 300 - 40 * k2} y={yA - 330 + 60 * k2} esc={0.42} animo="tira" />
+                  </g>
                 </>
               );
             })()}
@@ -269,8 +378,7 @@ const Dato: React.FC<PropsEscena> = ({ b, palabras }) => {
       <Bulkowski x={250} y={1100} esc={0.95} desde={fuente - 4} gafas={fuente + 14} senala={b2 - 2} />
       {f >= fuente - 2 && (
         <div style={{ position: "absolute", left: 90, top: 1640, transform: `scale(${sp(f, fuente - 2)})`, transformOrigin: "0 50%", fontFamily: PRO, fontSize: 32, color: CREMA, opacity: 0.85 }}>
-          Thomas Bulkowski · Encyclopedia of Candlestick Charts
-          <div style={{ fontSize: 26, opacity: 0.7, marginTop: 6 }}>Doji estrella alcista · thepatternsite.com</div>
+          <div style={{ fontSize: 24, opacity: 0.7 }}>Fuente: Bulkowski</div>
         </div>
       )}
       {f >= b2 - 4 && (
@@ -440,6 +548,7 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
         
       </AbsoluteFill>
     </Escritorio>
+    {modo === "barre" && f >= b0 - 4 && <BarridoGrande b0={b0} b1={b1} b2={b2} dur={dur} />}
     {modo === "rango" && f >= b2 + 10 && (
       <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 + 10, REBOTE)})` }}>
         <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>rango de </span>
@@ -459,6 +568,48 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
       </div>
     )}
     </>
+  );
+};
+
+/** El barrido a pantalla completa: la mecha de C2 atraviesa el mínimo del rango y los stops saltan por los aires. */
+const BarridoGrande: React.FC<{ b0: number; b1: number; b2: number; dur: number }> = ({ b0, b1, b2, dur }) => {
+  const f = useCurrentFrame();
+  const entra = pr(f, b0 - 4, 6);
+  const sale = pr(f, Math.max(b2 + 16, dur - 8), 8);
+  const op = entra * (1 - sale);
+  if (op <= 0) return null;
+  const Y = 1000; // el mínimo del rango (4.067,2)
+  const impacto = b1 + 4;
+  const baja = pr(f, b0, impacto - b0, Easing.in(Easing.cubic)); // la mecha baja hasta la línea
+  const atraviesa = pr(f, impacto, 8, Easing.out(Easing.cubic)); // y la cruza
+  const yMecha = 380 + (Y - 380) * baja + 180 * atraviesa;
+  const t = temblor(f, impacto, 26, 12);
+  const flash = interpolate(f, [impacto, impacto + 1, impacto + 6], [0, 0.6, 0], cl);
+  const vuelan = pr(f, b2 - 4, 16, Easing.out(Easing.cubic));
+  return (
+    <AbsoluteFill style={{ opacity: op, transform: `translate(${t.x}px, ${t.y}px)` }}>
+      <AbsoluteFill style={{ background: "rgba(0,0,0,0.94)" }} />
+      {f >= impacto && <Velocidad x={540} y={Y} op={0.8 * (1 - pr(f, impacto + 10, 12))} />}
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+        <line x1={0} x2={1080} y1={Y} y2={Y} stroke={ORO} strokeWidth={6} strokeDasharray="22 12" />
+        {/* stops bajo el mínimo: saltan al llegar la mecha */}
+        {Array.from({ length: 11 }).map((_, i) => {
+          const x0 = 120 + i * 84,
+            y0 = Y + 50 + (i % 2) * 26;
+          const a = -Math.PI / 2 + (i - 5) * 0.28;
+          const d = 520 * vuelan * (0.7 + rnd(i) * 0.6);
+          const x = x0 + Math.cos(a) * d * 0.6,
+            y = y0 + (f >= b2 - 4 ? Math.sin(a) * d * 0.2 + 900 * vuelan * vuelan : 0);
+          return <path key={i} d={`M${x - 16} ${y - 16} l32 32 m0 -32 l-32 32`} stroke={ROJO} strokeWidth={7} strokeLinecap="round" opacity={1 - 0.8 * vuelan} transform={`rotate(${vuelan * (i % 2 ? 260 : -260)} ${x} ${y})`} />;
+        })}
+        {/* la mecha de C2 */}
+        <line x1={540} x2={540} y1={300} y2={yMecha} stroke={CREMA} strokeWidth={16} strokeLinecap="round" />
+        {f >= impacto && <circle cx={540} cy={Y} r={30 + 220 * pr(f, impacto, 14)} fill="none" stroke={ROJO} strokeWidth={8} opacity={1 - pr(f, impacto, 14)} />}
+      </svg>
+      <div style={{ position: "absolute", left: 0, right: 0, top: Y - 72, textAlign: "center", fontFamily: PRO, fontSize: 36, color: ORO }}>MÍNIMO DEL RANGO · 4.067,2</div>
+      {f >= b2 - 4 && <div style={{ position: "absolute", left: 0, right: 0, top: Y + 170, textAlign: "center", transform: `scale(${sp(f, b2 - 4, REBOTE)}) rotate(-5deg)` }}><span style={{ fontFamily: PRINCIPAL, fontSize: 140, color: ROJO, textShadow: "0 0 40px rgba(217,115,94,0.6)" }}>STOPS</span></div>}
+      <AbsoluteFill style={{ background: "#FFF3DC", opacity: flash }} />
+    </AbsoluteFill>
   );
 };
 
@@ -575,14 +726,14 @@ const Porcentajes: React.FC<PropsEscena> = ({ b, palabras }) => {
         {f >= b0 + 16 && <g opacity={pr(f, b0 + 16, 8)} transform={`translate(${X0 + W + 20} ${600}) scale(${sp(f, b0 + 16, REBOTE) * latido(f, b0 + 28, 0.3, 12)})`}><VelaG x={0} y={-40} alto={150} ancho={40} v={MARTILLO} color={ORO} /></g>}
         {f >= b1 + 12 && <g opacity={pr(f, b1 + 12, 8)} transform={`translate(${X0 + W + 20} ${900}) scale(${sp(f, b1 + 12, REBOTE)})`}><VelaG x={-14} y={-40} alto={150} ancho={26} v={PREVIA} color={ORO} /><VelaG x={16} y={-40} alto={150} ancho={30} v={ENVUELVE} color={ORO} /></g>}
       </svg>
-      {f >= fuente && f < b0 + 10 && <div style={{ position: "absolute", left: 0, right: 0, top: 560, textAlign: "center", fontFamily: PRO, fontSize: 40, color: CREMA, opacity: pr(f, fuente, 8) * (1 - pr(f, b0 + 2, 8)) }}>Thomas Bulkowski · pruebas históricas</div>}
+
       {f < b0 + 16 && <Bulkowski x={540 - 760 * pr(f, b0 - 4, 16, Easing.in(Easing.cubic))} y={760} esc={1.15} desde={fuente - 2} gafas={velas - 6} senala={velas + 4} />}
       {moneda > 0 && (
         <div style={{ position: "absolute", left: 540 - 110, top: 1290, width: 220, height: 220, borderRadius: "50%", background: `radial-gradient(circle at 35% 35%, #F0D59A, ${ORO} 60%, #8C6A36)`, transform: `scale(${moneda}) scaleX(${Math.cos((f - b2) * 0.35)})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: PRINCIPAL, fontSize: 64, color: "#3A2A12", boxShadow: `0 0 60px ${alfa(ORO, 0.4)}` }}>
           {Math.cos((f - b2) * 0.35) > 0 ? "50/50" : ""}
         </div>
       )}
-      <div style={{ position: "absolute", left: X0, top: 1640, fontFamily: PRO, fontSize: 26, color: CREMA, opacity: 0.7 * pr(f, b0, 8) }}>Fuente: Bulkowski · thepatternsite.com (giro en la dirección esperada)</div>
+      <div style={{ position: "absolute", left: X0, top: 1640, fontFamily: PRO, fontSize: 24, color: CREMA, opacity: 0.6 * pr(f, b0, 8) }}>Fuente: Bulkowski</div>
     </AbsoluteFill>
   );
 };
@@ -666,21 +817,27 @@ const Firma: React.FC<PropsEscena> = ({ b, dur, palabras }) => {
           <div style={{ fontFamily: F.texto, fontWeight: 800, fontSize: 22, letterSpacing: 4, color: "#9C7A45" }}>PARTE 2</div>
           <div style={{ fontFamily: PRINCIPAL, fontSize: 84, color: "#16120E", lineHeight: 1 }}>CRT</div>
           <div style={{ fontFamily: SECUND, fontSize: 34, color: "#16120E", opacity: pr(f, b2 - 2, 8) }}>paso a paso</div>
+
         </div>
       )}
     </Escritorio>
     {/* abajo, como en las otras escenas: primero la firma, luego el próximo vídeo */}
     {f >= b0 && f < b1 + 2 && (
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b0, REBOTE)})`, opacity: 1 - pr(f, b1 - 4, 6) }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1190, textAlign: "center", transform: `scale(${sp(f, b0, REBOTE)})`, opacity: 1 - pr(f, b1 - 4, 6) }}>
         <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>la vela es </span>
         <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO }}>LA FIRMA</span>
       </div>
     )}
     {f >= b1 + 2 && (
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b1 + 2, REBOTE)})` }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1190, textAlign: "center", transform: `scale(${sp(f, b1 + 2, REBOTE)})` }}>
         <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>parte 2 → </span>
         <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO, display: "inline-block", transform: `scale(${latido(f, wCrt, 0.25, 12)})` }}>CRT</span>
         {f >= wPaso - 2 && <div style={{ fontFamily: SECUND, fontSize: 56, color: CREMA, opacity: pr(f, wPaso - 2, 6), transform: `translateY(${(1 - pr(f, wPaso - 2, 10)) * 40}px)` }}>paso a paso</div>}
+        {f >= wCrt + 14 && (
+          <div style={{ marginTop: 18, display: "inline-block", fontFamily: PRO, fontSize: 44, color: "#16120E", background: ORO, borderRadius: 40, padding: "8px 30px", transform: `scale(${sp(f, wCrt + 14, REBOTE) * latido(f, wPaso + 4, 0.12, 10)})`, boxShadow: `0 0 40px ${alfa(ORO, 0.5)}` }}>
+            Comenta <b>CRT</b>
+          </div>
+        )}
       </div>
     )}
     <Chispas desde={wPaso + 8} x={540} y={1330} n={20} r={380} color={ORO} />
@@ -689,7 +846,8 @@ const Firma: React.FC<PropsEscena> = ({ b, dur, palabras }) => {
   );
 };
 
-export const tres: DefEscena = { C: Tres, momentos: 3, alInicio: () => true, sonidos: () => [[2, "pop", 0.3]] };
+export const engana: DefEscena = { C: Engana, momentos: 3, alInicio: () => true, sonidos: () => [[1, "golpe", 0.35]] };
+export const tres: DefEscena = { C: Tres, momentos: 3, alInicio: () => true, sonidos: () => [[0, "tic", 0.25], [1, "tic", 0.25], [2, "exito", 0.35]] };
 export const dojiZoom: DefEscena = { C: DojiZoom, momentos: 4, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "duda" ? [[2, "golpe", 0.25]] : [[1, "tic", 0.3], [2, "tic", 0.3]]) };
 export const dato: DefEscena = { C: Dato, momentos: 3, alInicio: () => true, sonidos: () => [[2, "ding", 0.25]] };
 export const oro: DefEscena = {
@@ -698,10 +856,10 @@ export const oro: DefEscena = {
   alInicio: () => true,
   sonidos: (p) => {
     const m = txt(p, "modo");
-    return m === "rango" ? [[0, "tic", 0.3]] : m === "barre" ? [[1, "zip", 0.3]] : m === "cierre" ? [[2, "ding", 0.25]] : m === "sube" ? [[1, "subida", 0.25]] : [];
+    return m === "rango" ? [[0, "tic", 0.3]] : m === "barre" ? [[0, "whoosh", 0.3], [1, "golpe", 0.4], [2, "puff", 0.35]] : m === "cierre" ? [[2, "ding", 0.25]] : m === "sube" ? [[1, "subida", 0.25]] : [];
   },
 };
 export const mayo: DefEscena = { C: Mayo, momentos: 3, alInicio: () => true, sonidos: (p) => (txt(p, "modo") === "rompe" ? [[0, "negacion", 0.3], [1, "sello", 0.35]] : [[1, "tic", 0.3]]) };
-export const porcentajes: DefEscena = { C: Porcentajes, momentos: 3, alInicio: () => true, sonidos: () => [[0, "tic", 0.3], [1, "tic", 0.3], [2, "monedas", 0.3]] };
+export const porcentajes: DefEscena = { C: Porcentajes, momentos: 3, alInicio: () => true, sonidos: () => [[0, "tic", 0.3], [1, "tic", 0.3], [2, "puff", 0.35]] };
 export const capas: DefEscena = { C: Capas, momentos: 4, alInicio: () => true, sonidos: () => [[1, "papel", 0.25], [2, "papel", 0.25], [3, "papel", 0.25]] };
 export const firma: DefEscena = { C: Firma, momentos: 3, alInicio: () => true, sonidos: () => [[0, "pincel", 0.35], [1, "campana", 0.25]] };
