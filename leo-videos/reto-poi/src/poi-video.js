@@ -73,7 +73,8 @@ function chartAt(t) {
   if (v.tf === "H4") {
     if (fadeAB > 0) { Z.A = { from: I.aCross, op: (1 - rev * 0.55) * fadeAB, labOp: 1 - rev * 0.6 }; Z.B = { from: I.bStart, op: (1 - rev * 0.55) * fadeAB, labOp: 1 - rev * 0.6 }; }
     const pulse = t > T.candidata && t < T.candidata + 1.2 ? Math.sin((t - T.candidata) * Math.PI / 1.2) * 0.8 : 0;
-    Z.C = { from: I.acc0, op: 1, strong: rev + pulse, labCol: rev > 0.5 ? "#2962FF" : undefined };
+    const breathe = t > T.primero ? 0.35 * (0.5 + 0.5 * Math.sin(t * 4)) : 0;
+    Z.C = { from: I.acc0, op: 1, strong: rev + pulse + breathe, labCol: rev > 0.5 ? "#2962FF" : undefined };
     if (t >= T.marcamos) Z.C = { ...Z.C, from: I.start - 10, draw: P(t, T.marcamos, 0.8, E.inOut) };
     if (t >= T.marcamos && Z.C.draw < 1) Z.Cold = true;
   } else Z.C = { from: 0, op: 1, strong: 0.6 };
@@ -81,7 +82,7 @@ function chartAt(t) {
   // la franja actual sigue visible mientras se dibuja la extendida
   if (Z.Cold) v.zones = { ...Z, B: undefined, A: undefined };
   // marcas
-  const M = [], pop = (t0) => E.backBig(clamp((t - t0) / 0.35));
+  const M = [], pop = (t0) => E.backBig(clamp((t - t0) / 0.35)) * (1 + 0.1 * Math.sin((t - t0) * 7));
   if (t >= T.interaccion && t < T.marcamos + 0.3) {
     M.push({ kind: "circle", i: iLow2, p: TFD.H4[iLow2].l, k: pop(T.interaccion), r: 16 });
     if (t >= T.compras) M.push({ kind: "circle", i: iLow, p: TFD.H4[iLow].l, k: pop(T.compras), r: 16 }, { kind: "arrow", i: iLow, p: TFD.H4[iLow].l - 0.08 });
@@ -157,7 +158,7 @@ window.renderAt = function (t) {
   if (st.kin && FULLM && st.kinY == null) { st.kinY = 1690; st.kinX = 540; st.kinSize = 70; }
   if (t >= T.outro) st.outro4 = t - T.outro;
   // ---- v2: ritmo ----
-  st.whip = [[T.semanal, 1], [T.diario, -1], [T.cuatro, 1]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
+  st.whip = [[T.semanal, 1], [T.diario, -1], [T.cuatro, 1], [T.buscamos - 0.2, -0.7], [T.marcamos - 0.2, 0.7]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
   st.kick = [T.buscamos, T.interaccion, T.marcamos, T.disputas, T.reacciones, T.candidata, T.eso].reduce((a, tk) => a + (t >= tk ? 0.045 * Math.exp(-(t - tk) / 0.22) : 0), 0);
   const PL = [["TIEMPO", T.tiempo], ["VELAS", T.velas], ["PASADO", T.pasado], ["DISPUTAS", T.disputas], ["REACCIONES", T.reacciones], ["CANDIDATA", T.candidata], ["OBSERVAR", T.observar], ["AUTOMÁTICA", T.automatica]];
   PL.forEach(([w, tw0], n) => { const dur = Math.min(1.15, (PL[n + 1]?.[1] ?? 1e9) - tw0 - 0.02); if (t >= tw0 - 0.05 && t < tw0 - 0.05 + dur) st.punch = { w, tt: t - tw0 + 0.05, dur, y: 1700 }; });

@@ -35,7 +35,8 @@ function kinetic(words, active, y = 1290, cxAll = 540, size = 70, pop = 1) {
     if (mode === 0) { const s = 0.3 + 0.7 * E.backBig(k); tr = `translate(${cx},${y}) scale(${s}) translate(${-cx},${-y})`; }
     else if (mode === 1) tr = `translate(0,${(-(1 - E.backBig(k)) * 70).toFixed(1)}) rotate(${((1 - E.out(k)) * -12).toFixed(2)},${cx},${y})`;
     else tr = `translate(${(-(1 - E.backBig(k)) * 90).toFixed(1)},0) skewX(${((1 - E.out(k)) * -18).toFixed(2)})`;
-    const g = el("g", { transform: tr, opacity: clamp(k * 3).toFixed(3), filter: "url(#txtSh)" }, kinG);
+    const bob = ` translate(0,${(Math.sin((window.NOW ?? 0) * 4 + i * 1.3) * 4 * k).toFixed(2)})`;
+    const g = el("g", { transform: tr + bob, opacity: clamp(k * 3).toFixed(3), filter: "url(#txtSh)" }, kinG);
     if (o.blue) {
       const wk = E.out(clamp((k - 0.1) / 0.5));
       el("rect", { x: cx - wsx[i] / 2, y: y - size * 0.82, width: wsx[i] * wk, height: size * 1.08, rx: size * 0.18, fill: BLUE2, transform: `rotate(-2,${cx},${y})` }, g);

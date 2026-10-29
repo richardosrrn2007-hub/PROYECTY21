@@ -129,6 +129,12 @@ for rx in ["^marcamos$", "^eso$"]: put(whoosh(0.5), wt(rx) - 0.2, 0.5); put(pop(
 for rx in ["^primero$", "^buscamos$", "^marcamos$", "^eso$"]: put(pop(400, 1000, 0.1), wt(rx) - 0.25, 0.45)
 put(sparkle(1.2), wt("^like$") + 0.05, 0.7)
 
+# ---- v4: entrar y salir del ordenador ----
+for t0, up in [(wt("^mira$") - 0.1, True), (C1, False), (wt("^primero$") - 0.4, True), (wt("^acertaste$") - 0.3, False)]:
+    put(whoosh(1.0, up), t0, 0.9); put(rise(0.8) if up else thud(), t0 + (0.1 if up else 0.6), 0.5)
+    if up: put(sparkle(0.6), t0 + 0.85, 0.5)
+for rx in ["^buscamos$", "^marcamos$"]: put(whoosh(0.3), wt(rx) - 0.3, 0.5)
+
 # ---------- Música (lo-fi suave, 100 bpm) ----------
 bpm = 100; beat = 60 / bpm
 mus = np.zeros(N)
