@@ -41,9 +41,7 @@ const Movil: React.FC<{ toca: number; sale: number }> = ({ toca, sale }) => {
   const hecho = f >= toca;
   const velas = [0.7, 0.55, 0.62, 0.4, 0.48, 0.3, 0.38];
   return (
-    <div style={{ position: "absolute", left: 300, top: 260 + (1 - entra) * 900 + fuera * 1200, width: 480, height: 900, transform: `rotate(${-4 + 2 * Math.sin(f / 18)}deg)` }}>
-      {/* mano */}
-      <div style={{ position: "absolute", left: -70, top: 520, width: 620, height: 560, borderRadius: "48% 48% 30% 30%", background: "#C68F67", boxShadow: "inset -30px -20px 0 #9E6C4C" }} />
+    <div style={{ position: "absolute", left: 600, top: 760 + (1 - entra) * 900 + fuera * 1200, width: 480, height: 900, transform: `scale(0.68) rotate(${6 + 1.5 * Math.sin(f / 18)}deg)`, transformOrigin: "50% 0%" }}>
       {/* teléfono */}
       <div style={{ position: "absolute", inset: 0, borderRadius: 60, background: "#0B0A09", border: "10px solid #2A2520", boxShadow: "0 40px 80px rgba(0,0,0,0.6)", overflow: "hidden" }}>
         <div style={{ position: "absolute", left: 30, top: 50, fontFamily: PRO, fontSize: 30, color: CREMA }}>XAUUSD · 1H</div>
@@ -68,9 +66,9 @@ const Movil: React.FC<{ toca: number; sale: number }> = ({ toca, sale }) => {
           </div>
         )}
       </div>
-      {/* dedo */}
-      <div style={{ position: "absolute", left: 360 - 40 * dedo, top: 900 - 230 * dedo + (pulsa ? 12 : 0), width: 90, height: 300, borderRadius: 45, background: "#D9A77C", boxShadow: "inset -10px 0 0 #B88560" }} />
-      {pulsa && <div style={{ position: "absolute", left: 300, top: 640, width: 120, height: 120, borderRadius: "50%", border: `4px solid ${CREMA}`, opacity: 1 - (f - toca) / 5, transform: `scale(${1 + (f - toca) / 3})` }} />}
+      {/* toque de pantalla (como en una grabación del móvil) */}
+      {dedo > 0 && f < toca + 8 && <div style={{ position: "absolute", left: 300, top: 585, width: 90, height: 90, borderRadius: "50%", background: "rgba(255,255,255,0.55)", border: "3px solid #fff", opacity: Math.min(dedo, 1 - pr(f, toca + 2, 6)), transform: `scale(${pulsa ? 0.8 : 1})` }} />}
+      {f >= toca && f < toca + 10 && <div style={{ position: "absolute", left: 285, top: 570, width: 120, height: 120, borderRadius: "50%", border: "4px solid #fff", opacity: 1 - (f - toca) / 10, transform: `scale(${1 + (f - toca) / 4})` }} />}
     </div>
   );
 };
@@ -152,6 +150,7 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
     <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
       {f < b2 + 2 && (
         <>
+          {f < impacto && <Halo x={540} y={Y(V.o)} r={420} op={0.25 * (1 - baja)} />}
           {f < impacto && f > b0 && <Velocidad x={540} y={yMecha} op={0.6 * baja} />}
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {/* la entrada y el stop del trader */}
@@ -165,7 +164,7 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
               </>
             )}
             {/* la vela gigante del barrido */}
-            <g opacity={pr(f, b0 + 2, 6)}>
+            <g opacity={pr(f, 0, 8)}>
             <line x1={540} x2={540} y1={Y(V.h)} y2={Math.max(Y(V.h), yMecha)} stroke={CREMA} strokeWidth={22} strokeLinecap="round" />
             <rect x={540 - 130} y={Math.min(Y(V.o), Y(V.c))} width={260} height={Math.max(14, Math.abs(Y(V.c) - Y(V.o)))} fill={CREMA} stroke={CREMA} strokeWidth={6} rx={6} />
             </g>
