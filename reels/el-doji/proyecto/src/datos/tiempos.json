@@ -1,76 +1,77 @@
 {
- "voz": null,
- "motor": "sin-voz",
- "duracion": 64.574,
+ "voz": "voz_jusu.mp3",
+ "motor": "asr",
+ "velocidad": 1.12,
+ "duracion": 66.31,
  "frases": [
   {
    "texto": "Estas tres velas salen en todos los gráficos. Hoy, la primera.",
-   "inicio": 0.35,
-   "fin": 3.8,
+   "inicio": 0.02,
+   "fin": 4.12,
    "palabras": [
     {
      "w": "Estas",
-     "t": 0.35,
+     "t": 0.02,
      "clave": false,
      "g": -1
     },
     {
      "w": "tres",
-     "t": 0.696,
+     "t": 0.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "velas",
-     "t": 0.869,
+     "t": 0.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "salen",
-     "t": 1.216,
+     "t": 1.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "en",
-     "t": 1.562,
+     "t": 1.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "todos",
-     "t": 1.735,
+     "t": 1.68,
      "clave": true,
      "g": 0
     },
     {
      "w": "los",
-     "t": 2.082,
+     "t": 1.92,
      "clave": true,
      "g": 0
     },
     {
      "w": "gráficos.",
-     "t": 2.255,
+     "t": 2.08,
      "clave": true,
      "g": 0
     },
     {
      "w": "Hoy,",
-     "t": 2.774,
+     "t": 2.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 3.107,
+     "t": 3.36,
      "clave": true,
      "g": 1
     },
     {
      "w": "primera.",
-     "t": 3.281,
+     "t": 3.6,
      "clave": true,
      "g": 1
     }
@@ -78,60 +79,60 @@
   },
   {
    "texto": "El doji: abre y cierra casi al mismo precio.",
-   "inicio": 4.15,
-   "fin": 6.907,
+   "inicio": 4.24,
+   "fin": 7.03,
    "palabras": [
     {
      "w": "El",
-     "t": 4.15,
+     "t": 4.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "doji:",
-     "t": 4.323,
+     "t": 4.32,
      "clave": true,
      "g": 2
     },
     {
      "w": "abre",
-     "t": 4.83,
+     "t": 5.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 5.176,
+     "t": 5.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "cierra",
-     "t": 5.349,
+     "t": 5.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "casi",
-     "t": 5.695,
+     "t": 5.92,
      "clave": true,
      "g": 3
     },
     {
      "w": "al",
-     "t": 6.042,
+     "t": 6.16,
      "clave": true,
      "g": 3
     },
     {
      "w": "mismo",
-     "t": 6.215,
+     "t": 6.32,
      "clave": true,
      "g": 3
     },
     {
      "w": "precio.",
-     "t": 6.561,
+     "t": 6.64,
      "clave": true,
      "g": 3
     }
@@ -139,48 +140,48 @@
   },
   {
    "texto": "Compradores y vendedores empatan. El mercado duda.",
-   "inicio": 7.257,
-   "fin": 10.374,
+   "inicio": 7.15,
+   "fin": 10.09,
    "palabras": [
     {
      "w": "Compradores",
-     "t": 7.257,
+     "t": 7.15,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 7.95,
+     "t": 7.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "vendedores",
-     "t": 8.123,
+     "t": 7.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "empatan.",
-     "t": 8.816,
+     "t": 8.4,
      "clave": true,
      "g": 4
     },
     {
      "w": "El",
-     "t": 9.335,
+     "t": 9.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "mercado",
-     "t": 9.509,
+     "t": 9.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "duda.",
-     "t": 10.028,
+     "t": 9.6,
      "clave": true,
      "g": 5
     }
@@ -188,114 +189,114 @@
   },
   {
    "texto": "Muchos lo ven como señal de giro. Pero Bulkowski probó el doji estrella: siguió cayendo el 64 %.",
-   "inicio": 10.724,
-   "fin": 17.464,
+   "inicio": 10.21,
+   "fin": 16.81,
    "palabras": [
     {
      "w": "Muchos",
-     "t": 10.724,
+     "t": 10.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "lo",
-     "t": 11.071,
+     "t": 10.56,
      "clave": false,
      "g": -1
     },
     {
      "w": "ven",
-     "t": 11.244,
+     "t": 10.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "como",
-     "t": 11.417,
+     "t": 11.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "señal",
-     "t": 11.763,
+     "t": 11.2,
      "clave": true,
      "g": 6
     },
     {
      "w": "de",
-     "t": 12.11,
+     "t": 11.52,
      "clave": true,
      "g": 6
     },
     {
      "w": "giro.",
-     "t": 12.283,
+     "t": 11.68,
      "clave": true,
      "g": 6
     },
     {
      "w": "Pero",
-     "t": 12.629,
+     "t": 12.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "Bulkowski",
-     "t": 12.975,
+     "t": 12.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "probó",
-     "t": 13.495,
+     "t": 13.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 13.841,
+     "t": 13.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "doji",
-     "t": 14.014,
+     "t": 13.28,
      "clave": true,
      "g": 7
     },
     {
      "w": "estrella:",
-     "t": 14.361,
+     "t": 13.76,
      "clave": true,
      "g": 7
     },
     {
      "w": "siguió",
-     "t": 15.04,
+     "t": 14.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "cayendo",
-     "t": 15.386,
+     "t": 14.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 15.906,
+     "t": 15.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "64",
-     "t": 16.079,
+     "t": 15.36,
      "clave": true,
      "g": 8
     },
     {
      "w": "%.",
-     "t": 16.945,
+     "t": 16.27,
      "clave": true,
      "g": 8
     }
@@ -303,60 +304,60 @@
   },
   {
    "texto": "Vamos al oro real. Junio de 2026, gráfico diario.",
-   "inicio": 17.814,
-   "fin": 21.264,
+   "inicio": 16.93,
+   "fin": 20.64,
    "palabras": [
     {
      "w": "Vamos",
-     "t": 17.814,
+     "t": 16.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "al",
-     "t": 18.161,
+     "t": 17.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "oro",
-     "t": 18.334,
+     "t": 17.53,
      "clave": true,
      "g": 9
     },
     {
      "w": "real.",
-     "t": 18.68,
+     "t": 17.57,
      "clave": true,
      "g": 9
     },
     {
      "w": "Junio",
-     "t": 18.853,
+     "t": 18.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "de",
-     "t": 19.2,
+     "t": 18.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "2026,",
-     "t": 19.373,
+     "t": 18.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "gráfico",
-     "t": 20.399,
+     "t": 19.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "diario.",
-     "t": 20.918,
+     "t": 20.24,
      "clave": true,
      "g": 10
     }
@@ -364,72 +365,72 @@
   },
   {
    "texto": "El 10 de junio deja un rango: de 4.067 a 4.257.",
-   "inicio": 21.614,
-   "fin": 27.142,
+   "inicio": 20.76,
+   "fin": 25.85,
    "palabras": [
     {
      "w": "El",
-     "t": 21.614,
+     "t": 20.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "10",
-     "t": 21.788,
+     "t": 20.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "de",
-     "t": 21.961,
+     "t": 21.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "junio",
-     "t": 22.134,
+     "t": 21.28,
      "clave": false,
      "g": -1
     },
     {
      "w": "deja",
-     "t": 22.48,
+     "t": 21.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 22.827,
+     "t": 21.92,
      "clave": false,
      "g": -1
     },
     {
      "w": "rango:",
-     "t": 23.0,
+     "t": 22.08,
      "clave": true,
      "g": 11
     },
     {
      "w": "de",
-     "t": 23.506,
+     "t": 22.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "4.067",
-     "t": 23.679,
+     "t": 22.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "a",
-     "t": 25.065,
+     "t": 23.92,
      "clave": false,
      "g": -1
     },
     {
      "w": "4.257.",
-     "t": 25.238,
+     "t": 24.08,
      "clave": false,
      "g": -1
     }
@@ -437,66 +438,66 @@
   },
   {
    "texto": "Al día siguiente barre el mínimo… donde estaban los stops.",
-   "inicio": 27.492,
-   "fin": 30.609,
+   "inicio": 25.97,
+   "fin": 29.29,
    "palabras": [
     {
      "w": "Al",
-     "t": 27.492,
+     "t": 25.97,
      "clave": false,
      "g": -1
     },
     {
      "w": "día",
-     "t": 27.666,
+     "t": 26.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "siguiente",
-     "t": 27.839,
+     "t": 26.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "barre",
-     "t": 28.358,
+     "t": 26.8,
      "clave": true,
      "g": 12
     },
     {
      "w": "el",
-     "t": 28.705,
+     "t": 27.28,
      "clave": true,
      "g": 12
     },
     {
      "w": "mínimo…",
-     "t": 28.878,
+     "t": 27.44,
      "clave": true,
      "g": 12
     },
     {
      "w": "donde",
-     "t": 29.397,
+     "t": 27.92,
      "clave": false,
      "g": -1
     },
     {
      "w": "estaban",
-     "t": 29.744,
+     "t": 28.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "los",
-     "t": 30.263,
+     "t": 28.64,
      "clave": true,
      "g": 13
     },
     {
      "w": "stops.",
-     "t": 30.436,
+     "t": 28.88,
      "clave": true,
      "g": 13
     }
@@ -504,66 +505,66 @@
   },
   {
    "texto": "Y cierra dentro del rango. Eso es lo que importa.",
-   "inicio": 30.959,
-   "fin": 33.73,
+   "inicio": 29.41,
+   "fin": 32.28,
    "palabras": [
     {
      "w": "Y",
-     "t": 30.959,
+     "t": 29.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "cierra",
-     "t": 31.132,
+     "t": 29.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "dentro",
-     "t": 31.479,
+     "t": 30.16,
      "clave": true,
      "g": 14
     },
     {
      "w": "del",
-     "t": 31.825,
+     "t": 30.48,
      "clave": true,
      "g": 14
     },
     {
      "w": "rango.",
-     "t": 31.998,
+     "t": 30.64,
      "clave": true,
      "g": 14
     },
     {
      "w": "Eso",
-     "t": 32.345,
+     "t": 31.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "es",
-     "t": 32.691,
+     "t": 31.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "lo",
-     "t": 32.864,
+     "t": 31.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "que",
-     "t": 33.037,
+     "t": 31.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "importa.",
-     "t": 33.21,
+     "t": 31.84,
      "clave": true,
      "g": 15
     }
@@ -571,78 +572,78 @@
   },
   {
    "texto": "Después, indecisión… y dos días más tarde supera el máximo del rango.",
-   "inicio": 34.08,
-   "fin": 38.049,
+   "inicio": 32.4,
+   "fin": 36.66,
    "palabras": [
     {
      "w": "Después,",
-     "t": 34.08,
+     "t": 32.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "indecisión…",
-     "t": 34.586,
+     "t": 33.12,
      "clave": true,
      "g": 16
     },
     {
      "w": "y",
-     "t": 35.279,
+     "t": 34.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "dos",
-     "t": 35.452,
+     "t": 34.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "días",
-     "t": 35.625,
+     "t": 34.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "más",
-     "t": 35.798,
+     "t": 34.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "tarde",
-     "t": 35.971,
+     "t": 34.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "supera",
-     "t": 36.318,
+     "t": 35.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 36.837,
+     "t": 35.6,
      "clave": true,
      "g": 17
     },
     {
      "w": "máximo",
-     "t": 37.01,
+     "t": 35.68,
      "clave": true,
      "g": 17
     },
     {
      "w": "del",
-     "t": 37.53,
+     "t": 36.08,
      "clave": true,
      "g": 17
     },
     {
      "w": "rango.",
-     "t": 37.703,
+     "t": 36.24,
      "clave": true,
      "g": 17
     }
@@ -650,54 +651,54 @@
   },
   {
    "texto": "Ahora mayo. Un doji perfecto. El mismo patrón…",
-   "inicio": 38.399,
-   "fin": 41.17,
+   "inicio": 36.78,
+   "fin": 40.24,
    "palabras": [
     {
      "w": "Ahora",
-     "t": 38.399,
+     "t": 36.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "mayo.",
-     "t": 38.919,
+     "t": 37.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "Un",
-     "t": 39.265,
+     "t": 37.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "doji",
-     "t": 39.438,
+     "t": 37.92,
      "clave": true,
      "g": 18
     },
     {
      "w": "perfecto.",
-     "t": 39.785,
+     "t": 38.56,
      "clave": true,
      "g": 18
     },
     {
      "w": "El",
-     "t": 40.304,
+     "t": 39.28,
      "clave": false,
      "g": -1
     },
     {
      "w": "mismo",
-     "t": 40.477,
+     "t": 39.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "patrón…",
-     "t": 40.824,
+     "t": 39.76,
      "clave": false,
      "g": -1
     }
@@ -705,78 +706,78 @@
   },
   {
    "texto": "…y se rompe. El patrón solo no basta: necesita una zona clave.",
-   "inicio": 41.52,
-   "fin": 45.489,
+   "inicio": 40.36,
+   "fin": 44.36,
    "palabras": [
     {
      "w": "…y",
-     "t": 41.52,
+     "t": 40.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "se",
-     "t": 41.693,
+     "t": 40.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "rompe.",
-     "t": 41.866,
+     "t": 40.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "El",
-     "t": 42.213,
+     "t": 41.28,
      "clave": false,
      "g": -1
     },
     {
      "w": "patrón",
-     "t": 42.386,
+     "t": 41.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "solo",
-     "t": 42.732,
+     "t": 41.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "no",
-     "t": 43.078,
+     "t": 42.16,
      "clave": true,
      "g": 19
     },
     {
      "w": "basta:",
-     "t": 43.252,
+     "t": 42.32,
      "clave": true,
      "g": 19
     },
     {
      "w": "necesita",
-     "t": 43.758,
+     "t": 42.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "una",
-     "t": 44.451,
+     "t": 43.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "zona",
-     "t": 44.797,
+     "t": 43.6,
      "clave": true,
      "g": 20
     },
     {
      "w": "clave.",
-     "t": 45.143,
+     "t": 43.92,
      "clave": true,
      "g": 20
     }
@@ -784,96 +785,96 @@
   },
   {
    "texto": "Bulkowski probó más velas: martillo, 60 %. Envolvente, 63 %. Poco más que una moneda.",
-   "inicio": 45.839,
-   "fin": 52.726,
+   "inicio": 44.48,
+   "fin": 51.73,
    "palabras": [
     {
      "w": "Bulkowski",
-     "t": 45.839,
+     "t": 44.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "probó",
-     "t": 46.359,
+     "t": 45.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "más",
-     "t": 46.705,
+     "t": 45.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "velas:",
-     "t": 46.878,
+     "t": 45.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "martillo,",
-     "t": 47.385,
+     "t": 46.32,
      "clave": true,
      "g": 21
     },
     {
      "w": "60",
-     "t": 48.064,
+     "t": 46.61,
      "clave": true,
      "g": 21
     },
     {
      "w": "%.",
-     "t": 48.584,
+     "t": 47.04,
      "clave": true,
      "g": 21
     },
     {
      "w": "Envolvente,",
-     "t": 49.103,
+     "t": 48.08,
      "clave": true,
      "g": 21
     },
     {
      "w": "63",
-     "t": 49.956,
+     "t": 49.04,
      "clave": true,
      "g": 21
     },
     {
      "w": "%.",
-     "t": 50.648,
+     "t": 49.36,
      "clave": true,
      "g": 21
     },
     {
      "w": "Poco",
-     "t": 51.168,
+     "t": 50.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "más",
-     "t": 51.514,
+     "t": 50.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "que",
-     "t": 51.687,
+     "t": 50.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "una",
-     "t": 51.861,
+     "t": 51.12,
      "clave": true,
      "g": 22
     },
     {
      "w": "moneda.",
-     "t": 52.207,
+     "t": 51.28,
      "clave": true,
      "g": 22
     }
@@ -881,96 +882,96 @@
   },
   {
    "texto": "Esto tiene nombre: CRT. Rango, barrido y cierre dentro. Y encaja con AMD y SMC.",
-   "inicio": 53.076,
-   "fin": 57.725,
+   "inicio": 51.85,
+   "fin": 58.88,
    "palabras": [
     {
      "w": "Esto",
-     "t": 53.076,
+     "t": 51.85,
      "clave": false,
      "g": -1
     },
     {
      "w": "tiene",
-     "t": 53.423,
+     "t": 52.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "nombre:",
-     "t": 53.769,
+     "t": 52.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "CRT.",
-     "t": 54.275,
+     "t": 53.04,
      "clave": true,
      "g": 23
     },
     {
      "w": "Rango,",
-     "t": 54.449,
+     "t": 54.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "barrido",
-     "t": 54.955,
+     "t": 54.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 55.474,
+     "t": 55.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "cierre",
-     "t": 55.647,
+     "t": 55.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "dentro.",
-     "t": 55.994,
+     "t": 55.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "Y",
-     "t": 56.34,
+     "t": 56.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "encaja",
-     "t": 56.513,
+     "t": 56.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "con",
-     "t": 57.033,
+     "t": 56.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "AMD",
-     "t": 57.206,
+     "t": 57.12,
      "clave": true,
      "g": 24
     },
     {
      "w": "y",
-     "t": 57.379,
+     "t": 58.0,
      "clave": true,
      "g": 24
     },
     {
      "w": "SMC.",
-     "t": 57.552,
+     "t": 58.16,
      "clave": true,
      "g": 24
     }
@@ -978,102 +979,102 @@
   },
   {
    "texto": "La vela no es el análisis. Es la firma. En el próximo: CRT, paso a paso.",
-   "inicio": 58.075,
-   "fin": 62.724,
+   "inicio": 59.0,
+   "fin": 64.83,
    "palabras": [
     {
      "w": "La",
-     "t": 58.075,
+     "t": 59.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "vela",
-     "t": 58.249,
+     "t": 59.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "no",
-     "t": 58.595,
+     "t": 59.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "es",
-     "t": 58.768,
+     "t": 59.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 58.941,
+     "t": 59.92,
      "clave": false,
      "g": -1
     },
     {
      "w": "análisis.",
-     "t": 59.114,
+     "t": 60.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "Es",
-     "t": 59.807,
+     "t": 60.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 59.98,
+     "t": 61.12,
      "clave": true,
      "g": 25
     },
     {
      "w": "firma.",
-     "t": 60.153,
+     "t": 61.36,
      "clave": true,
      "g": 25
     },
     {
      "w": "En",
-     "t": 60.5,
+     "t": 62.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 60.673,
+     "t": 62.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "próximo:",
-     "t": 60.846,
+     "t": 62.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "CRT,",
-     "t": 61.525,
+     "t": 63.04,
      "clave": true,
      "g": 26
     },
     {
      "w": "paso",
-     "t": 61.859,
+     "t": 64.08,
      "clave": true,
      "g": 26
     },
     {
      "w": "a",
-     "t": 62.205,
+     "t": 64.4,
      "clave": true,
      "g": 26
     },
     {
      "w": "paso.",
-     "t": 62.378,
+     "t": 64.48,
      "clave": true,
      "g": 26
     }
