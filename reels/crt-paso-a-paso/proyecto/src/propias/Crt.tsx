@@ -3,7 +3,7 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { F, alfa } from "../motor/estilos";
-import { numeroES } from "../motor/anim";
+import { numeroES, rnd } from "../motor/anim";
 import type { DefEscena, PropsEscena } from "../tipos";
 import { Escritorio } from "./Escritorio";
 import { GraficoVelas, OSCURO, PAPEL, continua, geometria, type Marco } from "./Velas";
@@ -30,6 +30,97 @@ const Burbuja: React.FC<{ x: number; y: number; desde: number; texto: string; co
   );
 };
 
+/** Móvil en la mano con una app de trading genérica: el dedo pulsa COMPRAR en `toca`. */
+const Movil: React.FC<{ toca: number; sale: number }> = ({ toca, sale }) => {
+  const f = useCurrentFrame();
+  const entra = sp(f, 0, REBOTE);
+  const fuera = pr(f, sale, 10, Easing.in(Easing.cubic));
+  if (fuera >= 1) return null;
+  const dedo = pr(f, toca - 14, 12, Easing.inOut(Easing.cubic)); // el dedo se acerca al botón
+  const pulsa = f >= toca && f < toca + 5;
+  const hecho = f >= toca;
+  const velas = [0.7, 0.55, 0.62, 0.4, 0.48, 0.3, 0.38];
+  return (
+    <div style={{ position: "absolute", left: 300, top: 260 + (1 - entra) * 900 + fuera * 1200, width: 480, height: 900, transform: `rotate(${-4 + 2 * Math.sin(f / 18)}deg)` }}>
+      {/* mano */}
+      <div style={{ position: "absolute", left: -70, top: 520, width: 620, height: 560, borderRadius: "48% 48% 30% 30%", background: "#C68F67", boxShadow: "inset -30px -20px 0 #9E6C4C" }} />
+      {/* teléfono */}
+      <div style={{ position: "absolute", inset: 0, borderRadius: 60, background: "#0B0A09", border: "10px solid #2A2520", boxShadow: "0 40px 80px rgba(0,0,0,0.6)", overflow: "hidden" }}>
+        <div style={{ position: "absolute", left: 30, top: 50, fontFamily: PRO, fontSize: 30, color: CREMA }}>XAUUSD · 1H</div>
+        <div style={{ position: "absolute", right: 30, top: 50, fontFamily: PRO, fontSize: 30, color: ORO }}>4.046,5</div>
+        <svg width={460} height={360} style={{ position: "absolute", left: 0, top: 110 }}>
+          {velas.map((y, k) => (
+            <g key={k}>
+              <line x1={50 + k * 58} x2={50 + k * 58} y1={y * 300 - 40} y2={y * 300 + 40} stroke={CREMA} strokeWidth={3} />
+              <rect x={36 + k * 58} y={y * 300 - 20} width={28} height={40} fill={k % 2 ? CREMA : "#0B0A09"} stroke={CREMA} strokeWidth={3} />
+            </g>
+          ))}
+        </svg>
+        <div style={{ position: "absolute", left: 30, top: 500, fontFamily: PRO, fontSize: 24, color: alfa(CREMA, 0.6) }}>Lote 0,10</div>
+        {/* botones VENDER / COMPRAR */}
+        <div style={{ position: "absolute", left: 30, right: 30, top: 560, display: "flex", gap: 20 }}>
+          <div style={{ flex: 1, height: 120, borderRadius: 22, background: alfa(ROJO, 0.85), display: "flex", alignItems: "center", justifyContent: "center", fontFamily: PRO, fontSize: 36, color: CREMA }}>VENDER</div>
+          <div style={{ flex: 1, height: 120, borderRadius: 22, background: pulsa ? "#2F6FD6" : "#3B82F6", transform: `scale(${pulsa ? 0.92 : 1})`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: PRO, fontSize: 36, color: "#fff", boxShadow: hecho ? "0 0 40px rgba(59,130,246,0.7)" : "none" }}>COMPRAR</div>
+        </div>
+        {hecho && (
+          <div style={{ position: "absolute", left: 30, right: 30, top: 720, borderRadius: 20, background: "#1E2A1F", border: `2px solid ${VERDE}`, padding: "16px 20px", fontFamily: PRO, fontSize: 26, color: CREMA, transform: `translateY(${(1 - pr(f, toca, 8)) * 40}px)`, opacity: pr(f, toca, 6) }}>
+            ✓ Orden ejecutada · COMPRA 4.046,5
+          </div>
+        )}
+      </div>
+      {/* dedo */}
+      <div style={{ position: "absolute", left: 360 - 40 * dedo, top: 900 - 230 * dedo + (pulsa ? 12 : 0), width: 90, height: 300, borderRadius: 45, background: "#D9A77C", boxShadow: "inset -10px 0 0 #B88560" }} />
+      {pulsa && <div style={{ position: "absolute", left: 300, top: 640, width: 120, height: 120, borderRadius: "50%", border: `4px solid ${CREMA}`, opacity: 1 - (f - toca) / 5, transform: `scale(${1 + (f - toca) / 3})` }} />}
+    </div>
+  );
+};
+
+/** Cristal roto: grietas irregulares en zigzag con ramas, punto de impacto astillado y trozos sueltos. */
+const Cristal: React.FC<{ x: number; y: number; desde: number }> = ({ x, y, desde }) => {
+  const f = useCurrentFrame();
+  if (f < desde) return null;
+  const t = pr(f, desde, 5, Easing.out(Easing.cubic));
+  const grietas = Array.from({ length: 7 }).map((_, k) => {
+    let a = (k / 7) * Math.PI * 2 + rnd(k * 3.1) * 0.6;
+    let px = x,
+      py = y;
+    const largo = 380 + rnd(k * 7.7) * 520;
+    const pts: [number, number][] = [[px, py]];
+    for (let i = 0; i < 6; i++) {
+      a += (rnd(k * 13 + i) - 0.5) * 0.7;
+      const d = (largo / 6) * t;
+      px += Math.cos(a) * d;
+      py += Math.sin(a) * d;
+      pts.push([px, py]);
+    }
+    return pts;
+  });
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", pointerEvents: "none" }}>
+      {grietas.map((pts, k) => {
+        const d = pts.map(([px, py], i) => `${i ? "L" : "M"}${px} ${py}`).join(" ");
+        const [bx, by] = pts[3];
+        const ra = rnd(k * 5.5) * Math.PI * 2;
+        return (
+          <g key={k}>
+            <path d={d} stroke="rgba(0,0,0,0.5)" strokeWidth={6} fill="none" strokeLinejoin="miter" />
+            <path d={d} stroke="#FFFFFF" strokeWidth={k % 3 === 0 ? 3.5 : 2} fill="none" strokeLinejoin="miter" />
+            {/* rama */}
+            <path d={`M${bx} ${by} l${Math.cos(ra) * 120 * t} ${Math.sin(ra) * 120 * t} l${Math.cos(ra + 0.5) * 70 * t} ${Math.sin(ra + 0.5) * 70 * t}`} stroke="#FFFFFF" strokeWidth={1.5} fill="none" opacity={0.8} />
+          </g>
+        );
+      })}
+      {/* centro astillado y trozos */}
+      <circle cx={x} cy={y} r={34 * t} fill="rgba(255,255,255,0.18)" stroke="#FFFFFF" strokeWidth={2} />
+      {Array.from({ length: 6 }).map((_, k) => {
+        const a = rnd(k * 9.9) * Math.PI * 2,
+          d = 60 + 140 * pr(f, desde, 14, Easing.out(Easing.cubic));
+        return <path key={`s${k}`} d={`M${x + Math.cos(a) * d} ${y + Math.sin(a) * d} l14 -6 l-6 16 Z`} fill="rgba(255,255,255,0.7)" opacity={1 - pr(f, desde + 6, 10)} />;
+      })}
+    </svg>
+  );
+};
+
 const Pov: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0 = 10, b1 = 40, b2 = 70] = b;
@@ -41,7 +132,7 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
     ENTRADA = XAU_H1[iH("18:00")].c;
   const Y = (p: number) => 330 + ((4072 - p) / 52) * 900; // escala de la vela gigante (4.072 arriba → 4.020 abajo)
   const impacto = b1 - 2;
-  const baja = pr(f, b0, impacto - b0, Easing.in(Easing.cubic));
+  const baja = pr(f, b0 + 2, impacto - b0 - 2, Easing.in(Easing.cubic));
   const yMecha = Y(V.o) + (Y(V.l) - Y(V.o)) * baja;
   const yStop = Y(STOP);
   const t = temblor(f, impacto, 34, 16);
@@ -61,12 +152,12 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
     <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
       {f < b2 + 2 && (
         <>
-          {f < impacto && <Velocidad x={540} y={yMecha} op={0.6 * baja} />}
+          {f < impacto && f > b0 && <Velocidad x={540} y={yMecha} op={0.6 * baja} />}
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {/* la entrada y el stop del trader */}
-            <line x1={40} x2={1040} y1={Y(ENTRADA)} y2={Y(ENTRADA)} stroke={CREMA} strokeWidth={4} strokeDasharray="16 10" opacity={pr(f, b0 - 6, 8)} />
+            <line x1={40} x2={1040} y1={Y(ENTRADA)} y2={Y(ENTRADA)} stroke={CREMA} strokeWidth={4} strokeDasharray="16 10" opacity={pr(f, b0 + 4, 6)} />
             {f < impacto ? (
-              <line x1={40} x2={1040} y1={yStop} y2={yStop} stroke={ROJO} strokeWidth={8} opacity={pr(f, b0 - 2, 8)} />
+              <line x1={40} x2={1040} y1={yStop} y2={yStop} stroke={ROJO} strokeWidth={8} opacity={pr(f, b0 + 4, 6)} />
             ) : (
               <>
                 <line x1={40 - 300 * grieta} x2={520 - 300 * grieta} y1={yStop + 80 * grieta} y2={yStop + 200 * grieta} stroke={ROJO} strokeWidth={8} opacity={1 - pr(f, impacto + 8, 10)} />
@@ -74,21 +165,19 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
               </>
             )}
             {/* la vela gigante del barrido */}
+            <g opacity={pr(f, b0 + 2, 6)}>
             <line x1={540} x2={540} y1={Y(V.h)} y2={Math.max(Y(V.h), yMecha)} stroke={CREMA} strokeWidth={22} strokeLinecap="round" />
             <rect x={540 - 130} y={Math.min(Y(V.o), Y(V.c))} width={260} height={Math.max(14, Math.abs(Y(V.c) - Y(V.o)))} fill={CREMA} stroke={CREMA} strokeWidth={6} rx={6} />
-            {/* cristal agrietado desde el impacto */}
-            {f >= impacto &&
-              grietas.map(([dx, dy], k) => (
-                <path key={k} d={`M${cx} ${cy} l${dx * 160 * grieta} ${dy * 160 * grieta} l${(dx + 0.3 * (k % 2 ? 1 : -1)) * 260 * grieta} ${(dy + 0.2) * 260 * grieta}`} stroke="#FFFFFF" strokeWidth={4} fill="none" opacity={0.85} />
-              ))}
+            </g>
           </svg>
-          <div style={{ position: "absolute", left: 60, top: Y(ENTRADA) - 54, fontFamily: PRO, fontSize: 34, color: CREMA, opacity: pr(f, b0 - 6, 8) }}>ENTRADA LARGO</div>
-          <div style={{ position: "absolute", left: 60, top: yStop + 18, fontFamily: PRO, fontSize: 40, color: ROJO, opacity: f < impacto ? pr(f, b0 - 2, 8) : 0 }}>TU STOP</div>
+          <div style={{ position: "absolute", left: 60, top: Y(ENTRADA) - 54, fontFamily: PRO, fontSize: 34, color: CREMA, opacity: pr(f, b0 + 4, 6) }}>ENTRADA LARGO</div>
+          <div style={{ position: "absolute", left: 60, top: yStop + 18, fontFamily: PRO, fontSize: 40, color: ROJO, opacity: f < impacto ? pr(f, b0 + 4, 6) : 0 }}>TU STOP</div>
           {f >= impacto && (
             <div style={{ position: "absolute", left: 0, right: 0, top: yStop + 230, textAlign: "center", transform: `scale(${sp(f, impacto, REBOTE)}) rotate(-4deg)` }}>
               <span style={{ fontFamily: PRINCIPAL, fontSize: 70, color: CREMA, background: ROJO, borderRadius: 14, padding: "4px 22px" }}>STOP LOSS −10,5 $</span>
             </div>
           )}
+          <Cristal x={cx} y={cy} desde={impacto} />
           <Chispas desde={impacto} x={cx} y={cy} n={22} r={420} color={ROJO} />
         </>
       )}
@@ -108,7 +197,7 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
           <div style={{ position: "absolute", right: 40, top: 215, fontFamily: PRO, fontSize: 24, color: alfa(CREMA, 0.6) }}>ejemplo · XAUUSD 1H · 11 jun 2026</div>
         </AbsoluteFill>
       )}
-      <Burbuja x={60} y={170} desde={b0 - 6} texto="Voy largo ↗" />
+      <Movil toca={b0} sale={b0 + 6} />
       {f >= b2 + 22 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 + 22, REBOTE)}) rotate(-3deg)` }}>
           <span style={{ fontFamily: PRINCIPAL, fontSize: 120, color: ROJO, textShadow: "0 0 30px rgba(217,115,94,0.5)" }}>TE BARRIERON.</span>
@@ -350,7 +439,7 @@ const Rr: React.FC<PropsEscena> = ({ b }) => {
   );
 };
 
-export const pov: DefEscena = { C: Pov, momentos: 3, alInicio: () => true, sonidos: () => [[0, "tic", 0.3], [1, "golpe", 0.45], [2, "subida", 0.3]] };
+export const pov: DefEscena = { C: Pov, momentos: 3, alInicio: () => true, sonidos: () => [[0, "clic", 0.55], [1, "cristal", 0.5], [1, "golpe", 0.35], [2, "subida", 0.3]] };
 export const ciclo: DefEscena = { C: Ciclo, momentos: 3, alInicio: () => true, sonidos: () => [[1, "ding", 0.25], [2, "burbuja", 0.3]] };
 export const hora: DefEscena = { C: Hora, momentos: 3, alInicio: () => true, sonidos: () => [[0, "whoosh", 0.3], [1, "tic", 0.3], [2, "ding", 0.3]] };
 export const gestion: DefEscena = { C: Gestion, momentos: 4, alInicio: () => true, sonidos: () => [[0, "tic", 0.3], [1, "tic", 0.3], [2, "tic", 0.3], [3, "exito", 0.3]] };
