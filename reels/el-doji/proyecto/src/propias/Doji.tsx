@@ -211,14 +211,26 @@ const Dato: React.FC<PropsEscena> = ({ b }) => {
 
 const MARCO: Marco = { x0: 110, x1: 975, y0: 360, y1: 830 };
 
-/** Gráfico de papel del oro con una ventana de fechas; devuelve la geometría para marcar encima. */
-const usaVentana = (desde: string, hasta: string) => {
+/**
+ * Gráfico de papel del oro con una ventana de fechas. Con zoom > 1 la cámara se acerca a las velas `foco`:
+ * el marco crece alrededor de ellas (las velas se ensanchan y los textos siguen nítidos y del mismo tamaño).
+ */
+const usaVentana = (desde: string, hasta: string, zoom = 1, foco: string[] = []) => {
   const a = idx(desde),
     z = idx(hasta);
   const velas = continua(XAU).slice(a, z + 1) as VelaFecha[];
-  const g = geometria(velas, MARCO, 20);
   const k = (fecha: string) => idx(fecha) - a;
-  return { velas, g, k };
+  const g0 = geometria(velas, MARCO, 20);
+  const fs = foco.map(k);
+  const ox = fs.length ? fs.reduce((m, j) => m + g0.xVela(j), 0) / fs.length : 540;
+  const oy = fs.length ? (g0.yPrecio(Math.max(...fs.map((j) => velas[j].h))) + g0.yPrecio(Math.min(...fs.map((j) => velas[j].l)))) / 2 : 600;
+  // mientras se acerca, el foco viaja al centro del panel (si no, el setup se sale por el borde)
+  const t = Math.min(1, Math.max(0, (zoom - 1) / 0.7));
+  const cx = ox + ((MARCO.x0 + MARCO.x1 - g0.anchoEje) / 2 - ox) * t,
+    cy = oy + ((MARCO.y0 + MARCO.y1) / 2 - 10 - oy) * t;
+  const marco: Marco = { x0: cx + (MARCO.x0 - ox) * zoom, x1: cx + (MARCO.x1 - ox) * zoom, y0: cy + (MARCO.y0 - oy) * zoom, y1: cy + (MARCO.y1 - oy) * zoom };
+  const g = geometria(velas, marco, 20);
+  return { velas, g, k, marco };
 };
 
 const Cabecera: React.FC<{ v: VelaFecha }> = ({ v }) => (
@@ -258,7 +270,11 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const f = useCurrentFrame();
   const modo = txt(p, "modo", "entra");
   const [b0 = 0, b1 = 20, b2 = 40] = b;
-  const { velas, g, k } = usaVentana("26 may", "15 jun");
+  // cámara: primero el gráfico real completo; luego se acerca al setup frase a frase (sin saltos entre escenas)
+  const CAM: Record<string, [number, number]> = { entra: [1, 1], rango: [1, 1.8], barre: [1.8, 2.1], cierre: [2.1, 2.2], sube: [2.2, 2.2] };
+  const [z0, z1] = CAM[modo] ?? [1, 1];
+  const zoom = z0 + (z1 - z0) * pr(f, 0, Math.max(20, dur - 4), Easing.inOut(Easing.cubic));
+  const { velas, g, k, marco } = usaVentana("13 may", "15 jun", zoom, ["10 jun", "11 jun", "12 jun", "15 jun"]);
   const n = velas.length;
   const c1 = k("10 jun"),
     c2 = k("11 jun"),
@@ -278,7 +294,6 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
     if (modo === "sube" && j > c2) return (j === ind ? b0 - 6 : b1 - 4) + (j - ind) * 2;
     return -60;
   };
-  const zoom = modo === "entra" ? 1.25 - 0.25 * pr(f, 0, 30, Easing.inOut(Easing.cubic)) : 1;
   const foco = (j: number) => (orden === 0 ? 1 : j === c1 || j === c2 || (orden === 4 && j > c2) ? 1 : 0.45);
   const x1 = g.xVela(c1) - g.hueco * 0.45;
   const yH = g.yPrecio(V1.h),
@@ -293,17 +308,17 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
   return (
     <>
     <Escritorio dur={dur} cabecera="XAUUSD · ORO AL CONTADO · DIARIO" foco={[[0, 540], [b1, g.xVela(c1)], [b2, xC2]]} asiente={[b1, b2]}>
-      <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: `${g.xVela(c1)}px 600px` }}>
+      <AbsoluteFill style={{ clipPath: `inset(${MARCO.y0 - 70}px ${1080 - MARCO.x1 - 20}px ${1920 - MARCO.y1 - 50}px ${MARCO.x0 - 20}px)` }}>
         <Fondo />
         <Cabecera v={vh} />
-        <GraficoVelas velas={velas} marco={MARCO} entra={entra} forma={6} letra={20} tema={PAPEL} vivo={false} volumen={false} opacidad={foco} fechas={velas.map((v, j) => (j % 3 === 0 || j === c1 || j === c2 ? v.fecha : ""))} />
+        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={6} letra={20} tema={PAPEL} vivo={false} volumen={false} opacidad={foco} fechas={velas.map((v, j) => (zoom > 1.6 || j % 3 === 0 || j === c1 || j === c2 ? v.fecha : ""))} />
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
           {/* rango de C1 */}
           {rect > 0 && <rect x={x1} y={yH} width={(MARCO.x1 - 110 - x1) * rect} height={yL - yH} fill={alfa(ORO, 0.16)} stroke={ORO} strokeWidth={3} />}
           {(modo === "rango" || ya(1)) && (
             <>
-              <Nivel y={yH} x0={x1} p={modo === "rango" ? pr(f, b1 - 2, 10) : 1} color="#9C7A45" texto={numeroES(V1.h, 0)} guion={false} />
-              <Nivel y={yL} x0={x1} p={modo === "rango" ? pr(f, b2 - 2, 10) : 1} color="#9C7A45" texto={numeroES(V1.l, 0)} guion={false} />
+              <Nivel y={yH} x0={x1} p={modo === "rango" ? pr(f, b1 - 2, 10) : 1} color="#9C7A45" texto={numeroES(V1.h, 1)} guion={false} />
+              <Nivel y={yL} x0={x1} p={modo === "rango" ? pr(f, b2 - 2, 10) : 1} color="#9C7A45" texto={numeroES(V1.l, 1)} guion={false} />
             </>
           )}
           {/* barrido: los stops bajo el mínimo saltan */}
@@ -330,19 +345,26 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
           {orden >= 4 && (
             <>
               <circle cx={g.xVela(ind)} cy={g.yPrecio(velas[ind].c)} r={34} fill="none" stroke={TINTA} strokeWidth={3} strokeDasharray="6 5" opacity={pr(f, b0, 8)} />
-              <Trazo d={`M${g.xVela(ind)} ${g.yPrecio(velas[ind].c)} L${g.xVela(c3)} ${g.yPrecio(velas[c3].h)}`} p={pr(f, b1, 14)} color={ORO} grosor={6} />
+              <Trazo d={`M${g.xVela(ind)} ${g.yPrecio(velas[ind].c)} L${g.xVela(c3)} ${yH - 4}`} p={pr(f, b1, 14)} color={ORO} grosor={6} />
+              {f >= b2 - 2 && <circle cx={g.xVela(c3)} cy={yH} r={12 + 30 * pr(f, b2 - 2, 12)} fill="none" stroke={ORO} strokeWidth={4} opacity={1 - 0.6 * pr(f, b2 - 2, 12)} />}
             </>
           )}
         </svg>
         {modo === "entra" && <Rotulo x={560} y={420} desde={b2 - 2} tam={44}>1D · DIARIO</Rotulo>}
-        {modo === "rango" && <Rotulo x={(x1 + MARCO.x1 - 110) / 2} y={yH - 32} desde={b0 + 4} tam={34} color="#7A5C2E">RANGO · 10 JUN</Rotulo>}
-        {orden >= 2 && <Rotulo x={xC2 - 20} y={yMin2 + 52} desde={modo === "barre" ? b1 : -99} tam={30} color={ROJO}>BARRIDO {numeroES(V2.l, 1)}</Rotulo>}
-        {modo === "barre" && <Rotulo x={xC2 - 150} y={yL + 30} desde={b2} tam={32} color={ROJO}>STOPS</Rotulo>}
-        {orden >= 3 && <Rotulo x={xC2 - 190} y={yC2 - 40} desde={modo === "cierre" ? b1 : -99} tam={30} color="#7A5C2E">CIERRE DENTRO</Rotulo>}
-        {orden >= 4 && <Rotulo x={g.xVela(ind) - 10} y={g.yPrecio(velas[ind].c) + 62} desde={b0 + 2} tam={26}>indecisión</Rotulo>}
-        {orden >= 4 && <Rotulo x={g.xVela(c3) - 70} y={g.yPrecio(velas[c3].h) - 30} desde={b2 - 2} tam={36} color="#7A5C2E">{numeroES(XAU[idx("15 jun")].h, 1)}</Rotulo>}
+        {modo === "rango" && <Rotulo x={(x1 + MARCO.x1 - 110) / 2} y={yH - 34} desde={b0 + 4} tam={34} color="#7A5C2E">RANGO · 10 JUN</Rotulo>}
+        {orden >= 2 && <Rotulo x={xC2} y={yMin2 + 44} desde={modo === "barre" ? b1 : -99} tam={30} color={ROJO}>BARRIDO {numeroES(V2.l, 1)}</Rotulo>}
+        {modo === "barre" && <Rotulo x={xC2 - 130} y={yL + 24} desde={b2} tam={30} color={ROJO}>STOPS</Rotulo>}
+        {orden === 3 && <Rotulo x={xC2 + 10} y={yH + 34} desde={modo === "cierre" ? b1 : -99} tam={30} color="#7A5C2E">CIERRE DENTRO</Rotulo>}
+        {orden >= 4 && <Rotulo x={g.xVela(ind)} y={g.yPrecio(velas[ind].l) + 40} desde={b0 + 2} tam={26}>indecisión</Rotulo>}
+        
       </AbsoluteFill>
     </Escritorio>
+    {modo === "sube" && f >= b2 - 2 && (
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
+        <span style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>objetivo </span>
+        <span style={{ fontFamily: PRINCIPAL, fontSize: 78, color: ORO }}>{numeroES(V1.h, 1)} ✓</span>
+      </div>
+    )}
     {modo === "cierre" && f >= b2 - 2 && (
       <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
         <span style={{ fontFamily: PRINCIPAL, fontSize: 78, color: ORO }}>LO QUE IMPORTA</span>
@@ -358,7 +380,8 @@ const Mayo: React.FC<PropsEscena> = ({ p, b, dur }) => {
   const f = useCurrentFrame();
   const rompe = txt(p, "modo") === "rompe";
   const [b0 = 0, b1 = 20, b2 = 40] = b;
-  const { velas, g, k } = usaVentana("13 may", "28 may");
+  const zoom = rompe ? 1.7 : 1 + 0.7 * pr(f, 0, Math.max(20, dur - 4), Easing.inOut(Easing.cubic));
+  const { velas, g, k, marco } = usaVentana("13 may", "28 may", zoom, ["19 may", "20 may", "21 may", "22 may", "25 may", "26 may", "27 may"]);
   const c1 = k("19 may"),
     c2 = k("20 may"),
     dj = k("21 may"),
@@ -379,10 +402,10 @@ const Mayo: React.FC<PropsEscena> = ({ p, b, dur }) => {
   return (
     <>
     <Escritorio dur={dur} cabecera="XAUUSD · ORO AL CONTADO · DIARIO" foco={[[0, xD], [b1, xD]]} asiente={[b1]}>
-      <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
+      <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)`, clipPath: `inset(${MARCO.y0 - 70}px ${1080 - MARCO.x1 - 20}px ${1920 - MARCO.y1 - 50}px ${MARCO.x0 - 20}px)` }}>
         <Fondo />
         <Cabecera v={velas[ultima]} />
-        <GraficoVelas velas={velas} marco={MARCO} entra={entra} forma={5} letra={20} tema={PAPEL} vivo={false} volumen={false} opacidad={(j) => (j < c1 ? 0.45 : 1)} fechas={velas.map((v, j) => (j % 3 === 0 || j === dj ? v.fecha : ""))} />
+        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={20} tema={PAPEL} vivo={false} volumen={false} opacidad={(j) => (j < c1 ? 0.45 : 1)} fechas={velas.map((v) => v.fecha)} />
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
           <rect x={x1} y={yH} width={MARCO.x1 - 110 - x1} height={yL - yH} fill={alfa(ORO, 0.14)} stroke={ORO} strokeWidth={3} />
           <Nivel y={yInv} x0={x1} p={1} color={ROJO} texto={numeroES(V2.l, 0)} />
@@ -460,18 +483,24 @@ const Capas: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 15, b2 = 30, b3 = 45] = b;
   const capas = [
-    { t: "ZONA · LIQUIDEZ", desde: b1 },
-    { t: "CRT", desde: b2 },
-    { t: "AMD", desde: b2 + 8 },
+    { t: "ZONA · LIQUIDEZ", desde: b1 + 6 },
+    { t: "CRT", desde: b1 + 12 },
+    { t: "AMD", desde: b2 },
     { t: "SMC", desde: b3 },
   ];
   const BASE = 1260,
     H = 150;
   return (
     <AbsoluteFill>
-      {f >= b0 - 2 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 400, textAlign: "center", transform: `scale(${sp(f, b0 - 2, REBOTE)})` }}>
-          <span style={{ fontFamily: PRINCIPAL, fontSize: 104, color: ORO }}>EL ANÁLISIS</span>
+      {f >= b0 - 2 && f < b1 - 2 && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 420, textAlign: "center", transform: `scale(${sp(f, b0 - 2, REBOTE)})` }}>
+          <span style={{ fontFamily: SECUND, fontSize: 64, color: CREMA }}>esto tiene nombre…</span>
+        </div>
+      )}
+      {f >= b1 - 2 && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 360, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)})` }}>
+          <div style={{ fontFamily: PRINCIPAL, fontSize: 150, color: ORO, lineHeight: 1 }}>CRT</div>
+          <div style={{ fontFamily: PRO, fontSize: 34, color: CREMA, letterSpacing: 2, marginTop: 10, opacity: pr(f, b1 + 4, 10) }}>RANGO · BARRIDO · CIERRE DENTRO</div>
         </div>
       )}
       {capas.map((c, i) => {

@@ -96,14 +96,14 @@
       }
     },
     {
-      "texto": "Muchos lo ven como *señal de giro.* Pero Bulkowski lo probó: *siguió cayendo el 64 %.*",
-      "voz": "Muchos lo ven como señal de giro. Pero Bulkowski lo probó: siguió cayendo el sesenta y cuatro por ciento.",
+      "texto": "Muchos lo ven como *señal de giro.* Pero Bulkowski probó el *doji estrella:* siguió cayendo el *64 %.*",
+      "voz": "Muchos lo ven como señal de giro. Pero Bulkowski probó el doji estrella: siguió cayendo el sesenta y cuatro por ciento.",
       "escena": {
         "tipo": "propia",
         "nombre": "Dato",
         "en": [
           "señal",
-          "bulkowski",
+          "estrella",
           "cayendo"
         ]
       }
@@ -174,16 +174,15 @@
       }
     },
     {
-      "texto": "Después, una vela de *indecisión…* y el precio llega a *4.369.*",
-      "voz": "Después, una vela de indecisión… y el precio llega a cuatro mil trescientos sesenta y nueve.",
+      "texto": "Después, *indecisión…* y dos días más tarde supera *el máximo del rango.*",
       "entrada": "corte",
       "escena": {
         "tipo": "propia",
         "nombre": "Oro",
         "en": [
           "indecision",
-          "precio",
-          "4.369"
+          "tarde",
+          "maximo"
         ],
         "modo": "sube"
       }
@@ -237,15 +236,15 @@
       }
     },
     {
-      "texto": "Lo que manda es el *análisis:* la zona, *CRT, AMD y SMC.*",
-      "voz": "Lo que manda es el análisis: la zona, ce erre te, a eme de y ese eme ce.",
+      "texto": "Esto tiene nombre: *CRT.* Rango, barrido y cierre dentro. Y encaja con *AMD y SMC.*",
+      "voz": "Esto tiene nombre: ce erre te. Rango, barrido y cierre dentro. Y encaja con a eme de y ese eme ce.",
       "escena": {
         "tipo": "propia",
         "nombre": "Capas",
         "en": [
-          "analisis",
-          "zona",
+          "nombre",
           "crt",
+          "amd",
           "smc"
         ]
       }
