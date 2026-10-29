@@ -19,17 +19,14 @@ const MES = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct
 const fmtT = (t, tf) => { const d = new Date(t * 1000); return tf === "H4" ? (d.getUTCHours() === 0 ? String(d.getUTCDate()) : String(d.getUTCHours()).padStart(2, "0") + ":00") : tf === "D1" ? (d.getUTCDate() === 1 ? MES[d.getUTCMonth()] : String(d.getUTCDate())) : MES[d.getUTCMonth()]; };
 
 // ---------- Escena ----------
-el("rect", { width: W, height: H, fill: P2.bg }, svg);
-const bgG = el("g", { opacity: 0.32 }, svg);
+el("rect", { width: W, height: H, fill: "#05060A" }, svg);
+const bgG = el("g", {}, svg);
 const city = createCity(bgG);
 // versión clara de la avenida de velas
-city.g.querySelector("rect").setAttribute("fill", "none");
-city.g.querySelectorAll("line").forEach((l) => l.setAttribute("stroke", "#9AA0AA"));
-city.g.querySelectorAll("ellipse").forEach((e) => e.setAttribute("opacity", 0));
-const fogRect = [...city.g.querySelectorAll("rect")].pop(); fogRect.setAttribute("fill", P2.bg);
+// fondo oscuro del Reto 01 (avenida de velas 3D tal cual)
 const vign = el("defs", {}, svg);
 const rg = el("radialGradient", { id: "studioLight", cx: "50%", cy: "38%", r: "70%" }, vign);
-el("stop", { offset: "0%", "stop-color": "#FFFFFF", "stop-opacity": 0.85 }, rg); el("stop", { offset: "100%", "stop-color": "#FFFFFF", "stop-opacity": 0 }, rg);
+el("stop", { offset: "0%", "stop-color": "#2FD39A", "stop-opacity": 0.14 }, rg); el("stop", { offset: "100%", "stop-color": "#2FD39A", "stop-opacity": 0 }, rg);
 const glowG = el("radialGradient", { id: "screenGlow" }, vign);
 el("stop", { offset: "0%", "stop-color": P2.blue, "stop-opacity": 0.28 }, glowG); el("stop", { offset: "100%", "stop-color": P2.blue, "stop-opacity": 0 }, glowG);
 const glass = el("linearGradient", { id: "glass", x1: 0, y1: 0, x2: 1, y2: 1 }, vign);
@@ -107,7 +104,7 @@ function drawChart(v) {
     for (const [k, val] of [["O", lc.o], ["H", lc.h], ["L", lc.l], ["C", lc.c]]) { el("tspan", { fill: P2.ink2 }, t, k); el("tspan", { fill: col }, t, val.toFixed(3) + "  "); } }
   for (const k of ["A", "B", "C"]) {
     const z = v.zones?.[k]; if (!z || z.op <= 0) continue;
-    const Z = ZONES[k], x0 = Math.max(PLOT.x, toX(z.from)), x1 = z.to != null ? toX(z.to) : PLOT.x + PLOT.w * (z.draw ?? 1) + (1 - (z.draw ?? 1)) * 0;
+    const Z = ZONES[k], x0 = Math.max(PLOT.x, toX(z.from)), x1 = z.to != null ? toX(z.to) : PLOT.x + PLOT.w;
     const xe = x0 + (Math.min(x1, PLOT.x + PLOT.w) - x0) * (z.draw ?? 1);
     const y0 = toY(Z.hi), y1 = toY(Z.lo);
     const g = el("g", { opacity: z.op }, bandG);
@@ -145,9 +142,10 @@ const deskG = el("g", {}, camG);
 const leoG = el("g", {}, deskG);
 const leo = createLeo(leoG);
 const desk = el("g", { filter: "url(#soft)" }, deskG);
-el("rect", { x: -20, y: 1720, width: 1120, height: 40, rx: 10, fill: "#F7F7F5" }, desk);
-el("rect", { x: 0, y: 1760, width: 1080, height: 200, fill: "#D9DBE0" }, desk);
-el("rect", { x: 0, y: 1760, width: 1080, height: 16, fill: "#C9CCD3" }, desk);
+el("rect", { x: -20, y: 1720, width: 1120, height: 40, rx: 10, fill: "#2A2F38" }, desk);
+el("rect", { x: -20, y: 1720, width: 1120, height: 4, fill: "#2FD39A", opacity: 0.5 }, desk);
+el("rect", { x: 0, y: 1760, width: 1080, height: 200, fill: "#14171D" }, desk);
+el("rect", { x: 0, y: 1760, width: 1080, height: 16, fill: "#0E1015" }, desk);
 const lap = el("g", {}, deskG);
 el("path", { d: "M200 1720 L218 1600 L442 1600 L460 1720 Z", fill: "#2A2E36" }, lap);
 el("path", { d: "M208 1716 L224 1608 L436 1608 L452 1716 Z", fill: "#353A44" }, lap);
@@ -182,7 +180,7 @@ el("text", { x: 0, y: 40, "text-anchor": "middle", "font-family": FONTP, "font-w
 function drawUI(st) {
   titleG.textContent = ""; capG.textContent = "";
   const rich = (parent, parts, x, y, size, anchor = "middle") => { const t = el("text", { x, y, "text-anchor": anchor, "font-family": FONTP, "font-weight": 900, "font-size": size }, parent); for (const [s2, b] of parts) el("tspan", { fill: b ? P2.blue : P2.ink }, t, s2); return t; };
-  if (st.title) { st.title.forEach((ln, i) => rich(titleG, ln, 540, 150 + i * 78, i ? 60 : 64)); }
+  if (st.title) { st.title.forEach((ln, i) => { const t = rich(titleG, ln, 540, 150 + i * 78, i ? 60 : 64); t.querySelectorAll("tspan").forEach((sp) => { if (sp.getAttribute("fill") === P2.ink) sp.setAttribute("fill", "#F5F5F2"); }); }); }
   if (st.step) { el("rect", { x: 70, y: 110, width: 940, height: 100, rx: 50, fill: "#fff", filter: "url(#soft)" }, titleG); rich(titleG, st.step, 540, 177, 50); }
   if (st.cap) { const g = el("g", {}, capG); el("rect", { x: 580, y: 1300, width: 460, height: 150, rx: 30, fill: "#fff", filter: "url(#soft)" }, g); el("path", { d: "M600 1420 L556 1448 L630 1430 Z", fill: "#fff" }, g); st.cap.forEach((ln, i) => rich(g, ln, 810, 1363 + i * 54, 40)); }
   if (st.count != null) {
