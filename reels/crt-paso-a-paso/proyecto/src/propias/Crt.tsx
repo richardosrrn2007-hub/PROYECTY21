@@ -30,47 +30,91 @@ const Burbuja: React.FC<{ x: number; y: number; desde: number; texto: string; co
   );
 };
 
-const Pov: React.FC<PropsEscena> = ({ b, dur }) => {
+const Pov: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0 = 10, b1 = 40, b2 = 70] = b;
-  const marco: Marco = { x0: 90, x1: 1000, y0: 240, y1: 1000 };
-  const velas = H1.slice(0, iH("15:00", 5) + 1);
-  const kS = iH("19:00");
-  const g = geometria(velas, marco, 22);
-  const entrada = velas[iH("18:00")].c; // el trader del ejemplo entra al cierre de las 18:00
-  const stop = 4036; // y pone el stop justo bajo el mínimo anterior (4.036,1)
-  const entra = (k: number) => (k < kS ? -60 : k === kS ? b1 - 8 : b2 - 6 + (k - kS - 1) * 2);
+  // 1) la vela real del barrido (19:00), gigante, cae como un martillo hacia «TU STOP»
+  // 2) impacto: el cristal se agrieta, la línea del stop revienta, «STOP LOSS −10,5 $»
+  // 3) rebobinado VHS y las velas reales suben hasta 4.220: «TE BARRIERON.»
+  const V = XAU_H1[iH("19:00")];
+  const STOP = 4036,
+    ENTRADA = XAU_H1[iH("18:00")].c;
+  const Y = (p: number) => 330 + ((4072 - p) / 52) * 900; // escala de la vela gigante (4.072 arriba → 4.020 abajo)
   const impacto = b1 - 2;
-  const t = temblor(f, impacto, 24, 12);
-  const flash = interpolate(f, [impacto, impacto + 1, impacto + 6], [0, 0.45, 0], cl);
-  const zoom = 1.2 - 0.2 * pr(f, b2 - 6, 30, Easing.inOut(Easing.cubic));
-  const yE = g.yPrecio(entrada),
-    yS = g.yPrecio(stop);
-  const roto = f >= impacto;
+  const baja = pr(f, b0, impacto - b0, Easing.in(Easing.cubic));
+  const yMecha = Y(V.o) + (Y(V.l) - Y(V.o)) * baja;
+  const yStop = Y(STOP);
+  const t = temblor(f, impacto, 34, 16);
+  const flash = interpolate(f, [impacto, impacto + 1, impacto + 7], [0, 0.6, 0], cl);
+  const grieta = pr(f, impacto, 6);
+  const rebobina = f >= b2 - 8 && f < b2 + 4;
+  const sube = pr(f, b2 + 2, 26, Easing.out(Easing.cubic));
+  const marco: Marco = { x0: 90, x1: 1000, y0: 240, y1: 1000 };
+  const velas = H1.slice(iH("19:00"), iH("15:00", 5) + 1);
+  const entra = (k: number) => b2 + 2 + k * 1.5;
+  const cx = 540,
+    cy = yStop;
+  const grietas = [
+    [0, -1], [0.8, -0.6], [1, 0.2], [0.5, 0.9], [-0.4, 1], [-1, 0.3], [-0.9, -0.5], [-0.3, -1],
+  ];
   return (
     <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
-      <AbsoluteFill style={{ transform: `scale(${zoom})`, transformOrigin: `${g.xVela(kS)}px 620px` }}>
-        <GraficoVelas velas={velas} marco={marco} entra={entra} forma={5} letra={22} tema={OSCURO} vivo={false} volumen={false} ejes={0.6} />
-        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
-          {f >= b0 - 2 && <Trazo d={`M${marco.x0} ${yE} L${marco.x1 - 110} ${yE}`} p={pr(f, b0 - 2, 12)} color={CREMA} grosor={3} />}
-          {f >= b0 + 6 && <Trazo d={`M${marco.x0} ${yS} L${marco.x1 - 110} ${yS}`} p={pr(f, b0 + 6, 12)} color={roto ? ROJO : alfa(ROJO, 0.7)} grosor={roto ? 6 : 3} />}
-          {roto && <circle cx={g.xVela(kS)} cy={yS} r={20 + 120 * pr(f, impacto, 14)} fill="none" stroke={ROJO} strokeWidth={6} opacity={1 - pr(f, impacto, 14)} />}
-        </svg>
-        {f >= b0 + 8 && <Rotulo x={marco.x0 + 150} y={yS + 30} desde={b0 + 8} tam={30} color={ROJO}>mi stop · 4.036</Rotulo>}
-      </AbsoluteFill>
-      {roto && f < b2 + 20 && <Velocidad x={540} y={1100} op={0.5 * (1 - pr(f, impacto + 10, 12))} />}
-      <Burbuja x={60} y={170} desde={b0 - 4} texto="Voy largo ↗" />
-      <Burbuja x={1020} y={1060} desde={impacto + 2} texto="Stop Loss ✕" fondo={ROJO} color={CREMA} derecha />
-      <Burbuja x={60} y={1150} desde={b2 + 8} texto="…y subió sin mí" fondo="#2B2620" color={CREMA} />
-      <div style={{ position: "absolute", right: 40, top: 215, fontFamily: PRO, fontSize: 24, color: alfa(CREMA, 0.6) }}>ejemplo · XAUUSD 1H · 10–11 jun</div>
+      {f < b2 + 2 && (
+        <>
+          {f < impacto && <Velocidad x={540} y={yMecha} op={0.6 * baja} />}
+          <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+            {/* la entrada y el stop del trader */}
+            <line x1={40} x2={1040} y1={Y(ENTRADA)} y2={Y(ENTRADA)} stroke={CREMA} strokeWidth={4} strokeDasharray="16 10" opacity={pr(f, b0 - 6, 8)} />
+            {f < impacto ? (
+              <line x1={40} x2={1040} y1={yStop} y2={yStop} stroke={ROJO} strokeWidth={8} opacity={pr(f, b0 - 2, 8)} />
+            ) : (
+              <>
+                <line x1={40 - 300 * grieta} x2={520 - 300 * grieta} y1={yStop + 80 * grieta} y2={yStop + 200 * grieta} stroke={ROJO} strokeWidth={8} opacity={1 - pr(f, impacto + 8, 10)} />
+                <line x1={560 + 300 * grieta} x2={1040 + 300 * grieta} y1={yStop + 200 * grieta} y2={yStop + 60 * grieta} stroke={ROJO} strokeWidth={8} opacity={1 - pr(f, impacto + 8, 10)} />
+              </>
+            )}
+            {/* la vela gigante del barrido */}
+            <line x1={540} x2={540} y1={Y(V.h)} y2={Math.max(Y(V.h), yMecha)} stroke={CREMA} strokeWidth={22} strokeLinecap="round" />
+            <rect x={540 - 130} y={Math.min(Y(V.o), Y(V.c))} width={260} height={Math.max(14, Math.abs(Y(V.c) - Y(V.o)))} fill={CREMA} stroke={CREMA} strokeWidth={6} rx={6} />
+            {/* cristal agrietado desde el impacto */}
+            {f >= impacto &&
+              grietas.map(([dx, dy], k) => (
+                <path key={k} d={`M${cx} ${cy} l${dx * 160 * grieta} ${dy * 160 * grieta} l${(dx + 0.3 * (k % 2 ? 1 : -1)) * 260 * grieta} ${(dy + 0.2) * 260 * grieta}`} stroke="#FFFFFF" strokeWidth={4} fill="none" opacity={0.85} />
+              ))}
+          </svg>
+          <div style={{ position: "absolute", left: 60, top: Y(ENTRADA) - 54, fontFamily: PRO, fontSize: 34, color: CREMA, opacity: pr(f, b0 - 6, 8) }}>ENTRADA LARGO</div>
+          <div style={{ position: "absolute", left: 60, top: yStop + 18, fontFamily: PRO, fontSize: 40, color: ROJO, opacity: f < impacto ? pr(f, b0 - 2, 8) : 0 }}>TU STOP</div>
+          {f >= impacto && (
+            <div style={{ position: "absolute", left: 0, right: 0, top: yStop + 230, textAlign: "center", transform: `scale(${sp(f, impacto, REBOTE)}) rotate(-4deg)` }}>
+              <span style={{ fontFamily: PRINCIPAL, fontSize: 70, color: CREMA, background: ROJO, borderRadius: 14, padding: "4px 22px" }}>STOP LOSS −10,5 $</span>
+            </div>
+          )}
+          <Chispas desde={impacto} x={cx} y={cy} n={22} r={420} color={ROJO} />
+        </>
+      )}
+      {/* rebobinado VHS */}
+      {rebobina && (
+        <AbsoluteFill style={{ background: "repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 3px, transparent 3px 7px)", mixBlendMode: "screen" }}>
+          <div style={{ position: "absolute", left: 60, top: 260, fontFamily: PRO, fontSize: 64, color: CREMA }}>◀◀ REBOBINA</div>
+        </AbsoluteFill>
+      )}
+      {/* y el precio sube sin ti: velas reales 19:00 → 15:00 */}
+      {f >= b2 + 2 && (
+        <AbsoluteFill style={{ opacity: sube }}>
+          <GraficoVelas velas={velas} marco={marco} entra={entra} forma={3} letra={22} tema={OSCURO} vivo={false} volumen={false} ejes={0.6} />
+          <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
+            <line x1={marco.x0} x2={marco.x1 - 110} y1={geometria(velas, marco, 22).yPrecio(STOP)} y2={geometria(velas, marco, 22).yPrecio(STOP)} stroke={ROJO} strokeWidth={4} strokeDasharray="12 10" />
+          </svg>
+          <div style={{ position: "absolute", right: 40, top: 215, fontFamily: PRO, fontSize: 24, color: alfa(CREMA, 0.6) }}>ejemplo · XAUUSD 1H · 11 jun 2026</div>
+        </AbsoluteFill>
+      )}
+      <Burbuja x={60} y={170} desde={b0 - 6} texto="Voy largo ↗" />
       {f >= b2 + 22 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 + 22, REBOTE)}) rotate(-3deg)` }}>
-          <span style={{ fontFamily: PRINCIPAL, fontSize: 110, color: ROJO, textShadow: "0 0 30px rgba(217,115,94,0.5)" }}>TE BARRIERON.</span>
+          <span style={{ fontFamily: PRINCIPAL, fontSize: 120, color: ROJO, textShadow: "0 0 30px rgba(217,115,94,0.5)" }}>TE BARRIERON.</span>
         </div>
       )}
       <AbsoluteFill style={{ background: "#FF6A55", opacity: flash, pointerEvents: "none" }} />
-      <Chispas desde={impacto} x={g.xVela(kS)} y={yS} n={16} r={260} color={ROJO} />
-      {dur < 0 && <div />}
     </AbsoluteFill>
   );
 };
@@ -81,7 +125,7 @@ const Ciclo: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 20, b2 = 40] = b;
   const CX = 540,
-    CY = 1080,
+    CY = 980,
     R = 300;
   const nodos = [
     { a: -90, t: "C1", s: "rango", v: { o: 0.35, c: 0.65, h: 0.2, l: 0.8 } },
@@ -114,14 +158,16 @@ const Ciclo: React.FC<PropsEscena> = ({ b }) => {
             </g>
           );
         })}
-        {/* liquidez: gotas que caen hacia la mecha de C2 */}
-        {f >= b2 - 4 &&
-          Array.from({ length: 14 }).map((_, i) => {
-            const t = (liq * 1.6 + i / 14) % 1;
-            const x0 = CX + Math.cos((30 * Math.PI) / 180) * R;
-            const y0 = CY + Math.sin((30 * Math.PI) / 180) * R;
-            return <circle key={i} cx={x0 - 160 + (i % 7) * 50 + (1 - t) * 0} cy={y0 + 260 - t * 150} r={8 * (1 - t) + 3} fill={ORO} opacity={(1 - t) * 0.9} />;
-          })}
+        {/* Liquidity: los stops bajo el mínimo, justo donde va la mecha de C2 */}
+        {f >= b2 - 6 && (
+          <g opacity={pr(f, b2 - 6, 8)}>
+            <line x1={260} x2={980} y1={1300} y2={1300} stroke={ORO} strokeWidth={4} strokeDasharray="16 10" />
+            <text x={270} y={1285} fontFamily={PRO} fontSize={26} fill={ORO}>mínimo de C1</text>
+            {Array.from({ length: 9 }).map((_, i) => (
+              <path key={i} d={`M${300 + i * 75 - 12} ${1330 + (i % 2) * 18 - 12} l24 24 m0 -24 l-24 24`} stroke={ROJO} strokeWidth={5} transform={`scale(${latido(f, b2 + i * 2, 0.3, 8)})`} style={{ transformOrigin: `${300 + i * 75}px ${1330 + (i % 2) * 18}px` }} />
+            ))}
+          </g>
+        )}
       </svg>
       {f >= b1 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 200, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)})` }}>
@@ -130,8 +176,9 @@ const Ciclo: React.FC<PropsEscena> = ({ b }) => {
         </div>
       )}
       {f >= b2 - 2 && (
-        <div style={{ position: "absolute", left: 0, right: 0, top: 1400, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
+        <div style={{ position: "absolute", left: 0, right: 0, top: 1380, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
           <span style={{ fontFamily: PRO, fontSize: 56, color: TINTA, background: ORO, borderRadius: 40, padding: "8px 32px", letterSpacing: 4 }}>LIQUIDITY</span>
+          <div style={{ fontFamily: PRO, fontSize: 30, color: CREMA, marginTop: 14 }}>stops bajo el mínimo</div>
         </div>
       )}
     </AbsoluteFill>
@@ -143,13 +190,14 @@ const Ciclo: React.FC<PropsEscena> = ({ b }) => {
 const Hora: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 30, b2 = 60] = b;
-  const velas = H1.slice(0, iH("23:00") + 1);
+  const a = iH("18:00");
+  const velas = H1.slice(a, iH("22:00") + 1);
   const g = geometria(velas, MARCO, 20);
-  const kOB = iH("18:00"),
-    kS = iH("19:00"),
-    kC = iH("20:00"),
-    kR = iH("22:00");
-  const entra = (k: number) => (k <= kS ? -60 + 0 * k : k === kC ? b1 - 10 : k === iH("21:00") ? b2 - 22 : k === kR ? b2 - 14 : b2 + 4);
+  const kOB = 0,
+    kS = iH("19:00") - a,
+    kC = iH("20:00") - a,
+    kR = iH("22:00") - a;
+  const entra = (k: number) => (k <= kS ? -60 : k === kC ? b1 - 10 : k === kR - 1 ? b2 - 22 : b2 - 14);
   const entrada = 0.55 + 0.45 * pr(f, 0, 14, Easing.out(Easing.cubic)); // «bajamos»: la cámara entra en el gráfico de 1H
   const yCh = g.yPrecio(N5.chochNivel);
   const xOB = g.xVela(kOB) - g.hueco * 0.4;
@@ -161,7 +209,7 @@ const Hora: React.FC<PropsEscena> = ({ b, dur }) => {
       <Escritorio dur={dur} cabecera="XAUUSD · ORO AL CONTADO · 1 HORA" foco={[[0, 540], [b1, g.xVela(kC)], [b2, g.xVela(kR)]]} asiente={[b1, b2]}>
         <AbsoluteFill style={{ transform: `scale(${entrada})`, transformOrigin: "540px 600px", clipPath: `inset(${MARCO.y0 - 70}px ${1080 - MARCO.x1 - 20}px ${1920 - MARCO.y1 - 50}px ${MARCO.x0 - 20}px)` }}>
           <Fondo />
-          <GraficoVelas velas={velas} marco={MARCO} entra={entra} forma={6} letra={20} tema={PAPEL} vivo={false} volumen={false} fechas={velas.map((v, k) => (k % 2 === 0 ? v.fecha : ""))} />
+          <GraficoVelas velas={velas} marco={MARCO} entra={entra} forma={6} letra={20} tema={PAPEL} vivo={false} volumen={false} fechas={velas.map((v) => v.fecha)} />
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {/* barrido de las 19:00 */}
             <circle cx={g.xVela(kS)} cy={g.yPrecio(N5.barrido)} r={12} fill="none" stroke={ROJO} strokeWidth={4} />
@@ -174,7 +222,7 @@ const Hora: React.FC<PropsEscena> = ({ b, dur }) => {
           </svg>
           <Rotulo x={g.xVela(kS)} y={g.yPrecio(N5.barrido) + 34} desde={b0 + 4} tam={26} color={ROJO}>barrido 4.023,9</Rotulo>
           {f >= b1 && <Rotulo x={g.xVela(kC) + 110} y={yCh - 58} desde={b1} tam={34} color="#7A5C2E">CHoCH</Rotulo>}
-          {f >= b2 - 20 && <Rotulo x={xOB - 60} y={yOBb + 30} desde={b2 - 20} tam={30} color="#7A5C2E">ORDER BLOCK</Rotulo>}
+          {f >= b2 - 20 && <Rotulo x={xOB + 130} y={yOBb + 30} desde={b2 - 20} tam={30} color="#7A5C2E">ORDER BLOCK</Rotulo>}
         </AbsoluteFill>
       </Escritorio>
       {f < b1 && (
@@ -204,11 +252,12 @@ const Hora: React.FC<PropsEscena> = ({ b, dur }) => {
 const Gestion: React.FC<PropsEscena> = ({ b, dur }) => {
   const f = useCurrentFrame();
   const [b0 = 0, b1 = 25, b2 = 50, b3 = 75] = b;
-  const reales = H1.slice(0, H1.length);
-  const velas = [...reales, fantasma(4012, 4268)];
+  const a = iH("19:00");
+  const reales = H1.slice(a, iH("14:00") + 1);
+  const velas = [...reales, fantasma(4016, 4176)]; // solo amplía hasta SL y TP1: el TP2 va como flecha arriba
   const g = geometria(velas, MARCO, 20);
-  const kR = iH("22:00"),
-    kTP1 = iH("14:00");
+  const kR = iH("22:00") - a,
+    kTP1 = iH("14:00") - a;
   const n = reales.length;
   // las velas posteriores al retroceso avanzan durante la frase hasta tocar TP1 (14:00)
   const entra = (k: number) => (k >= n ? 1e9 : k <= kR ? -60 : b0 + 4 + ((k - kR - 1) * (b2 + 6 - b0 - 4)) / (kTP1 - kR - 1));
@@ -228,14 +277,20 @@ const Gestion: React.FC<PropsEscena> = ({ b, dur }) => {
           <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible" }}>
             {/* zona de riesgo y de beneficio */}
             {f >= b1 && <rect x={g.xVela(kR)} y={g.yPrecio(N5.entrada)} width={MARCO.x1 - 110 - g.xVela(kR)} height={g.yPrecio(N5.sl) - g.yPrecio(N5.entrada)} fill={alfa(ROJO, 0.18 * pr(f, b1, 8))} />}
-            {f >= b2 && <rect x={g.xVela(kR)} y={g.yPrecio(N5.tp2)} width={MARCO.x1 - 110 - g.xVela(kR)} height={g.yPrecio(N5.entrada) - g.yPrecio(N5.tp2)} fill={alfa(VERDE, 0.16 * pr(f, b2, 8))} />}
+            {f >= b2 && <rect x={g.xVela(kR)} y={g.yPrecio(N5.tp1)} width={MARCO.x1 - 110 - g.xVela(kR)} height={g.yPrecio(N5.entrada) - g.yPrecio(N5.tp1)} fill={alfa(VERDE, 0.16 * pr(f, b2, 8))} />}
+            {/* TP2 fuera del gráfico: flecha en el borde de arriba */}
+            {f >= b3 - 2 && (
+              <g opacity={pr(f, b3 - 2, 8)} transform={`translate(${MARCO.x1 - 170} ${MARCO.y0 + 6 - 10 * Math.sin(Math.max(0, f - b3) / 4)})`}>
+                <path d="M0 40 L0 0 M-18 18 L0 0 L18 18" stroke="#3F7A47" strokeWidth={6} fill="none" strokeLinecap="round" />
+              </g>
+            )}
             {lineas.map((l) =>
-              f >= l.d - 2 ? <Nivel key={l.t} y={g.yPrecio(l.p)} x0={g.xVela(kR)} p={pr(f, l.d - 2, 10)} color={l.c === "#E8DCC0" ? "#6B6458" : l.c} texto={numeroES(l.p, 0)} guion={l.c !== ROJO} /> : null,
+              f >= l.d - 2 && l.p !== N5.tp2 ? <Nivel key={l.t} y={g.yPrecio(l.p)} x0={g.xVela(kR)} p={pr(f, l.d - 2, 10)} color={l.c === "#E8DCC0" ? "#6B6458" : l.c} texto={numeroES(l.p, 0)} guion={l.c !== ROJO} /> : null,
             )}
             {f >= tocaTP1 && <circle cx={g.xVela(kTP1)} cy={g.yPrecio(N5.tp1)} r={12 + 40 * pr(f, tocaTP1, 14)} fill="none" stroke={VERDE} strokeWidth={5} opacity={1 - pr(f, tocaTP1, 14)} />}
           </svg>
-          {lineas.map((l) => (f >= l.d ? <Rotulo key={l.t} x={g.xVela(kR) + 150} y={g.yPrecio(l.p) - 22} desde={l.d} tam={24} color={l.c === "#E8DCC0" ? TINTA : l.c === ROJO ? ROJO : "#3F7A47"}>{l.t}</Rotulo> : null))}
-          {f >= b3 && <Rotulo x={g.xVela(kR) + 150} y={g.yPrecio(N5.tp2) + 26} desde={b3 + 6} tam={22} color="#3F7A47">✓ 15 jun</Rotulo>}
+          {lineas.map((l) => (f >= l.d && l.p !== N5.tp2 ? <Rotulo key={l.t} x={g.xVela(kR) + 150} y={g.yPrecio(l.p) - 22} desde={l.d} tam={24} color={l.c === "#E8DCC0" ? TINTA : l.c === ROJO ? ROJO : "#3F7A47"}>{l.t}</Rotulo> : null))}
+          {f >= b3 && <Rotulo x={MARCO.x0 + 230} y={MARCO.y0 + 24} desde={b3} tam={26} color="#3F7A47">TP2 ↑ 4.257,6 · ✓ 15 jun</Rotulo>}
         </AbsoluteFill>
       </Escritorio>
       <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center" }}>

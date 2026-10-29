@@ -520,6 +520,7 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
             })}
           {orden >= 2 && <circle cx={xC2} cy={yMin2} r={10 + 50 * flash} fill="none" stroke={ROJO} strokeWidth={4} opacity={modo === "barre" ? pr(f, b1 - 2, 4) * (1 - 0.5 * flash) : 0.8} />}
           {/* cierre dentro del rango */}
+          {modo === "cierre" && <line x1={xC2} x2={xC2} y1={yL} y2={yMin2} stroke={ORO} strokeWidth={8} strokeLinecap="round" opacity={0.5 + 0.5 * Math.abs(Math.sin(f / 5))} />}
           {orden >= 3 && (
             <>
               <circle cx={xC2} cy={yC2} r={modo === "cierre" ? 12 + 6 * Math.sin(Math.max(0, f - b2) / 3) * pr(f, b2, 4) : 12} fill={ORO} stroke={TINTA} strokeWidth={3} opacity={modo === "cierre" ? pr(f, b0, 6) : 1} />
@@ -540,7 +541,7 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
         {modo === "entra" && f >= b1 + 8 && f <= b1 + 30 && (
           <div style={{ position: "absolute", top: MARCO.y0 - 60, height: MARCO.y1 - MARCO.y0 + 100, left: MARCO.x0 - 160 + (MARCO.x1 - MARCO.x0 + 200) * pr(f, b1 + 8, 22, Easing.inOut(Easing.cubic)), width: 140, background: `linear-gradient(90deg, transparent, ${alfa(ORO, 0.55)}, transparent)` }} />
         )}
-        {modo === "rango" && <Rotulo x={(x1 + MARCO.x1 - 110) / 2} y={yH - 34} desde={b0 + 4} tam={34} color="#7A5C2E">RANGO · 10 JUN</Rotulo>}
+        {modo === "rango" && <Rotulo x={(x1 + MARCO.x1 - 110) / 2} y={yH - 34} desde={b0 + 4} tam={34} color="#7A5C2E">{txt(p, "rotuloRango", "RANGO · 10 JUN")}</Rotulo>}
         {orden >= 2 && <Rotulo x={xC2} y={yMin2 + 44} desde={modo === "barre" ? b1 : -99} tam={30} color={ROJO}>BARRIDO {numeroES(V2.l, 1)}</Rotulo>}
         {modo === "barre" && <Rotulo x={xC2 - 130} y={yL + 24} desde={b2} tam={30} color={ROJO}>STOPS</Rotulo>}
         {orden === 3 && <Rotulo x={xC2 + 10} y={yH + 34} desde={modo === "cierre" ? b1 : -99} tam={30} color="#7A5C2E">CIERRE DENTRO</Rotulo>}
@@ -606,7 +607,8 @@ export const BarridoGrande: React.FC<{ b0: number; b1: number; b2: number; dur: 
         <line x1={540} x2={540} y1={300} y2={yMecha} stroke={CREMA} strokeWidth={16} strokeLinecap="round" />
         {f >= impacto && <circle cx={540} cy={Y} r={30 + 220 * pr(f, impacto, 14)} fill="none" stroke={ROJO} strokeWidth={8} opacity={1 - pr(f, impacto, 14)} />}
       </svg>
-      <div style={{ position: "absolute", left: 0, right: 0, top: Y - 72, textAlign: "center", fontFamily: PRO, fontSize: 36, color: ORO }}>MÍNIMO DEL RANGO · 4.067,2</div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: Y - 72, textAlign: "center", fontFamily: PRO, fontSize: 36, color: ORO }}>MÍNIMO DE C1 · 4.067,2</div>
+      <div style={{ position: "absolute", left: 580, top: 330, fontFamily: PRINCIPAL, fontSize: 72, color: CREMA, opacity: pr(f, b0, 8) }}>C2</div>
       {f >= b2 - 4 && <div style={{ position: "absolute", left: 0, right: 0, top: Y + 170, textAlign: "center", transform: `scale(${sp(f, b2 - 4, REBOTE)}) rotate(-5deg)` }}><span style={{ fontFamily: PRINCIPAL, fontSize: 140, color: ROJO, textShadow: "0 0 40px rgba(217,115,94,0.6)" }}>STOPS</span></div>}
       <AbsoluteFill style={{ background: "#FFF3DC", opacity: flash }} />
     </AbsoluteFill>
