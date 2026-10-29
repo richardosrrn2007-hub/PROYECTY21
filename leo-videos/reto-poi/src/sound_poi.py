@@ -112,6 +112,23 @@ for w in WD:  # toque muy suave en palabras clave azules
     if norm(w[2]) in ("punto", "zona", "velas", "pasado", "observar", "comunidad"): put(pop(600, 1200, 0.07), w[0] - 0.03, 0.25)
 put(whoosh(0.7), OUT + 0.0, 0.8); put(slam(0.5), OUT + 0.15, 0.4); put(bell((784, 1175), 0.12, 1.8), OUT + 0.4, 0.45); put(sparkle(0.9), OUT + 1.0, 0.6)
 
+# ---- v3: sonido de cada animación ----
+for rx in ["^tiempo$", "^velas$", "^pasado$", "^disputas$", "^reacciones$", "^candidata$", "^observar$", "^automática$"]:
+    put(whoosh(0.35), wt(rx) - 0.2, 0.55); put(pop(300, 800, 0.12), wt(rx), 0.55)
+tt0 = wt("^tiempo$")
+for i in range(6): put(tick(3000 if i % 2 else 2200, 0.04, 0.6), tt0 + 0.1 + i * 0.16, 0.8)
+for i in range(7): put(pop(500 + i * 90, 900 + i * 90, 0.06), wt("^velas$") + i * 0.07, 0.35)
+put(slam(0.6), wt("^disputas$") + 0.22, 1.0); put(sparkle(0.6), wt("^disputas$") + 0.25, 0.7)
+put(whoosh(0.9, False), wt("^pasado$"), 0.6)
+for i in range(8): put(tick(4000, 0.03, 0.4), wt("^pasado$") + i * 0.09, 0.6)
+put(rise(0.5), wt("^reacciones$"), 0.7); put(thud(), wt("^reacciones$") + 0.28, 0.8)
+put(whoosh(0.3), wt("^candidata$") + 0.02, 0.6); put(thud(), wt("^candidata$") + 0.32, 1.0); put(coin(), wt("^candidata$") + 0.34, 0.6)
+put(click(), wt("^automática$") + 0.3, 1.0); put(slam(0.4), wt("^automática$") + 0.47, 0.7)
+for rx in ["^tiempo$", "^interacción$", "^reacciones$"]: put(bell((1568, 2093), 0.05, 0.5), wt(rx) + 0.05, 0.35)
+for rx in ["^marcamos$", "^eso$"]: put(whoosh(0.5), wt(rx) - 0.2, 0.5); put(pop(250, 600, 0.14), wt(rx) + 0.1, 0.5)
+for rx in ["^primero$", "^buscamos$", "^marcamos$", "^eso$"]: put(pop(400, 1000, 0.1), wt(rx) - 0.25, 0.45)
+put(sparkle(1.2), wt("^like$") + 0.05, 0.7)
+
 # ---------- Música (lo-fi suave, 100 bpm) ----------
 bpm = 100; beat = 60 / bpm
 mus = np.zeros(N)

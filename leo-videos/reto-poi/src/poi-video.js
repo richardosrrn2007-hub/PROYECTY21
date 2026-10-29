@@ -8,7 +8,7 @@ const T = {
   primero: wt("^primero$"), semanal: wt("^semanal$"), diario: wt("^diario$"), cuatro: wt("^cuatro$"),
   buscamos: wt("^buscamos$"), acumulando: wt("^acumulando$"), interaccion: wt("^interacción$"), compras: wt("^compras$"), ventas: wt("^ventas$"),
   marcamos: wt("^marcamos$"), revisamos2: wt("^revisamos$", 1), disputas: wt("^disputas$"), reacciones: wt("^reacciones$"), candidata: wt("^candidata$"),
-  eso: wt("^eso$"), observar: wt("^observar$"), entrada: wt("^entrada$"), acertaste: wt("^acertaste$"), like: wt("^like$"), comunidad: wt("^comunidad$"),
+  eso: wt("^eso$"), observar: wt("^observar$"), entrada: wt("^entrada$"), acertaste: wt("^acertaste$"), velas: wt("^velas$"), automatica: wt("^automática$"), like: wt("^like$"), comunidad: wt("^comunidad$"),
   outro: TL.outro, total: TL.total, tiempo: wt("^tiempo$"), pasado: wt("^pasado$", 1),
 };
 
@@ -155,12 +155,19 @@ window.renderAt = function (t) {
   // ---- v2: ritmo ----
   st.whip = [[T.semanal, 1], [T.diario, -1], [T.cuatro, 1]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
   st.kick = [T.buscamos, T.interaccion, T.marcamos, T.disputas, T.reacciones, T.candidata, T.eso].reduce((a, tk) => a + (t >= tk ? 0.045 * Math.exp(-(t - tk) / 0.22) : 0), 0);
-  for (const [w, tw0] of [["TIEMPO", T.tiempo], ["PASADO", T.pasado], ["DISPUTAS", T.disputas], ["REACCIONES", T.reacciones], ["CANDIDATA", T.candidata], ["OBSERVAR", T.observar]])
-    if (t >= tw0 - 0.05 && t < tw0 + 0.75) st.punch = { w, tt: t - tw0 + 0.05 };
-  if (t > T.compras - 0.25 && t < T.marcamos) { st.tug = Math.min(clamp((t - T.compras + 0.25) / 0.4), 1 - clamp((t - T.marcamos + 0.3) / 0.3)); st.tugI0 = I.acc0; st.tugI1 = I.acc1; }
+  const PL = [["TIEMPO", T.tiempo], ["VELAS", T.velas], ["PASADO", T.pasado], ["DISPUTAS", T.disputas], ["REACCIONES", T.reacciones], ["CANDIDATA", T.candidata], ["OBSERVAR", T.observar], ["AUTOMÁTICA", T.automatica]];
+  PL.forEach(([w, tw0], n) => { const dur = Math.min(1.15, (PL[n + 1]?.[1] ?? 1e9) - tw0 - 0.02); if (t >= tw0 - 0.05 && t < tw0 - 0.05 + dur) st.punch = { w, tt: t - tw0 + 0.05, dur }; });
+  if (t > T.compras - 0.2 && t < T.marcamos - 0.2) st.flank = Math.min(clamp((t - T.compras + 0.2) / 0.3), 1 - clamp((t - T.marcamos + 0.45) / 0.25));
+  // lista de criterios
+  if (t >= T.buscamos && t < T.acertaste - 0.3) st.check = { k: Math.min((t - T.buscamos) / 0.5, 1 - clamp((t - T.acertaste + 0.7) / 0.4)), items: [
+    { txt: "PASÓ TIEMPO", on: (t - T.tiempo) / 0.35 }, { txt: "INTERACCIÓN", on: (t - T.interaccion) / 0.35 }, { txt: "TIENE HISTORIA", on: (t - T.reacciones) / 0.35 }] };
+  // entrada de cada paso
+  for (const ts of [T.primero - 0.3, T.buscamos - 0.2, T.marcamos - 0.2, T.eso - 0.1]) if (t >= ts && t < ts + 0.45) st.stepK = (t - ts) / 0.45;
+  // Leo asoma de cuerpo entero para señalar la gráfica
+  for (const [a, b] of [[T.marcamos - 0.15, T.pasado - 0.15], [T.eso - 0.1, T.observar - 0.15]]) if (t >= a && t < b) st.leoOut = Math.min((t - a) / 0.35, 1 - clamp((t - b + 0.3) / 0.3));
+  if (t >= T.like - 0.1) st.hearts = t - T.like + 0.1;
   st.rewind = win(t, T.revisamos2, T.revisamos2 + 1.3, 0.15, 0.25);
   if (t > T.c1 + 0.3 && t < T.primero - 0.45) { st.tags = t - T.c1 - 0.3; st.tagFrom = { A: I.aCross, B: I.bStart, C: I.acc0 }; }
-  if (t >= T.entrada - 0.1) st.stamp = t - T.entrada + 0.1;
   if (t >= T.disputas && t < T.eso - 0.1) { const two = t >= T.reacciones; st.counter = { n: two ? 2 : 1, kn: (t - (two ? T.reacciones : T.disputas)) / 0.3, k: (t - T.disputas) / 0.3 }; }
   for (const [ch, te] of [["🤔", T.c0 + 0.6], ["🔥", T.candidata + 0.2], ["👀", T.observar]]) if (t >= te && t < te + 1.6) st.emoji = { ch, tt: t - te };
   window.renderState(st);
