@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#fff}</style></head><body>
+<svg id="stage" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="leo-flat.js"></script>
+<script>
+Promise.all([document.fonts.load('900 64px "Inter Display"'),document.fonts.load('800 64px "Inter"'),document.fonts.load('700 64px "Inter"')]).then(()=>{
+ const s=document.createElement('script'); s.src='poi.js'; s.onload=()=>{
+  const {N,IDX,ZONES,TF}=POIDATA, h4=TF.H4;
+  const lowIn=(a,b)=>{let m=1e9,k=a;for(let i=a;i<=b;i++) if(h4[i].l<m){m=h4[i].l;k=i;} return [k,m];};
+  const full={tf:'H4',i0:IDX.start,i1:N+10,pmin:205.2,pmax:211.0};
+  const Z=(o={})=>({A:{from:IDX.aCross,op:1,...o.A},B:{from:IDX.bStart,op:1,...o.B},C:{from:IDX.acc0,op:1,...o.C}});
+  const h1i=IDX.touch[0].i,h1p=IDX.touch[0].p,h2i=IDX.touch[1].i,h2p=IDX.touch[1].p;
+  const accLo=Math.min(...h4.slice(IDX.acc0,IDX.acc1+1).map(c=>c.l));
+  window.STATES={
+   intro:{view:{...full,zones:Z()},title:[[["¿CUÁL ES EL ",0],["PUNTO",1]],[["DE INTERÉS?",1],["  A · B · C",0]]],leo:'present',mouth:0.5,cap:[[["¿Ya sabes identificar",0]],[["un ",0],["punto de interés",1],["?",0]]]},
+   count:{view:{...full,zones:Z()},title:[[["¿CUÁL ES EL ",0],["PUNTO",1]],[["DE INTERÉS?",1],["  A · B · C",0]]],count:3,countP:0.42,leo:'think'},
+   reveal:{view:{tf:'H4',i0:IDX.start+10,i1:N+5,pmin:205.4,pmax:210.6,zones:Z({A:{op:0.5,labOp:0.35},B:{op:0.5,labOp:0.35},C:{strong:1}})},banner:'C · VAMOS A COMPROBARLA',title:[[["¿CUÁL ES EL ",0],["PUNTO",1]],[["DE INTERÉS?",1],["  A · B · C",0]]],leo:'pointUp',mouth:0.6,cap:[[["La ",0],["C",1],[". Vamos a",0]],[["comprobar por qué.",0]]]},
+   weekly:{view:{tf:'W1',i0:TF.W1.length-26,i1:TF.W1.length+1.5,pmin:202.5,pmax:211,zones:{C:{from:0,op:1,strong:0.6}}},step:[["1 · ",1],["CONTEXTO MAYOR",0]],tfChips:'SEMANAL',leo:'explainR',mouth:0.4,cap:[[["Revisamos ",0],["temporalidades",1]],[["mayores",1],[": semanal…",0]]]},
+   daily:{view:{tf:'D1',i0:TF.D1.length-45,i1:TF.D1.length+3,pmin:203.5,pmax:211,zones:{C:{from:0,op:1,strong:0.6}}},step:[["1 · ",1],["CONTEXTO MAYOR",0]],tfChips:'DIARIO',leo:'explainR',mouth:0.4,cap:[[["…diario y ",0],["cuatro horas",1],[".",0]]]},
+   locate:{view:{tf:'H4',i0:IDX.acc0-10,i1:IDX.imp+6,pmin:205.6,pmax:207.6,zones:{C:{from:IDX.acc0,op:1,strong:0.8}},marks:[{kind:'bracket',i:IDX.acc0,i2:IDX.acc1,p:accLo},{kind:'circle',i:IDX.acc0+3,p:h4[IDX.acc0+3].l,r:28},{kind:'circle',i:IDX.acc0+7,p:h4[IDX.acc0+7].h,r:28},{kind:'circle',i:IDX.acc0+11,p:h4[IDX.acc0+11].l,r:28}]},step:[["2 · ",1],["LOCALIZA LA ZONA",0]],leo:'point',mouth:0.5,cap:[[["Precio que pasó ",0],["tiempo",1]],[["acumulando ",0],["velas",1]]]},
+   history:{view:{tf:'H4',i0:IDX.start-2,i1:IDX.acc0+2,pmin:205.4,pmax:209.6,zones:{C:{from:IDX.start-10,op:1,strong:0.8}},marks:[{kind:'circle',i:h1i,p:h1p,r:34},{kind:'arrow',i:h1i+3,p:h1p-0.05},{kind:'circle',i:h2i,p:h2p,r:34},{kind:'arrow',i:h2i+3,p:h2p-0.05}]},step:[["3 · ",1],["REVISA SU HISTORIA",0]],leo:'explainR',mouth:0.5,cap:[[["Ya generó ",0],["disputas",1]],[["y ",0],["reacciones",1]]]},
+   present:{view:{...full,zones:{C:{from:IDX.start-10,op:1,strong:1}},marks:[{kind:'circle',i:h1i,p:h1p,r:22},{kind:'circle',i:h2i,p:h2p,r:22},{kind:'bracket',i:IDX.acc0,i2:IDX.acc1,p:accLo}]},title:[[["PUNTO DE INTERÉS",1]],[["Zona con historia",0]]],titleSub:50,leo:'present',mouth:0.4,cap:[[["Una zona para ",0],["observar",1],[",",0]],[["no una entrada automática",0]]]},
+   outro:{outro:1.2},
+  };
+  window.READY=true;}; document.body.appendChild(s);});
+</script></body></html>
