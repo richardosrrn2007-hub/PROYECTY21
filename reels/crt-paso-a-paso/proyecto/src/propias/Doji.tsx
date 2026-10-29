@@ -12,6 +12,7 @@ import { GraficoVelas, PAPEL, continua, geometria, type Marco } from "./Velas";
 import { TRANSICION } from "./Cierre";
 import { XAU, idx, type VelaFecha } from "./xau";
 import { Oso, Toro } from "./Batalla";
+import { BancoCapa } from "./Banco";
 import { Chispas, Cuenta, Halo, ORO, PRINCIPAL, PRO, REBOTE, ROJO, SECUND, VERDE, Trazo, pr, principalPara, sp, temblor } from "./mg";
 
 export const CREMA = "#F2E8D5";
@@ -563,6 +564,24 @@ const Oro: React.FC<PropsEscena> = ({ p, b, dur }) => {
         <span style={{ fontFamily: PRINCIPAL, fontSize: 78, color: ORO }}>{numeroES(V1.h, 1)} ✓</span>
       </div>
     )}
+    {modo === "cierre" && txt(p, "rotulo") === "TURTLE SOUP" && (
+      <>
+        <BancoCapa x={870} y={960} esc={0.55} gesto="olla" desde={b1 - 6} />
+        {f >= b1 - 6 && (
+          <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, overflow: "visible", opacity: pr(f, b1 - 6, 8), transform: "translateY(-140px)" }}>
+            <path d="M780 1280 L940 1280 L925 1360 Q860 1385 795 1360 Z" fill="#2B2620" stroke={CREMA} strokeWidth={4} />
+            <ellipse cx={860} cy={1280} rx={80} ry={14} fill="#7A5C2E" />
+            <g transform={`translate(${845 + Math.sin(f / 6) * 14} ${1272})`}>
+              <ellipse cx={0} cy={0} rx={20} ry={12} fill="#5E8C55" stroke="#2A3A26" strokeWidth={3} />
+              <circle cx={22} cy={-3} r={6} fill="#7FA872" stroke="#2A3A26" strokeWidth={2} />
+            </g>
+            {[0, 1, 2].map((k) => (
+              <path key={k} d={`M${830 + k * 30} ${1250 - ((f + k * 10) % 30)} q6 -10 0 -20`} stroke={alfa(CREMA, 0.5)} strokeWidth={3} fill="none" />
+            ))}
+          </svg>
+        )}
+      </>
+    )}
     {modo === "cierre" && f >= b2 - 2 && (
       <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 - 2, REBOTE)})` }}>
         <span style={{ fontFamily: PRINCIPAL, fontSize: 78, color: ORO }}>{txt(p, "rotulo", "LO QUE IMPORTA")}</span>
@@ -610,6 +629,7 @@ export const BarridoGrande: React.FC<{ b0: number; b1: number; b2: number; dur: 
       <div style={{ position: "absolute", left: 0, right: 0, top: Y - 72, textAlign: "center", fontFamily: PRO, fontSize: 36, color: ORO }}>MÍNIMO DE C1 · 4.067,2</div>
       <div style={{ position: "absolute", left: 580, top: 330, fontFamily: PRINCIPAL, fontSize: 72, color: CREMA, opacity: pr(f, b0, 8) }}>C2</div>
       {f >= b2 - 4 && <div style={{ position: "absolute", left: 0, right: 0, top: Y + 170, textAlign: "center", transform: `scale(${sp(f, b2 - 4, REBOTE)}) rotate(-5deg)` }}><span style={{ fontFamily: PRINCIPAL, fontSize: 140, color: ROJO, textShadow: "0 0 40px rgba(217,115,94,0.6)" }}>STOPS</span></div>}
+      <BancoCapa x={820} y={Y + 150} esc={0.72} gesto="bolsa" desde={b2 - 6} />
       <AbsoluteFill style={{ background: "#FFF3DC", opacity: flash }} />
     </AbsoluteFill>
   );

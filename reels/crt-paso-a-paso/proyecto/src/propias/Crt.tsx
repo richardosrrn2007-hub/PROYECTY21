@@ -8,6 +8,7 @@ import type { DefEscena, PropsEscena } from "../tipos";
 import { Escritorio } from "./Escritorio";
 import { GraficoVelas, OSCURO, PAPEL, continua, geometria, type Marco } from "./Velas";
 import { XAU_H1, iH, N5 } from "./xau_h1";
+import { BancoCapa } from "./Banco";
 import type { VelaFecha } from "./xau";
 import { CREMA, DOJI, Fondo, MARCO, Nivel, Rotulo, TINTA, VelaG, Velocidad, cl, latido } from "./Doji";
 import { Chispas, Halo, ORO, PRINCIPAL, PRO, REBOTE, ROJO, SECUND, VERDE, Trazo, pr, sp, temblor } from "./mg";
@@ -147,7 +148,7 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
     [0, -1], [0.8, -0.6], [1, 0.2], [0.5, 0.9], [-0.4, 1], [-1, 0.3], [-0.9, -0.5], [-0.3, -1],
   ];
   return (
-    <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
+    <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)`, filter: f >= impacto && f < impacto + 2 ? "invert(1) contrast(1.4)" : undefined }}>
       {f < b2 + 2 && (
         <>
           {f < impacto && <Halo x={540} y={Y(V.o)} r={420} op={0.25 * (1 - baja)} />}
@@ -172,11 +173,12 @@ const Pov: React.FC<PropsEscena> = ({ b }) => {
           <div style={{ position: "absolute", left: 60, top: Y(ENTRADA) - 54, fontFamily: PRO, fontSize: 34, color: CREMA, opacity: pr(f, b0 + 4, 6) }}>ENTRADA LARGO</div>
           <div style={{ position: "absolute", left: 60, top: yStop + 18, fontFamily: PRO, fontSize: 40, color: ROJO, opacity: f < impacto ? pr(f, b0 + 4, 6) : 0 }}>TU STOP</div>
           {f >= impacto && (
-            <div style={{ position: "absolute", left: 0, right: 0, top: yStop + 230, textAlign: "center", transform: `scale(${sp(f, impacto, REBOTE)}) rotate(-4deg)` }}>
+            <div style={{ position: "absolute", left: 0, right: 0, top: yStop + 130, textAlign: "center", transform: `scale(${sp(f, impacto, REBOTE)}) rotate(-4deg)` }}>
               <span style={{ fontFamily: PRINCIPAL, fontSize: 70, color: CREMA, background: ROJO, borderRadius: 14, padding: "4px 22px" }}>STOP LOSS −10,5 $</span>
             </div>
           )}
           <Cristal x={cx} y={cy} desde={impacto} />
+          <BancoCapa x={880} y={1290} esc={0.8} gesto="no" desde={impacto + 2} />
           <Chispas desde={impacto} x={cx} y={cy} n={22} r={420} color={ROJO} />
         </>
       )}
@@ -257,6 +259,7 @@ const Ciclo: React.FC<PropsEscena> = ({ b }) => {
           </g>
         )}
       </svg>
+      <BancoCapa x={540} y={900} esc={0.62} gesto="frota" desde={b2 - 8} />
       {f >= b1 - 2 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 200, textAlign: "center", transform: `scale(${sp(f, b1 - 2, REBOTE)})` }}>
           <div style={{ fontFamily: SECUND, fontSize: 52, color: CREMA }}>el ciclo</div>
@@ -325,6 +328,8 @@ const Hora: React.FC<PropsEscena> = ({ b, dur }) => {
           <div style={{ fontFamily: PRO, fontSize: 32, color: CREMA }}>cierra sobre 4.069,4</div>
         </div>
       )}
+      <BancoCapa x={150} y={1170} esc={0.55} gesto="espera" desde={b2 - 8} />
+      <Burbuja x={230} y={1060} desde={b2} texto="aquí compré yo" fondo="#2B2620" color={CREMA} />
       {f >= b2 - 4 && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 1290, textAlign: "center", transform: `scale(${sp(f, b2 - 4, REBOTE)})` }}>
           <span style={{ fontFamily: PRINCIPAL, fontSize: 84, color: ORO }}>ORDER BLOCK</span>
@@ -434,6 +439,8 @@ const Rr: React.FC<PropsEscena> = ({ b }) => {
         </div>
       )}
       <Chispas desde={b2 - 2} x={540} y={260} n={18} r={360} color={ORO} />
+      <BancoCapa x={920} y={760} esc={0.6} gesto="sorpresa" desde={b2 - 2} />
+      {f >= b2 + 4 && <div style={{ position: "absolute", left: 60, top: 640, transform: `scale(${sp(f, b2 + 4, REBOTE)}) rotate(-10deg)`, fontFamily: PRINCIPAL, fontSize: 120, color: ROJO, textShadow: "4px 4px 0 #000" }}>K.O.</div>}
     </AbsoluteFill>
   );
 };
