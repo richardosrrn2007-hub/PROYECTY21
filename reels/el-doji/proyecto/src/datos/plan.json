@@ -1,0 +1,274 @@
+{
+  "titulo": "El doji: la vela que todos miran",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#000000",
+      "fondo2": "#050403",
+      "manchas": [
+        "#120C05",
+        "#000000",
+        "#0A0703"
+      ],
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "Estas tres velas salen en *todos los gráficos.* Hoy, *la primera.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Tres",
+        "en": [
+          "tres",
+          "graficos",
+          "primera"
+        ]
+      },
+      "sonidos": [
+        [
+          0,
+          "whoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "El *doji:* abre y cierra *casi al mismo precio.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "DojiZoom",
+        "en": [
+          "doji",
+          "abre",
+          "cierra",
+          "precio"
+        ]
+      }
+    },
+    {
+      "texto": "Compradores y vendedores *empatan.* El mercado *duda.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "DojiZoom",
+        "en": [
+          "compradores",
+          "vendedores",
+          "empatan",
+          "duda"
+        ],
+        "modo": "duda"
+      }
+    },
+    {
+      "texto": "Muchos lo ven como *señal de giro.* Pero Bulkowski lo probó: *siguió cayendo el 64 %.*",
+      "voz": "Muchos lo ven como señal de giro. Pero Bulkowski lo probó: siguió cayendo el sesenta y cuatro por ciento.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Dato",
+        "en": [
+          "señal",
+          "bulkowski",
+          "cayendo"
+        ]
+      }
+    },
+    {
+      "texto": "Vamos al *oro real.* Junio de 2026, gráfico *diario.*",
+      "voz": "Vamos al oro real. Junio de dos mil veintiséis, gráfico diario.",
+      "entrada": "barrido",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "oro",
+          "junio",
+          "diario"
+        ],
+        "modo": "entra"
+      },
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "El 10 de junio deja un *rango:* de 4.067 a 4.257.",
+      "voz": "El diez de junio deja un rango: de cuatro mil sesenta y siete a cuatro mil doscientos cincuenta y siete.",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "rango",
+          "4.067",
+          "4.257"
+        ],
+        "modo": "rango"
+      }
+    },
+    {
+      "texto": "Al día siguiente *barre el mínimo…* donde estaban *los stops.*",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "barre",
+          "minimo",
+          "stops"
+        ],
+        "modo": "barre"
+      }
+    },
+    {
+      "texto": "Y cierra *dentro del rango.* Eso es lo que *importa.*",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "cierra",
+          "dentro",
+          "importa"
+        ],
+        "modo": "cierre"
+      }
+    },
+    {
+      "texto": "Después, una vela de *indecisión…* y el precio llega a *4.369.*",
+      "voz": "Después, una vela de indecisión… y el precio llega a cuatro mil trescientos sesenta y nueve.",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Oro",
+        "en": [
+          "indecision",
+          "precio",
+          "4.369"
+        ],
+        "modo": "sube"
+      }
+    },
+    {
+      "texto": "Ahora mayo. Un *doji perfecto.* El mismo patrón…",
+      "entrada": "barrido",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Mayo",
+        "en": [
+          "mayo",
+          "perfecto",
+          "patron"
+        ],
+        "modo": "doji"
+      },
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "…y se rompe. *Sin contexto,* la vela *no basta.*",
+      "entrada": "corte",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Mayo",
+        "en": [
+          "rompe",
+          "contexto",
+          "basta"
+        ],
+        "modo": "rompe"
+      }
+    },
+    {
+      "texto": "Bulkowski probó más velas: *martillo, 60 %. Envolvente, 63 %.* Poco más que *una moneda.*",
+      "voz": "Bulkowski probó más velas: martillo, sesenta por ciento. Envolvente, sesenta y tres por ciento. Poco más que una moneda.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Porcentajes",
+        "en": [
+          "martillo",
+          "envolvente",
+          "moneda"
+        ]
+      }
+    },
+    {
+      "texto": "Lo que manda es el *análisis:* la zona, *CRT, AMD y SMC.*",
+      "voz": "Lo que manda es el análisis: la zona, ce erre te, a eme de y ese eme ce.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Capas",
+        "en": [
+          "analisis",
+          "zona",
+          "crt",
+          "smc"
+        ]
+      }
+    },
+    {
+      "texto": "La vela no es el análisis. Es *la firma.* En el próximo: *CRT, paso a paso.*",
+      "voz": "La vela no es el análisis. Es la firma. En el próximo: ce erre te, paso a paso.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Firma",
+        "en": [
+          "firma",
+          "proximo",
+          "paso"
+        ]
+      }
+    }
+  ],
+  "portada": {
+    "lineas": [
+      "EL *DOJI*",
+      "no es una señal"
+    ],
+    "oscura": true
+  }
+}

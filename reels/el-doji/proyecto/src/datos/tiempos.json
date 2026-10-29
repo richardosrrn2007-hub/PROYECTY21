@@ -1,0 +1,1029 @@
+{
+ "voz": null,
+ "motor": "sin-voz",
+ "duracion": 62.31,
+ "frases": [
+  {
+   "texto": "Estas tres velas salen en todos los gráficos. Hoy, la primera.",
+   "inicio": 0.35,
+   "fin": 3.8,
+   "palabras": [
+    {
+     "w": "Estas",
+     "t": 0.35,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tres",
+     "t": 0.696,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "velas",
+     "t": 0.869,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "salen",
+     "t": 1.216,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 1.562,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "todos",
+     "t": 1.735,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "los",
+     "t": 2.082,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "gráficos.",
+     "t": 2.255,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "Hoy,",
+     "t": 2.774,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 3.107,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "primera.",
+     "t": 3.281,
+     "clave": true,
+     "g": 1
+    }
+   ]
+  },
+  {
+   "texto": "El doji: abre y cierra casi al mismo precio.",
+   "inicio": 4.15,
+   "fin": 6.907,
+   "palabras": [
+    {
+     "w": "El",
+     "t": 4.15,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "doji:",
+     "t": 4.323,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "abre",
+     "t": 4.83,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 5.176,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cierra",
+     "t": 5.349,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "casi",
+     "t": 5.695,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "al",
+     "t": 6.042,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "mismo",
+     "t": 6.215,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "precio.",
+     "t": 6.561,
+     "clave": true,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "texto": "Compradores y vendedores empatan. El mercado duda.",
+   "inicio": 7.257,
+   "fin": 10.374,
+   "palabras": [
+    {
+     "w": "Compradores",
+     "t": 7.257,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 7.95,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendedores",
+     "t": 8.123,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "empatan.",
+     "t": 8.816,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "El",
+     "t": 9.335,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mercado",
+     "t": 9.509,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "duda.",
+     "t": 10.028,
+     "clave": true,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "texto": "Muchos lo ven como señal de giro. Pero Bulkowski lo probó: siguió cayendo el 64 %.",
+   "inicio": 10.724,
+   "fin": 16.599,
+   "palabras": [
+    {
+     "w": "Muchos",
+     "t": 10.724,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 11.071,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "ven",
+     "t": 11.244,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "como",
+     "t": 11.417,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "señal",
+     "t": 11.763,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "de",
+     "t": 12.11,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "giro.",
+     "t": 12.283,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "Pero",
+     "t": 12.629,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Bulkowski",
+     "t": 12.975,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 13.495,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "probó:",
+     "t": 13.668,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "siguió",
+     "t": 14.174,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "cayendo",
+     "t": 14.521,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "el",
+     "t": 15.04,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "64",
+     "t": 15.213,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "%.",
+     "t": 16.079,
+     "clave": true,
+     "g": 7
+    }
+   ]
+  },
+  {
+   "texto": "Vamos al oro real. Junio de 2026, gráfico diario.",
+   "inicio": 16.949,
+   "fin": 20.399,
+   "palabras": [
+    {
+     "w": "Vamos",
+     "t": 16.949,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "al",
+     "t": 17.295,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "oro",
+     "t": 17.468,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "real.",
+     "t": 17.814,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "Junio",
+     "t": 17.988,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 18.334,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "2026,",
+     "t": 18.507,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "gráfico",
+     "t": 19.533,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "diario.",
+     "t": 20.052,
+     "clave": true,
+     "g": 9
+    }
+   ]
+  },
+  {
+   "texto": "El 10 de junio deja un rango: de 4.067 a 4.257.",
+   "inicio": 20.749,
+   "fin": 26.277,
+   "palabras": [
+    {
+     "w": "El",
+     "t": 20.749,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "10",
+     "t": 20.922,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 21.095,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "junio",
+     "t": 21.268,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "deja",
+     "t": 21.614,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 21.961,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rango:",
+     "t": 22.134,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "de",
+     "t": 22.64,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.067",
+     "t": 22.813,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 24.199,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.257.",
+     "t": 24.372,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Al día siguiente barre el mínimo… donde estaban los stops.",
+   "inicio": 26.627,
+   "fin": 29.744,
+   "palabras": [
+    {
+     "w": "Al",
+     "t": 26.627,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "día",
+     "t": 26.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "siguiente",
+     "t": 26.973,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "barre",
+     "t": 27.492,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "el",
+     "t": 27.839,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "mínimo…",
+     "t": 28.012,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "donde",
+     "t": 28.531,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "estaban",
+     "t": 28.878,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 29.397,
+     "clave": true,
+     "g": 12
+    },
+    {
+     "w": "stops.",
+     "t": 29.57,
+     "clave": true,
+     "g": 12
+    }
+   ]
+  },
+  {
+   "texto": "Y cierra dentro del rango. Eso es lo que importa.",
+   "inicio": 30.094,
+   "fin": 32.864,
+   "palabras": [
+    {
+     "w": "Y",
+     "t": 30.094,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cierra",
+     "t": 30.267,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dentro",
+     "t": 30.613,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "del",
+     "t": 30.959,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "rango.",
+     "t": 31.132,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "Eso",
+     "t": 31.479,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 31.825,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 31.998,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 32.171,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "importa.",
+     "t": 32.345,
+     "clave": true,
+     "g": 14
+    }
+   ]
+  },
+  {
+   "texto": "Después, una vela de indecisión… y el precio llega a 4.369.",
+   "inicio": 33.214,
+   "fin": 38.396,
+   "palabras": [
+    {
+     "w": "Después,",
+     "t": 33.214,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 33.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vela",
+     "t": 34.067,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 34.413,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "indecisión…",
+     "t": 34.586,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "y",
+     "t": 35.279,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 35.452,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 35.625,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "llega",
+     "t": 35.971,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 36.318,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "4.369.",
+     "t": 36.491,
+     "clave": true,
+     "g": 16
+    }
+   ]
+  },
+  {
+   "texto": "Ahora mayo. Un doji perfecto. El mismo patrón…",
+   "inicio": 38.746,
+   "fin": 41.516,
+   "palabras": [
+    {
+     "w": "Ahora",
+     "t": 38.746,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mayo.",
+     "t": 39.265,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Un",
+     "t": 39.612,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "doji",
+     "t": 39.785,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "perfecto.",
+     "t": 40.131,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "El",
+     "t": 40.65,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mismo",
+     "t": 40.824,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "patrón…",
+     "t": 41.17,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "…y se rompe. Sin contexto, la vela no basta.",
+   "inicio": 41.866,
+   "fin": 44.451,
+   "palabras": [
+    {
+     "w": "…y",
+     "t": 41.866,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "se",
+     "t": 42.039,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rompe.",
+     "t": 42.213,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Sin",
+     "t": 42.559,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "contexto,",
+     "t": 42.732,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "la",
+     "t": 43.412,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vela",
+     "t": 43.585,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no",
+     "t": 43.931,
+     "clave": true,
+     "g": 19
+    },
+    {
+     "w": "basta.",
+     "t": 44.104,
+     "clave": true,
+     "g": 19
+    }
+   ]
+  },
+  {
+   "texto": "Bulkowski probó más velas: martillo, 60 %. Envolvente, 63 %. Poco más que una moneda.",
+   "inicio": 44.801,
+   "fin": 51.687,
+   "palabras": [
+    {
+     "w": "Bulkowski",
+     "t": 44.801,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "probó",
+     "t": 45.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 45.666,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "velas:",
+     "t": 45.839,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "martillo,",
+     "t": 46.346,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "60",
+     "t": 47.025,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "%.",
+     "t": 47.545,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "Envolvente,",
+     "t": 48.064,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "63",
+     "t": 48.917,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "%.",
+     "t": 49.61,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "Poco",
+     "t": 50.129,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 50.475,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 50.648,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 50.822,
+     "clave": true,
+     "g": 21
+    },
+    {
+     "w": "moneda.",
+     "t": 51.168,
+     "clave": true,
+     "g": 21
+    }
+   ]
+  },
+  {
+   "texto": "Lo que manda es el análisis: la zona, CRT, AMD y SMC.",
+   "inicio": 52.037,
+   "fin": 55.461,
+   "palabras": [
+    {
+     "w": "Lo",
+     "t": 52.037,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 52.211,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "manda",
+     "t": 52.384,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 52.73,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 52.903,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "análisis:",
+     "t": 53.076,
+     "clave": true,
+     "g": 22
+    },
+    {
+     "w": "la",
+     "t": 53.929,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "zona,",
+     "t": 54.102,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT,",
+     "t": 54.609,
+     "clave": true,
+     "g": 23
+    },
+    {
+     "w": "AMD",
+     "t": 54.942,
+     "clave": true,
+     "g": 23
+    },
+    {
+     "w": "y",
+     "t": 55.115,
+     "clave": true,
+     "g": 23
+    },
+    {
+     "w": "SMC.",
+     "t": 55.288,
+     "clave": true,
+     "g": 23
+    }
+   ]
+  },
+  {
+   "texto": "La vela no es el análisis. Es la firma. En el próximo: CRT, paso a paso.",
+   "inicio": 55.811,
+   "fin": 60.46,
+   "palabras": [
+    {
+     "w": "La",
+     "t": 55.811,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vela",
+     "t": 55.984,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no",
+     "t": 56.331,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "es",
+     "t": 56.504,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 56.677,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "análisis.",
+     "t": 56.85,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Es",
+     "t": 57.543,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 57.716,
+     "clave": true,
+     "g": 24
+    },
+    {
+     "w": "firma.",
+     "t": 57.889,
+     "clave": true,
+     "g": 24
+    },
+    {
+     "w": "En",
+     "t": 58.235,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 58.409,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "próximo:",
+     "t": 58.582,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT,",
+     "t": 59.261,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "paso",
+     "t": 59.594,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "a",
+     "t": 59.941,
+     "clave": true,
+     "g": 25
+    },
+    {
+     "w": "paso.",
+     "t": 60.114,
+     "clave": true,
+     "g": 25
+    }
+   ]
+  }
+ ]
+}
