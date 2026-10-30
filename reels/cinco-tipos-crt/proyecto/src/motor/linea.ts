@@ -15,7 +15,7 @@ export { ADELANTO, FPS, SOLAPE, s2f };
 
 export const T = tiempos0 as unknown as Tiempos;
 
-export const SONIDOS = ["pop", "ding", "exito", "campana", "tecla", "tic", "clic", "whoosh", "swoosh", "papel", "burbuja", "golpe", "negacion", "puff", "cristal", "proyector", "subida", "ganar", "perder", "ambiente", "vs", "ring", "transforma", "punetazo", "punetazo2", "punetazo3", "cuerda", "reloj", "zip", "gong", "taiko", "sello", "pincel", "arroz", "monedas", "viento", "musica"];
+export const SONIDOS = ["pop", "ding", "exito", "campana", "tecla", "tic", "clic", "whoosh", "swoosh", "papel", "burbuja", "golpe", "negacion", "puff", "cristal", "proyector", "subida", "ganar", "perder", "ambiente", "vs", "ring", "transforma", "punetazo", "punetazo2", "punetazo3", "cuerda", "reloj", "zip", "gong", "taiko", "sello", "pincel", "arroz", "monedas", "viento", "musica", "nota1", "nota2", "nota3", "nota4", "nota5", "nota6", "brillo", "resuelve", "aire", "impacto"];
 
 export const PROBLEMAS: string[] = [];
 const problema = (s: string) => PROBLEMAS.push(s);
@@ -214,7 +214,7 @@ export const EFECTOS: Efecto[] = [];
 ESCENAS.forEach((esc) => {
   if (esc.def?.sonidos)
     esc.def.sonidos(esc.p, esc.b).forEach(([k, s, vol]) => {
-      const t = esc.b[k];
+      const t = typeof k === "number" ? esc.b[k] : k.f;
       if (t !== undefined) EFECTOS.push({ en: esc.ini + t, s, vol });
     });
   (PLAN.frases[esc.i].sonidos ?? []).forEach(([m, s, vol]) => {

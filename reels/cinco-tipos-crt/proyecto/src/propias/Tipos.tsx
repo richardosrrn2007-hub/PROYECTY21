@@ -153,7 +153,7 @@ const calendario = (T: Tipo, b1: number, b2: number) => {
 };
 
 /** Diagrama completo de un tipo: velas, rango punteado de C1, flecha al barrido, destello y objetivo. */
-const Diagrama: React.FC<{ T: Tipo; a: Area; b1: number; b2: number; desde?: number; etiquetas?: boolean; grosor?: number; quieto?: boolean }> = ({ T, a, b1, b2, desde = 0, etiquetas = true, grosor = 6, quieto = false }) => {
+export const Diagrama: React.FC<{ T: Tipo; a: Area; b1: number; b2: number; desde?: number; etiquetas?: boolean; grosor?: number; quieto?: boolean }> = ({ T, a, b1, b2, desde = 0, etiquetas = true, grosor = 6, quieto = false }) => {
   const f0 = useCurrentFrame();
   const f = quieto ? 1e6 : f0 - desde;
   const g = geo(a, T.velas.length);
@@ -191,6 +191,17 @@ const Diagrama: React.FC<{ T: Tipo; a: Area; b1: number; b2: number; desde?: num
             <Trazo d={`M${xs + 200} ${yPunta + sgn * 120} Q${xs + 160} ${yPunta + sgn * 14} ${xs + 22} ${yPunta + sgn * 6}`} p={flecha} color={ORO} grosor={grosor * 0.9} />
             {flecha >= 1 && <path d={`M${xs + 46} ${yPunta + sgn * 22} L${xs + 20} ${yPunta + sgn * 6} L${xs + 48} ${yPunta - sgn * 10}`} fill="none" stroke={ORO} strokeWidth={grosor * 0.9} strokeLinecap="round" strokeLinejoin="round" />}
           </g>
+        )}
+        {/* el rango de C1 se enmarca: el ciclo está completo */}
+        {objetivo && !quieto && f >= b2 + 24 && (
+          <rect x={g.xV(0) - g.ancho} y={g.yP(c1.h) - 14} width={xRango1 - g.xV(0) + g.ancho + 10} height={g.yP(c1.l) - g.yP(c1.h) + 28} rx={18} fill={alfa(ORO, 0.07 * pr(f, b2 + 24, 8))} stroke={ORO} strokeWidth={4} opacity={pr(f, b2 + 24, 8)} />
+        )}
+        {/* recorrido completo: del barrido al objetivo */}
+        {objetivo && !quieto && (
+          <>
+            <Trazo d={`M${xRango1 - 30} ${yExt} L${xRango1 - 30} ${yObj}`} p={pr(f, b2 + 8, 12)} color={VERDE} grosor={grosor * 0.8} />
+            {f >= b2 + 20 && <path d={`M${xRango1 - 46} ${yObj + sgn * 22} L${xRango1 - 30} ${yObj} L${xRango1 - 14} ${yObj + sgn * 22}`} fill="none" stroke={VERDE} strokeWidth={grosor * 0.8} strokeLinecap="round" strokeLinejoin="round" />}
+          </>
         )}
         {f >= b1 && <circle cx={xs} cy={yExt} r={14 + 46 * pr(f, b1, 14)} fill="none" stroke={ORO} strokeWidth={grosor * 0.8} opacity={1 - pr(f, b1, 14)} />}
       </svg>
@@ -429,8 +440,38 @@ const Guarda: React.FC<PropsEscena> = ({ b }) => {
   );
 };
 
-export const tipoCrt: DefEscena = { C: TipoCrt, momentos: 3, alInicio: () => true, sonidos: () => [[0, "swoosh", 0.3], [1, "golpe", 0.4], [2, "ding", 0.3]] };
-export const gancho3: DefEscena = { C: Gancho3, momentos: 3, alInicio: () => true, sonidos: () => [[1, "golpe", 0.5], [1, "negacion", 0.3], [2, "sello", 0.35]] };
-export const cinco: DefEscena = { C: Cinco, momentos: 2, alInicio: () => true, sonidos: () => [[0, "gong", 0.3], [1, "tic", 0.25]] };
-export const resumen: DefEscena = { C: Resumen, momentos: 1, alInicio: () => true, sonidos: () => [[0, "swoosh", 0.3]] };
-export const guarda: DefEscena = { C: Guarda, momentos: 2, alInicio: () => true, sonidos: () => [[1, "pop", 0.35]] };
+type Son = [number | { f: number }, string, number];
+const NOTAS = ["nota1", "nota2", "nota3", "nota4", "nota5", "nota6"];
+/** Una nota de marimba por vela (suben mientras el rango aguanta, bajan con la caída), aire con la flecha,
+ *  campana brillante en el barrido y arpegio al llegar al objetivo. Todo en el fotograma de su animación. */
+const sonTipo = (p: Record<string, unknown>, b: number[]): Son[] => {
+  const T = TIPOS[txt(p, "n", "1")];
+  const [, b1 = 40, b2 = 70] = b;
+  const { ent } = calendario(T, b1, b2);
+  const out: Son[] = [[{ f: 0 }, "aire", 0.32], [{ f: ent[0].desde }, "nota1", 0.3]];
+  for (let k = 1; k < T.barre; k++) out.push([{ f: ent[k].desde }, NOTAS[Math.min(5, k + 1)], 0.24]);
+  out.push([{ f: b1 - 16 }, "aire", 0.18], [1, "brillo", 0.42]);
+  const sube = T.lado === "min";
+  for (let k = T.barre + 1; k < T.velas.length; k++) {
+    const j = k - T.barre;
+    out.push([{ f: ent[k].desde }, sube ? NOTAS[Math.min(5, 2 + j)] : NOTAS[Math.max(0, 3 - j)], 0.24]);
+  }
+  out.push([2, "resuelve", 0.36]);
+  return out;
+};
+
+export const tipoCrt: DefEscena = { C: TipoCrt, momentos: 3, alInicio: () => true, sonidos: sonTipo };
+export const gancho3: DefEscena = {
+  C: Gancho3,
+  momentos: 3,
+  alInicio: () => true,
+  sonidos: (_p, b) => [[{ f: 0 }, "nota1", 0.3], [{ f: 10 }, "nota3", 0.28], [{ f: 16 }, "nota5", 0.28], [{ f: (b[1] ?? 34) - 4 }, "golpe", 0.42], [1, "golpe", 0.5], [1, "negacion", 0.22], [2, "sello", 0.4]],
+};
+export const cinco: DefEscena = {
+  C: Cinco,
+  momentos: 2,
+  alInicio: () => true,
+  sonidos: (_p, b) => [[0, "impacto", 0.45], ...[0, 1, 2, 3, 4].map((k): Son => [{ f: (b[1] ?? 14) + k * 4 }, NOTAS[k], 0.22])],
+};
+export const resumen: DefEscena = { C: Resumen, momentos: 1, alInicio: () => true, sonidos: () => [[0, "aire", 0.3], ...[0, 1, 2, 3, 4].map((k): Son => [{ f: 4 + k * 7 }, NOTAS[k], 0.22])] };
+export const guarda: DefEscena = { C: Guarda, momentos: 2, alInicio: () => true, sonidos: () => [[0, "aire", 0.3], [{ f: 4 }, "nota4", 0.25], [1, "resuelve", 0.4]] };

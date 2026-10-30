@@ -98,8 +98,8 @@ export type DefEscena = {
   avisar?: (p: Record<string, unknown>) => string[];
   /** true si la escena ya enseña algo desde su primer fotograma (tarjeta, título…), aunque su primer momento llegue más tarde. */
   alInicio?: (p: Record<string, unknown>) => boolean;
-  /** Sonidos que pone la escena sola: [índice de momento, sonido, volumen]. */
-  sonidos?: (p: Record<string, unknown>, b: number[]) => [number, string, number][];
+  /** Sonidos que pone la escena sola: [índice de momento o { f: fotograma de la escena }, sonido, volumen]. */
+  sonidos?: (p: Record<string, unknown>, b: number[]) => [number | { f: number }, string, number][];
   /** Comprueba las propiedades y devuelve problemas legibles. */
   validar?: (p: Record<string, unknown>) => string[];
 };
