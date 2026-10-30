@@ -1,0 +1,185 @@
+{
+  "titulo": "Los 5 tipos de CRT",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#000000",
+      "fondo2": "#050403",
+      "manchas": [
+        "#120C05",
+        "#000000",
+        "#0A0703"
+      ],
+      "texto": "#F6ECD2",
+      "suave": "#8C826E",
+      "acento": "#D4AA6E",
+      "acentoTexto": "#000000",
+      "tarjeta": "#0E0C0A",
+      "tarjetaTexto": "#F6ECD2",
+      "linea": "#2A251E",
+      "oscuro": "#000000",
+      "oscuroTexto": "#F6ECD2",
+      "borde": "#F6ECD2",
+      "exito": "#9CC59A",
+      "error": "#D9735E"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "no",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "¿CRT son solo *tres velas?* No siempre.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Gancho3",
+        "en": [
+          0,
+          34,
+          52
+        ]
+      }
+    },
+    {
+      "texto": "Hay *cinco tipos* de CRT.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Cinco",
+        "en": [
+          0,
+          14
+        ]
+      }
+    },
+    {
+      "texto": "Tipo uno: *clásico*, tres velas.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TipoCrt",
+        "en": [
+          0,
+          36,
+          70
+        ],
+        "n": "1"
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Tipo dos: *distribución lenta*.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TipoCrt",
+        "en": [
+          0,
+          38,
+          84
+        ],
+        "n": "2"
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Tipo tres: *dos velas*.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TipoCrt",
+        "en": [
+          0,
+          34,
+          62
+        ],
+        "n": "3"
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Tipo cuatro: *inside bar*.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TipoCrt",
+        "en": [
+          0,
+          58,
+          90
+        ],
+        "n": "4"
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Tipo cinco: *varias inside bars*.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TipoCrt",
+        "en": [
+          0,
+          74,
+          104
+        ],
+        "n": "5"
+      },
+      "entrada": "barrido"
+    },
+    {
+      "texto": "Los *cinco tipos*, de un vistazo.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Resumen",
+        "en": [
+          0
+        ]
+      },
+      "entrada": "zoom"
+    },
+    {
+      "texto": "Serie CRT. *Guárdalo* y sígueme.",
+      "sinSubtitulos": true,
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Guarda",
+        "en": [
+          0,
+          12
+        ]
+      },
+      "entrada": "zoom"
+    }
+  ],
+  "portada": {
+    "lineas": [
+      "*5 TIPOS*",
+      "de CRT"
+    ],
+    "oscura": true
+  }
+}

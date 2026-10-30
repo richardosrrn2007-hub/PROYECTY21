@@ -1,0 +1,340 @@
+{
+ "voz": null,
+ "motor": "sin-voz",
+ "duracion": 27.4,
+ "frases": [
+  {
+   "texto": "¿CRT son solo tres velas? No siempre.",
+   "inicio": 0.0,
+   "fin": 2.6,
+   "palabras": [
+    {
+     "w": "¿CRT",
+     "t": 0.05,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "son",
+     "t": 0.407,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "solo",
+     "t": 0.764,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tres",
+     "t": 1.121,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "velas?",
+     "t": 1.479,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "No",
+     "t": 1.836,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "siempre.",
+     "t": 2.193,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Hay cinco tipos de CRT.",
+   "inicio": 2.6,
+   "fin": 4.2,
+   "palabras": [
+    {
+     "w": "Hay",
+     "t": 2.65,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cinco",
+     "t": 2.95,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "tipos",
+     "t": 3.25,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "de",
+     "t": 3.55,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT.",
+     "t": 3.85,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Tipo uno: clásico, tres velas.",
+   "inicio": 4.2,
+   "fin": 8.0,
+   "palabras": [
+    {
+     "w": "Tipo",
+     "t": 4.25,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "uno:",
+     "t": 4.99,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "clásico,",
+     "t": 5.73,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "tres",
+     "t": 6.47,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "velas.",
+     "t": 7.21,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Tipo dos: distribución lenta.",
+   "inicio": 8.0,
+   "fin": 11.8,
+   "palabras": [
+    {
+     "w": "Tipo",
+     "t": 8.05,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dos:",
+     "t": 8.975,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "distribución",
+     "t": 9.9,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "lenta.",
+     "t": 10.825,
+     "clave": true,
+     "g": 3
+    }
+   ]
+  },
+  {
+   "texto": "Tipo tres: dos velas.",
+   "inicio": 11.8,
+   "fin": 15.0,
+   "palabras": [
+    {
+     "w": "Tipo",
+     "t": 11.85,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "tres:",
+     "t": 12.625,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dos",
+     "t": 13.4,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "velas.",
+     "t": 14.175,
+     "clave": true,
+     "g": 4
+    }
+   ]
+  },
+  {
+   "texto": "Tipo cuatro: inside bar.",
+   "inicio": 15.0,
+   "fin": 18.8,
+   "palabras": [
+    {
+     "w": "Tipo",
+     "t": 15.05,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cuatro:",
+     "t": 15.975,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "inside",
+     "t": 16.9,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "bar.",
+     "t": 17.825,
+     "clave": true,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "texto": "Tipo cinco: varias inside bars.",
+   "inicio": 18.8,
+   "fin": 23.0,
+   "palabras": [
+    {
+     "w": "Tipo",
+     "t": 18.85,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cinco:",
+     "t": 19.67,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "varias",
+     "t": 20.49,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "inside",
+     "t": 21.31,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "bars.",
+     "t": 22.13,
+     "clave": true,
+     "g": 6
+    }
+   ]
+  },
+  {
+   "texto": "Los cinco tipos, de un vistazo.",
+   "inicio": 23.0,
+   "fin": 25.6,
+   "palabras": [
+    {
+     "w": "Los",
+     "t": 23.05,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cinco",
+     "t": 23.467,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "tipos,",
+     "t": 23.883,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "de",
+     "t": 24.3,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 24.717,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vistazo.",
+     "t": 25.133,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Serie CRT. Guárdalo y sígueme.",
+   "inicio": 25.6,
+   "fin": 27.4,
+   "palabras": [
+    {
+     "w": "Serie",
+     "t": 25.65,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "CRT.",
+     "t": 25.99,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Guárdalo",
+     "t": 26.33,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "y",
+     "t": 26.67,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sígueme.",
+     "t": 27.01,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  }
+ ]
+}
