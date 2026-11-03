@@ -1,0 +1,240 @@
+{
+  "titulo": "El hombre que le declaró la guerra a Inglaterra",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#0A0F1E",
+      "fondo2": "#0A0F1E",
+      "manchas": [
+        "#0F1A30",
+        "#0A0F1E",
+        "#0C1426"
+      ],
+      "texto": "#E6EBF0",
+      "suave": "#8A96A6",
+      "acento": "#C9D1D9",
+      "acentoTexto": "#0A0F1E",
+      "tarjeta": "#1F3A5F",
+      "tarjetaTexto": "#E6EBF0",
+      "linea": "#1F3A5F",
+      "oscuro": "#0A0F1E",
+      "oscuroTexto": "#E6EBF0",
+      "borde": "#C9D1D9",
+      "exito": "#C9D1D9",
+      "error": "#C0392B"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "Este hombre *hundió* la moneda de *un país entero*... y ganó *mil millones de dólares.* En un solo día.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "SGancho",
+        "en": [
+          "hundio",
+          "pais",
+          "mil",
+          "dia"
+        ]
+      },
+      "sinSubtitulos": true,
+      "emocion": "[intrigante]"
+    },
+    {
+      "texto": "Inglaterra, *1992.* La libra estaba atada a un *precio artificial.* El Banco de Inglaterra juraba defenderla... *cueste lo que cueste.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Inglaterra",
+        "en": [
+          "inglaterra",
+          "1992",
+          "atada",
+          "artificial",
+          "cueste"
+        ]
+      },
+      "voz": "Inglaterra, mil novecientos noventa y dos. La libra estaba atada a un precio artificial. El Banco de Inglaterra juraba defenderla... cueste lo que cueste.",
+      "entrada": "barrido",
+      "emocion": "[segura]",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Un inversionista húngaro miraba la misma pantalla que todos. Pero él vio lo que nadie quería ver: *eso no se sostiene.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Grieta",
+        "en": [
+          "inversionista",
+          "pantalla",
+          "vio",
+          "sostiene"
+        ]
+      },
+      "emocion": "[intrigante]"
+    },
+    {
+      "texto": "George Soros apostó *10.000 millones de dólares* contra la libra. Si fallaba, perdía poco. Si acertaba, ganaba *una fortuna.* El banco compraba sin parar... y Soros seguía *vendiendo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Balanza",
+        "en": [
+          "soros",
+          "millones",
+          "fallaba",
+          "acertaba",
+          "banco",
+          "vendiendo"
+        ]
+      },
+      "voz": "George Soros apostó diez mil millones de dólares contra la libra. Si fallaba, perdía poco. Si acertaba, ganaba una fortuna. El banco compraba sin parar... y Soros seguía vendiendo.",
+      "entrada": "barrido",
+      "emocion": "[segura]",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Un miércoles por la noche, *Inglaterra se rindió.* La libra quedó libre... y se *desplomó.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Miercoles",
+        "en": [
+          "miercoles",
+          "noche",
+          "rindio",
+          "libre",
+          "desplomo"
+        ]
+      },
+      "emocion": "[intrigante]"
+    },
+    {
+      "texto": "Los diarios lo llamaron *el hombre que quebró al Banco de Inglaterra.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Periodico",
+        "en": [
+          "diarios",
+          "hombre",
+          "quebro"
+        ]
+      },
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ],
+      "emocion": "[segura]",
+      "sinSubtitulos": true
+    },
+    {
+      "texto": "No usó velas ni indicadores. Usó *una sola regla:* cuando tienes razón... *ve con todo.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Regla",
+        "en": [
+          "velas",
+          "indicadores",
+          "regla",
+          "razon",
+          "todo"
+        ]
+      },
+      "emocion": "[cercana]"
+    },
+    {
+      "texto": "El precio lo mueve siempre lo mismo... *el miedo y la codicia.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "MiedoCodicia",
+        "en": [
+          "precio",
+          "siempre",
+          "miedo",
+          "codicia"
+        ]
+      },
+      "emocion": "[cercana]"
+    },
+    {
+      "texto": "¿Apostarías contra un banco entero? Comenta *LIBRA.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Apuesta",
+        "en": [
+          "apostarias",
+          "banco",
+          "libra"
+        ]
+      },
+      "sinSubtitulos": true,
+      "emocion": "[cercana]"
+    },
+    {
+      "texto": "En el próximo: la apuesta que convirtió a gente normal... en los *mejores* traders de la historia.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "Teaser",
+        "en": [
+          "proximo",
+          "normal",
+          "mejores"
+        ]
+      },
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ],
+      "emocion": "[intrigante]"
+    }
+  ],
+  "portada": {
+    "lineas": [
+      "GANÓ *1.000*",
+      "MILLONES",
+      "EN UN DÍA"
+    ],
+    "oscura": true
+  }
+}
