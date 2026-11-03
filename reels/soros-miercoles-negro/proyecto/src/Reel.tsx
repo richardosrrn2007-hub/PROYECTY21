@@ -8,12 +8,19 @@ import { CAMBIOS_POSE, EFECTOS, ESCENAS, HAY_VOZ, T, TOTAL, corte } from "./moto
 import { Personaje } from "./motor/Personaje";
 import { SubtitulosBloque, SubtitulosLinea } from "./motor/Subtitulos";
 import { SubArriba } from "./propias/SubArriba";
-import { FondoNoche } from "./propias/Soros";
+import { FondoBanco, FondoNoche } from "./propias/Soros";
 import { CIERRE, Cierre, TRANSICION } from "./propias/Cierre";
 
 // las escenas de este vídeo se dibujan a pantalla completa (sin Lienzo); la luna del fondo se esconde
 // mientras sale la luna propia de «miedo y codicia»
 const SIN_LUNA = ESCENAS.filter((e) => PLAN.frases[e.i].escena?.nombre === "MiedoCodicia").map((e) => [e.ini, e.ini + e.dur] as [number, number]);
+// el banco antiguo se queda de fondo desde la grieta hasta el periódico; en «se rindió» se apaga
+const deEscena = (n: string) => ESCENAS.find((e) => PLAN.frases[e.i].escena?.nombre === n);
+const eGri = deEscena("Grieta"),
+  ePer = deEscena("Periodico"),
+  eMie = deEscena("Miercoles");
+const TRAMO_BANCO: [number, number] | undefined = eGri && ePer ? [eGri.ini, ePer.ini + ePer.dur] : undefined;
+const APAGON = eMie ? eMie.ini + (eMie.b[2] ?? 0) : undefined;
 const SIN_SUBTITULOS = PLAN.frases.map((f, i) => (f.sinSubtitulos ? i : -1)).filter((i) => i >= 0);
 
 export const Reel: React.FC = () => (
@@ -21,6 +28,7 @@ export const Reel: React.FC = () => (
     <Fondo />
     {/* el viaje a Gran Bretaña lo hace ahora la escena 2 en 3D; el planeta del fondo se queda en su sitio */}
     <FondoNoche sinLuna={SIN_LUNA} />
+    {TRAMO_BANCO && <FondoBanco tramo={TRAMO_BANCO} apagon={APAGON} />}
     {ESCENAS.map((e) => {
       const Comp = e.def?.C;
       if (!Comp) return null;

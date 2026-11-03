@@ -522,6 +522,43 @@ const Teletexto: React.FC<{ desde: number; op: number }> = ({ desde, op }) => {
   );
 };
 
+/** Fondo de la historia (escenas 3–6): el Banco de Inglaterra de noche con el look de película antigua.
+ *  Empieza justo como acaba la escena 2, la cámara se acerca muy despacio, el tráfico sigue pasando
+ *  y con `apagon` las ventanas se apagan una a una (Inglaterra se rinde). */
+export const FondoBanco: React.FC<{ tramo: [number, number]; apagon?: number }> = ({ tramo: [ini, fin], apagon = 1e9 }) => {
+  const f = useCurrentFrame();
+  if (f < ini - 2 || f > fin + 14) return null;
+  const op = interpolate(f, [ini - 2, ini + 6, fin, fin + 14], [0, 1, 1, 0], cl);
+  const t = f - ini;
+  const vuelta = 200;
+  const desde = ini + Math.floor(t / vuelta) * vuelta;
+  const luz = 1 - pr(f, apagon, 34, Easing.linear);
+  return (
+    <AbsoluteFill style={{ opacity: op, background: "#0B1830" }}>
+      <AbsoluteFill style={{ transform: `scale(${1 + t * 0.00035})`, transformOrigin: "540px 1100px", filter: "sepia(0.6) saturate(1.15) contrast(1.08)" }}>
+        <AbsoluteFill style={{ background: "linear-gradient(180deg, #0B1830 0%, #15233E 38%, #2E2A2A 70%, #3A2A16 100%)" }} />
+        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+          {Array.from({ length: 40 }).map((_, k) => (
+            <circle key={k} cx={rnd(k * 4.1) * 1080} cy={60 + rnd(k * 6.3) * 560} r={1 + rnd(k * 2.9) * 1.6} fill="#F6ECD2" opacity={0.2 + 0.4 * (0.5 + 0.5 * Math.sin(f / 14 + k))} />
+          ))}
+        </svg>
+        <BancoInglaterra p={1} luz={luz} />
+        <Calle1992 desde={desde} />
+        {/* niebla de Londres que pasa despacio */}
+        <AbsoluteFill style={{ background: `radial-gradient(ellipse 60% 12% at ${30 + ((t * 0.12) % 80)}% 74%, rgba(232,217,181,0.10), transparent 70%)` }} />
+      </AbsoluteFill>
+      {/* el banco se queda detrás: oscurecido para que se lea lo que se explica encima */}
+      <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(22,13,4,0.45) 0%, rgba(22,13,4,0.2) 45%, rgba(22,13,4,0.5) 100%)" }} />
+      <Pelicula op={1} />
+    </AbsoluteFill>
+  );
+};
+
+/** Panel de cristal oscuro para que los gráficos se lean sobre el banco. */
+const Panel: React.FC<{ x: number; y: number; w: number; h: number; op?: number }> = ({ x, y, w, h, op = 1 }) => (
+  <div style={{ position: "absolute", left: x, top: y, width: w, height: h, borderRadius: 24, background: "rgba(14,10,6,0.74)", border: "2px solid rgba(232,217,181,0.25)", boxShadow: "0 20px 60px rgba(0,0,0,0.5)", backdropFilter: "blur(3px)", opacity: op }} />
+);
+
 /** 2 · «Inglaterra, 1992»: globo 3D de noche → la cámara cae sobre Gran Bretaña → mapa antiguo con las ciudades
  *  → zoom a Londres → el Banco de Inglaterra se dibuja; la libra queda encadenada a su puerta. */
 const Inglaterra: React.FC<PropsEscena> = ({ b }) => {
@@ -779,6 +816,7 @@ const Balanza: React.FC<PropsEscena> = ({ b }) => {
   const grieta = pr(f, vende + 6, 20);
   return (
     <AbsoluteFill>
+      <Panel x={50} y={570} w={980} h={760} op={pr(f, 0, 12)} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 330, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 30, letterSpacing: 8, color: PLATA, opacity: pr(f, 0, 10) * 0.85 }}>// LIBRA EN EL ERM · SEPT 1992</div>
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
         <defs>
@@ -860,7 +898,21 @@ const Miercoles: React.FC<PropsEscena> = ({ b }) => {
   return (
     <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
       <AbsoluteFill style={{ background: "#fff", opacity: interpolate(f, [rindio, rindio + 2, rindio + 8], [0, 0.5, 0], cl) }} />
+      <Panel x={40} y={700} w={1000} h={740} op={pr(f, 0, 12)} />
       <Titulo y={420} desde={mier} texto="16 SEPT 1992" tam={96} color={PLATA} />
+      {/* el banco sube los tipos dos veces el mismo día para defender la libra */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 1560, display: "flex", justifyContent: "center", gap: 18, fontFamily: F.mono, fontWeight: 700, fontSize: 34, letterSpacing: 2, color: "#E8D9B5" }}>
+        <span style={{ opacity: pr(f, mier, 8), letterSpacing: 5, fontSize: 26, alignSelf: "center" }}>TIPOS</span>
+        {(["10 %", "12 %", "15 %"] as const).map((t, k) => {
+          const e = sp(f, mier + 4 + k * 9, REBOTE);
+          const tachado = f >= mier + 13 + k * 9 && k < 2;
+          return (
+            <span key={t} style={{ padding: "6px 16px", borderRadius: 8, background: k === 2 ? ROJO : "rgba(8,14,28,0.85)", border: `2px solid ${k === 2 ? ROJO : "#E8D9B5"}`, color: k === 2 ? "#FFF3D6" : "#E8D9B5", transform: `scale(${e})`, opacity: Math.min(1, e) * (tachado ? 0.45 : 1), textDecoration: tachado ? "line-through" : "none" }}>
+              {t}
+            </span>
+          );
+        })}
+      </div>
       {f >= noche && (
         <div style={{ position: "absolute", left: 0, right: 0, top: 545, textAlign: "center", fontFamily: PRO, fontSize: 44, color: `${PLATA}CC`, letterSpacing: 6, opacity: pr(f, noche, 8) }}>
           19:00 · LONDRES
