@@ -2,12 +2,12 @@
  "voz": "voz.mp3",
  "motor": "asr",
  "velocidad": 1.0,
- "duracion": 59.47,
+ "duracion": 59.3,
  "frases": [
   {
    "texto": "Este hombre hundió la moneda de un país entero... y ganó mil millones de dólares. En un solo día.",
    "inicio": 0.02,
-   "fin": 5.75,
+   "fin": 6.68,
    "palabras": [
     {
      "w": "Este",
@@ -17,109 +17,109 @@
     },
     {
      "w": "hombre",
-     "t": 0.24,
+     "t": 0.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "hundió",
-     "t": 0.48,
+     "t": 0.56,
      "clave": true,
      "g": 0
     },
     {
      "w": "la",
-     "t": 0.96,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "moneda",
      "t": 1.12,
      "clave": false,
      "g": -1
     },
     {
+     "w": "moneda",
+     "t": 1.2,
+     "clave": false,
+     "g": -1
+    },
+    {
      "w": "de",
-     "t": 1.44,
+     "t": 1.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 1.6,
+     "t": 1.76,
      "clave": true,
      "g": 1
     },
     {
      "w": "país",
-     "t": 1.68,
+     "t": 1.92,
      "clave": true,
      "g": 1
     },
     {
      "w": "entero...",
-     "t": 2.0,
+     "t": 2.24,
      "clave": true,
      "g": 1
     },
     {
      "w": "y",
-     "t": 2.48,
+     "t": 2.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "ganó",
-     "t": 2.64,
+     "t": 3.04,
      "clave": false,
      "g": -1
     },
     {
      "w": "mil",
-     "t": 3.04,
-     "clave": true,
-     "g": 2
-    },
-    {
-     "w": "millones",
      "t": 3.44,
      "clave": true,
      "g": 2
     },
     {
-     "w": "de",
+     "w": "millones",
      "t": 3.92,
      "clave": true,
      "g": 2
     },
     {
+     "w": "de",
+     "t": 4.48,
+     "clave": true,
+     "g": 2
+    },
+    {
      "w": "dólares.",
-     "t": 4.0,
+     "t": 4.64,
      "clave": true,
      "g": 2
     },
     {
      "w": "En",
-     "t": 4.64,
+     "t": 5.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 4.8,
+     "t": 5.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "solo",
-     "t": 5.04,
+     "t": 5.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "día.",
-     "t": 5.28,
+     "t": 6.16,
      "clave": false,
      "g": -1
     }
@@ -127,126 +127,126 @@
   },
   {
    "texto": "Inglaterra, 1992. La libra estaba atada a un precio artificial. El Banco de Inglaterra juraba defenderla... cueste lo que cueste.",
-   "inicio": 5.76,
-   "fin": 14.08,
+   "inicio": 6.76,
+   "fin": 16.28,
    "palabras": [
     {
      "w": "Inglaterra,",
-     "t": 5.76,
+     "t": 6.8,
      "clave": false,
      "g": -1
     },
     {
      "w": "1992.",
-     "t": 6.56,
+     "t": 7.68,
      "clave": true,
      "g": 3
     },
     {
      "w": "La",
-     "t": 8.08,
+     "t": 9.44,
      "clave": false,
      "g": -1
     },
     {
      "w": "libra",
-     "t": 8.24,
+     "t": 9.6,
      "clave": false,
      "g": -1
     },
     {
      "w": "estaba",
-     "t": 8.64,
+     "t": 10.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "atada",
-     "t": 8.88,
+     "t": 10.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "a",
-     "t": 9.36,
+     "t": 10.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 9.52,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "precio",
-     "t": 9.6,
-     "clave": true,
-     "g": 4
-    },
-    {
-     "w": "artificial.",
-     "t": 9.92,
-     "clave": true,
-     "g": 4
-    },
-    {
-     "w": "El",
-     "t": 10.56,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "Banco",
-     "t": 10.72,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "de",
      "t": 11.04,
      "clave": false,
      "g": -1
     },
     {
-     "w": "Inglaterra",
+     "w": "precio",
      "t": 11.12,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "artificial.",
+     "t": 11.52,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "El",
+     "t": 12.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Banco",
+     "t": 12.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 12.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Inglaterra",
+     "t": 12.88,
      "clave": false,
      "g": -1
     },
     {
      "w": "juraba",
-     "t": 11.68,
+     "t": 13.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "defenderla...",
-     "t": 12.16,
+     "t": 14.08,
      "clave": false,
      "g": -1
     },
     {
      "w": "cueste",
-     "t": 12.88,
+     "t": 14.88,
      "clave": true,
      "g": 5
     },
     {
      "w": "lo",
-     "t": 13.36,
+     "t": 15.44,
      "clave": true,
      "g": 5
     },
     {
      "w": "que",
-     "t": 13.52,
+     "t": 15.6,
      "clave": true,
      "g": 5
     },
     {
      "w": "cueste.",
-     "t": 13.6,
+     "t": 15.76,
      "clave": true,
      "g": 5
     }
@@ -254,817 +254,654 @@
   },
   {
    "texto": "Un inversionista húngaro miraba la misma pantalla que todos. Pero él vio lo que nadie quería ver: eso no se sostiene.",
-   "inicio": 14.09,
-   "fin": 21.06,
+   "inicio": 16.32,
+   "fin": 24.53,
    "palabras": [
     {
      "w": "Un",
-     "t": 14.16,
+     "t": 16.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "inversionista",
-     "t": 14.32,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "húngaro",
-     "t": 15.04,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "miraba",
-     "t": 15.68,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "la",
-     "t": 16.16,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "misma",
-     "t": 16.32,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "pantalla",
      "t": 16.64,
      "clave": false,
      "g": -1
     },
     {
-     "w": "que",
-     "t": 17.04,
+     "w": "húngaro",
+     "t": 17.44,
      "clave": false,
      "g": -1
     },
     {
-     "w": "todos.",
-     "t": 17.28,
+     "w": "miraba",
+     "t": 18.16,
      "clave": false,
      "g": -1
     },
     {
-     "w": "Pero",
-     "t": 17.68,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "él",
-     "t": 17.84,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "vio",
-     "t": 18.08,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "lo",
-     "t": 18.4,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "que",
-     "t": 18.56,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "nadie",
+     "w": "la",
      "t": 18.72,
      "clave": false,
      "g": -1
     },
     {
-     "w": "quería",
-     "t": 19.04,
+     "w": "misma",
+     "t": 18.88,
      "clave": false,
      "g": -1
     },
     {
-     "w": "ver:",
-     "t": 19.44,
+     "w": "pantalla",
+     "t": 19.28,
      "clave": false,
      "g": -1
     },
     {
-     "w": "eso",
+     "w": "que",
      "t": 19.76,
-     "clave": true,
-     "g": 6
-    },
-    {
-     "w": "no",
-     "t": 20.08,
-     "clave": true,
-     "g": 6
-    },
-    {
-     "w": "se",
-     "t": 20.24,
-     "clave": true,
-     "g": 6
-    },
-    {
-     "w": "sostiene.",
-     "t": 20.4,
-     "clave": true,
-     "g": 6
-    }
-   ]
-  },
-  {
-   "texto": "George Soros apostó 10.000 millones de dólares contra la libra. Si fallaba, perdía poco. Si acertaba, ganaba una fortuna. El banco compraba sin parar... y Soros seguía vendiendo.",
-   "inicio": 21.22,
-   "fin": 31.69,
-   "palabras": [
-    {
-     "w": "George",
-     "t": 21.22,
      "clave": false,
      "g": -1
     },
     {
-     "w": "Soros",
+     "w": "todos.",
+     "t": 20.0,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Pero",
+     "t": 20.48,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "él",
+     "t": 20.72,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vio",
+     "t": 20.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 21.36,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
      "t": 21.6,
      "clave": false,
      "g": -1
     },
     {
-     "w": "apostó",
-     "t": 22.24,
+     "w": "nadie",
+     "t": 21.76,
      "clave": false,
      "g": -1
     },
     {
-     "w": "10.000",
-     "t": 22.72,
-     "clave": true,
-     "g": 7
+     "w": "quería",
+     "t": 22.08,
+     "clave": false,
+     "g": -1
     },
     {
-     "w": "millones",
-     "t": 23.28,
-     "clave": true,
-     "g": 7
+     "w": "ver:",
+     "t": 22.56,
+     "clave": false,
+     "g": -1
     },
     {
-     "w": "de",
-     "t": 23.68,
+     "w": "eso",
+     "t": 23.04,
      "clave": true,
-     "g": 7
+     "g": 6
     },
     {
-     "w": "dólares",
+     "w": "no",
+     "t": 23.36,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "se",
+     "t": 23.6,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "sostiene.",
      "t": 23.76,
      "clave": true,
-     "g": 7
-    },
+     "g": 6
+    }
+   ]
+  },
+  {
+   "texto": "George Soros apostó 10.000 millones de dólares contra la libra. El banco compraba sin parar... y Soros seguía vendiendo.",
+   "inicio": 24.69,
+   "fin": 32.89,
+   "palabras": [
     {
-     "w": "contra",
-     "t": 24.08,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "la",
-     "t": 24.32,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "libra.",
-     "t": 24.48,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "Si",
-     "t": 24.96,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "fallaba,",
-     "t": 25.12,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "perdía",
-     "t": 25.6,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "poco.",
-     "t": 26.0,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "Si",
-     "t": 26.47,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "acertaba,",
-     "t": 26.56,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "ganaba",
-     "t": 27.2,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "una",
-     "t": 27.76,
-     "clave": true,
-     "g": 8
-    },
-    {
-     "w": "fortuna.",
-     "t": 28.0,
-     "clave": true,
-     "g": 8
-    },
-    {
-     "w": "El",
-     "t": 28.48,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "banco",
-     "t": 28.64,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "compraba",
-     "t": 28.96,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "sin",
-     "t": 29.52,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "parar...",
-     "t": 29.68,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "y",
-     "t": 30.0,
+     "w": "George",
+     "t": 24.72,
      "clave": false,
      "g": -1
     },
     {
      "w": "Soros",
-     "t": 30.16,
+     "t": 25.12,
      "clave": false,
      "g": -1
     },
     {
-     "w": "seguía",
-     "t": 30.72,
+     "w": "apostó",
+     "t": 25.84,
      "clave": false,
      "g": -1
     },
     {
-     "w": "vendiendo.",
-     "t": 31.12,
+     "w": "10.000",
+     "t": 26.32,
      "clave": true,
-     "g": 9
-    }
-   ]
-  },
-  {
-   "texto": "Un miércoles por la noche, Inglaterra se rindió. La libra quedó libre... y se desplomó.",
-   "inicio": 31.7,
-   "fin": 36.68,
-   "palabras": [
-    {
-     "w": "Un",
-     "t": 31.7,
-     "clave": false,
-     "g": -1
+     "g": 7
     },
     {
-     "w": "miércoles",
-     "t": 31.92,
-     "clave": false,
-     "g": -1
+     "w": "millones",
+     "t": 26.96,
+     "clave": true,
+     "g": 7
     },
     {
-     "w": "por",
-     "t": 32.4,
+     "w": "de",
+     "t": 27.44,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "dólares",
+     "t": 27.52,
+     "clave": true,
+     "g": 7
+    },
+    {
+     "w": "contra",
+     "t": 28.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 32.56,
+     "t": 28.32,
      "clave": false,
      "g": -1
     },
     {
-     "w": "noche,",
-     "t": 32.72,
+     "w": "libra.",
+     "t": 28.48,
      "clave": false,
      "g": -1
     },
     {
-     "w": "Inglaterra",
-     "t": 33.12,
-     "clave": true,
-     "g": 10
-    },
-    {
-     "w": "se",
-     "t": 33.68,
-     "clave": true,
-     "g": 10
-    },
-    {
-     "w": "rindió.",
-     "t": 33.84,
-     "clave": true,
-     "g": 10
-    },
-    {
-     "w": "La",
-     "t": 34.48,
+     "w": "El",
+     "t": 29.12,
      "clave": false,
      "g": -1
     },
     {
-     "w": "libra",
-     "t": 34.64,
+     "w": "banco",
+     "t": 29.28,
      "clave": false,
      "g": -1
     },
     {
-     "w": "quedó",
-     "t": 35.04,
+     "w": "compraba",
+     "t": 29.68,
      "clave": false,
      "g": -1
     },
     {
-     "w": "libre...",
-     "t": 35.36,
+     "w": "sin",
+     "t": 30.24,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "parar...",
+     "t": 30.48,
      "clave": false,
      "g": -1
     },
     {
      "w": "y",
-     "t": 35.68,
+     "t": 30.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Soros",
+     "t": 31.04,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "seguía",
+     "t": 31.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendiendo.",
+     "t": 32.24,
+     "clave": true,
+     "g": 8
+    }
+   ]
+  },
+  {
+   "texto": "Un miércoles por la noche, Inglaterra se rindió. La libra quedó libre... y se desplomó.",
+   "inicio": 32.95,
+   "fin": 38.74,
+   "palabras": [
+    {
+     "w": "Un",
+     "t": 32.96,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "miércoles",
+     "t": 33.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "por",
+     "t": 33.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 33.92,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "noche,",
+     "t": 34.08,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Inglaterra",
+     "t": 34.64,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "se",
+     "t": 35.28,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "rindió.",
+     "t": 35.44,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "La",
+     "t": 36.16,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "libra",
+     "t": 36.32,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "quedó",
+     "t": 36.8,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "libre...",
+     "t": 37.2,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "y",
+     "t": 37.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "se",
-     "t": 35.84,
+     "t": 37.84,
      "clave": false,
      "g": -1
     },
     {
      "w": "desplomó.",
-     "t": 36.0,
+     "t": 38.0,
+     "clave": true,
+     "g": 10
+    }
+   ]
+  },
+  {
+   "texto": "Los diarios lo llamaron el hombre que quebró al Banco de Inglaterra.",
+   "inicio": 38.81,
+   "fin": 43.1,
+   "palabras": [
+    {
+     "w": "Los",
+     "t": 38.88,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "diarios",
+     "t": 39.12,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "lo",
+     "t": 39.6,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "llamaron",
+     "t": 39.76,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 40.48,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "hombre",
+     "t": 40.64,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "que",
+     "t": 40.96,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "quebró",
+     "t": 41.12,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "al",
+     "t": 41.68,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "Banco",
+     "t": 41.84,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "de",
+     "t": 42.24,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "Inglaterra.",
+     "t": 42.4,
      "clave": true,
      "g": 11
     }
    ]
   },
   {
-   "texto": "Los diarios lo llamaron el hombre que quebró al Banco de Inglaterra.",
-   "inicio": 36.69,
-   "fin": 40.31,
+   "texto": "Usó una sola regla: cuando tienes razón... ve con todo.",
+   "inicio": 43.17,
+   "fin": 47.45,
    "palabras": [
-    {
-     "w": "Los",
-     "t": 36.72,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "diarios",
-     "t": 36.88,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "lo",
-     "t": 37.36,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "llamaron",
-     "t": 37.52,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "el",
-     "t": 38.08,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "hombre",
-     "t": 38.24,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "que",
-     "t": 38.56,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "quebró",
-     "t": 38.72,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "al",
-     "t": 39.2,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "Banco",
-     "t": 39.36,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "de",
-     "t": 39.6,
-     "clave": true,
-     "g": 12
-    },
-    {
-     "w": "Inglaterra.",
-     "t": 39.76,
-     "clave": true,
-     "g": 12
-    }
-   ]
-  },
-  {
-   "texto": "No usó velas ni indicadores. Usó una sola regla: cuando tienes razón... ve con todo.",
-   "inicio": 40.32,
-   "fin": 45.65,
-   "palabras": [
-    {
-     "w": "No",
-     "t": 40.4,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "usó",
-     "t": 40.56,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "velas",
-     "t": 40.88,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "ni",
-     "t": 41.28,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "indicadores.",
-     "t": 41.52,
-     "clave": false,
-     "g": -1
-    },
     {
      "w": "Usó",
-     "t": 42.16,
+     "t": 43.2,
      "clave": false,
      "g": -1
     },
     {
      "w": "una",
-     "t": 42.56,
+     "t": 43.76,
      "clave": true,
-     "g": 13
+     "g": 12
     },
     {
      "w": "sola",
-     "t": 42.8,
+     "t": 44.0,
      "clave": true,
-     "g": 13
+     "g": 12
     },
     {
      "w": "regla:",
-     "t": 43.04,
+     "t": 44.32,
      "clave": true,
-     "g": 13
+     "g": 12
     },
     {
      "w": "cuando",
-     "t": 43.6,
+     "t": 44.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "tienes",
-     "t": 43.84,
+     "t": 45.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "razón...",
-     "t": 44.24,
+     "t": 45.76,
      "clave": false,
      "g": -1
     },
     {
      "w": "ve",
-     "t": 44.8,
+     "t": 46.4,
      "clave": true,
-     "g": 14
+     "g": 13
     },
     {
      "w": "con",
-     "t": 45.2,
+     "t": 46.88,
      "clave": true,
-     "g": 14
+     "g": 13
     },
     {
      "w": "todo.",
-     "t": 45.36,
+     "t": 47.04,
      "clave": true,
-     "g": 14
-    }
-   ]
-  },
-  {
-   "texto": "El precio lo mueve siempre lo mismo... el miedo y la codicia.",
-   "inicio": 45.81,
-   "fin": 49.11,
-   "palabras": [
-    {
-     "w": "El",
-     "t": 45.84,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "precio",
-     "t": 46.0,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "lo",
-     "t": 46.32,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "mueve",
-     "t": 46.48,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "siempre",
-     "t": 46.96,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "lo",
-     "t": 47.28,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "mismo...",
-     "t": 47.36,
-     "clave": false,
-     "g": -1
-    },
-    {
-     "w": "el",
-     "t": 47.84,
-     "clave": true,
-     "g": 15
-    },
-    {
-     "w": "miedo",
-     "t": 48.0,
-     "clave": true,
-     "g": 15
-    },
-    {
-     "w": "y",
-     "t": 48.24,
-     "clave": true,
-     "g": 15
-    },
-    {
-     "w": "la",
-     "t": 48.4,
-     "clave": true,
-     "g": 15
-    },
-    {
-     "w": "codicia.",
-     "t": 48.56,
-     "clave": true,
-     "g": 15
+     "g": 13
     }
    ]
   },
   {
    "texto": "¿Apostarías contra un banco entero? Comenta LIBRA.",
-   "inicio": 49.12,
-   "fin": 52.26,
+   "inicio": 47.61,
+   "fin": 51.17,
    "palabras": [
     {
      "w": "¿Apostarías",
-     "t": 49.28,
+     "t": 47.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "contra",
-     "t": 50.0,
+     "t": 48.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "un",
-     "t": 50.32,
+     "t": 48.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "banco",
-     "t": 50.48,
+     "t": 49.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "entero?",
-     "t": 50.8,
+     "t": 49.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "Comenta",
-     "t": 51.28,
+     "t": 50.16,
      "clave": false,
      "g": -1
     },
     {
      "w": "LIBRA.",
-     "t": 51.84,
+     "t": 50.72,
      "clave": true,
-     "g": 16
+     "g": 14
     }
    ]
   },
   {
    "texto": "En el próximo: la apuesta que convirtió a gente normal... en los mejores traders de la historia.",
-   "inicio": 52.29,
-   "fin": 57.99,
+   "inicio": 51.23,
+   "fin": 57.82,
    "palabras": [
     {
      "w": "En",
-     "t": 52.4,
+     "t": 51.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "el",
-     "t": 52.56,
+     "t": 51.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "próximo:",
-     "t": 52.72,
+     "t": 51.68,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 53.28,
+     "t": 52.4,
      "clave": false,
      "g": -1
     },
     {
      "w": "apuesta",
-     "t": 53.44,
+     "t": 52.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "que",
-     "t": 53.92,
+     "t": 53.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "convirtió",
-     "t": 54.08,
+     "t": 53.36,
      "clave": false,
      "g": -1
     },
     {
      "w": "a",
-     "t": 54.64,
+     "t": 54.0,
      "clave": false,
      "g": -1
     },
     {
      "w": "gente",
-     "t": 54.88,
+     "t": 54.24,
      "clave": false,
      "g": -1
     },
     {
      "w": "normal...",
-     "t": 55.2,
+     "t": 54.64,
      "clave": false,
      "g": -1
     },
     {
      "w": "en",
-     "t": 55.84,
+     "t": 55.28,
      "clave": false,
      "g": -1
     },
     {
      "w": "los",
-     "t": 56.0,
+     "t": 55.52,
      "clave": false,
      "g": -1
     },
     {
      "w": "mejores",
-     "t": 56.24,
+     "t": 55.76,
      "clave": true,
-     "g": 17
+     "g": 15
     },
     {
      "w": "traders",
-     "t": 56.72,
+     "t": 56.32,
      "clave": false,
      "g": -1
     },
     {
      "w": "de",
-     "t": 57.28,
+     "t": 56.96,
      "clave": false,
      "g": -1
     },
     {
      "w": "la",
-     "t": 57.36,
+     "t": 57.12,
      "clave": false,
      "g": -1
     },
     {
      "w": "historia.",
-     "t": 57.52,
+     "t": 57.28,
      "clave": false,
      "g": -1
     }

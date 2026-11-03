@@ -9,6 +9,7 @@ import { CLAVE, PRO, SECUND, VIVO, Trazo, pr, sp, temblor, REBOTE } from "./mg";
 import { continua, type Vela } from "./Velas";
 import { LIBRA_DM } from "./libra";
 import { Planeta } from "./Planeta";
+import { Globo3D } from "./Globo3D";
 
 export const NOCHE = "#0A0F1E";
 export const ACERO = "#1F3A5F";
@@ -326,54 +327,375 @@ const Gancho: React.FC<PropsEscena> = ({ b }) => {
       </svg>
       <Hombre x={540} y={1300} esc={1.25} borde={f >= boom ? ROJO : PLATA} />
       <Titulo y={410} desde={pais} texto="UN PAÍS ENTERO" tam={110} />
-      <CajaTexto x={540} y={1400} desde={mil} texto="1.000.000.000 $" fondo={ORO} color={NOCHE} tam={120} />
+      <CajaTexto x={540} y={1400} desde={mil} texto={`${Math.round(1e9 * pr(f, mil, 22, Easing.out(Easing.quad))).toLocaleString("es-ES").replace(/\u00a0/g, ".")} $`} fondo={ORO} color={NOCHE} tam={120} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 330, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 30, letterSpacing: 8, color: PLATA, opacity: pr(f, boom, 8) * 0.85 }}>// LONDRES · 16 · 09 · 1992</div>
       <Titulo y={1580} desde={dia} texto="EN UN SOLO DÍA" tam={72} color={PLATA} fuente={VIVO} />
     </AbsoluteFill>
   );
 };
 
-/** 2 · Inglaterra 1992: Big Ben de plata, la £ atada al reloj con una cadena dorada y el sello 1992. */
-const Inglaterra: React.FC<PropsEscena> = ({ b, dur }) => {
+/** Mapa del Reino Unido en grande (para la escena 2): Londres queda en el centro del encuadre al hacer zoom. */
+const mp = ([lon, lat]: [number, number]) => [540 + (lon + 2.3) * 0.588 * 185, 1010 - (lat - 54.4) * 185] as const;
+const trazoMapa = (pts: [number, number][]) => "M" + pts.map((q) => mp(q).join(" ")).join(" L") + " Z";
+const CIUDADES_UK: [string, number, number, number][] = [
+  // nombre, lon, lat, lado de la etiqueta (1 derecha, -1 izquierda)
+  ["EDIMBURGO", -3.19, 55.95, 1],
+  ["GLASGOW", -4.25, 55.86, -1],
+  ["NEWCASTLE", -1.61, 54.98, 1],
+  ["LEEDS", -1.55, 53.8, 1],
+  ["MANCHESTER", -2.24, 53.48, 1],
+  ["LIVERPOOL", -2.98, 53.41, -1],
+  ["BIRMINGHAM", -1.9, 52.48, 1],
+  ["CARDIFF", -3.18, 51.48, -1],
+];
+const LONDRES_M = mp([-0.09, 51.51]);
+// Costa continental (Países Bajos → Bretaña), cerrada por fuera de la pantalla.
+const CONTINENTE: [number, number][] = [[9, 54.2], [7.0, 53.6], [5.0, 53.4], [4.5, 53.0], [3.5, 51.4], [1.6, 50.9], [1.5, 50.2], [-1.3, 49.7], [-1.9, 49.0], [-4.8, 48.5], [-4.8, 46], [9, 46]];
+
+/** Estrellas que titilan y destellos de cuatro puntas, como en el fondo de la serie. */
+const Cosmos: React.FC = () => {
   const f = useCurrentFrame();
-  const [lon, sello, atada, artificial, cueste] = b;
-  // primero se ve el mapa (lo dibuja el fondo); con «1992» Londres y el Big Ben se levantan desde el punto de Londres
-  const sube = pr(f, sello + 14, 26);
-  const dib = pr(f, sello + 18, 24);
-  void lon;
-  const hora = (f / 30) * 6;
-  const kS = sp(f, sello, REBOTE);
   return (
-    <AbsoluteFill style={{ transform: `scale(${1 + f * 0.0006})`, transformOrigin: "540px 1000px" }}>
-      <div style={{ position: "absolute", inset: 0, transform: `translateY(${(1 - sube) * 520}px)`, opacity: sube }}>
-        <Londres base={1420} color="#070B16" />
-      </div>
-      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
-        {/* torre del reloj */}
-        <Trazo d="M470 1420 L470 760 L610 760 L610 1420" p={dib} color={PLATA} grosor={6} />
-        <Trazo d="M455 760 L540 600 L625 760" p={dib} color={PLATA} grosor={6} />
-        <Trazo d="M540 600 L540 520" p={dib} color={PLATA} grosor={5} />
-        {[880, 980, 1080, 1180, 1280].map((y) => (
-          <Trazo key={y} d={`M480 ${y} L600 ${y}`} p={dib} color={PLATA} grosor={2} op={0.5} />
-        ))}
-        <circle cx={540} cy={820} r={52 * dib} fill={NOCHE} stroke={PLATA} strokeWidth={6} />
-        {dib > 0.8 && (
-          <g stroke={PLATA} strokeLinecap="round">
-            <line x1={540} y1={820} x2={540 + Math.sin((hora * Math.PI) / 180) * 40} y2={820 - Math.cos((hora * Math.PI) / 180) * 40} strokeWidth={5} />
-            <line x1={540} y1={820} x2={540} y2={790} strokeWidth={7} />
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+      {Array.from({ length: 110 }).map((_, k) => (
+        <circle key={k} cx={rnd(k * 11.1) * 1080} cy={rnd(k * 13.7) * 1920} r={0.6 + rnd(k * 3.1) * 1.5} fill="#F6ECD2" opacity={0.15 + 0.35 * (0.5 + 0.5 * Math.sin(f / 18 + rnd(k * 5.5) * 9))} />
+      ))}
+      {Array.from({ length: 9 }).map((_, k) => {
+        const x = 60 + rnd(k * 7.3) * 960,
+          y = 120 + rnd(k * 9.9) * 1680;
+        const b = Math.max(0, Math.sin(f / 22 + k * 1.7));
+        const l = 10 + 22 * b;
+        return (
+          <g key={`d${k}`} opacity={0.25 + 0.75 * b}>
+            <path d={`M${x} ${y - l} Q${x} ${y} ${x + l} ${y} Q${x} ${y} ${x} ${y + l} Q${x} ${y} ${x - l} ${y} Q${x} ${y} ${x} ${y - l} Z`} fill="#FFE2B0" />
+            <circle cx={x} cy={y} r={l * 0.9} fill="#F0A955" opacity={0.15} />
           </g>
-        )}
+        );
+      })}
+    </svg>
+  );
+};
+
+/** Película antigua: grano que cambia cada 2 fotogramas, rayas verticales sueltas, viñeta y parpadeo leve. */
+const Pelicula: React.FC<{ op: number }> = ({ op }) => {
+  const f = useCurrentFrame();
+  const semilla = Math.floor(f / 2);
+  const rayas = [0, 1, 2].filter((k) => rnd(semilla * 3.1 + k) > 0.55).map((k) => 60 + rnd(semilla * 7.7 + k) * 960);
+  return (
+    <AbsoluteFill style={{ opacity: op, pointerEvents: "none" }}>
+      <svg width={1080} height={1920} style={{ position: "absolute", inset: 0, mixBlendMode: "overlay", opacity: 0.5 }}>
+        <filter id="pel-grano">
+          <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves={2} seed={semilla} />
+          <feColorMatrix values="0 0 0 0 0.6  0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 1.2 -0.1" />
+        </filter>
+        <rect width={1080} height={1920} filter="url(#pel-grano)" />
       </svg>
-      <Libra x={210} y={1050} r={110 * sp(f, atada - 6)} giro={Math.sin(f / 20) * 6} />
-      <Cadena x0={290} y0={990} x1={510} y1={850} p={pr(f, atada, 16)} ondula={2} />
-      {/* sello de lacre */}
-      {f >= sello && (
-        <div style={{ position: "absolute", left: 790, top: 600, width: 210, height: 210, borderRadius: "50%", background: `radial-gradient(circle at 40% 35%, #CC5E48, ${ROJO} 60%, #5E2016)`, transform: `scale(${2 - kS}) rotate(-12deg)`, opacity: Math.min(1, kS * 1.4), display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>
-          <div style={{ fontFamily: CLAVE, fontSize: 70, color: "#3A0B06", opacity: 0.85 }}>1992</div>
+      <svg width={1080} height={1920} style={{ position: "absolute", inset: 0 }}>
+        {rayas.map((x, k) => (
+          <line key={k} x1={x} y1={0} x2={x + 6} y2={1920} stroke="#F2E6C8" strokeOpacity={0.12} strokeWidth={2} />
+        ))}
+      </svg>
+      <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 48%, transparent 45%, rgba(10,6,2,0.75) 100%)", opacity: 0.92 + 0.08 * Math.sin(f * 1.9) }} />
+    </AbsoluteFill>
+  );
+};
+
+/** Fachada del Banco de Inglaterra (Threadneedle Street): muro de Soane con nichos ciegos, pórtico de columnas
+ *  y el edificio de Baker detrás. Se dibuja con líneas según `p` (0–1). */
+const BancoInglaterra: React.FC<{ p: number; luz: number }> = ({ p, luz }) => {
+  const c = "#E8D9B5";
+  const t = (a: number) => Math.max(0, Math.min(1, (p - a) / 0.35));
+  const col = (x: number, y0: number, y1: number, k: number) => (
+    <g key={`c${x}-${y0}`}>
+      <Trazo d={`M${x - 14} ${y1} L${x - 14} ${y0} M${x + 14} ${y1} L${x + 14} ${y0}`} p={k} color={c} grosor={3} />
+      <Trazo d={`M${x - 22} ${y0} L${x + 22} ${y0} M${x - 20} ${y1} L${x + 20} ${y1}`} p={k} color={c} grosor={3} />
+    </g>
+  );
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+      <defs>
+        <linearGradient id="bi-luz" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={ORO} stopOpacity={0.0} />
+          <stop offset="1" stopColor={ORO} stopOpacity={0.22 * luz} />
+        </linearGradient>
+      </defs>
+      {/* edificio alto de Baker, detrás */}
+      <rect x={230} y={640} width={620} height={420} fill="url(#bi-luz)" />
+      <Trazo d="M230 1060 L230 640 L850 640 L850 1060" p={t(0.25)} color={c} grosor={4} />
+      <Trazo d="M215 640 L865 640 M215 615 L865 615" p={t(0.3)} color={c} grosor={3} />
+      {[300, 380, 460, 540, 620, 700, 780].map((x) => col(x, 700, 900, t(0.4)))}
+      <Trazo d="M230 700 L850 700 M230 900 L850 900" p={t(0.4)} color={c} grosor={3} />
+      {[300, 380, 460, 540, 620, 700, 780].map((x) => (
+        <g key={`v${x}`}>
+          <rect x={x - 8} y={960} width={16} height={60} fill={ORO} opacity={Math.max(0, Math.min(1, luz * 2 - (x - 300) / 480)) * 0.85} />
+          <Trazo d={`M${x - 8} 960 L${x - 8} 1020 L${x + 8} 1020 L${x + 8} 960 Z`} p={t(0.5)} color={c} grosor={2} op={0.7} />
+        </g>
+      ))}
+      {/* muro de Soane: largo, sin ventanas, con nichos ciegos */}
+      <rect x={70} y={1060} width={940} height={300} fill="rgba(232,217,181,0.05)" />
+      <Trazo d="M70 1360 L70 1060 L1010 1060 L1010 1360" p={t(0)} color={c} grosor={5} />
+      <Trazo d="M60 1060 L1020 1060 M60 1090 L1020 1090" p={t(0.05)} color={c} grosor={3} />
+      {[1150, 1210, 1270].map((y) => (
+        <Trazo key={`h${y}`} d={`M70 ${y} L1010 ${y}`} p={t(0.1)} color={c} grosor={1.5} op={0.35} />
+      ))}
+      {[140, 230, 320, 760, 850, 940].map((x) => (
+        <Trazo key={`n${x}`} d={`M${x - 26} 1330 L${x - 26} 1170 Q${x} 1130 ${x + 26} 1170 L${x + 26} 1330`} p={t(0.15)} color={c} grosor={2.5} op={0.8} />
+      ))}
+      {/* pórtico central */}
+      {[430, 490, 590, 650].map((x) => col(x, 1110, 1340, t(0.2)))}
+      <Trazo d="M510 1360 L510 1200 Q540 1160 570 1200 L570 1360" p={t(0.2)} color={ORO} grosor={4} />
+      <Trazo d="M400 1110 L680 1110 M400 1095 L680 1095" p={t(0.2)} color={c} grosor={3} />
+      {/* escalones */}
+      <Trazo d="M40 1360 L1040 1360 M20 1385 L1060 1385" p={t(0)} color={c} grosor={3} />
+      {/* mástil con la bandera (en plata, sin colores) */}
+      <Trazo d="M540 615 L540 520" p={t(0.6)} color={c} grosor={3} />
+      <path d={`M540 522 L${540 + 70 * t(0.7)} ${530 + Math.sin(useCurrentFrame() / 6) * 4} L540 560 Z`} fill={c} opacity={0.75 * t(0.7)} />
+    </svg>
+  );
+};
+
+/** Calle de Londres en 1992 delante del banco: farolas, un autobús de dos pisos y un taxi negro cruzando. */
+const Calle1992: React.FC<{ desde: number }> = ({ desde }) => {
+  const f = useCurrentFrame();
+  const c = "#E8D9B5";
+  const t = f - desde;
+  const bus = -340 + t * 9.5;
+  const taxi = 1200 - t * 14;
+  const farola = (x: number) => (
+    <g key={x}>
+      <circle cx={x} cy={1210} r={70} fill={ORO} opacity={0.12} />
+      <rect x={x - 4} y={1225} width={8} height={255} fill="#0E0A05" />
+      <path d={`M${x - 18} 1225 L${x + 18} 1225 L${x + 12} 1195 L${x - 12} 1195 Z`} fill={ORO} opacity={0.9} />
+      <path d={`M${x - 20} 1195 L${x} 1180 L${x + 20} 1195 Z`} fill="#0E0A05" />
+    </g>
+  );
+  return (
+    <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+      {/* acera y calzada */}
+      <rect x={0} y={1480} width={1080} height={10} fill={c} opacity={0.25} />
+      {farola(110)}
+      {farola(970)}
+      {/* autobús de dos pisos (el único rojo de la escena) */}
+      <g transform={`translate(${bus} 1330)`}>
+        <rect x={0} y={0} width={300} height={140} rx={16} fill={ROJO} opacity={0.88} />
+        {[0, 1].map((r) => [20, 80, 140, 200].map((x) => <rect key={`${r}-${x}`} x={x} y={14 + r * 62} width={46} height={34} rx={4} fill="#F2D58A" opacity={0.55} />))}
+        <rect x={252} y={76} width={34} height={54} rx={3} fill="#1A0D08" />
+        <circle cx={62} cy={142} r={20} fill="#0E0A05" />
+        <circle cx={240} cy={142} r={20} fill="#0E0A05" />
+      </g>
+      {/* taxi negro */}
+      <g transform={`translate(${taxi} 1405)`}>
+        <path d="M0 60 L0 34 Q10 26 40 24 L62 2 L150 2 L178 26 Q200 28 204 38 L204 60 Z" fill="#0E0A05" stroke={c} strokeOpacity={0.5} strokeWidth={2} />
+        <rect x={74} y={10} width={30} height={18} fill="#F2D58A" opacity={0.4} />
+        <rect x={112} y={10} width={30} height={18} fill="#F2D58A" opacity={0.4} />
+        <rect x={96} y={-8} width={26} height={10} rx={2} fill={ORO} />
+        <circle cx={44} cy={62} r={15} fill="#0E0A05" stroke={c} strokeOpacity={0.4} />
+        <circle cx={164} cy={62} r={15} fill="#0E0A05" stroke={c} strokeOpacity={0.4} />
+      </g>
+    </svg>
+  );
+};
+
+/** Teletexto de la tele británica (Ceefax, página 210): la cotización se escribe letra a letra. */
+const Teletexto: React.FC<{ desde: number; op: number }> = ({ desde, op }) => {
+  const f = useCurrentFrame();
+  if (f < desde) return null;
+  const lineas: [string, string][] = [
+    ["P210  CEEFAX 210", "#FFFFFF"],
+    ["MERCADOS · LIBRA", "#00E5FF"],
+    ["GBP/DEM  2,7780 ▼", "#FFE600"],
+  ];
+  let quedan = Math.floor((f - desde) * 1.6);
+  return (
+    <div style={{ position: "absolute", left: 150, top: 385, width: 780, padding: "10px 22px", background: "#000", opacity: op * 0.92, fontFamily: F.mono, fontWeight: 700, fontSize: 28, lineHeight: 1.25, letterSpacing: 2, boxShadow: "0 0 0 3px #222" }}>
+      {lineas.map(([txt, color], i) => {
+        const n = Math.max(0, Math.min(txt.length, quedan));
+        quedan -= txt.length;
+        return (
+          <div key={i} style={{ color, whiteSpace: "pre" }}>
+            {txt.slice(0, n)}
+            {n < txt.length && n > 0 && Math.floor(f / 6) % 2 === 0 ? "█" : ""}
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
+/** 2 · «Inglaterra, 1992»: globo 3D de noche → la cámara cae sobre Gran Bretaña → mapa antiguo con las ciudades
+ *  → zoom a Londres → el Banco de Inglaterra se dibuja; la libra queda encadenada a su puerta. */
+const Inglaterra: React.FC<PropsEscena> = ({ b }) => {
+  const f = useCurrentFrame();
+  const [ing, anio, atada, artificial, banco, cueste] = b;
+  // 1) vuelo hacia el Reino Unido
+  const vuelo = interpolate(f, [0, atada - 4], [0, 1], { ...cl, easing: Easing.inOut(Easing.cubic) });
+  const giro = interpolate(f, [0, atada - 4], [1.1, 0], { ...cl, easing: Easing.out(Easing.cubic) });
+  // 2) el globo se funde con el mapa antiguo
+  const mapa = interpolate(f, [atada - 10, atada + 4], [0, 1], cl);
+  const costa = pr(f, atada - 6, 28);
+  // 3) zoom a Londres y entra el banco
+  const zoom = interpolate(f, [banco - 16, banco + 8], [1, 6], { ...cl, easing: Easing.in(Easing.cubic) });
+  const banc = interpolate(f, [banco - 2, banco + 6], [0, 1], cl);
+  const dibuja = pr(f, banco, 34, Easing.inOut(Easing.cubic));
+  const antiguo = interpolate(f, [atada - 10, atada + 6], [0, 1], cl);
+  const kS = sp(f, anio, REBOTE);
+  return (
+    <AbsoluteFill style={{ background: NOCHE }}>
+      {/* globo */}
+      {mapa < 1 && (
+        <AbsoluteFill style={{ opacity: 1 - mapa }}>
+          <AbsoluteFill style={{ background: `radial-gradient(ellipse at 50% 45%, #13254A 0%, ${NOCHE} 65%)` }} />
+          <Cosmos />
+          <Globo3D vuelo={vuelo} giro={giro} costas={[GB, IRLANDA]} brillo={1 + 0.3 * Math.sin(f / 7)} arcos={pr(f, ing + 2, Math.max(20, atada - ing - 16), Easing.inOut(Easing.quad))} />
+        </AbsoluteFill>
+      )}
+      {/* mapa antiguo y banco, en sepia */}
+      {mapa > 0 && (
+        <AbsoluteFill style={{ opacity: mapa, background: "radial-gradient(ellipse at 45% 40%, #17385A 0%, #0C1D33 55%, #060E1A 100%)" }}>
+          <AbsoluteFill style={{ opacity: 1 - banc, transform: `perspective(1700px) rotateX(${interpolate(f, [atada - 10, atada + 34], [52, 0], { ...cl, easing: Easing.out(Easing.cubic) })}deg) translate(${(540 - LONDRES_M[0]) * Math.sqrt((zoom - 1) / 5)}px, ${(1150 - LONDRES_M[1]) * Math.sqrt((zoom - 1) / 5)}px) scale(${zoom})`, transformOrigin: `${LONDRES_M[0]}px ${LONDRES_M[1]}px` }}>
+            <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+              <defs>
+                <linearGradient id="mp-tierra" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#E6DDB0" />
+                  <stop offset="0.5" stopColor="#BFC08A" />
+                  <stop offset="1" stopColor="#8F9A62" />
+                </linearGradient>
+                <linearGradient id="mp-apagada" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stopColor="#7D7462" />
+                  <stop offset="1" stopColor="#4E4638" />
+                </linearGradient>
+                <filter id="mp-relieve" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="12" floodColor="#000" floodOpacity="0.55" />
+                </filter>
+                <clipPath id="mp-gb">
+                  <path d={trazoMapa(GB)} />
+                </clipPath>
+                <filter id="mp-difumina" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="28" />
+                </filter>
+                <filter id="mp-brillo" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="6" />
+                </filter>
+              </defs>
+              {/* olas suaves en el mar */}
+              {Array.from({ length: 14 }).map((_, k) => {
+                const y = 140 + k * 130;
+                const dx = Math.sin(f / 30 + k) * 20;
+                return <path key={`ol${k}`} d={`M${-40 + dx} ${y} q60 -14 120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0 t120 0`} fill="none" stroke="#8FB3D9" strokeOpacity={0.07} strokeWidth={2} />;
+              })}
+              {/* Europa continental, apagada, en la esquina */}
+              <path d={trazoMapa(CONTINENTE)} fill="url(#mp-apagada)" opacity={0.85 * costa} filter="url(#mp-relieve)" />
+              <text x={1000} y={1760} textAnchor="end" fontFamily={F.mono} fontWeight={700} fontSize={26} letterSpacing={6} fill="#C9BFA8" opacity={0.7 * costa}>EUROPA</text>
+              {/* retícula de meridianos y paralelos */}
+              {[-6, -4, -2, 0, 2].map((lo) => (
+                <line key={`lo${lo}`} x1={mp([lo, 60])[0]} y1={0} x2={mp([lo, 48])[0]} y2={1920} stroke="#8FB3D9" strokeOpacity={0.12} strokeWidth={2} />
+              ))}
+              {[50, 52, 54, 56, 58].map((la) => (
+                <line key={`la${la}`} x1={0} y1={mp([0, la])[1]} x2={1080} y2={mp([0, la])[1]} stroke="#8FB3D9" strokeOpacity={0.12} strokeWidth={2} />
+              ))}
+              {[IRLANDA, GB].map((pts, i) => (
+                <g key={i}>
+                  <path d={trazoMapa(pts)} fill="none" stroke={ORO} strokeWidth={16} strokeOpacity={0.22 * costa} filter="url(#mp-brillo)" />
+                  <path d={trazoMapa(pts)} fill={i ? "url(#mp-tierra)" : "url(#mp-apagada)"} opacity={costa} filter="url(#mp-relieve)" />
+                  <path d={trazoMapa(pts)} fill="none" stroke={i ? "#FFF3D6" : "#B9AE96"} strokeWidth={3} strokeLinejoin="round" pathLength={1} strokeDasharray="1 1" strokeDashoffset={1 - costa} />
+                </g>
+              ))}
+              <g clipPath="url(#mp-gb)" opacity={costa} filter="url(#mp-difumina)">
+                {(
+                  [
+                    [-4.6, 57.2, 170, 120, 0.75],
+                    [-4.0, 55.4, 120, 60, 0.5],
+                    [-2.2, 54.4, 50, 150, 0.55],
+                    [-3.7, 52.4, 90, 110, 0.6],
+                    [-3.9, 50.6, 70, 40, 0.35],
+                  ] as const
+                ).map(([lo, la, rx, ry, o], k) => (
+                  <ellipse key={`al${k}`} cx={mp([lo, la])[0]} cy={mp([lo, la])[1]} rx={rx} ry={ry} fill="#8A6236" opacity={o} />
+                ))}
+              </g>
+              <text x={mp([-4.6, 57.3])[0]} y={mp([-4.6, 57.3])[1]} textAnchor="middle" fontFamily={F.mono} fontWeight={700} fontSize={20} letterSpacing={6} fill="#3B2A14" opacity={0.55 * costa}>HIGHLANDS</text>
+              <text x={mp([-8.2, 53.3])[0]} y={mp([-8.2, 53.3])[1]} textAnchor="middle" fontFamily={F.mono} fontWeight={700} fontSize={22} letterSpacing={5} fill="#2E2618" opacity={0.6 * costa}>IRLANDA</text>
+              {/* la libra atada al marco: línea dorada de Londres hacia Alemania */}
+              {f >= artificial && (
+                <g opacity={pr(f, artificial, 10)}>
+                  <path d={`M${LONDRES_M[0]} ${LONDRES_M[1]} Q${LONDRES_M[0] + 120} ${LONDRES_M[1] - 220} 1080 ${LONDRES_M[1] - 190}`} fill="none" stroke={ORO} strokeWidth={5} strokeDasharray="16 12" strokeDashoffset={-f * 2} pathLength={undefined} />
+                  <rect x={1060 - 300} y={LONDRES_M[1] - 254} width={312} height={44} rx={8} fill="#0C1D33" opacity={0.88} stroke={ORO} strokeWidth={2} />
+                  <text x={1060} y={LONDRES_M[1] - 222} textAnchor="end" fontFamily={F.mono} fontWeight={700} fontSize={26} letterSpacing={3} fill={ORO}>MARCO ALEMÁN →</text>
+                </g>
+              )}
+              {CIUDADES_UK.map(([nombre, lo, la, lado], k) => {
+                const [x, y] = mp([lo, la]);
+                const ini = atada + 6 + Math.hypot(x - LONDRES_M[0], y - LONDRES_M[1]) / 55;
+                const e = sp(f, ini);
+                const onda = pr(f, ini, 18);
+                void k;
+                return (
+                  <g key={nombre} opacity={Math.min(1, e)}>
+                    <circle cx={x} cy={y} r={8 + 40 * onda} fill="none" stroke={ORO} strokeWidth={3} opacity={(1 - onda) * 0.8} />
+                    <circle cx={x} cy={y} r={9 * e} fill={ACERO} stroke={ORO} strokeWidth={3} />
+                    <line x1={x + lado * 12} y1={y} x2={x + lado * 34 * e} y2={y} stroke="#3A2C18" strokeOpacity={0.7} strokeWidth={2} />
+                    <rect x={lado > 0 ? x + 34 : x - 34 - nombre.length * 19 - 12} y={y - 18} width={nombre.length * 19 + 12} height={36} rx={6} fill="#0C1D33" opacity={0.82 * Math.min(1, e)} />
+                    <text x={x + lado * 40} y={y + 9} textAnchor={lado > 0 ? "start" : "end"} fontFamily={F.mono} fontWeight={700} fontSize={26} letterSpacing={3} fill="#F2E6C8">
+                      {nombre}
+                    </text>
+                  </g>
+                );
+              })}
+              {/* Londres, en oro y latiendo */}
+              {(() => {
+                const e = sp(f, atada + 2, REBOTE);
+                return (
+                  <g>
+                    <circle cx={LONDRES_M[0]} cy={LONDRES_M[1]} r={(26 + 12 * Math.abs(Math.sin(f / 7))) * e} fill={ORO} opacity={0.25} />
+                    <circle cx={LONDRES_M[0]} cy={LONDRES_M[1]} r={11 * e} fill={ORO} />
+                    <rect x={LONDRES_M[0] + 18} y={LONDRES_M[1] - 56} width={196} height={46} rx={8} fill="#0C1D33" opacity={0.88 * Math.min(1, e)} stroke={ORO} strokeWidth={2} />
+                    <text x={LONDRES_M[0] + 30} y={LONDRES_M[1] - 22} fontFamily={F.mono} fontWeight={700} fontSize={34} letterSpacing={4} fill={ORO} opacity={Math.min(1, e)}>
+                      LONDRES
+                    </text>
+                  </g>
+                );
+              })()}
+            </svg>
+            {/* «precio artificial»: la libra fijada al marco */}
+            {f >= artificial && (
+              <div style={{ position: "absolute", left: LONDRES_M[0] - 330, top: LONDRES_M[1] + 50, padding: "14px 22px", border: `2px solid ${ORO}`, background: "rgba(26,19,10,0.85)", fontFamily: F.mono, fontWeight: 700, fontSize: 34, color: ORO, letterSpacing: 2, transform: `scale(${sp(f, artificial, REBOTE)})`, transformOrigin: "100% 0%" }}>
+                £1 = 2,95 DM <span style={{ color: "#E8D9B5", fontSize: 22, letterSpacing: 4 }}>· FIJO</span>
+              </div>
+            )}
+          </AbsoluteFill>
+          {/* Banco de Inglaterra */}
+          {banc > 0 && (
+            <AbsoluteFill style={{ opacity: banc, transform: `scale(${1.12 - 0.12 * pr(f, banco, 60)})`, transformOrigin: "540px 1100px" }}>
+              <AbsoluteFill style={{ background: "linear-gradient(180deg, #0B1830 0%, #15233E 38%, #2E2A2A 70%, #3A2A16 100%)" }} />
+              <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+                {Array.from({ length: 40 }).map((_, k) => (
+                  <circle key={k} cx={rnd(k * 4.1) * 1080} cy={60 + rnd(k * 6.3) * 560} r={1 + rnd(k * 2.9) * 1.6} fill="#F6ECD2" opacity={0.2 + 0.4 * (0.5 + 0.5 * Math.sin(f / 14 + k))} />
+                ))}
+              </svg>
+              <BancoInglaterra p={dibuja} luz={pr(f, banco + 20, 20)} />
+              <Calle1992 desde={banco} />
+              <Libra x={540} y={1590} r={95 * sp(f, cueste - 4, REBOTE)} giro={Math.sin(f / 18) * 5} />
+              <Cadena x0={470} y0={1580} x1={200} y1={1380} p={pr(f, cueste - 2, 14)} />
+              <Cadena x0={610} y0={1580} x1={880} y1={1380} p={pr(f, cueste - 2, 14)} />
+              <div style={{ position: "absolute", left: 0, right: 0, top: 1064, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 20, letterSpacing: 9, color: "#E8D9B5", opacity: pr(f, banco + 10, 14) * 0.9 }}>
+                BANCO DE INGLATERRA
+              </div>
+            </AbsoluteFill>
+          )}
+          <Pelicula op={antiguo} />
+        </AbsoluteFill>
+      )}
+      {/* cabecera fija: capítulo y sello del año */}
+      <div style={{ position: "absolute", left: 0, right: 0, top: 330, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 30, letterSpacing: 8, color: mapa > 0.5 ? "#E8D9B5" : PLATA, opacity: pr(f, ing, 10) }}>
+        // REINO UNIDO · {f >= anio ? "1992" : "····"}
+      </div>
+      {f >= anio && (
+        <div style={{ position: "absolute", left: 800, top: 400, width: 190, height: 190, borderRadius: "50%", background: `radial-gradient(circle at 40% 35%, #CC5E48, ${ROJO} 60%, #5E2016)`, transform: `scale(${2 - kS}) rotate(-12deg)`, opacity: Math.min(1, kS * 1.4) * (1 - pr(f, atada + 30, 12)), display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>
+          <div style={{ fontFamily: CLAVE, fontSize: 64, color: "#3A0B06", opacity: 0.85 }}>1992</div>
         </div>
       )}
-      <CajaTexto x={540} y={1480} desde={artificial} texto="PRECIO ARTIFICIAL" fondo="transparent" contorno={PLATA} color={PLATA} tam={70} />
-      <Titulo y={1610} desde={cueste} texto="CUESTE LO QUE CUESTE" tam={78} color={ORO} />
-      {void dur}
+      {mapa > 0 && <Teletexto desde={atada + 30} op={mapa} />}
+      <Titulo y={1740} desde={cueste} texto="CUESTE LO QUE CUESTE" tam={78} color={ORO} />
     </AbsoluteFill>
   );
 };
@@ -393,6 +715,9 @@ const Grieta: React.FC<PropsEscena> = ({ b }) => {
         <div style={{ position: "absolute", left: 40, top: 30, fontFamily: PRO, fontSize: 40, color: `${PLATA}AA`, letterSpacing: 4 }}>GBP / DEM</div>
         <div style={{ position: "absolute", left: 40, top: 85, fontFamily: PRO, fontSize: 120, color: PLATA }}>{precio.toFixed(4).replace(".", ",")}</div>
         <div style={{ position: "absolute", left: 40, bottom: 34, fontFamily: PRO, fontSize: 34, color: ROJO }}>SUELO DEL ERM · 2,7780</div>
+        {/* pantalla de tubo: líneas de barrido y una franja de luz que baja */}
+        <div style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0px, rgba(0,0,0,0.22) 2px, transparent 2px, transparent 5px)" }} />
+        <div style={{ position: "absolute", left: 0, right: 0, top: ((f * 9) % 560) - 90, height: 90, background: "linear-gradient(180deg, transparent, rgba(201,209,217,0.08), transparent)" }} />
         {/* ojos reflejados */}
         <svg width={860} height={470} style={{ position: "absolute", left: 0, top: 0, opacity: 0.55 * ojos }}>
           {[290, 570].map((cx) => (
@@ -404,6 +729,10 @@ const Grieta: React.FC<PropsEscena> = ({ b }) => {
           ))}
         </svg>
       </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 330, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 30, letterSpacing: 8, color: PLATA, opacity: pr(f, inv, 8) * 0.85 }}>// MERCADO DE DIVISAS · LONDRES</div>
+      {f >= inv && (
+        <div style={{ position: "absolute", left: 110, top: 455, padding: "8px 18px", background: "#0C1D33", border: `2px solid ${ORO}`, borderRadius: 8, fontFamily: F.mono, fontWeight: 700, fontSize: 26, letterSpacing: 4, color: ORO, transform: `scale(${sp(f, inv, REBOTE)})`, transformOrigin: "0 50%" }}>INVERSIONISTA · HUNGRÍA → EE. UU.</div>
+      )}
       <Cadena x0={120} y0={1130} x1={960} y1={1130} p={1} grieta={g} ondula={g > 0.6 ? 3 : 1} />
       {g > 0 && g < 1 && (
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
@@ -421,79 +750,93 @@ const Grieta: React.FC<PropsEscena> = ({ b }) => {
   );
 };
 
-/** 4 · Balanza: el banco en un plato y Soros en el otro, lanzando libras al banco. */
+/** 4 · El pulso: la libra en la banda del ERM (datos reales del BoE hasta el 16-09). Soros empuja hacia abajo
+ *  con órdenes de venta y el Banco de Inglaterra compra para sostenerla en el suelo de 2,778. */
+const SERIE_ERM = LIBRA_DM.slice(0, LIBRA_DM.findIndex((d) => d.d === "16 Sep") + 1).map((d) => d.c);
+const AZUL = "#4C8DFF";
+/** Flecha de orden (abajo = venta, arriba = compra). */
+const Flecha: React.FC<{ x: number; y: number; abajo: boolean; color: string }> = ({ x, y, abajo, color }) => (
+  <g transform={`translate(${x} ${y}) scale(${abajo ? 1 : -1})`}>
+    <rect x={-7} y={-46} width={14} height={36} rx={4} fill={color} />
+    <path d="M-20 -14 L0 12 L20 -14 Z" fill={color} />
+  </g>
+);
 const Balanza: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
-  const [soros, millones, fallaba, acertaba, banco, vende] = b;
-  // cada ficha sale de la mano y tarda VUELO fotogramas en llegar; cada vez más seguidas
-  const VUELO = 16;
-  const salen = Array.from({ length: 26 }).map((_, k) => soros + 6 + k * (k < 10 ? 9 : 5));
-  const dentro = salen.filter((c) => f >= c + VUELO).length;
-  const tilt = -Math.min(16, dentro * 0.7) + Math.sin(f / 10) * 0.6;
-  const cx = 540,
-    cy = 860,
-    L = 330;
-  const rad = (tilt * Math.PI) / 180;
-  const iz = { x: cx - Math.cos(rad) * L, y: cy - Math.sin(rad) * L };
-  const de = { x: cx + Math.cos(rad) * L, y: cy + Math.sin(rad) * L };
-  const yPlatoI = iz.y + 160,
-    yPlatoD = de.y + 160;
-  const ESC = 0.62;
-  // mano de Soros (fin del brazo) y montón del banco
-  const brazo = 0.6 + 0.4 * Math.abs(Math.sin((f - soros) / 4.5));
-  const mano = { x: de.x + (-230 - 60 * brazo) * ESC, y: yPlatoD + (-260 - 70 * brazo) * ESC };
-  const monton = (k: number) => ({ x: iz.x + ((k % 5) - 2) * 34, y: yPlatoI - 236 - Math.floor(k / 5) * 14 });
-  const latido = 1 + 0.03 * Math.abs(Math.sin((f - soros) / (f > banco ? 3 : 6)));
+  const [soros, millones, libra, compra, vende] = b;
+  const G = { x0: 90, x1: 990, y0: 620, y1: 1260 };
+  const hi = 2.99,
+    lo = 2.74;
+  const y = (p: number) => G.y0 + ((hi - p) / (hi - lo)) * (G.y1 - G.y0);
+  const n = SERIE_ERM.length;
+  const dib = pr(f, soros - 6, Math.max(30, compra - soros), Easing.inOut(Easing.quad));
+  const pts = SERIE_ERM.slice(0, Math.max(2, Math.ceil(1 + dib * (n - 1)))).map((p, k) => [G.x0 + (k / (n - 1)) * (G.x1 - G.x0 - 120), y(p)] as [number, number]);
+  // al final el precio tiembla pegado al suelo: el pulso
+  const pulso = f > vende ? Math.sin(f * 1.3) * 7 : f > compra ? Math.sin(f * 0.9) * 4 : 0;
+  const [ux, uy] = pts[pts.length - 1];
+  const ventas = f >= libra ? Math.min(26, 1 + Math.floor((f - libra) / (f > vende ? 2 : 5))) : 0;
+  const compras = f >= compra ? Math.min(16, 1 + Math.floor((f - compra) / 4)) : 0;
+  const grieta = pr(f, vende + 6, 20);
   return (
     <AbsoluteFill>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 330, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 30, letterSpacing: 8, color: PLATA, opacity: pr(f, 0, 10) * 0.85 }}>// LIBRA EN EL ERM · SEPT 1992</div>
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
-        <path d={`M${cx} ${cy} L${cx - 70} 1290 L${cx + 70} 1290 Z`} fill={ACERO_PLATA} stroke={PLATA} strokeWidth={4} />
-        <g transform={`rotate(${tilt} ${cx} ${cy})`}>
-          <rect x={cx - L - 20} y={cy - 8} width={2 * L + 40} height={16} rx={8} fill={PLATA} />
-        </g>
-        <circle cx={cx} cy={cy} r={18} fill={ORO} />
-        {[
-          [iz.x, iz.y, yPlatoI],
-          [de.x, de.y, yPlatoD],
-        ].map(([x, y, yp], k) => (
-          <g key={k}>
-            <line x1={x} y1={y} x2={x - 110} y2={yp} stroke={PLATA} strokeWidth={3} />
-            <line x1={x} y1={y} x2={x + 110} y2={yp} stroke={PLATA} strokeWidth={3} />
-            <path d={`M${x - 130} ${yp} Q${x} ${yp + 50} ${x + 130} ${yp} Z`} fill={ACERO_PLATA} stroke={PLATA} strokeWidth={4} />
-          </g>
-        ))}
-        {/* banco de cúpula */}
-        <g transform={`translate(${iz.x} ${yPlatoI})`}>
-          <path d="M-95 0 L-95 -110 L95 -110 L95 0 Z" fill="#0C1426" stroke={PLATA} strokeWidth={4} />
-          {[-70, -35, 0, 35, 70].map((x) => (
-            <rect key={x} x={x - 7} y={-105} width={14} height={100} fill={PLATA} opacity={0.6} />
-          ))}
-          <path d="M-110 -110 L0 -150 L110 -110 Z" fill={PLATA} />
-          <path d="M-50 -150 Q0 -230 50 -150 Z" fill={PLATA} opacity={0.85} />
-        </g>
-        {Array.from({ length: dentro }).map((_, k) => {
-          const m = monton(k);
-          return <ellipse key={k} cx={m.x} cy={m.y} rx={20} ry={7} fill={PLATA} stroke="#6F7C8A" strokeWidth={2} />;
+        <defs>
+          <linearGradient id="erm-banda" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor={ORO} stopOpacity={0.1} />
+            <stop offset="1" stopColor={ROJO} stopOpacity={0.14} />
+          </linearGradient>
+        </defs>
+        {/* banda permitida: del central al suelo */}
+        <rect x={G.x0} y={y(2.95)} width={G.x1 - G.x0} height={y(2.778) - y(2.95)} fill="url(#erm-banda)" opacity={pr(f, 0, 14)} />
+        <line x1={G.x0} y1={y(2.95)} x2={G.x1} y2={y(2.95)} stroke="#E8D9B5" strokeWidth={3} strokeDasharray="12 10" opacity={0.6} />
+        <text x={G.x1} y={y(2.95) - 14} textAnchor="end" fontFamily={F.mono} fontWeight={700} fontSize={26} letterSpacing={3} fill="#E8D9B5">CENTRAL 2,95</text>
+        <line x1={G.x0} y1={y(2.778)} x2={G.x1} y2={y(2.778)} stroke={ROJO} strokeWidth={5} />
+        <text x={G.x1} y={y(2.778) + 38} textAnchor="end" fontFamily={F.mono} fontWeight={700} fontSize={26} letterSpacing={3} fill={ROJO}>SUELO 2,778</text>
+        {/* el suelo se agrieta cuando Soros no para */}
+        {grieta > 0 && <Trazo d={`M${G.x1 - 330} ${y(2.778)} l30 18 l26 -26 l34 30 l22 -20 l40 24 l30 -14`} p={grieta} color="#FFE2B0" grosor={4} />}
+        {/* precio real (cierres diarios del BoE) */}
+        <polyline points={pts.map(([x, yy], k) => `${x},${k === pts.length - 1 ? yy + pulso : yy}`).join(" ")} fill="none" stroke={PLATA} strokeWidth={7} strokeLinejoin="round" strokeLinecap="round" />
+        <circle cx={ux} cy={uy + pulso} r={16 + 6 * Math.abs(Math.sin(f / 5))} fill={PLATA} opacity={0.2} />
+        <circle cx={ux} cy={uy + pulso} r={10} fill={PLATA} />
+        {/* órdenes de venta de Soros: caen sobre el precio */}
+        {Array.from({ length: ventas }).map((_, k) => {
+          const c = libra + k * (f > vende && k > 8 ? 2 : 5);
+          const t = Math.min(1, (f - c) / 12);
+          if (t <= 0 || t >= 1) return null;
+          return <Flecha key={`v${k}`} x={ux - 60 + rnd(k * 3.3) * 160} y={560 + t * (uy - 600)} abajo color={ROJO} />;
         })}
-        {/* fichas en el aire: arco de la mano al montón */}
-        {salen.map((c, k) => {
-          if (f < c || f >= c + VUELO) return null;
-          const t = (f - c) / VUELO;
-          const m = monton(k);
-          const x = mano.x + (m.x - mano.x) * t;
-          const y = mano.y + (m.y - mano.y) * t - Math.sin(t * Math.PI) * 170;
-          return <ellipse key={k} cx={x} cy={y} rx={20} ry={7} fill={PLATA} stroke="#6F7C8A" strokeWidth={2} transform={`rotate(${t * 360} ${x} ${y})`} />;
+        {/* compras del Banco de Inglaterra: suben desde abajo */}
+        {Array.from({ length: compras }).map((_, k) => {
+          const c = compra + k * 4;
+          const t = Math.min(1, (f - c) / 12);
+          if (t <= 0 || t >= 1) return null;
+          return <Flecha key={`c${k}`} x={ux - 70 + rnd(k * 7.1) * 140} y={1480 - t * (1480 - uy - 50)} abajo={false} color={AZUL} />;
         })}
       </svg>
-      <Hombre x={de.x} y={yPlatoD} esc={ESC} brazo={brazo} />
-      <div style={{ position: "absolute", left: 0, right: 0, top: 1330, display: "flex", justifyContent: "center", opacity: f >= millones ? 1 : 0, transform: `scale(${latido})` }}>
-        <div style={{ background: ORO, color: NOCHE, fontFamily: CLAVE, fontSize: 96, padding: "4px 30px", transform: "rotate(-2deg)" }}>
-          {Math.round(10000 * pr(f, millones, 26)).toLocaleString("es-ES").replace(/\u00a0/g, ".")} MILLONES $
+      {/* los dos bandos */}
+      <Hombre x={880} y={1700} esc={0.62} borde={f >= libra ? ROJO : PLATA} op={pr(f, soros, 10)} />
+      {f >= soros && <div style={{ position: "absolute", left: 700, top: 1730, width: 360, textAlign: "center", fontFamily: F.mono, fontWeight: 700, fontSize: 26, letterSpacing: 4, color: ROJO, opacity: pr(f, soros, 10) }}>SOROS · VENDE £</div>}
+      {f >= compra && (
+        <div style={{ position: "absolute", left: 60, top: 1540, width: 380, textAlign: "center", opacity: pr(f, compra, 10), transform: `scale(${sp(f, compra, REBOTE)})` }}>
+          <svg width={380} height={170}>
+            <path d="M60 160 L60 60 L320 60 L320 160 Z" fill="#0C1426" stroke={AZUL} strokeWidth={4} />
+            {[100, 150, 200, 250, 290].map((x) => (
+              <rect key={x} x={x - 8} y={66} width={14} height={90} fill={AZUL} opacity={0.6} />
+            ))}
+            <path d="M40 60 L190 18 L340 60 Z" fill={AZUL} />
+          </svg>
+          <div style={{ fontFamily: F.mono, fontWeight: 700, fontSize: 26, letterSpacing: 4, color: AZUL }}>BANCO · COMPRA £</div>
         </div>
-      </div>
-      <Titulo y={430} desde={fallaba} texto="POCO RIESGO" tam={100} color={PLATA} />
-      <Titulo y={540} desde={acertaba} texto="MUCHO PREMIO" tam={100} color={ORO} />
-      <Titulo y={1480} desde={vende} texto="Y SEGUÍA VENDIENDO" tam={64} color={PLATA} fuente={VIVO} />
+      )}
+      {f >= millones && (
+        <div style={{ position: "absolute", left: 0, right: 0, top: 455, display: "flex", justifyContent: "center", transform: `scale(${sp(f, millones, REBOTE)})` }}>
+          <div style={{ background: ORO, color: NOCHE, fontFamily: CLAVE, fontSize: 84, padding: "4px 28px", transform: "rotate(-2deg)" }}>
+            {Math.round(10000 * pr(f, millones, 26)).toLocaleString("es-ES").replace(/ /g, ".")} MILLONES $
+          </div>
+        </div>
+      )}
+      <Titulo y={1360} desde={vende} texto="Y SEGUÍA VENDIENDO" tam={70} color={PLATA} fuente={VIVO} />
     </AbsoluteFill>
   );
 };
@@ -555,7 +898,8 @@ const Miercoles: React.FC<PropsEscena> = ({ b }) => {
 /** 6a · El periódico con el titular. */
 const Periodico: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
-  const [diarios, hombre, quebro] = b;
+  const [diarios, hombre, quebro, banco] = b;
+  const kS = sp(f, banco, REBOTE);
   const k = sp(f, diarios, { damping: 14, stiffness: 120, mass: 0.8 });
   const giro = (1 - k) * 540;
   return (
@@ -575,35 +919,28 @@ const Periodico: React.FC<PropsEscena> = ({ b }) => {
           </div>
         </div>
       </div>
+      {f >= banco && (
+        <div style={{ position: "absolute", left: 700, top: 500, width: 220, height: 220, borderRadius: "50%", border: `8px solid ${ROJO}`, color: ROJO, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center", fontFamily: CLAVE, fontSize: 40, lineHeight: 1.05, transform: `scale(${2.2 - 1.2 * kS}) rotate(14deg)`, opacity: Math.min(1, kS * 1.5) * 0.9 }}>
+          16·09
+          <br />
+          1992
+        </div>
+      )}
       <CajaTexto x={540} y={1360} desde={quebro} texto="EL HOMBRE QUE QUEBRÓ" fondo={PLATA} color={NOCHE} tam={66} />
       <CajaTexto x={540} y={1450} desde={quebro + 6} texto="AL BANCO DE INGLATERRA" fondo={PLATA} color={NOCHE} tam={66} giro={1} />
     </AbsoluteFill>
   );
 };
 
-/** 6b · La regla: velas e indicadores tachados; folio bajo la lámpara. */
+/** 6b · La regla: folio bajo la lámpara. */
 const Regla: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
-  const [velas, ind, regla, razon, todo] = b;
-  const fuera = pr(f, regla, 10);
+  const [regla, razon, todo] = b;
+  const fuera = pr(f, regla - 8, 12);
   const escribe = pr(f, razon, 24, Easing.linear);
   const frase = "Cuando tienes razón:";
   return (
     <AbsoluteFill>
-      {/* velas e indicadores que se tachan */}
-      <div style={{ opacity: 1 - fuera }}>
-        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
-          {[0, 1, 2, 3].map((k) => {
-            const x = 200 + k * 60,
-              s = k % 2 ? -1 : 1;
-            const e = pr(f, velas + k * 3, 8);
-            return <rect key={k} x={x} y={900 - s * 30 - 60} width={34} height={120 * e} fill={s > 0 ? PLATA : ROJO} />;
-          })}
-          <Trazo d="M600 980 C660 860 720 1020 780 900 S880 960 900 880" p={pr(f, ind, 14)} color={PLATA} grosor={6} />
-          <Trazo d="M160 800 L460 1080" p={pr(f, velas + 14, 6)} color={ROJO} grosor={14} />
-          <Trazo d="M580 800 L920 1080" p={pr(f, ind + 10, 6)} color={ROJO} grosor={14} />
-        </svg>
-      </div>
       {/* lámpara y folio */}
       <div style={{ opacity: fuera }}>
         <div style={{ position: "absolute", left: 0, top: 380, width: 1080, height: 1200, background: "conic-gradient(from 160deg at 50% 0%, transparent 0deg, rgba(212,175,55,0.22) 20deg, rgba(212,175,55,0.22) 40deg, transparent 60deg)", filter: "blur(6px)" }} />
@@ -725,28 +1062,29 @@ const Teaser: React.FC<PropsEscena> = ({ b }) => {
 const def = (C: React.FC<PropsEscena>, momentos: number, sonidos: DefEscena["sonidos"]): DefEscena => ({ C, momentos, sonidos });
 
 export const gancho = def(Gancho, 4, () => [[0, "golpe", 0.6]]);
-export const inglaterra = def(Inglaterra, 5, () => [
-  [0, "campana", 0.35],
+export const inglaterra = def(Inglaterra, 6, () => [
+  [0, "whoosh", 0.3],
   [1, "sello", 0.5],
-  [2, "cuerda", 0.3],
+  [2, "proyector", 0.22],
+  [5, "cuerda", 0.3],
 ]);
 export const grieta = def(Grieta, 4, () => [[2, "cristal", 0.35]]);
-export const balanza = def(Balanza, 6, () => [
-  [0, "monedas", 0.3],
-  [1, "subida", 0.3],
-  [3, "golpe", 0.45],
-  [5, "reloj", 0.25],
+export const balanza = def(Balanza, 5, () => [
+  [1, "monedas", 0.3],
+  [2, "golpe", 0.35],
+  [3, "subida", 0.3],
+  [4, "punetazo", 0.35],
 ]);
 export const miercoles = def(Miercoles, 5, () => [
   [0, "campana", 0.4],
   [2, "cristal", 0.5],
   [4, "perder", 0.4],
 ]);
-export const periodico = def(Periodico, 3, () => [
+export const periodico = def(Periodico, 4, () => [
   [0, "papel", 0.4],
-  [2, "sello", 0.35],
+  [3, "sello", 0.4],
 ]);
-export const regla = def(Regla, 5, () => [[4, "golpe", 0.45]]);
+export const regla = def(Regla, 3, () => [[2, "golpe", 0.45]]);
 export const miedoCodicia = def(MiedoCodicia, 4, () => [[2, "transforma", 0.3]]);
 export const apuesta = def(Apuesta, 4, () => [
   [2, "cristal", 0.3],

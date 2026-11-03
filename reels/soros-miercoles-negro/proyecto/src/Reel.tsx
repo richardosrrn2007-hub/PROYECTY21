@@ -14,15 +14,13 @@ import { CIERRE, Cierre, TRANSICION } from "./propias/Cierre";
 // las escenas de este vídeo se dibujan a pantalla completa (sin Lienzo); la luna del fondo se esconde
 // mientras sale la luna propia de «miedo y codicia»
 const SIN_LUNA = ESCENAS.filter((e) => PLAN.frases[e.i].escena?.nombre === "MiedoCodicia").map((e) => [e.ini, e.ini + e.dur] as [number, number]);
-const iIng = ESCENAS.find((e) => PLAN.frases[e.i].escena?.nombre === "Inglaterra");
-const iDia = ESCENAS.find((e) => PLAN.frases[e.i].escena?.nombre === "Periodico");
-const VIAJE = iIng && iDia ? { ida: iIng.ini + (iIng.b[0] ?? 0) - 4, vuelta: iDia.ini } : undefined;
 const SIN_SUBTITULOS = PLAN.frases.map((f, i) => (f.sinSubtitulos ? i : -1)).filter((i) => i >= 0);
 
 export const Reel: React.FC = () => (
   <AbsoluteFill style={{ background: C.fondo }}>
     <Fondo />
-    <FondoNoche sinLuna={SIN_LUNA} viaje={VIAJE} />
+    {/* el viaje a Gran Bretaña lo hace ahora la escena 2 en 3D; el planeta del fondo se queda en su sitio */}
+    <FondoNoche sinLuna={SIN_LUNA} />
     {ESCENAS.map((e) => {
       const Comp = e.def?.C;
       if (!Comp) return null;

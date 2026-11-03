@@ -1,6 +1,6 @@
 # Vídeo 5 · El hombre que le declaró la guerra a Inglaterra (Soros, Miércoles Negro)
 
-59,5 s + 2 s de cierre de marca. Voz: «Narradora de jujutsu kaisen» (ElevenLabs), 3 tomas unidas, pausas recortadas a 0,25 s y acelerada 1,33×. Mundo: noche azul, planeta de la serie, luna roja, Londres en plata. Paleta 60-30-10: fondo oscuro, plata/blanco, oro; rojo #B8432F solo como acento dramático.
+59,3 s + 2 s de cierre de marca. Voz: «Narradora de jujutsu kaisen» (ElevenLabs), 3 tomas unidas sin regenerar; solo se acortan silencios reales (< −40 dB) a 0,25 s, acelerada 1,19× y normalizada a −14 LUFS. Mundo: noche azul, planeta de la serie, luna roja, Londres en plata. Paleta 60-30-10: fondo oscuro, plata/blanco, oro; rojo #B8432F solo como acento dramático.
 
 | # | Voz | En pantalla |
 |---|---|---|
@@ -16,12 +16,17 @@
 | 10 | En el próximo: la apuesta que convirtió a gente normal... en los mejores traders de la historia. | Pin en Boston 1983; tortugas sobre un gráfico |
 
 ## Cambios sobre el guion original
+- Quitadas (recortando el audio, sin regenerar) para no pasar de 60 s: «Si fallaba, perdía poco. Si acertaba, ganaba una fortuna», «No usó velas ni indicadores» y la escena «El precio lo mueve siempre lo mismo… el miedo y la codicia». Se mantiene «Un inversionista húngaro…» porque sin ella «Pero él vio…» no tiene sujeto.
+- Escena 2 en 3D (`Globo3D.tsx`, @remotion/three): planeta de la serie con continentes de puntos y arcos de dinero hacia Londres → mapa del Reino Unido de 1992 con relieve y ciudades → Banco de Inglaterra (Threadneedle St.) con calle de época y teletexto Ceefax.
+- Escena 4: la balanza pasa a ser el pulso en la banda del ERM (central 2,95, suelo 2,778) con los cierres reales del BoE.
 - «Todo o nada» → «Si fallaba, perdía poco. Si acertaba, ganaba una fortuna»: con la libra en el suelo del ERM el riesgo era pequeño (apuesta asimétrica).
 - Quitado «300 años de historia lo confirman» para no pasar de 60 s.
 - Sin Big Ben a medianoche: el anuncio fue por la tarde-noche (19:00 según Wikipedia; otras fuentes 19:40).
 - El titular se muestra en un periódico genérico: no hemos encontrado qué diario lo usó primero.
 
 ## Datos
+- Continentes del globo: Natural Earth 110 m (dominio público) vía el paquete `world-atlas`, convertido a puntos en `proyecto/src/propias/tierra.ts`.
+- Tipo central de la libra en el ERM: 2,95 DM; suelo 2,7780 DM.
 - Libra/marco: Bank of England, serie XUDLDMS, diario (`proyecto/src/propias/libra.ts`, CSV en `boe_1992.csv`). 16-09-1992: 2,7784 → 05-10-1992: 2,393 (−14 %). Libra/dólar (XUDLUSS): 2,0036 (2 sep) → 1,5105 (27 nov), −25 %.
 - Posición ~10.000 M $ y ganancia ~1.000 M $: estimaciones de prensa (World Finance, MoneyWeek, Benzinga; Wikipedia: «más de 1.000 M £»). Sin fuente primaria.
 - Hora: Wikipedia «Black Wednesday» (tipos 10 → 12 % a las 10:30; anuncio de Lamont a las 19:00).

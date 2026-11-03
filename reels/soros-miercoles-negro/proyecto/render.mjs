@@ -58,7 +58,7 @@ if (navegador && !fs.existsSync(navegador) && fs.existsSync(path.join(RAIZ, "nod
   navegador = await (m.default ?? m).executablePath();
 }
 const modoChrome = entorno.modo || (navegador && /headless[-_]shell/.test(navegador) ? "headless-shell" : navegador ? "chrome-for-testing" : "headless-shell");
-const opcNav = { browserExecutable: navegador, chromeMode: modoChrome };
+const opcNav = { browserExecutable: navegador, chromeMode: modoChrome, chromiumOptions: { gl: "angle" } };
 
 const ffmpeg = () => {
   if (entorno.ffmpeg && fs.existsSync(entorno.ffmpeg)) return { bin: entorno.ffmpeg, env: process.env };
@@ -149,7 +149,7 @@ const empaquetar = async () => {
   return url;
 };
 
-const abrirNavegador = () => openBrowser("chrome", { browserExecutable: navegador, chromeMode: modoChrome, logLevel: "error" });
+const abrirNavegador = () => openBrowser("chrome", { browserExecutable: navegador, chromeMode: modoChrome, chromiumOptions: { gl: "angle" }, logLevel: "error" });
 
 const elegir = async (serveUrl, id, browser, inputProps = {}) => selectComposition({ serveUrl, id, inputProps, puppeteerInstance: browser, ...opcNav, logLevel: "error" });
 
