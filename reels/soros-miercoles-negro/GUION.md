@@ -1,6 +1,6 @@
 # Vídeo 5 · El hombre que le declaró la guerra a Inglaterra (Soros, Miércoles Negro)
 
-~59 s (estimado sin voz). Mundo: noche azul, planeta de la serie, luna roja, Londres en plata. Paleta 60-30-10: fondo oscuro, plata/blanco, oro; rojo #B8432F solo como acento dramático.
+59,5 s + 2 s de cierre de marca. Voz: «Narradora de jujutsu kaisen» (ElevenLabs), 3 tomas unidas, pausas recortadas a 0,25 s y acelerada 1,33×. Mundo: noche azul, planeta de la serie, luna roja, Londres en plata. Paleta 60-30-10: fondo oscuro, plata/blanco, oro; rojo #B8432F solo como acento dramático.
 
 | # | Voz | En pantalla |
 |---|---|---|

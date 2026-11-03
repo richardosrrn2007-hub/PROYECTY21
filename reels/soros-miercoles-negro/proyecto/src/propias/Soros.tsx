@@ -644,13 +644,27 @@ const MiedoCodicia: React.FC<PropsEscena> = ({ b }) => {
 /** 8 · CTA: £ de plata agrietada y caja dorada. */
 const Apuesta: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
-  const [apost, banco, libra] = b;
+  const [apost, contra, banco, libra] = b;
+  const flecha = sp(f, contra, REBOTE);
+  const baja = pr(f, contra, 24) * 40;
   return (
     <AbsoluteFill>
       <div style={{ position: "absolute", left: 140, top: 520, width: 800, height: 980, borderRadius: 40, background: `linear-gradient(170deg, ${ACERO}, #0B1426)`, border: `3px solid ${PLATA}66`, transform: `scale(${sp(f, 0)})` }} />
-      <Libra x={540} y={850} r={190} grieta={pr(f, banco, 14)} giro={Math.sin(f / 16) * 5} />
+      <div style={{ position: "absolute", inset: 0, transform: `translateX(${f >= banco && f < banco + 40 ? Math.sin(f * 1.7) * 14 * (1 - (f - banco) / 40) : 0}px)` }}>
+        <Libra x={540} y={850} r={190} grieta={pr(f, banco, 40)} giro={Math.sin(f / 16) * 5} />
+      </div>
+      {/* la apuesta en contra: flecha roja que cae junto a la libra */}
+      {f >= contra && (
+        <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
+          <g transform={`translate(830 ${740 + baja + Math.sin(f / 5) * 10}) scale(${flecha * 1.5})`}>
+            <rect x={-16} y={-70} width={32} height={90} rx={8} fill={ROJO} />
+            <path d="M-50 10 L0 80 L50 10 Z" fill={ROJO} />
+          </g>
+        </svg>
+      )}
       <Titulo y={1110} desde={apost} texto="¿APOSTARÍAS?" tam={110} color={PLATA} />
-      <CajaTexto x={540} y={1290} desde={libra} texto="COMENTA LIBRA" fondo={ORO} color={NOCHE} tam={96} />
+      <Titulo y={1250} desde={banco} texto="CONTRA UN BANCO ENTERO" tam={54} color={PLATA} />
+      <CajaTexto x={540} y={1395} desde={libra} texto="COMENTA LIBRA" fondo={ORO} color={NOCHE} tam={96} />
     </AbsoluteFill>
   );
 };
@@ -734,9 +748,9 @@ export const periodico = def(Periodico, 3, () => [
 ]);
 export const regla = def(Regla, 5, () => [[4, "golpe", 0.45]]);
 export const miedoCodicia = def(MiedoCodicia, 4, () => [[2, "transforma", 0.3]]);
-export const apuesta = def(Apuesta, 3, () => [
-  [1, "cristal", 0.3],
-  [2, "ding", 0.35],
+export const apuesta = def(Apuesta, 4, () => [
+  [2, "cristal", 0.3],
+  [3, "ding", 0.35],
 ]);
 export const teaser = def(Teaser, 3, () => [
   [0, "whoosh", 0.35],
