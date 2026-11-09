@@ -15,3 +15,6 @@
 - Versión con cámara (`index-cam.html`, `window.CAM`): la grabación real de Leo arriba (recorte a la cara, 1080×700),
   sincronizada con los mismos cortes y velocidad de la voz (`src/cam_map.py` → `cam-map.js`), la gráfica a pantalla completa debajo,
   títulos y pasos como rótulo en la parte baja de la cámara. Los fotogramas se extraen a `web/cam/` con ffmpeg (no se guardan en el repo).
+- Versión "estilo referencia" (`src/ref-scene.js`, `index-ref.html`): tarjeta redondeada con la cámara de Leo y subtítulos de 1–2 palabras,
+  lienzo gris claro con gráfica minimalista (velas verdes/rojas), botones 3D con mano, "?" 3D, Máx/Mín, caja TP azul / SL roja,
+  campo de comentario "ZONAS". Inicio con pantalla estilo MT5: compra en el máximo, salta el stop (−502,13 USD con 1 lote) y el saldo cae.
