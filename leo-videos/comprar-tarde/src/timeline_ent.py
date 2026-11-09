@@ -41,6 +41,7 @@ for sg in SEG:
         pieces.append((p0, p1, t)); t += p1 - p0
     t += 0.3
 TOTAL_VOICE = t
+json.dump({"pieces": pieces, "count": count, "words": W}, open("audio/pieces.json", "w"))
 out = np.zeros(int((t + 8) * sr), dtype=np.float32)
 for p0, p1, at in pieces:
     seg = x[int(p0 * sr):int(p1 * sr)].copy(); f = int(0.012 * sr)

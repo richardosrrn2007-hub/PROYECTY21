@@ -9,3 +9,9 @@
   Los futuros del oro (GC=F) se descartaron por los saltos de cambio de contrato.
 - Escenario "si se va sin tocar mi entrada": velas azules semitransparentes, ilustrativas.
 - Motor: `src/poi3…poi8.js` + `src/ent-video.js` (`renderAt(t)`), `render-ent.js` (4 procesos), `sound_ent.py`, `final.sh`.
+
+## Versiones
+- `leo-comprar-tarde-sin-musica.mp4`: igual, sin música de fondo (solo voz y efectos).
+- Versión con cámara (`index-cam.html`, `window.CAM`): la grabación real de Leo arriba (recorte a la cara, 1080×700),
+  sincronizada con los mismos cortes y velocidad de la voz (`src/cam_map.py` → `cam-map.js`), la gráfica a pantalla completa debajo,
+  títulos y pasos como rótulo en la parte baja de la cámara. Los fotogramas se extraen a `web/cam/` con ffmpeg (no se guardan en el repo).

@@ -298,16 +298,32 @@ const xG = el("g", {}, svg);
 function mouthAt(t) { const i = Math.floor(t * 60); return TL.env[Math.min(TL.env.length - 1, i)] ?? 0; }
 function blinkAt(t) { const ph = (t + 0.7) % 3.4; return ph < 0.12 ? Math.sin((ph / 0.12) * Math.PI) : 0; }
 const PL = [["SUBIÓ", T.subio], ["PERDIENDO", T.perdiendo], ["¿CÓMO", T.como], ["ESCAPE", T.escape], ["ERROR", T.error], ["PIÉNSALO", T.pienso], ["STOP", T.sacando + 0.6], ["CORRECTA", T.correcta], ["CORRECTOS", T.correctos], ["FIBONACCI", T.fibo], ["PERSEGUIR", T.perseguir], ["ZONAS", T.zonasW], ["GRATUITA", T.gratuita]];
+// ---------- Cámara real de Leo arriba (modo CAM) ----------
+let camImg = null, camHref = "";
+if (window.CAM) {
+  const d = el("defs", {}, svg), gr = el("linearGradient", { id: "camFade", x1: 0, y1: 0, x2: 0, y2: 1 }, d);
+  el("stop", { offset: "0%", "stop-color": "#05060A", "stop-opacity": 0 }, gr); el("stop", { offset: "100%", "stop-color": "#05060A", "stop-opacity": 0.85 }, gr);
+  const cg = el("g", {}, svg); svg.insertBefore(cg, camG);
+  camImg = el("image", { x: 0, y: 0, width: 1080, height: 700, preserveAspectRatio: "xMidYMid slice" }, cg);
+  el("rect", { x: 0, y: 520, width: 1080, height: 182, fill: "url(#camFade)" }, cg);
+  el("rect", { x: 0, y: 700, width: 1080, height: 5, fill: BLUE2 }, cg);
+  const tg = el("g", { transform: "translate(1040,40)" }, cg);
+  el("rect", { x: -190, y: -6, width: 190, height: 48, rx: 24, fill: "#05060A", opacity: 0.7 }, tg);
+  window.CAMDOT = el("circle", { cx: -166, cy: 18, r: 8, fill: RED }, tg);
+  el("text", { x: -86, y: 27, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 24, fill: "#fff", "letter-spacing": 1 }, tg, "LEO · LFX");
+  window.CAMG = cg;
+}
 window.renderAt = function (t) {
   const st = { t, mouth: mouthAt(t), blink: blinkAt(t), progress: t / T.total, pipK: 0 };
   // cámara: estudio → dentro del ordenador → estudio
   const tin = T.mostrarte - 0.2, tout = T.porque2 - 0.3;
   st.zoom = t < tin ? 0.25 * P(t, 0, 3, E.inOut) : t < tout ? 0 : 0.35 * P(t, tout, 0.8, E.inOut);
   st.fullK = t < tin ? 0 : t < tout ? P(t, tin, 1.1, E.inOut) : 1 - P(t, tout, 0.9, E.inOut);
+  if (window.CAM) { st.fullK = 1; st.zoom = 0; }
   const FULLM = st.fullK > 0.5;
   st.view = viewAt(t);
   // título de entrada
-  if (t > 0.5 && t < tin + 0.4) st.title = [[["SUBIÓ… ", 0], ["Y AUN ASÍ", 1]], [["PERDISTE", 1], [" 🤔", 0]]];
+  if (t > 0.5 && t < (window.CAM ? T.mira - 0.3 : tin + 0.4)) st.title = [[["SUBIÓ… ", 0], ["Y AUN ASÍ", 1]], [["PERDISTE", 1], [" 🤔", 0]]];
   // Leo
   if (t < T.perdiendo) { st.leo = "explainR"; st.handR = "open"; st.lookX = 0.3; }
   else if (t < T.mostrarte - 0.4) { st.leo = "shrug"; st.handR = "open"; st.handL = "open"; st.smile = 0.3; st.brow = 0.9; }
@@ -322,14 +338,14 @@ window.renderAt = function (t) {
   }
   // pasos
   const STEPS = [[T.primero - 0.2, [["1 · ", 1], ["ESTRUCTURA", 0]]], [T.marco - 0.2, [["2 · ", 1], ["ZONA DE INTERÉS", 0]]], [T.trazo - 0.2, [["3 · ", 1], ["FIBONACCI", 0]]], [T.esperando - 0.2, [["4 · ", 1], ["ESPERO MI ENTRADA", 0]]]];
-  if (t >= T.primero - 0.2 && t < tout) { const s = STEPS.filter((x) => t >= x[0]).pop(); st.step = s[1]; if (t < s[0] + 0.45) st.stepK = (t - s[0]) / 0.45; }
+  if (t >= T.primero - 0.2 && t < (window.CAM ? T.quieres : tout)) { const s = STEPS.filter((x) => t >= x[0]).pop(); st.step = s[1]; if (t < s[0] + 0.45) st.stepK = (t - s[0]) / 0.45; }
   Object.assign(st, captionAt(t));
   if (st.kin && FULLM && st.kinY == null) { st.kinY = 1690; st.kinX = 540; st.kinSize = 70; }
   // palabras clave con animación
   PL.forEach(([w, tw0], n) => { const dur = Math.min(1.15, (PL[n + 1]?.[1] ?? 1e9) - tw0 - 0.02); if (t >= tw0 - 0.05 && t < tw0 - 0.05 + dur) st.punch = { w, tt: t - tw0 + 0.05, dur, y: FULLM ? 1700 : 1150 }; });
   window.PUNCHX = FULLM ? 540 : 560; window.PUNCHS = FULLM ? 1 : 0.82;
   // lista de pasos (abajo)
-  if (t >= T.primero && t < tout) st.check = { k: Math.min((t - T.primero) / 0.5, 1 - clamp((t - tout + 0.5) / 0.4)), items: [
+  if (t >= T.primero && t < (window.CAM ? T.quieres : tout)) st.check = { k: Math.min((t - T.primero) / 0.5, 1 - clamp((t - tout + 0.5) / 0.4)), items: [
     { txt: "ESTRUCTURA", on: (t - T.estructura2) / 0.35 }, { txt: "ZONA", on: (t - T.zona2) / 0.35 }, { txt: "FIBONACCI", on: (t - T.coincide) / 0.35 }] };
   // ritmo
   st.whip = [[T.siVa, 1], [T.regrese, -0.6]].reduce((a, [ts, d]) => a + d * Math.exp(-(((t - ts) / 0.09) ** 2)), 0);
@@ -339,12 +355,24 @@ window.renderAt = function (t) {
   if (t >= T.outro) st.outro4 = t - T.outro;
   window.renderState(st);
   drawOverlay(t, st.view);
+  if (window.CAM) {
+    // rótulos (título y pasos) en la parte baja de la cámara
+    titleG.setAttribute("transform", "translate(0,470) " + (titleG.getAttribute("transform") || ""));
+    const oa = st.outro4 != null ? 1 - clamp(st.outro4 / 0.35) : 1;
+    window.CAMG.setAttribute("opacity", oa.toFixed(3)); window.CAMDOT.setAttribute("opacity", (0.4 + 0.6 * (Math.sin(t * 5) > 0)).toFixed(2));
+    const href = `cam/f_${String(CAMMAP[Math.min(CAMMAP.length - 1, Math.round(t * 30))]).padStart(5, "0")}.jpg`;
+    if (href !== camHref) { camHref = href; const pr = new Promise((r) => { camImg.onload = r; camImg.onerror = r; }); camImg.setAttribute("href", href); xG.textContent = ""; drawCta(t); return pr; }
+  }
   xG.textContent = "";
+  drawCta(t);
+};
+function drawCta(t) {
   // en el cierre, burbuja de comentario con "ZONAS"
   if (t >= T.outro + 0.9) {
     const k = E.backBig(P(t, T.outro + 0.9, 0.5, E.lin)), g = el("g", { transform: `translate(540,${1360 + Math.sin(t * 3) * 8}) scale(${k.toFixed(3)})` }, xG);
     el("path", { d: "M-210 -70 H210 Q240 -70 240 -40 V40 Q240 70 210 70 H-60 L-110 120 L-100 70 H-210 Q-240 70 -240 40 V-40 Q-240 -70 -210 -70 Z", fill: "#fff", filter: "url(#txtSh)" }, g);
     el("text", { y: 22, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 64, fill: BLUE2 }, g, "ZONAS");
   }
-};
+}
+
 window.READY = true;

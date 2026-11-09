@@ -2,7 +2,7 @@
 // (st.fullK 0..1), sale para el revelado y para el final. Sin círculo: en pantalla completa solo la gráfica,
 // subtítulos y animaciones abajo, checklist en una fila.
 const MON0 = { ...MON };
-const FULL = { x: -12, y: 250, w: 1104, h: 1290 };
+const FULL = window.FULLR ?? { x: -12, y: 250, w: 1104, h: 1290 };
 const monKids = monG.children; // halo, marco, borde, pie, base, pantalla, brillo
 const scrBg = scr.querySelector('rect[width="1000"][height="720"]');
 const sideRect = scr.querySelector('rect[x="0"][y="53"]'), sideLine = scr.querySelector('line[x1="44"]');

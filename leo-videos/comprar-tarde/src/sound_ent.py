@@ -176,6 +176,7 @@ mgain[a:b] = 0.35
 fade_in = np.minimum(1, np.arange(N) / (1.0 * SR))
 o_end = int(TOTAL * SR); fo = np.ones(N); fo[o_end - int(2.5 * SR):o_end] = np.linspace(1, 0, int(2.5 * SR)); fo[o_end:] = 0
 music = mus * duck * mgain * fade_in * fo * 0.22
+music *= 0  # sin música de fondo (pedido de Leo): solo voz y efectos
 
 # Mezcla final
 mix = voice * 1.0 + fx * 0.55 + music
