@@ -179,7 +179,7 @@ music = mus * duck * mgain * fade_in * fo * 0.22
 music *= 0  # sin música de fondo (pedido de Leo): solo voz y efectos
 
 # Mezcla final
-mix = voice * 1.0 + fx * 0.55 + music
+mix = voice * 1.0 + fx * 0.3 + music  # efectos más bajos
 peak = np.max(np.abs(mix)); mix = mix / max(1.0, peak / 0.95)
 st = np.stack([mix, mix], axis=1)
 out = wave.open("audio/mix.wav", "w"); out.setnchannels(2); out.setsampwidth(2); out.setframerate(SR)
