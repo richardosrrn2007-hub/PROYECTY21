@@ -83,11 +83,11 @@ function drawOutro4(tt) {
   const up = (d) => { const k = E.out(clamp((tt - d) / 0.6)); return { transform: `translate(0,${((1 - k) * 90).toFixed(1)})`, opacity: k.toFixed(3) }; };
   el("rect", { width: W, height: H, fill: "#05060A", opacity: 0.55 }, outro4);
   for (let r = 0; r < 9; r++) for (let c = 0; c < 3; c++)
-    el("text", { x: 180 + c * 360 + (r % 2) * 180, y: 160 + r * 220, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 40, fill: "#FFFFFF", opacity: 0.05 }, outro4, "LEONARDO LFX");
+    el("text", { x: 180 + c * 360 + (r % 2) * 180, y: 160 + r * 220, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 40, fill: "#FFFFFF", opacity: 0.05 }, outro4, (window.OUTRO ?? {}).wm ?? "LEONARDO LFX");
   const gg = el("radialGradient", { id: "logoHalo" }, outro4);
-  el("stop", { offset: "0%", "stop-color": BLUE2, "stop-opacity": 0.45 }, gg); el("stop", { offset: "100%", "stop-color": BLUE2, "stop-opacity": 0 }, gg);
+  el("stop", { offset: "0%", "stop-color": ((window.OUTRO ?? {}).halo ?? BLUE2), "stop-opacity": 0.45 }, gg); el("stop", { offset: "100%", "stop-color": ((window.OUTRO ?? {}).halo ?? BLUE2), "stop-opacity": 0 }, gg);
   el("circle", { cx: 540, cy: 820, r: 520 * (0.9 + 0.1 * Math.sin(tt * 2)), fill: "url(#logoHalo)", opacity: clamp(tt / 0.5) }, outro4);
-  el("image", { href: "logo-lfx.png", x: 197, y: 694, width: 686, height: 251 }, el("g", up(0.1), outro4));
+  el("image", (window.OUTRO ?? {}).logo ?? { href: "logo-lfx.png", x: 197, y: 694, width: 686, height: 251 }, el("g", up(0.1), outro4));
   el("text", { x: 540, y: 1110, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 56, fill: "#fff", "letter-spacing": 3 }, el("g", up(0.45), outro4), (window.OUTRO ?? {}).l1 ?? "COMUNIDAD GRATUITA LFX");
   el("text", { x: 540, y: 1180, "text-anchor": "middle", "font-family": FONTP2, "font-weight": 700, "font-size": 40, fill: BLUE2 }, el("g", up(0.7), outro4), (window.OUTRO ?? {}).l2 ?? "Link en mi descripción");
   if (!(window.OUTRO ?? {}).noArrow) el("path", { d: "M540 1440 L540 1260 M496 1304 L540 1256 L584 1304", stroke: BLUE2, "stroke-width": 12, fill: "none", "stroke-linecap": "round", "stroke-linejoin": "round" }, el("g", { transform: `translate(0,${(Math.sin(Math.max(0, tt - 1) * 4) * 14 + (1 - E.out(clamp((tt - 0.95) / 0.6))) * 120).toFixed(1)})`, opacity: clamp((tt - 0.95) / 0.4) }, outro4));

@@ -297,6 +297,8 @@ function drawOverlay(t, v) {
 const xG = el("g", {}, svg);
 function mouthAt(t) { const i = Math.floor(t * 60); return TL.env[Math.min(TL.env.length - 1, i)] ?? 0; }
 function blinkAt(t) { const ph = (t + 0.7) % 3.4; return ph < 0.12 ? Math.sin((ph / 0.12) * Math.PI) : 0; }
+// inicio de cada frase (para cambiar el encuadre de la cámara)
+const SENT = [0, ...WD.filter((w, i) => i > 0 && /[.?!]$/.test(WD[i - 1][2]) && w[0] - WD[i - 1][1] < 3).map((w) => w[0] - 0.05)];
 const PL = [["SUBIÓ", T.subio], ["PERDIENDO", T.perdiendo], ["¿CÓMO", T.como], ["ESCAPE", T.escape], ["ERROR", T.error], ["PIÉNSALO", T.pienso], ["STOP", T.sacando + 0.6], ["CORRECTA", T.correcta], ["CORRECTOS", T.correctos], ["FIBONACCI", T.fibo], ["PERSEGUIR", T.perseguir], ["ZONAS", T.zonasW], ["GRATUITA", T.gratuita]];
 // ---------- Cámara real de Leo arriba (modo CAM) ----------
 let camImg = null, camHref = "";
@@ -304,13 +306,16 @@ if (window.CAM) {
   const d = el("defs", {}, svg), gr = el("linearGradient", { id: "camFade", x1: 0, y1: 0, x2: 0, y2: 1 }, d);
   el("stop", { offset: "0%", "stop-color": "#05060A", "stop-opacity": 0 }, gr); el("stop", { offset: "100%", "stop-color": "#05060A", "stop-opacity": 0.85 }, gr);
   const cg = el("g", {}, svg); svg.insertBefore(cg, camG);
-  camImg = el("image", { x: 0, y: 0, width: 1080, height: 700, preserveAspectRatio: "xMidYMid slice" }, cg);
+  const cc = el("clipPath", { id: "camClip" }, d); el("rect", { x: 0, y: 0, width: 1080, height: 700 }, cc);
+  const cm = el("g", { "clip-path": "url(#camClip)" }, cg);
+  window.CAMMOV = el("g", {}, cm);
+  camImg = el("image", { x: 0, y: 0, width: 1080, height: 700, preserveAspectRatio: "xMidYMid slice" }, window.CAMMOV);
   el("rect", { x: 0, y: 520, width: 1080, height: 182, fill: "url(#camFade)" }, cg);
   el("rect", { x: 0, y: 700, width: 1080, height: 5, fill: BLUE2 }, cg);
   const tg = el("g", { transform: "translate(1040,40)" }, cg);
   el("rect", { x: -190, y: -6, width: 190, height: 48, rx: 24, fill: "#05060A", opacity: 0.7 }, tg);
   window.CAMDOT = el("circle", { cx: -166, cy: 18, r: 8, fill: RED }, tg);
-  el("text", { x: -86, y: 27, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 24, fill: "#fff", "letter-spacing": 1 }, tg, "LEO · LFX");
+  el("text", { x: -86, y: 27, "text-anchor": "middle", "font-family": FONTP, "font-weight": 900, "font-size": 24, fill: "#fff", "letter-spacing": 1 }, tg, window.CAMTAG ?? "LEO · LFX");
   window.CAMG = cg;
 }
 window.renderAt = function (t) {
@@ -358,6 +363,14 @@ window.renderAt = function (t) {
   if (window.CAM) {
     // rótulos (título y pasos) en la parte baja de la cámara
     titleG.setAttribute("transform", "translate(0,470) " + (titleG.getAttribute("transform") || ""));
+    // movimiento de cámara: encuadre que cambia en cada frase, zoom lento, golpes de zoom en palabras clave, temblor
+    const lvl = SENT.reduce((a, s0, i) => (t >= s0 ? i : a), 0), prev = Math.max(0, lvl - 1);
+    const lv = (i) => (i % 2 ? 1.2 : 1.04), kk = E.out(P(t, SENT[lvl] ?? 0, 0.18, E.lin));
+    let sc = lerp(lv(prev), lv(lvl), lvl === 0 ? 1 : kk) + 0.03 * Math.sin(t * 0.35);
+    sc += PL.reduce((a, [, tw]) => a + (t >= tw - 0.05 ? 0.09 * Math.exp(-(t - tw + 0.05) / 0.35) * clamp((t - tw + 0.05) / 0.08) : 0), 0);
+    const shake = [T.error, T.sacando, T.correctos].reduce((a, ts) => a + (t >= ts && t < ts + 0.5 ? Math.sin((t - ts) * 70) * 9 * (1 - (t - ts) / 0.5) : 0), 0);
+    const fx = 600 + Math.sin(t * 0.21) * 25, fy = 360 + Math.sin(t * 0.17 + 1) * 15;
+    window.CAMMOV.setAttribute("transform", `translate(${(fx + shake).toFixed(1)},${fy.toFixed(1)}) scale(${sc.toFixed(4)}) translate(${-600},${-360})`);
     const oa = st.outro4 != null ? 1 - clamp(st.outro4 / 0.35) : 1;
     window.CAMG.setAttribute("opacity", oa.toFixed(3)); window.CAMDOT.setAttribute("opacity", (0.4 + 0.6 * (Math.sin(t * 5) > 0)).toFixed(2));
     const href = `cam/f_${String(CAMMAP[Math.min(CAMMAP.length - 1, Math.round(t * 30))]).padStart(5, "0")}.jpg`;
