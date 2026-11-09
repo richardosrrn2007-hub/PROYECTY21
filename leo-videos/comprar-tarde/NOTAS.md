@@ -21,3 +21,7 @@
 - v3 corta (~70 s, `src/ref3.js`, `timeline_v3.py`, `sound_v3.py`): gancho de 1 s con "STOP LOSS −502,13 USD" en grande,
   frases repetidas fuera (sin "déjame mostrarte…", "por eso yo no solamente compro…", "dentro de este movimiento", etc.),
   voz +12 %, pausas más cortas, y zoom de la gráfica a la vela que saca el stop.
+- v4: inicio como MT5 real en el móvil (marco iPhone, barra de estado, pestañas Gráfico/Historial, notificación de iOS
+  "Stop loss activado", historial con −502.00 y balance 9 498.00; la operación son las velas reales de EURUSD).
+  Voz con más presencia (EQ 250 Hz −3 dB, 3,2 kHz +4 dB, compresión 4:1), efectos que se apartan cuando habla,
+  máster a −11 LUFS (`final_v4.sh`, `sound_v4.py`).
