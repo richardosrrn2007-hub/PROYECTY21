@@ -1,0 +1,7 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:#E5E6E8}</style></head><body>
+<svg id="stage" xmlns="http://www.w3.org/2000/svg" width="1080" height="1920" viewBox="0 0 1080 1920"></svg>
+<script src="lib.js"></script><script src="ent-data.js"></script><script src="timeline-ref3.js"></script><script src="cam-map3.js"></script>
+<script>
+const load=(src)=>new Promise(r=>{const s=document.createElement('script');s.src=src;s.onload=r;document.body.appendChild(s);});
+Promise.all([document.fonts.load('900 64px "Inter Display"'),document.fonts.load('800 64px "Inter Display"'),document.fonts.load('300 64px "Inter Display"'),document.fonts.load('700 64px "Inter"'),document.fonts.load('600 64px "Inter"')]).then(()=>load('ref3.js'));
+</script></body></html>

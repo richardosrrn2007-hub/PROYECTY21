@@ -18,3 +18,6 @@
 - Versión "estilo referencia" (`src/ref-scene.js`, `index-ref.html`): tarjeta redondeada con la cámara de Leo y subtítulos de 1–2 palabras,
   lienzo gris claro con gráfica minimalista (velas verdes/rojas), botones 3D con mano, "?" 3D, Máx/Mín, caja TP azul / SL roja,
   campo de comentario "ZONAS". Inicio con pantalla estilo MT5: compra en el máximo, salta el stop (−502,13 USD con 1 lote) y el saldo cae.
+- v3 corta (~70 s, `src/ref3.js`, `timeline_v3.py`, `sound_v3.py`): gancho de 1 s con "STOP LOSS −502,13 USD" en grande,
+  frases repetidas fuera (sin "déjame mostrarte…", "por eso yo no solamente compro…", "dentro de este movimiento", etc.),
+  voz +12 %, pausas más cortas, y zoom de la gráfica a la vela que saca el stop.
