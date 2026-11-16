@@ -228,7 +228,7 @@ const TDuelo: React.FC<PropsEscena> = ({ b }) => {
       )}
       <CajaTexto x={560} y={800} desde={fort} texto="UNA FORTUNA" fondo={ORO} color={NOCHE} tam={76} />
       {/* los dos amigos */}
-      <Hombre x={800} y={1500} esc={0.95} borde={f >= hacen ? ORO : PLATA} op={pr(f, den, 10)} />
+      <Hombre x={800} y={1500} esc={0.95} borde={f >= hacen ? ORO : PLATA} op={pr(f, den - 38, 14)} />
       <Hombre x={280} y={1500} esc={0.95} borde={PLATA} op={pr(f, amigo, 10)} />
       <Tarjeta y={1520} x={800} desde={den} texto="RICHARD DENNIS" tam={24} />
       <Tarjeta y={1520} x={280} desde={amigo} texto="WILLIAM ECKHARDT" tam={24} color={PLATA} />
@@ -246,6 +246,11 @@ const TDuelo: React.FC<PropsEscena> = ({ b }) => {
           </g>
         </svg>
       )}
+      <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0, opacity: pr(f, chi + 18, 8) }}>
+        <rect x={0} y={1736} width={1080} height={56} fill="#0B0A0C" opacity={0.8} />
+        <line x1={0} y1={1736} x2={1080} y2={1736} stroke={ORO} strokeOpacity={0.5} strokeWidth={2} />
+        <Mono x={1080 - (f - chi - 18) * 7} y={1774} t="SOYBEANS ▲ 8.12 · CORN ▲ 3.41 · GOLD ▼ 412 · T-BONDS ▲ 71 · SUGAR ▼ 9.6 · WHEAT ▲ 3.65 · COPPER ▼ 0.72 · SOYBEANS ▲ 8.15 · CORN ▼ 3.39 · GOLD ▲ 415 · T-BONDS ▼ 70 · SUGAR ▲ 9.9" tam={26} color={ORO} />
+      </svg>
       <Tarjeta y={1640} desde={nacen} texto="THE BET · NATURE vs NURTURE" />
     </AbsoluteFill>
   );
@@ -474,7 +479,7 @@ const TSizing: React.FC<PropsEscena> = ({ b }) => {
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
         <Mono x={110} y={630} t="EL PRECIO, DÍA A DÍA" op={0.8} />
         {cuerpos.map((c, k) => {
-          const a = pr(f, dos + 2 + k * 2, 6);
+          const a = pr(f, dos + 2 + k * 5, 6);
           const es = k === 7;
           const color = es && f >= mov ? ORO : CREMA;
           return (
@@ -599,7 +604,7 @@ const TResultado: React.FC<PropsEscena> = ({ b }) => {
   const [cinco, n175] = b;
   const t = temblor(f, n175, 16, 12);
   const anio = Math.round(1983 + 5 * pr(f, cinco, Math.max(10, n175 - cinco), Easing.inOut(Easing.quad)));
-  const sube = pr(f, cinco, 50, Easing.out(Easing.quad));
+  const sube = pr(f, cinco, 104, Easing.inOut(Easing.quad));
   const linea = (k: number): [number, number] => [70 + k * 950, 1560 - k * 430 - Math.sin(k * 9) * 20];
   return (
     <AbsoluteFill style={{ transform: `translate(${t.x}px, ${t.y}px)` }}>
@@ -609,7 +614,7 @@ const TResultado: React.FC<PropsEscena> = ({ b }) => {
       <div style={{ position: "absolute", left: 0, right: 0, top: 410, textAlign: "center", fontFamily: CLAVE, fontSize: 190, color: "#F2EEDF", letterSpacing: 4, textShadow: "0 8px 40px rgba(0,0,0,0.7)" }}>{anio}</div>
       <Titulo y={640} desde={cinco} texto="5 AÑOS DESPUÉS" tam={66} color={PLATA} fuente={VIVO} />
       <Chispas desde={n175} x={540} y={900} n={22} r={320} />
-      <CajaTexto x={540} y={800} desde={n175} texto={`${miles(175e6 * pr(f, n175, 26, Easing.out(Easing.quad)))} $`} fondo={ORO} color={NOCHE} tam={128} />
+      <CajaTexto x={540} y={800} desde={n175} texto={`${miles(175e6 * pr(f, n175, 52, Easing.out(Easing.quad)))} $`} fondo={ORO} color={NOCHE} tam={128} />
       <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
         <polyline points={Array.from({ length: 41 }).map((_, k) => linea((k / 40) * sube).join(",")).join(" ")} fill="none" stroke={ORO} strokeWidth={7} strokeLinecap="round" />
         {[0.86, 0.66, 0.46, 0.26, 0.08].map((d, k) => {
@@ -673,6 +678,14 @@ const TCta: React.FC<PropsEscena> = ({ b }) => {
             &gt;
           </text>
         )}
+        {f >= flores && Array.from({ length: 6 }).map((_, k) => {
+          const a = sp(f, flores + 12 + k * 6, REBOTE);
+          return a > 0 ? (
+            <g key={k} transform={`translate(${452 + (k % 2) * 6} ${1596 - k * 20 - (1 - a) * 60})`} opacity={Math.min(1, a * 1.4)}>
+              <ellipse cx={0} cy={0} rx={46} ry={15} fill={ORO} stroke="#FFE7A3" strokeWidth={3} />
+            </g>
+          ) : null;
+        })}
         {/* casa */}
         {f >= casa && (
           <g transform={`translate(760 1600) scale(${sp(f, casa, REBOTE) * 1.25})`}>
@@ -684,7 +697,8 @@ const TCta: React.FC<PropsEscena> = ({ b }) => {
         )}
       </svg>
       <Titulo y={1160} desde={proximo} texto="PRÓXIMO VIDEO" tam={58} color={PLATA} fuente={VIVO} />
-      <Tarjeta y={1660} desde={casa} texto="HOLANDA · 1637" />
+      <Tarjeta y={1700} desde={casa + 16} texto="HOLANDA · 1637" />
+      <Chispas desde={casa + 26} x={760} y={1500} n={16} r={220} />
     </AbsoluteFill>
   );
 };
