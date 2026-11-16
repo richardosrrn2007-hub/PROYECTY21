@@ -115,7 +115,7 @@ const Chicago1983: React.FC<{ oscuro?: number }> = ({ oscuro = 0 }) => {
   const base = 1560;
   return (
     <AbsoluteFill>
-      <AbsoluteFill style={{ filter: "sepia(0.6) saturate(1.15) contrast(1.08)", transform: `scale(${1.02 + f * 0.0003})`, transformOrigin: "540px 1200px" }}>
+      <AbsoluteFill style={{ filter: "sepia(0.55) saturate(1.5) contrast(1.25) brightness(1.1)", transform: `scale(${1.02 + f * 0.0003})`, transformOrigin: "540px 1200px" }}>
         <AbsoluteFill style={{ background: "linear-gradient(180deg, #04060C 0%, #0E1424 45%, #4A3323 76%, #8A5A2E 81%, #0B0A0C 82%)" }} />
         <svg width={1080} height={1920} style={{ position: "absolute", left: 0, top: 0 }}>
           {Array.from({ length: 60 }).map((_, k) => (
@@ -138,11 +138,12 @@ const Chicago1983: React.FC<{ oscuro?: number }> = ({ oscuro = 0 }) => {
           )}
           <rect x={0} y={base} width={1080} height={400} fill="#060507" />
           <ellipse cx={540} cy={base + 30} rx={620} ry={60} fill="#F0A955" opacity={0.12} />
+          <ellipse cx={540} cy={base - 40} rx={700} ry={260} fill="#F0A955" opacity={0.16} />
         </svg>
         <AbsoluteFill style={{ background: "linear-gradient(180deg, rgba(22,13,4,0.25) 0%, rgba(22,13,4,0.05) 50%, rgba(22,13,4,0.4) 100%)" }} />
       </AbsoluteFill>
       <AbsoluteFill style={{ background: "#070504", opacity: oscuro }} />
-      <Pelicula op={0.9} />
+      <Pelicula op={0.6} />
     </AbsoluteFill>
   );
 };
@@ -455,12 +456,12 @@ const TSizing: React.FC<PropsEscena> = ({ b }) => {
   const f = useCurrentFrame();
   const [dos, mov, cuesta, uno] = b;
   const velas = [0.2, -0.6, 0.5, -0.3, 0.7, -0.5, 0.4, -0.8, 0.6];
-  const N = 120;
-  let y = 860;
+  const N = 170;
+  let y = 870;
   const cuerpos = velas.map((d, k) => {
     const o = y;
     y = o - d * N * 0.75;
-    return { x: 150 + k * 78, o, c: y, h: Math.min(o, y) - 22 - rnd(k * 3.1) * 14, l: Math.max(o, y) + 22 + rnd(k * 5.3) * 14 };
+    return { x: 150 + k * 84, o, c: y, h: Math.min(o, y) - 30 - rnd(k * 3.1) * 18, l: Math.max(o, y) + 30 + rnd(k * 5.3) * 18 };
   });
   const foco = cuerpos[7];
   const marca = pr(f, mov, 10);
@@ -479,7 +480,7 @@ const TSizing: React.FC<PropsEscena> = ({ b }) => {
           return (
             <g key={k} opacity={a * (f >= mov && !es ? 0.45 : 1)}>
               <line x1={c.x} y1={c.h} x2={c.x} y2={c.l} stroke={color} strokeWidth={3} />
-              <rect x={c.x - 22} y={Math.min(c.o, c.c)} width={44} height={Math.max(4, Math.abs(c.o - c.c))} fill={c.c < c.o ? color : "#0B0F0D"} stroke={color} strokeWidth={3} />
+              <rect x={c.x - 27} y={Math.min(c.o, c.c)} width={54} height={Math.max(4, Math.abs(c.o - c.c))} fill={c.c < c.o ? color : "#0B0F0D"} stroke={color} strokeWidth={3} />
             </g>
           );
         })}
@@ -509,7 +510,7 @@ const TSizing: React.FC<PropsEscena> = ({ b }) => {
           </g>
         )}
       </svg>
-      <CajaTexto x={640} y={650} desde={uno} texto="1N = 1 % DE LA CUENTA" fondo={ORO} color={NOCHE} tam={62} giro={-2} />
+      <CajaTexto x={650} y={600} desde={uno} texto="1N = 1 % DE LA CUENTA" fondo={ORO} color={NOCHE} tam={62} giro={-2} />
       <Tarjeta y={1530} desde={mov} texto="RULE 2 · 1N = 1% OF ACCOUNT" />
       <Paseo />
     </AbsoluteFill>
