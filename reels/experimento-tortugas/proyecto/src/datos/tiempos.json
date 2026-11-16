@@ -1,0 +1,971 @@
+{
+ "voz": null,
+ "motor": "sin-voz",
+ "duracion": 63.286,
+ "frases": [
+  {
+   "texto": "Veintitrés desconocidos ganaron 175 millones de dólares con las mismas reglas. Es el experimento más famoso del trading.",
+   "inicio": 0.35,
+   "fin": 8.487,
+   "palabras": [
+    {
+     "w": "Veintitrés",
+     "t": 0.35,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "desconocidos",
+     "t": 0.892,
+     "clave": true,
+     "g": 0
+    },
+    {
+     "w": "ganaron",
+     "t": 1.797,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "175",
+     "t": 2.339,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "millones",
+     "t": 3.605,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "de",
+     "t": 4.147,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "dólares",
+     "t": 4.328,
+     "clave": true,
+     "g": 1
+    },
+    {
+     "w": "con",
+     "t": 4.871,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 5.052,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mismas",
+     "t": 5.232,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "reglas.",
+     "t": 5.594,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Es",
+     "t": 5.956,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 6.137,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "experimento",
+     "t": 6.317,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 7.222,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "famoso",
+     "t": 7.402,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 7.945,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "trading.",
+     "t": 8.126,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  },
+  {
+   "texto": "Chicago, 1983. Richard Dennis convirtió 1.600 dólares prestados en una fortuna. Su amigo decía que los traders nacen. Dennis apostó a que se hacen.",
+   "inicio": 8.837,
+   "fin": 19.305,
+   "palabras": [
+    {
+     "w": "Chicago,",
+     "t": 8.837,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "1983.",
+     "t": 9.54,
+     "clave": true,
+     "g": 2
+    },
+    {
+     "w": "Richard",
+     "t": 11.167,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Dennis",
+     "t": 11.529,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "convirtió",
+     "t": 11.891,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "1.600",
+     "t": 12.433,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dólares",
+     "t": 13.157,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "prestados",
+     "t": 13.699,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "en",
+     "t": 14.242,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 14.422,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "fortuna.",
+     "t": 14.784,
+     "clave": true,
+     "g": 3
+    },
+    {
+     "w": "Su",
+     "t": 15.327,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "amigo",
+     "t": 15.507,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "decía",
+     "t": 16.05,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 16.412,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "los",
+     "t": 16.592,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "traders",
+     "t": 16.773,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "nacen.",
+     "t": 17.135,
+     "clave": true,
+     "g": 4
+    },
+    {
+     "w": "Dennis",
+     "t": 17.497,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "apostó",
+     "t": 17.858,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 18.401,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 18.582,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "se",
+     "t": 18.762,
+     "clave": true,
+     "g": 5
+    },
+    {
+     "w": "hacen.",
+     "t": 18.943,
+     "clave": true,
+     "g": 5
+    }
+   ]
+  },
+  {
+   "texto": "Puso un anuncio. Se presentaron unas mil personas: un guardia de seguridad, un jugador de blackjack, un diseñador de Dungeons & Dragons. Eligió a 23.",
+   "inicio": 19.655,
+   "fin": 29.176,
+   "palabras": [
+    {
+     "w": "Puso",
+     "t": 19.655,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 20.017,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "anuncio.",
+     "t": 20.197,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Se",
+     "t": 20.74,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "presentaron",
+     "t": 20.921,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "unas",
+     "t": 21.644,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mil",
+     "t": 22.006,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "personas:",
+     "t": 22.186,
+     "clave": true,
+     "g": 6
+    },
+    {
+     "w": "un",
+     "t": 22.889,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "guardia",
+     "t": 23.07,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 23.431,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "seguridad,",
+     "t": 23.612,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 24.496,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "jugador",
+     "t": 24.676,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 25.219,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "blackjack,",
+     "t": 25.4,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "un",
+     "t": 25.921,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "diseñador",
+     "t": 26.102,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 26.826,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Dungeons",
+     "t": 27.006,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "&",
+     "t": 27.368,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Dragons.",
+     "t": 27.549,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Eligió",
+     "t": 27.911,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 28.453,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "23.",
+     "t": 28.634,
+     "clave": true,
+     "g": 7
+    }
+   ]
+  },
+  {
+   "texto": "En dos semanas les enseñó cinco reglas.",
+   "inicio": 29.526,
+   "fin": 31.877,
+   "palabras": [
+    {
+     "w": "En",
+     "t": 29.526,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "dos",
+     "t": 29.707,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "semanas",
+     "t": 29.888,
+     "clave": true,
+     "g": 8
+    },
+    {
+     "w": "les",
+     "t": 30.431,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "enseñó",
+     "t": 30.611,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cinco",
+     "t": 31.154,
+     "clave": true,
+     "g": 9
+    },
+    {
+     "w": "reglas.",
+     "t": 31.516,
+     "clave": true,
+     "g": 9
+    }
+   ]
+  },
+  {
+   "texto": "Uno: TREND FOLLOWING. Si el precio rompe el máximo de 20 días, compras. Si rompe el mínimo, vendes.",
+   "inicio": 32.227,
+   "fin": 38.313,
+   "palabras": [
+    {
+     "w": "Uno:",
+     "t": 32.227,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "TREND",
+     "t": 32.749,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "FOLLOWING.",
+     "t": 32.93,
+     "clave": true,
+     "g": 10
+    },
+    {
+     "w": "Si",
+     "t": 33.472,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 33.653,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 33.834,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rompe",
+     "t": 34.196,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 34.557,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "máximo",
+     "t": 34.738,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "de",
+     "t": 35.281,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "20",
+     "t": 35.461,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "días,",
+     "t": 35.823,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "compras.",
+     "t": 36.164,
+     "clave": true,
+     "g": 11
+    },
+    {
+     "w": "Si",
+     "t": 36.526,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "rompe",
+     "t": 36.706,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 37.068,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "mínimo,",
+     "t": 37.249,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "vendes.",
+     "t": 37.951,
+     "clave": true,
+     "g": 12
+    }
+   ]
+  },
+  {
+   "texto": "Dos: POSITION SIZING. Un movimiento normal del precio solo te cuesta el 1 % de la cuenta.",
+   "inicio": 38.663,
+   "fin": 44.429,
+   "palabras": [
+    {
+     "w": "Dos:",
+     "t": 38.663,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "POSITION",
+     "t": 39.004,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "SIZING.",
+     "t": 39.546,
+     "clave": true,
+     "g": 13
+    },
+    {
+     "w": "Un",
+     "t": 39.908,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "movimiento",
+     "t": 40.089,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "normal",
+     "t": 40.812,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "del",
+     "t": 41.174,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "precio",
+     "t": 41.355,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "solo",
+     "t": 41.716,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "te",
+     "t": 42.078,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "cuesta",
+     "t": 42.259,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 42.621,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "1 %",
+     "t": 42.801,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "de",
+     "t": 43.705,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "la",
+     "t": 43.886,
+     "clave": true,
+     "g": 14
+    },
+    {
+     "w": "cuenta.",
+     "t": 44.067,
+     "clave": true,
+     "g": 14
+    }
+   ]
+  },
+  {
+   "texto": "Tres: STOP LOSS a 2N. Cuatro: PYRAMIDING, sumar si sigue a favor. Cinco: RIDE THE WINNER.",
+   "inicio": 44.779,
+   "fin": 49.94,
+   "palabras": [
+    {
+     "w": "Tres:",
+     "t": 44.779,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "STOP",
+     "t": 45.12,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "LOSS",
+     "t": 45.3,
+     "clave": true,
+     "g": 15
+    },
+    {
+     "w": "a",
+     "t": 45.481,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "2N.",
+     "t": 45.662,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Cuatro:",
+     "t": 45.843,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "PYRAMIDING,",
+     "t": 46.365,
+     "clave": true,
+     "g": 16
+    },
+    {
+     "w": "sumar",
+     "t": 47.067,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "si",
+     "t": 47.429,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sigue",
+     "t": 47.61,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "a",
+     "t": 47.971,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "favor.",
+     "t": 48.152,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Cinco:",
+     "t": 48.514,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "RIDE",
+     "t": 49.035,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "THE",
+     "t": 49.397,
+     "clave": true,
+     "g": 17
+    },
+    {
+     "w": "WINNER.",
+     "t": 49.578,
+     "clave": true,
+     "g": 17
+    }
+   ]
+  },
+  {
+   "texto": "Cinco años después: 175 millones.",
+   "inicio": 50.29,
+   "fin": 53.343,
+   "palabras": [
+    {
+     "w": "Cinco",
+     "t": 50.29,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "años",
+     "t": 50.651,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "después:",
+     "t": 51.013,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "175",
+     "t": 51.535,
+     "clave": true,
+     "g": 18
+    },
+    {
+     "w": "millones.",
+     "t": 52.8,
+     "clave": true,
+     "g": 18
+    }
+   ]
+  },
+  {
+   "texto": "El secreto no era el sistema. Era la DISCIPLINA.",
+   "inicio": 53.693,
+   "fin": 56.948,
+   "palabras": [
+    {
+     "w": "El",
+     "t": 53.693,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "secreto",
+     "t": 53.874,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "no",
+     "t": 54.416,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "era",
+     "t": 54.597,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "el",
+     "t": 54.959,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "sistema.",
+     "t": 55.14,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "Era",
+     "t": 55.682,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "la",
+     "t": 56.044,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "DISCIPLINA.",
+     "t": 56.225,
+     "clave": true,
+     "g": 19
+    }
+   ]
+  },
+  {
+   "texto": "Comenta TORTUGA. Próximo: las flores que costaban más que una casa.",
+   "inicio": 57.298,
+   "fin": 61.436,
+   "palabras": [
+    {
+     "w": "Comenta",
+     "t": 57.298,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "TORTUGA.",
+     "t": 57.84,
+     "clave": true,
+     "g": 20
+    },
+    {
+     "w": "Próximo:",
+     "t": 58.383,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "las",
+     "t": 59.085,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "flores",
+     "t": 59.266,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 59.628,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "costaban",
+     "t": 59.809,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "más",
+     "t": 60.351,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "que",
+     "t": 60.532,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "una",
+     "t": 60.713,
+     "clave": false,
+     "g": -1
+    },
+    {
+     "w": "casa.",
+     "t": 61.075,
+     "clave": false,
+     "g": -1
+    }
+   ]
+  }
+ ]
+}

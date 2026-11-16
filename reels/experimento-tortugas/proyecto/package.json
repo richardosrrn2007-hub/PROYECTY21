@@ -1,0 +1,30 @@
+{
+  "name": "reel-becario",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Plantilla de la skill becario-reels: reels verticales hechos con código (Remotion).",
+  "scripts": {
+    "resumen": "node render.mjs resumen",
+    "fotos": "node render.mjs fotos",
+    "video": "node render.mjs video",
+    "portada": "node render.mjs portada",
+    "tipos": "tsc -p ."
+  },
+  "dependencies": {
+    "@react-three/fiber": "^9.3.0",
+    "@remotion/bundler": "4.0.538",
+    "@remotion/layout-utils": "4.0.538",
+    "@remotion/renderer": "4.0.538",
+    "@remotion/three": "^4.0.538",
+    "@types/three": "^0.178.1",
+    "lucide-react": "1.61.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.538",
+    "three": "^0.178.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.7",
+    "typescript": "5.9.3"
+  }
+}

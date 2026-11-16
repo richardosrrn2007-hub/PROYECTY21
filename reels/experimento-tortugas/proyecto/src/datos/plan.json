@@ -1,0 +1,260 @@
+{
+  "titulo": "El experimento Turtle",
+  "estilo": {
+    "base": "noche",
+    "colores": {
+      "fondo": "#0A0F1E",
+      "fondo2": "#0A0F1E",
+      "manchas": [
+        "#0F1A30",
+        "#0A0F1E",
+        "#0C1426"
+      ],
+      "texto": "#E6EBF0",
+      "suave": "#8A96A6",
+      "acento": "#C9D1D9",
+      "acentoTexto": "#0A0F1E",
+      "tarjeta": "#1F3A5F",
+      "tarjetaTexto": "#E6EBF0",
+      "linea": "#1F3A5F",
+      "oscuro": "#0A0F1E",
+      "oscuroTexto": "#E6EBF0",
+      "borde": "#C9D1D9",
+      "exito": "#C9D1D9",
+      "error": "#C0392B"
+    },
+    "fuentes": {
+      "titulo": {
+        "archivo": "fuentes/inter-latin-800-normal.woff2",
+        "peso": 800
+      },
+      "texto": [
+        {
+          "archivo": "fuentes/inter-latin-600-normal.woff2",
+          "peso": 600
+        },
+        {
+          "archivo": "fuentes/inter-latin-800-normal.woff2",
+          "peso": 800
+        }
+      ],
+      "mano": {
+        "archivo": "fuentes/le-jardin-secret.ttf",
+        "peso": 400
+      }
+    },
+    "grano": 0
+  },
+  "subtitulos": "arriba",
+  "transicion": "zoom",
+  "personaje": false,
+  "frases": [
+    {
+      "texto": "*Veintitrés desconocidos* ganaron *175 millones de dólares* con las mismas reglas. Es el experimento más famoso del trading.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TGancho",
+        "en": [
+          "veintitres",
+          "175",
+          "mismas",
+          "experimento"
+        ]
+      },
+      "emocion": "[intrigante]",
+      "voz": "Veintitrés desconocidos ganaron ciento setenta y cinco millones de dólares con las mismas reglas. Es el experimento más famoso del trading.",
+      "sinSubtitulos": true
+    },
+    {
+      "texto": "Chicago, *1983.* Richard Dennis convirtió 1.600 dólares prestados en *una fortuna.* Su amigo decía que los traders *nacen.* Dennis apostó a que *se hacen.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TDuelo",
+        "en": [
+          "chicago",
+          "dennis",
+          "1600",
+          "fortuna",
+          "nacen",
+          "hacen"
+        ]
+      },
+      "emocion": "[segura]",
+      "voz": "Chicago, mil novecientos ochenta y tres. Richard Dennis convirtió mil seiscientos dólares prestados en una fortuna. Su amigo decía que los traders nacen. Dennis apostó a que se hacen.",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Puso un anuncio. Se presentaron unas *mil personas:* un guardia de seguridad, un jugador de blackjack, un diseñador de Dungeons & Dragons. Eligió a *23.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TAnuncio",
+        "en": [
+          "anuncio",
+          "mil",
+          "guardia",
+          "blackjack",
+          "dungeons",
+          "23"
+        ]
+      },
+      "emocion": "[intrigante]",
+      "voz": "Puso un anuncio. Se presentaron unas mil personas: un guardia de seguridad, un jugador de blackjack, un diseñador de Dungeons and Dragons. Eligió a veintitrés."
+    },
+    {
+      "texto": "En *dos semanas* les enseñó *cinco reglas.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TPizarra",
+        "en": [
+          "dos",
+          "cinco"
+        ]
+      },
+      "emocion": "[segura]",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Uno: *TREND FOLLOWING.* Si el precio rompe el máximo de 20 días, *compras.* Si rompe el mínimo, *vendes.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TBreakout",
+        "en": [
+          "uno",
+          "maximo",
+          "compras",
+          "minimo",
+          "vendes"
+        ]
+      },
+      "emocion": "[segura]",
+      "voz": "Uno: trend following. Si el precio rompe el máximo de veinte días, compras. Si rompe el mínimo, vendes."
+    },
+    {
+      "texto": "Dos: *POSITION SIZING.* Un movimiento normal del precio solo te cuesta *el 1 % de la cuenta.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TSizing",
+        "en": [
+          "dos",
+          "movimiento",
+          "cuesta",
+          "1"
+        ]
+      },
+      "emocion": "[segura]",
+      "voz": "Dos: position sizing. Un movimiento normal del precio solo te cuesta el uno por ciento de la cuenta.",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Tres: *STOP LOSS* a 2N. Cuatro: *PYRAMIDING,* sumar si sigue a favor. Cinco: *RIDE THE WINNER.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TReglas",
+        "en": [
+          "tres",
+          "cuatro",
+          "sumar",
+          "cinco"
+        ]
+      },
+      "emocion": "[segura]",
+      "voz": "Tres: stop loss a dos ene. Cuatro: pyramiding, sumar si sigue a favor. Cinco: ride the winner.",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ]
+    },
+    {
+      "texto": "Cinco años después: *175 millones.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TResultado",
+        "en": [
+          "cinco",
+          "175"
+        ]
+      },
+      "emocion": "[segura]",
+      "voz": "Cinco años después: ciento setenta y cinco millones.",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ],
+      "sinSubtitulos": true
+    },
+    {
+      "texto": "El secreto no era el sistema. Era la *DISCIPLINA.*",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TDisciplina",
+        "en": [
+          "secreto",
+          "sistema",
+          "disciplina"
+        ]
+      },
+      "emocion": "[cercana]",
+      "sinSubtitulos": true
+    },
+    {
+      "texto": "Comenta *TORTUGA.* Próximo: las flores que costaban más que una casa.",
+      "escena": {
+        "tipo": "propia",
+        "nombre": "TCta",
+        "en": [
+          "comenta",
+          "proximo",
+          "flores",
+          "casa"
+        ]
+      },
+      "emocion": "[cercana]",
+      "entrada": "barrido",
+      "sonidos": [
+        [
+          0,
+          "swoosh",
+          0.3
+        ]
+      ],
+      "sinSubtitulos": true
+    }
+  ],
+  "portada": {
+    "lineas": [
+      "23 NOVATOS",
+      "*175 MILLONES*",
+      "5 REGLAS"
+    ],
+    "oscura": true
+  }
+}
