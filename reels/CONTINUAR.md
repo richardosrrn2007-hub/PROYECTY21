@@ -21,9 +21,6 @@ Fondo negro con el planeta de noche con borde dorado (`Planeta.tsx`), dorado #D4
 5. `reels/soros-miercoles-negro/` — Soros y el Miércoles Negro (terminado). Pendiente: el adelanto dice «BOSTON · 1983», debería ser Chicago.
 6. `reels/experimento-tortugas/` — El experimento Turtle (61,5 s, terminado, ritmo sin huecos). CTA promete: las flores que costaban más que una casa (tulipanes, Holanda 1637).
 
-## Skill maestra
-`~/.claude/skills/maestro-trading-desde-cero` (copia en `skills-respaldo/`). Para un vídeo nuevo: pide «usa la skill maestra» y sigue su lista.
-
 ## Cómo retomar el proyecto en una sesión nueva
 - Cada vídeo tiene su proyecto en `reels/<video>/proyecto/` (src, render.mjs, package.json, public sin las fuentes de pago).
 - Copia esa carpeta fuera del repo (ej. `~/reel4`), pon las fuentes de pago en `public/fuentes/`, `npm install`, y usa la skill: `python3 .claude/skills/becario-reels/scripts/alinear.py <voz.mp3> --proyecto <dir> --motor asr --tempo 1.08 --pausa 0.22 --cola 1.5`, luego `node render.mjs resumen`, `node render.mjs foto <segundos…>`, `node render.mjs video` (si dice PARCIAL, repetir), `node render.mjs portada`, y `python3 .claude/skills/becario-reels/scripts/ritmo.py salida/reel.mp4 --tiempos src/datos/tiempos.json`.
