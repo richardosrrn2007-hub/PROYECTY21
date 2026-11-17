@@ -18,6 +18,12 @@ Fondo negro con el planeta de noche con borde dorado (`Planeta.tsx`), dorado #D4
 3. `reels/historia-de-las-velas/` — De dónde salieron las velas (57,2 s, terminado, a falta de mi revisión). Viaje: mundo normal → la cámara baja al planeta → órbita sobre Japón (planeta enorme, Japón en dorado, sol rojo) → historia en tinta y papel (mapa, Dojima con comerciantes con personalidad, futuros, Homma, pincel con 4 precios, máscaras miedo/codicia, banderas en montañas, canción, 1991 Steve Nison) → vuelta al planeta → apps con la vela hecha de arroz → "¿Lo sabías? Si no, comenta ARROZ. En el próximo: las 3 velas que más vas a ver." Música de koto hecha con código solo en la parte de Japón.
 4. Siguiente vídeo: "Las 3 velas que más vas a ver" (prometido en el vídeo 3).
 
+5. `reels/soros-miercoles-negro/` — Soros y el Miércoles Negro (terminado). Pendiente: el adelanto dice «BOSTON · 1983», debería ser Chicago.
+6. `reels/experimento-tortugas/` — El experimento Turtle (61,5 s, terminado, ritmo sin huecos). CTA promete: las flores que costaban más que una casa (tulipanes, Holanda 1637).
+
+## Skill maestra
+`~/.claude/skills/maestro-trading-desde-cero` (copia en `skills-respaldo/`). Para un vídeo nuevo: pide «usa la skill maestra» y sigue su lista.
+
 ## Cómo retomar el proyecto en una sesión nueva
 - Cada vídeo tiene su proyecto en `reels/<video>/proyecto/` (src, render.mjs, package.json, public sin las fuentes de pago).
 - Copia esa carpeta fuera del repo (ej. `~/reel4`), pon las fuentes de pago en `public/fuentes/`, `npm install`, y usa la skill: `python3 .claude/skills/becario-reels/scripts/alinear.py <voz.mp3> --proyecto <dir> --motor asr --tempo 1.08 --pausa 0.22 --cola 1.5`, luego `node render.mjs resumen`, `node render.mjs foto <segundos…>`, `node render.mjs video` (si dice PARCIAL, repetir), `node render.mjs portada`, y `python3 .claude/skills/becario-reels/scripts/ritmo.py salida/reel.mp4 --tiempos src/datos/tiempos.json`.
