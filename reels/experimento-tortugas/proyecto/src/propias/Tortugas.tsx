@@ -228,10 +228,10 @@ const TDuelo: React.FC<PropsEscena> = ({ b }) => {
       )}
       <CajaTexto x={560} y={800} desde={fort} texto="UNA FORTUNA" fondo={ORO} color={NOCHE} tam={76} />
       {/* los dos amigos */}
-      <Hombre x={800} y={1500} esc={0.95} borde={f >= hacen ? ORO : PLATA} op={pr(f, den - 38, 14)} />
-      <Hombre x={280} y={1500} esc={0.95} borde={PLATA} op={pr(f, amigo, 10)} />
-      <Tarjeta y={1520} x={800} desde={den} texto="RICHARD DENNIS" tam={24} />
-      <Tarjeta y={1520} x={280} desde={amigo} texto="WILLIAM ECKHARDT" tam={24} color={PLATA} />
+      <Hombre x={820} y={1545} esc={0.55} borde={f >= hacen ? ORO : PLATA} op={pr(f, den - 38, 14)} />
+      <Hombre x={260} y={1545} esc={0.55} borde={PLATA} op={pr(f, amigo, 10)} />
+      <Tarjeta y={1565} x={820} desde={den} texto="RICHARD DENNIS" tam={24} />
+      <Tarjeta y={1565} x={260} desde={amigo} texto="WILLIAM ECKHARDT" tam={24} color={PLATA} />
       <CajaTexto x={280} y={955} desde={nacen} texto="NACEN" fondo="rgba(8,12,10,0.85)" color={PLATA} tam={84} contorno={PLATA} giro={-3} />
       <CajaTexto x={800} y={955} desde={hacen} texto="SE HACEN" fondo={ORO} color={NOCHE} tam={84} giro={3} />
       {f >= nacen && (
