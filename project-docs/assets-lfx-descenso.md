@@ -99,7 +99,7 @@ Imagen [N], mismo estilo, con fondo transparente (PNG). Te adjunto las dos escen
 ### 10. `sprites.png` (cuadrado 1024 × 1024, fondo transparente)
 
 ```
-Imagen 10, mismo estilo, con fondo transparente (PNG). Hoja de sprites con elementos separados, sin tocarse y con espacio entre ellos. Fila de arriba: cuatro pequeños cristales dorados flotantes con forma de vela japonesa, cada uno con un brillo suave y en una pose distinta (inclinado, recto, alto, pequeño). Fila de abajo: un halcón de bronce volando visto de lado, dos veces, una con las alas arriba y otra con las alas abajo, mismo tamaño y misma posición. Sin texto, letras ni logos.
+Imagen 10, mismo estilo, con fondo transparente (PNG). Hoja de sprites con elementos separados, sin tocarse y con espacio entre ellos. Fila de arriba: cuatro piezas de oro flotantes con un brillo suave, cada una distinta: una moneda de oro inclinada, una pepita de oro, un lingote pequeño de lado y una moneda de oro de canto. Fila de abajo: un halcón de bronce volando visto de lado, dos veces, una con las alas arriba y otra con las alas abajo, mismo tamaño y misma posición. Sin texto, letras ni logos.
 ```
 
 ---
