@@ -57,14 +57,31 @@ a{color:inherit;text-decoration:none}
 .band canvas{z-index:0}
 
 /* ---------- falls & particles ---------- */
-canvas.fall{mix-blend-mode:screen;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);
+canvas.flow{pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(transparent,#000 9%,#000 91%,transparent);
   -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 20%,#000 80%,transparent),linear-gradient(transparent,#000 9%,#000 91%,transparent);
   mask-composite:intersect}
-canvas.fall.body{
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 14%,#000 86%,transparent);
-  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 14%,#000 86%,transparent)}
+canvas.flow.seamflow{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(transparent,#000 12%,#000 88%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent),linear-gradient(transparent,#000 12%,#000 88%,transparent)}
+
+/* platform screenshots */
+.shot{position:absolute;z-index:6;margin:0;padding:24px 7px 7px;border-radius:10px;background:#0b0811;cursor:zoom-in;
+  border:1px solid rgba(231,183,68,.42);box-shadow:0 34px 80px rgba(0,0,0,.62),0 0 40px rgba(231,183,68,.08);
+  transform:perspective(1400px) rotateY(var(--ry,-7deg)) rotateX(2deg);transition:transform .8s var(--ease),box-shadow .8s var(--ease)}
+.shot:hover{transform:perspective(1400px) rotateY(0) rotateX(0) translateY(-4px);box-shadow:0 40px 90px rgba(0,0,0,.7),0 0 50px rgba(231,183,68,.16)}
+.shot::before{content:"";position:absolute;left:10px;top:9px;width:7px;height:7px;border-radius:50%;background:#3a3346;box-shadow:12px 0 #3a3346,24px 0 #3a3346}
+.shot::after{content:"leonardofx.com";position:absolute;left:50%;top:6px;transform:translateX(-50%);font:500 10px/13px "Inter";color:rgba(238,228,214,.45);
+  padding:0 14px;border-radius:7px;background:rgba(255,255,255,.04)}
+.shot img{display:block;width:100%;height:auto;border-radius:4px}
+.shot figcaption{position:absolute;left:0;right:0;bottom:-26px;text-align:center;font:500 11px/1 "Inter";letter-spacing:.08em;text-transform:uppercase;color:rgba(255,217,118,.75)}
+#formacion .shot{left:57.5vw;top:.5vw;width:31vw;--ry:-8deg}
+#metodo .shot{left:-22.5vw;top:2.5vw;width:21vw;--ry:7deg}
+#riesgo .shot{left:37vw;top:.5vw;width:20vw;--ry:-6deg}
+.zoom{position:fixed;inset:0;z-index:80;display:none;place-items:center;padding:4vw;background:rgba(10,7,16,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:zoom-out}
+.zoom.on{display:grid}
+.zoom img{max-width:min(1400px,100%);max-height:100%;border-radius:8px;border:1px solid rgba(231,183,68,.4);box-shadow:0 30px 90px rgba(0,0,0,.7)}
 canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:none}
 
 /* ---------- glows ---------- */
@@ -130,6 +147,10 @@ canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:
 /* ---------- mobile ---------- */
 @media (max-width:767px){
   :root{--artH:max(calc(100vw / var(--ratio)),108svh)}
+  #metodo,#riesgo{--artH:max(calc(100vw / var(--ratio)),134svh)}
+  #formacion{--artH:max(calc(100vw / var(--ratio)),156svh)}
+  .shot,#formacion .shot,#metodo .shot,#riesgo .shot{position:relative;left:auto;top:auto;width:100%;margin:16px 0 4px;transform:none;padding:20px 5px 5px}
+  .shot figcaption{display:none}
   .art,.band{width:calc(var(--artH) * var(--ratio));left:calc(50vw - var(--focus) * var(--artH) * var(--ratio) / 100)}
   .band{aspect-ratio:auto;height:var(--artH)}
   .nav{height:56px;grid-template-columns:auto 1fr}
@@ -198,6 +219,7 @@ canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:
       <p>Operar las sesiones y encontrar entradas de alta precisión en timeframes bajos.</p>
       <h3>Mentalidad del Trader <em>· 5 clases</em></h3>
       <p>Disciplina, control emocional y bitácora para decidir bajo presión.</p>
+      <figure class="shot"><img src="assets/plataforma/clases.webp" alt="Clases de La Realidad del Trading Institucional dentro de la plataforma LFX" width="676" height="508" loading="lazy"><figcaption>Dentro de la plataforma</figcaption></figure>
     </div>
   </section>
 
@@ -216,6 +238,7 @@ canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:
         <li><b>5</b><span>Estudia los módulos a tu ritmo y lleva tu bitácora.</span></li>
       </ol>
       <p class="note">Horario de México (GMT-6).</p>
+      <figure class="shot"><img src="assets/plataforma/sesiones.webp" alt="Calendario de sesiones en vivo de LFX Academy" width="1400" height="540" loading="lazy"><figcaption>Calendario de sesiones</figcaption></figure>
     </div>
   </section>
 
@@ -236,6 +259,7 @@ canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:
       </ul>
       <h3>Biblioteca</h3>
       <p>Audiolibros, libros y podcasts: Trading en la Zona, Un paso por delante de Wall Street de Peter Lynch, Inteligencia Emocional y El Nuevo Vivir del Trading, material propio de la academia.</p>
+      <figure class="shot"><img src="assets/plataforma/riesgo.webp" alt="Guías de gestión de riesgo de LFX Academy" width="1048" height="584" loading="lazy"><figcaption>Guías de gestión de riesgo</figcaption></figure>
     </div>
   </section>
 
@@ -254,6 +278,7 @@ canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:
 
 </div>
 <div class="lamp" aria-hidden="true"></div>
+<div class="zoom" role="dialog" aria-label="Captura ampliada"><img alt=""></div>
 
 <script>
 (() => {
@@ -271,46 +296,45 @@ const EASE = 'cubic-bezier(.2,.8,.2,1)';
 if (WHATSAPP) $$('.wa').forEach(a => { a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(WA_TEXT); a.target = '_blank'; a.rel = 'noopener'; });
 
 /* ---------------- scene config (all % of the art box) ---------------- */
-const SP = { // sprite crops on the 1254 x 1254 sheet: [x, y, w, h]
-  coin:[70,40,480,515], nugget:[685,100,500,440], bar:[55,840,515,190], edge:[885,685,100,490]
-};
 const CONF = {
   top: [
     {t:'halo', x:50, y:33, w:19},
-    {t:'fall', kind:'gold', x:47.4, y:40, w:5.6, h:32, speed:1},
-    {t:'mist', x:50, y:71, w:24, h:9},
-    {t:'fall', kind:'gold', x:46.2, y:70, w:7.6, h:34, speed:1.15},
+    {t:'flow', x:46.8, y:46, w:6.4, h:24, v:55},
+    {t:'dust', kind:'drip', n:24, x:47, y:78, w:6, h:22},
+    {t:'mist', x:50, y:71, w:26, h:10},
+    {t:'dust', kind:'spray', n:46, x:44, y:64, w:12, h:10},
+    {t:'dust', kind:'drip', n:26, x:47.6, y:42, w:4.8, h:28},
     {t:'glow', x:9.5, y:38.5, w:6}, {t:'glow', x:13, y:40, w:3},
     {t:'glow', x:86.5, y:45, w:5}, {t:'glow', x:89, y:46, w:3},
     {t:'glow', cls:'soft', x:50, y:73, w:26},
-    {t:'dust', kind:'wisp', n:70, x:20, y:30, w:60, h:70},
+    {t:'dust', kind:'wisp', n:60, x:20, y:30, w:60, h:70},
     {t:'sprite', s:'coin', x:21, y:34, w:4.2},
     {t:'sprite', s:'nugget', x:79, y:26, w:3.8},
     {t:'sprite', s:'bar', x:67, y:54, w:3.6},
     {t:'sprite', s:'edge', x:33, y:52, w:1.4}
   ],
   formacion: [
-    {t:'fall', kind:'gold', x:43.5, y:0, w:19, h:80, speed:.9},
-    {t:'mist', x:53, y:80, w:36, h:12},
+    {t:'flow', x:42.5, y:0, w:21, h:80, v:60},
+    {t:'mist', x:53, y:79, w:38, h:13},
+    {t:'dust', kind:'spray', n:60, x:44, y:72, w:18, h:12},
+    {t:'dust', kind:'drip', n:40, x:46, y:4, w:15, h:70},
     {t:'glow', cls:'soft', x:53, y:82, w:30},
     {t:'glow', x:84, y:45, w:7}, {t:'glow', x:88, y:26, w:5}, {t:'glow', x:74, y:58, w:4},
-    {t:'dust', kind:'mote', n:50},
-    {t:'sprite', s:'coin', x:76, y:33, w:2.6}
+    {t:'dust', kind:'mote', n:40}
   ],
   metodo: [
-    {t:'fall', kind:'gold', x:21, y:6, w:9.5, h:68, speed:1.05},
-    {t:'dust', kind:'spray', n:60, x:16, y:68, w:20, h:16},
+    {t:'flow', x:20.5, y:6, w:11, h:68, v:65},
+    {t:'dust', kind:'spray', n:60, x:16, y:66, w:20, h:16},
+    {t:'dust', kind:'drip', n:22, x:22.5, y:12, w:7, h:56},
     {t:'glow', cls:'soft', x:13, y:86, w:22},
     {t:'glow', x:36.8, y:30.8, w:3.4}, {t:'glow', x:48.5, y:46.9, w:2.6}, {t:'glow', x:58.3, y:55.7, w:2.2},
     {t:'glow', cls:'soft', x:52, y:58.6, w:5},
     {t:'glow', x:93.4, y:54.7, w:3}, {t:'glow', x:90.5, y:58.6, w:3}, {t:'glow', x:87.6, y:62.5, w:3},
     {t:'glow', x:84.6, y:68.8, w:3}, {t:'glow', x:82, y:75.2, w:3},
-    {t:'dust', kind:'mote', n:30}
+    {t:'dust', kind:'mote', n:24}
   ],
   riesgo: [
-    {t:'fall', kind:'lava', x:68.5, y:16, w:8.5, h:36, speed:.55},
-    {t:'fall', kind:'lava', x:57.4, y:48, w:3.6, h:12, speed:.6},
-    {t:'fall', kind:'lava', x:80.8, y:48, w:3.6, h:14, speed:.5},
+    {t:'flow', x:67.4, y:21, w:9, h:30, v:34},
     {t:'glow', cls:'soft', x:79, y:14, w:22},
     {t:'glow', x:69, y:56, w:30},
     {t:'glow', cls:'soft', x:62, y:86, w:40},
@@ -320,21 +344,24 @@ const CONF = {
   unete: [
     {t:'glow', cls:'soft', x:50, y:66, w:10},
     {t:'glow', x:10.7, y:58, w:4}, {t:'glow', x:21, y:60, w:3}, {t:'glow', x:79, y:60, w:3}, {t:'glow', x:89, y:58, w:4},
-    {t:'dust', kind:'glint', n:70, x:0, y:64, w:100, h:30},
+    {t:'dust', kind:'glint', n:60, x:0, y:64, w:100, h:30},
     {t:'dust', kind:'shimmer', n:50, x:40, y:72, w:20, h:24},
     {t:'sprite', s:'coin', x:28, y:30, w:2.6},
     {t:'sprite', s:'edge', x:72, y:34, w:1.2}
   ]
 };
-const SEAM_FALLS = [ // % of the band
-  {x:45, y:18, w:10, h:64, speed:1},
-  {x:20.5, y:40, w:8.4, h:42, speed:1},
-  {x:65.2, y:40, w:8.8, h:40, speed:1},
+/* seam falls: box in % of the band, texture borrowed from a scene's painted falls (% of that image) */
+const SEAM_FLOWS = [
+  {x:45, y:33, w:10, h:51, from:'top', s:[47, 84, 6, 16], v:85},
+  {x:19.8, y:27, w:10, h:57, from:'metodo', s:[22, 14, 8, 50], v:65},
+  {x:64.6, y:31, w:10, h:51, from:'metodo', s:[22, 14, 8, 50], v:65},
   null
 ];
 
 /* ---------------- build ---------------- */
-const falls = [], dusts = [], sprites = [];
+const SP = { coin:[70,40,480,515], nugget:[685,100,500,440], bar:[55,840,515,190], edge:[885,685,100,490] };
+const flows = [], dusts = [], sprites = [], IMG = {};
+function img(src) { if (!IMG[src]) { const i = new Image(); i.decoding = 'async'; i.src = src; i.onload = () => flows.forEach(sizeFlow); IMG[src] = i; } return IMG[src]; }
 $$('.scene').forEach(sc => {
   sc.style.setProperty('--focus', sc.dataset.focus);
   const art = $('.art', sc);
@@ -342,7 +369,10 @@ $$('.scene').forEach(sc => {
   art.style.setProperty('--img', `url('${art.dataset.img}')`);
   for (const o of CONF[sc.id] || []) {
     let el;
-    if (o.t === 'fall') { el = document.createElement('canvas'); el.className = 'fall'; falls.push({cv:el, kind:o.kind, speed:o.speed, body:false}); }
+    if (o.t === 'flow') {
+      el = document.createElement('canvas'); el.className = 'flow';
+      flows.push({cv:el, img:img(art.dataset.img), s:[o.x, o.y, o.w, o.h], v:o.v});
+    }
     else if (o.t === 'dust') { el = document.createElement('canvas'); el.className = 'dust'; dusts.push({cv:el, art, o}); art.appendChild(el); continue; }
     else if (o.t === 'sprite') {
       el = document.createElement('div'); el.className = 'sprite';
@@ -361,11 +391,11 @@ $$('.scene').forEach(sc => {
 });
 $$('.seam').forEach((s, i) => {
   s.style.setProperty('--focus', s.dataset.focus);
-  const f = SEAM_FALLS[i]; if (!f) return;
-  const cv = document.createElement('canvas'); cv.className = 'fall body';
+  const f = SEAM_FLOWS[i]; if (!f) return;
+  const cv = document.createElement('canvas'); cv.className = 'flow seamflow';
   Object.assign(cv.style, {position:'absolute', left:f.x + '%', top:f.y + '%', width:f.w + '%', height:f.h + '%'});
   $('.band', s).prepend(cv);
-  falls.push({cv, kind:'gold', speed:f.speed, body:true});
+  flows.push({cv, img:img($(`#${f.from} .art`).dataset.img), s:f.s, v:f.v, seam:true});
 });
 
 /* hero letters */
@@ -376,7 +406,7 @@ const letters = $$('span', h1);
 /* copy lines */
 $$('.copy').forEach(c => {
   [...c.children].forEach(ch => {
-    if (ch.classList.contains('rule')) return;
+    if (ch.classList.contains('rule') || ch.classList.contains('shot')) return;
     if (ch.tagName === 'OL' || ch.tagName === 'UL') { $$('li', ch).forEach(li => { li.innerHTML = `<span>${li.innerHTML}</span>`; li.classList.add('ln'); }); return; }
     wrap(ch);
   });
@@ -387,61 +417,50 @@ function wrap(el) {
   el.replaceWith(ln); sp.appendChild(el); ln.appendChild(sp);
 }
 
-/* ---------------- streak sprites ---------------- */
-function streak(stops) {
-  const c = document.createElement('canvas'); c.width = 8; c.height = 160;
-  const g = c.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 160);
-  stops.forEach(([p, col]) => gr.addColorStop(p, col));
-  g.fillStyle = gr; g.fillRect(0, 0, 8, 160); return c;
-}
-const STREAK = {
-  gold: [streak([[0,'rgba(255,226,140,0)'],[.35,'rgba(255,240,180,.95)'],[1,'rgba(255,170,50,0)']]),
-         streak([[0,'rgba(255,170,50,0)'],[.5,'rgba(255,205,100,.8)'],[1,'rgba(230,130,30,0)']])],
-  lava: [streak([[0,'rgba(255,190,80,0)'],[.4,'rgba(255,236,150,1)'],[1,'rgba(255,120,30,0)']]),
-         streak([[0,'rgba(255,120,30,0)'],[.5,'rgba(255,150,50,.9)'],[1,'rgba(255,80,20,0)']])]
-};
+/* screenshot zoom */
+const zoom = $('.zoom');
+$$('.shot').forEach(f => f.addEventListener('click', () => { $('img', zoom).src = $('img', f).src; $('img', zoom).alt = $('img', f).alt; zoom.classList.add('on'); }));
+zoom.addEventListener('click', () => zoom.classList.remove('on'));
+addEventListener('keydown', e => { if (e.key === 'Escape') zoom.classList.remove('on'); });
+
 const rnd = (a, b) => a + Math.random() * (b - a);
 
-function sizeFall(f) {
+/* ---------------- flowing painted falls ----------------
+   The painted waterfall itself moves: it is cut into narrow vertical ribbons, and
+   each ribbon slides down a short distance and cross-fades with a copy half a cycle
+   behind (a flow-map loop). Every ribbon runs on its own phase, so the water
+   shimmers instead of pulsing. The average offset is zero, so it stays on the painting. */
+function sizeFlow(f) {
   const w = f.cv.offsetWidth, h = f.cv.offsetHeight;
   if (!w || !h) return;
   f.w = w; f.h = h;
   f.cv.width = Math.round(w * DPR); f.cv.height = Math.round(h * DPR);
   f.ctx = f.cv.getContext('2d'); f.ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  const lava = f.kind === 'lava', n = lava ? Math.round(w / 3) * 3 : Math.round(w / 2.2) * 2;
-  f.s = [];
-  for (let i = 0; i < Math.max(n, 6); i++) f.s.push({
-    x: lava ? rnd(w * .25, w * .75) : rnd(0, w),
-    sw: lava ? rnd(1, 3.2) : rnd(.8, 4),
-    len: lava ? rnd(30, 100) : rnd(60, 280),
-    v: (lava ? rnd(195, 350) : rnd(420, 760)) * f.speed,
-    a: rnd(.18, .73), ph: rnd(0, 2000),
-    spr: STREAK[f.kind][Math.random() < .45 ? 0 : 1]
-  });
-  if (f.body) {
-    const g = f.ctx.createLinearGradient(0, 0, w, 0);
-    g.addColorStop(0, 'rgba(225,140,35,0)'); g.addColorStop(.1, 'rgba(235,160,50,.88)');
-    g.addColorStop(.3, 'rgba(250,200,100,.97)'); g.addColorStop(.5, 'rgba(255,228,150,1)');
-    g.addColorStop(.7, 'rgba(250,200,100,.97)'); g.addColorStop(.9, 'rgba(235,160,50,.88)'); g.addColorStop(1, 'rgba(225,140,35,0)');
-    f.bodyGrad = g;
-  }
+  f.ctx.imageSmoothingQuality = 'high';
+  f.L = Math.max(22, Math.min(64, h * .11));
+  const n = Math.max(4, Math.round(w / 9));
+  if (!f.cols || f.cols.length !== n) f.cols = Array.from({length:n}, () => ({ph:Math.random(), sp:rnd(.8, 1.25)}));
 }
-function drawFall(f, t) {
-  if (!f.ctx) return;
+function drawFlow(f, t) {
+  const im = f.img;
+  if (!f.ctx || !im.complete || !im.naturalWidth) return;
   const r = f.cv.getBoundingClientRect();
   if (r.bottom < -50 || r.top > innerHeight + 50) return;
-  const c = f.ctx, w = f.w, h = f.h;
-  c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.clearRect(0, 0, w, h);
-  if (f.body) { c.fillStyle = f.bodyGrad; c.fillRect(0, 0, w, h); }
-  c.globalCompositeOperation = 'lighter';
-  for (const s of f.s) {
-    const span = h + s.len, y = ((t * s.v + s.ph) % span) - s.len;
-    let a = s.a;
-    if (f.kind !== 'lava') { const d = Math.abs(s.x / w - .5) * 2; a *= 1 - d * d * .6; }
-    c.globalAlpha = a;
-    c.drawImage(s.spr, s.x, y, s.sw, s.len);
-    c.drawImage(s.spr, s.x, y - span, s.sw, s.len);
+  const c = f.ctx, w = f.w, h = f.h, N = im.naturalWidth, M = im.naturalHeight;
+  const sx = f.s[0] / 100 * N, sy = f.s[1] / 100 * M, sw = f.s[2] / 100 * N, sh = f.s[3] / 100 * M;
+  const n = f.cols.length, cw = w / n, scw = sw / n;
+  c.globalCompositeOperation = 'source-over';
+  c.globalAlpha = 1; c.clearRect(0, 0, w, h);
+  for (let i = 0; i < n; i++) {
+    const col = f.cols[i];
+    const phA = (t * f.v * col.sp / f.L + col.ph) % 1, phB = (phA + .5) % 1;
+    const wB = 1 - Math.abs(2 * phB - 1);           /* wA + wB = 1 */
+    const x = i * cw, srcX = sx + i * scw;
+    c.globalAlpha = 1;
+    c.drawImage(im, srcX, sy, scw, sh, x, (phA - .5) * f.L, cw + .7, h);
+    if (wB > .01) { c.globalAlpha = wB; c.drawImage(im, srcX, sy, scw, sh, x, (phB - .5) * f.L, cw + .7, h); }
   }
+  c.globalAlpha = 1;
 }
 
 /* ---------------- particles ---------------- */
@@ -487,6 +506,10 @@ function drawDust(d, t) {
       c.strokeStyle = `rgba(255,240,200,${a})`; c.lineWidth = 1;
       c.beginPath(); c.moveTo(x - L, y); c.lineTo(x + L, y); c.moveTo(x, y - L * .7); c.lineTo(x, y + L * .7); c.stroke();
       continue;
+    } else if (k === 'drip') {
+      const life = (t * p.sp * .55 + p.ph) % 1;
+      x = d.bx + (p.u + Math.sin(t * 3 + p.ph) * .015) * d.bw; y = d.by + life * life * d.bh;
+      rad = .7 + p.r * 1.1; a = Math.sin(life * Math.PI) * .85; col = '255,238,175';
     } else if (k === 'shimmer') {
       x = d.bx + p.u * d.bw; y = d.by + p.v * d.bh;
       a = Math.max(0, Math.sin(t * (1.2 + 2 * p.r) + p.ph)) * .7;
@@ -501,7 +524,7 @@ function drawDust(d, t) {
 const scroller = $('#scroller'), heroArt = $('#top .art'), heroCopy = $('.hero-copy'), hero = $('#top');
 function layout() {
   document.body.style.height = scroller.offsetHeight + 'px';
-  falls.forEach(sizeFall); dusts.forEach(sizeDust);
+  flows.forEach(sizeFlow); dusts.forEach(sizeDust);
 }
 addEventListener('resize', () => { clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
 addEventListener('load', layout);
@@ -537,9 +560,10 @@ function reveal(b) {
   b.done = true; if (RM) return;
   $$('.ln > span', b.c).forEach((s, i) => s.animate([{transform:'translateY(105%)'}, {transform:'translateY(0)'}], {duration:1000, delay:i * 80, easing:EASE, fill:'both'}));
   const r = $('.rule', b.c); if (r) r.animate([{transform:'scaleX(0)'}, {transform:'scaleX(1)'}], {duration:1100, delay:160, easing:EASE, fill:'both'});
+  const sh = $('.shot', b.c); if (sh) sh.animate([{clipPath:'inset(100% 0 0 0 round 10px)'}, {clipPath:'inset(0 0 0 0 round 10px)'}], {duration:1400, delay:300, easing:EASE, fill:'backwards'});
 }
-if (!RM) blocks.forEach(b => { $$('.ln > span', b.c).forEach(s => s.style.transform = 'translateY(105%)'); const r = $('.rule', b.c); if (r) r.style.transform = 'scaleX(0)'; });
-function clearPre(b) { $$('.ln > span', b.c).forEach(s => s.style.transform = ''); const r = $('.rule', b.c); if (r) r.style.transform = ''; }
+if (!RM) blocks.forEach(b => { $$('.ln > span', b.c).forEach(s => s.style.transform = 'translateY(105%)'); const r = $('.rule', b.c); if (r) r.style.transform = 'scaleX(0)'; const sh = $('.shot', b.c); if (sh) sh.style.clipPath = 'inset(100% 0 0 0)'; });
+function clearPre(b) { $$('.ln > span', b.c).forEach(s => s.style.transform = ''); const r = $('.rule', b.c); if (r) r.style.transform = ''; const sh = $('.shot', b.c); if (sh) sh.style.clipPath = ''; }
 
 /* ---------------- loop ---------------- */
 let cur = scrollY, last = performance.now(), t0 = last;
@@ -560,7 +584,7 @@ function frame(now) {
 
   for (const b of blocks) if (!b.done && b.c.getBoundingClientRect().top < innerHeight * .8) { clearPre(b); reveal(b); }
 
-  if (!RM || !frame.once) { falls.forEach(f => drawFall(f, t)); dusts.forEach(d => drawDust(d, t)); }
+  if (!RM || !frame.once) { flows.forEach(f => drawFlow(f, t)); dusts.forEach(d => drawDust(d, t)); }
 
   for (const s of sprites) {
     const W = s.art.offsetWidth, H = s.art.offsetHeight, sw = s.o.w / 100 * W, sh = sw * s.ar;
