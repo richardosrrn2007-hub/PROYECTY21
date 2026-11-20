@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LFX Academy · Trading institucional de oro</title>
+<meta name="description" content="LFX Academy: formación profesional en trading de oro. Trading Institucional, Scalping y Mentalidad del Trader, con sesiones en vivo cada día.">
+<meta name="theme-color" content="#120D1C">
+<link rel="preload" href="assets/01-hero.webp" as="image">
+<link rel="preload" href="assets/fonts/oswald.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"Oswald";src:url(assets/fonts/oswald.woff2) format("woff2");font-weight:200 700;font-display:swap}
+@font-face{font-family:"Inter";src:url(assets/fonts/inter.woff2) format("woff2");font-weight:100 900;font-display:swap}
+
+:root{
+  --night:#120D1C;
+  --ink:#F4EFE6;
+  --soft:rgba(238,228,214,.8);
+  --gold:#E7B744;
+  --gold-hi:#FFD976;
+  --ember:#FFD976;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --ratio:1.5;                       /* 1536 / 1024 */
+  --artH:calc(100vw / var(--ratio));
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--night)}
+body{background:var(--night);color:var(--ink);font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;height:64px;padding:0 2.2vw;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  background:linear-gradient(rgba(18,13,28,.62),rgba(18,13,28,0));font:500 12px/1 "Inter",sans-serif;letter-spacing:.02em;transform:translateY(-100%)}
+.nav .l,.nav .r{display:flex;align-items:center;gap:5.6vw}
+.nav .r{justify-content:flex-end;gap:3.2vw}
+.nav a{color:rgba(244,239,230,.82);transition:color .3s}
+.nav a:hover{color:#fff}
+.logo{display:flex;align-items:center;gap:9px;color:#fff!important}
+.logo svg{display:block}
+.logo b{font:600 19px/1 "Oswald",sans-serif;letter-spacing:.14em;color:var(--ink)}
+.nav .cta{border:1px solid rgba(231,183,68,.75);padding:9px 14px;border-radius:2px;color:var(--gold-hi);transition:background .3s,color .3s}
+.nav .cta:hover{background:var(--gold);color:#1A1205}
+
+/* ---------- scroller ---------- */
+#scroller{position:fixed;top:0;left:0;width:100%;will-change:transform}
+.scene{position:relative;height:var(--artH);overflow-x:clip;background:var(--night)}
+#top{overflow:clip}
+.art{position:absolute;top:0;left:0;width:100vw;height:var(--artH)}
+.art .bg{position:absolute;inset:0;background:var(--img) center/100% 100% no-repeat}
+.art>*{position:absolute}
+.art .bg{position:absolute}
+
+/* ---------- seams ---------- */
+.seam{position:relative;height:0;z-index:10;pointer-events:none}
+.band{position:absolute;left:0;top:0;width:100vw;aspect-ratio:1536/1024;transform:translateY(-50%)}
+.band img{position:absolute;inset:0;width:100%;height:100%;z-index:1;display:block}
+.band canvas{z-index:0}
+
+/* ---------- falls & particles ---------- */
+canvas.fall{mix-blend-mode:screen;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);
+  mask-composite:intersect}
+canvas.fall.body{-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);-webkit-mask-composite:source-over;mask-composite:add}
+canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:none}
+
+/* ---------- glows ---------- */
+.glow,.mist,.halo{transform:translate(-50%,-50%);aspect-ratio:1;pointer-events:none;mix-blend-mode:screen;border-radius:50%}
+.glow{background:radial-gradient(closest-side,rgba(255,176,60,.72),rgba(255,140,40,.22) 50%,transparent);animation:flicker 2.8s steps(1,end) infinite}
+.glow.soft{background:radial-gradient(closest-side,rgba(255,200,110,.45),rgba(255,160,60,.14) 55%,transparent);animation:breathe 4.4s ease-in-out infinite}
+.mist{aspect-ratio:auto;background:radial-gradient(closest-side,rgba(255,214,140,.5),rgba(255,180,90,.16) 55%,transparent);animation:breathe 4.6s ease-in-out infinite}
+.halo{background:radial-gradient(closest-side,transparent 58%,rgba(255,214,130,.30) 70%,rgba(200,150,255,.12) 85%,transparent);animation:breathe 6s ease-in-out infinite}
+@keyframes flicker{0%{opacity:1}12%{opacity:.78}20%{opacity:1}37%{opacity:.86}49%{opacity:1}63%{opacity:.7}78%{opacity:.95}90%{opacity:.82}}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1);filter:brightness(1)}50%{transform:translate(-50%,-50%) scale(1.08);filter:brightness(1.25)}}
+
+/* ---------- sprites ---------- */
+.sprite{left:0;top:0;background:url(assets/10-sprites.webp) no-repeat;will-change:transform;pointer-events:none;
+  filter:drop-shadow(0 0 10px rgba(255,200,90,.45))}
+
+/* ---------- hero copy ---------- */
+.hero-copy{position:absolute;left:0;right:0;top:calc(var(--artH) * .085);z-index:6;text-align:center;pointer-events:none;will-change:transform}
+.hero-copy h1{--ls:.34em;--lsx:0em;font:500 clamp(46px,6.4vw,124px)/1 "Oswald",sans-serif;letter-spacing:calc(var(--ls) + var(--lsx));padding-left:var(--ls);
+  overflow:hidden;text-shadow:0 0 40px rgba(231,183,68,.35);white-space:nowrap}
+.hero-copy h1 span{display:inline-block}
+.hero-copy .sub{position:absolute;left:0;right:0;top:calc(var(--artH) * .11);font:500 clamp(12px,1.18vw,22px)/1 "Oswald",sans-serif;letter-spacing:.62em;padding-left:.62em;color:var(--gold-hi)}
+
+/* ---------- section copy ---------- */
+.copy{position:absolute;z-index:6;max-width:520px}
+.copy::before{content:"";position:absolute;inset:-12% -18%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(14,9,22,.62),rgba(14,9,22,.32) 60%,transparent)}
+.copy h2{font:600 clamp(30px,3.4vw,60px)/1.04 "Inter",sans-serif;letter-spacing:-.025em;text-shadow:0 2px 24px rgba(0,0,0,.5)}
+.copy .rule{width:150px;height:1px;background:rgba(231,183,68,.7);margin:20px 0 22px;transform-origin:left}
+.copy h3{font:600 15px/1.3 "Inter",sans-serif;margin:20px 0 6px;color:var(--ink)}
+.copy h3 em{font-style:normal;color:var(--gold-hi);font-weight:500}
+.copy .rule+.ln h3,.copy .rule+h3{margin-top:0}
+.copy p{font:400 14px/1.55 "Inter",sans-serif;color:var(--soft);max-width:52ch;margin-bottom:10px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.copy ol,.copy ul{list-style:none}
+.copy li{font:400 14px/1.5 "Inter",sans-serif;color:var(--soft);display:flex;gap:12px;margin-bottom:10px;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.copy li b{flex:0 0 22px;height:22px;border:1px solid rgba(231,183,68,.7);border-radius:50%;display:grid;place-items:center;font:600 11px/1 "Inter";color:var(--gold-hi);margin-top:-1px}
+.copy li i{flex:0 0 6px;height:6px;margin-top:8px;background:var(--gold);transform:rotate(45deg)}
+.copy li{display:block}
+.copy li.ln>span{display:flex;gap:12px}
+.copy .note{font-size:12px;color:rgba(238,228,214,.6)}
+.btn{display:inline-flex;align-items:center;height:40px;padding:0 18px;margin-top:22px;border-radius:2px;background:var(--gold);color:#1A1205;
+  font:600 12.5px/1 "Inter",sans-serif;letter-spacing:.02em;transition:background .3s,color .3s,transform .5s var(--ease)}
+.btn:hover{background:var(--ember);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid rgba(244,239,230,.6);margin-left:10px}
+.btn.ghost:hover{background:rgba(244,239,230,.1);color:#fff}
+.ln{display:block;overflow:hidden}
+.ln>span{display:block}
+.legal{position:absolute;left:50%;transform:translateX(-50%);bottom:3.5%;width:min(720px,90%);z-index:6;text-align:center;font:400 11px/1.5 "Inter";color:rgba(238,228,214,.55)}
+
+/* positions */
+#formacion .copy{left:5.5%;top:25%;width:34%}
+#metodo .copy{left:54%;top:24%;width:31%}
+#riesgo .copy{left:6%;top:25%;width:36%}
+#unete .copy{left:50%;transform:translateX(-50%);top:23%;width:60%;max-width:760px;text-align:center}
+#unete .copy h2{font-size:clamp(34px,4.2vw,74px)}
+#unete .copy .rule{margin-left:auto;margin-right:auto;transform-origin:center}
+#unete .copy p{margin-left:auto;margin-right:auto}
+
+/* lantern light */
+.lamp{position:fixed;left:0;top:0;width:520px;height:520px;margin:-260px 0 0 -260px;border-radius:50%;pointer-events:none;z-index:40;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,rgba(255,190,90,.16),rgba(255,150,60,.06) 55%,transparent);opacity:0;transition:opacity .6s}
+@media (hover:hover) and (pointer:fine){.lamp.on{opacity:1}}
+
+/* ---------- mobile ---------- */
+@media (max-width:767px){
+  :root{--artH:max(calc(100vw / var(--ratio)),108svh)}
+  .art,.band{width:calc(var(--artH) * var(--ratio));left:calc(50vw - var(--focus) * var(--artH) * var(--ratio) / 100)}
+  .band{aspect-ratio:auto;height:var(--artH)}
+  .nav{height:56px;grid-template-columns:auto 1fr}
+  .nav .l,.nav .r a:not(.cta){display:none}
+  .hero-copy{top:calc(var(--artH) * .11)}
+  .hero-copy h1{--ls:.14em;font-size:9.6vw}
+  .hero-copy .sub{font-size:11px;letter-spacing:.42em;padding-left:.42em;top:calc(var(--artH) * .07)}
+  .copy,#formacion .copy,#metodo .copy,#riesgo .copy{left:20px;right:20px;width:auto;top:23%;max-width:none;padding:16px 18px;
+    background:linear-gradient(rgba(18,13,28,.88),rgba(18,13,28,.66));backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+  .copy::before{display:none}
+  .copy h2{font-size:30px}
+  .copy p,.copy li{font-size:13.5px}
+  #unete .copy{left:50%;right:auto;width:calc(100% - 40px);top:22%;background:none;padding:0;backdrop-filter:none}
+  .btn.ghost{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .glow,.mist,.halo,.glow.soft{animation:none}
+  .nav{transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <nav class="l">
+    <a href="#formacion">Formación</a>
+    <a href="#metodo">Cómo funciona</a>
+    <a href="#riesgo">Riesgo</a>
+  </nav>
+  <a class="logo mid" href="#top" aria-label="LFX Academy, inicio">
+    <svg width="30" height="24" viewBox="0 0 30 24" aria-hidden="true">
+      <path d="M8.5 3C3.6 7.6 4.2 14.6 12.2 17.4" fill="none" stroke="#E7B744" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M21.5 3C26.4 7.6 25.8 14.6 17.8 17.4" fill="none" stroke="#E7B744" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M15 14.2l2.6 4.3L15 22.8l-2.6-4.3z" fill="#F4EFE6"/>
+    </svg>
+    <b>LFX</b>
+  </a>
+  <nav class="r">
+    <a href="#metodo">Sesiones</a>
+    <a href="#riesgo">Biblioteca</a>
+    <a class="cta wa" href="#unete">Únete</a>
+  </nav>
+</header>
+
+<div id="scroller">
+
+  <section class="scene" id="top" data-focus="50">
+    <div class="art" data-img="assets/01-hero.webp"></div>
+    <div class="hero-copy">
+      <h1 aria-label="LFX ACADEMY">LFX ACADEMY</h1>
+      <div class="sub">TRADING INSTITUCIONAL · ORO</div>
+    </div>
+  </section>
+
+  <div class="seam" data-focus="50"><div class="band"><img src="assets/06-franja-1.webp" alt="" decoding="async"></div></div>
+
+  <section class="scene" id="formacion" data-focus="50">
+    <div class="art" data-img="assets/02-cueva.webp"></div>
+    <div class="copy">
+      <h2>La formación</h2>
+      <div class="rule"></div>
+      <p>Tres programas y 47 clases grabadas para entender cómo se mueve el oro y operarlo con un plan.</p>
+      <h3>Trading Institucional <em>· 29 clases</em></h3>
+      <p>Estructura real del mercado, cómo se mueve el dinero, Fibonacci institucional, macroeconomía y TradingView como un profesional.</p>
+      <h3>Estrategia de Scalping <em>· 13 clases</em></h3>
+      <p>Operar las sesiones y encontrar entradas de alta precisión en timeframes bajos.</p>
+      <h3>Mentalidad del Trader <em>· 5 clases</em></h3>
+      <p>Disciplina, control emocional y bitácora para decidir bajo presión.</p>
+    </div>
+  </section>
+
+  <div class="seam" data-focus="28"><div class="band"><img src="assets/07-franja-2.webp" alt="" decoding="async" loading="lazy"></div></div>
+
+  <section class="scene" id="metodo" data-focus="28">
+    <div class="art" data-img="assets/03-mina.webp"></div>
+    <div class="copy">
+      <h2>Cómo funciona</h2>
+      <div class="rule"></div>
+      <ol>
+        <li><b>1</b><span>Escríbenos por WhatsApp y te explicamos cómo acceder.</span></li>
+        <li><b>2</b><span>Activa tu membresía mensual.</span></li>
+        <li><b>3</b><span>Entra al Telegram VIP, donde llega el enlace de cada clase en vivo.</span></li>
+        <li><b>4</b><span>Opera en vivo con el equipo: Asia a las 6:00 p.m. de domingo a jueves, New York a las 6:30 a.m. de lunes a viernes y Trading Institucional los viernes.</span></li>
+        <li><b>5</b><span>Estudia los módulos a tu ritmo y lleva tu bitácora.</span></li>
+      </ol>
+      <p class="note">Horario de México (GMT-6).</p>
+    </div>
+  </section>
+
+  <div class="seam" data-focus="70"><div class="band"><img src="assets/08-franja-3.webp" alt="" decoding="async" loading="lazy"></div></div>
+
+  <section class="scene" id="riesgo" data-focus="70">
+    <div class="art" data-img="assets/04-refineria.webp"></div>
+    <div class="copy">
+      <h2>Protege tu capital</h2>
+      <div class="rule"></div>
+      <p>Antes de buscar entradas, aprendes a cuidar la cuenta. Cinco guías de gestión de riesgo:</p>
+      <ul>
+        <li><i></i><span>Fundamentos de gestión de riesgo</span></li>
+        <li><i></i><span>Risk/Reward y sistema de TPs</span></li>
+        <li><i></i><span>Cálculo de riesgo y lotaje</span></li>
+        <li><i></i><span>Tipos de gestión</span></li>
+        <li><i></i><span>Tu plan personal de operación</span></li>
+      </ul>
+      <h3>Biblioteca</h3>
+      <p>Audiolibros, libros y podcasts: Trading en la Zona, Un paso por delante de Wall Street de Peter Lynch, Inteligencia Emocional y El Nuevo Vivir del Trading, material propio de la academia.</p>
+    </div>
+  </section>
+
+  <div class="seam" data-focus="50"><div class="band"><img src="assets/09-franja-4.webp" alt="" decoding="async" loading="lazy"></div></div>
+
+  <section class="scene" id="unete" data-focus="50">
+    <div class="art" data-img="assets/05-boveda.webp"></div>
+    <div class="copy">
+      <h2>Un trader profesional no predice, se prepara.</h2>
+      <div class="rule"></div>
+      <p>Membresía mensual con clases grabadas, sesiones en vivo cada día y comunidad VIP en Telegram. Escríbenos y te explicamos cómo acceder.</p>
+      <div class="btns"><a class="btn wa" href="#unete">Escríbenos por WhatsApp</a><a class="btn ghost" href="#metodo">Ver horarios</a></div>
+    </div>
+    <p class="legal">El trading conlleva riesgo de pérdida de capital. LFX Academy ofrece formación, no asesoría financiera ni garantía de resultados.</p>
+  </section>
+
+</div>
+<div class="lamp" aria-hidden="true"></div>
+
+<script>
+(() => {
+'use strict';
+/* WhatsApp: pon aquí el número con prefijo de país, sin + ni espacios (ej. 5215512345678). Vacío = el botón baja al cierre. */
+const WHATSAPP = '';
+const WA_TEXT = 'Hola, quiero información sobre LFX Academy.';
+
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const DPR = Math.min(devicePixelRatio || 1, 1.5);
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const EASE = 'cubic-bezier(.2,.8,.2,1)';
+
+if (WHATSAPP) $$('.wa').forEach(a => { a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(WA_TEXT); a.target = '_blank'; a.rel = 'noopener'; });
+
+/* ---------------- scene config (all % of the art box) ---------------- */
+const SP = { // sprite crops on the 1254 x 1254 sheet: [x, y, w, h]
+  coin:[70,40,480,515], nugget:[685,100,500,440], bar:[55,840,515,190], edge:[885,685,100,490]
+};
+const CONF = {
+  top: [
+    {t:'halo', x:50, y:33, w:19},
+    {t:'fall', kind:'gold', x:47.4, y:40, w:5.6, h:32, speed:1},
+    {t:'mist', x:50, y:71, w:24, h:9},
+    {t:'fall', kind:'gold', x:46.2, y:70, w:7.6, h:34, speed:1.15},
+    {t:'glow', x:9.5, y:38.5, w:6}, {t:'glow', x:13, y:40, w:3},
+    {t:'glow', x:86.5, y:45, w:5}, {t:'glow', x:89, y:46, w:3},
+    {t:'glow', cls:'soft', x:50, y:73, w:26},
+    {t:'dust', kind:'wisp', n:70, x:20, y:30, w:60, h:70},
+    {t:'sprite', s:'coin', x:21, y:34, w:4.2},
+    {t:'sprite', s:'nugget', x:79, y:26, w:3.8},
+    {t:'sprite', s:'bar', x:67, y:54, w:3.6},
+    {t:'sprite', s:'edge', x:33, y:52, w:1.4}
+  ],
+  formacion: [
+    {t:'fall', kind:'gold', x:43.5, y:0, w:19, h:80, speed:.9},
+    {t:'mist', x:53, y:80, w:36, h:12},
+    {t:'glow', cls:'soft', x:53, y:82, w:30},
+    {t:'glow', x:84, y:45, w:7}, {t:'glow', x:88, y:26, w:5}, {t:'glow', x:74, y:58, w:4},
+    {t:'dust', kind:'mote', n:50},
+    {t:'sprite', s:'coin', x:76, y:33, w:2.6}
+  ],
+  metodo: [
+    {t:'fall', kind:'gold', x:21, y:6, w:9.5, h:68, speed:1.05},
+    {t:'dust', kind:'spray', n:60, x:16, y:68, w:20, h:16},
+    {t:'glow', cls:'soft', x:13, y:86, w:22},
+    {t:'glow', x:36.8, y:30.8, w:3.4}, {t:'glow', x:48.5, y:46.9, w:2.6}, {t:'glow', x:58.3, y:55.7, w:2.2},
+    {t:'glow', cls:'soft', x:52, y:58.6, w:5},
+    {t:'glow', x:93.4, y:54.7, w:3}, {t:'glow', x:90.5, y:58.6, w:3}, {t:'glow', x:87.6, y:62.5, w:3},
+    {t:'glow', x:84.6, y:68.8, w:3}, {t:'glow', x:82, y:75.2, w:3},
+    {t:'dust', kind:'mote', n:30}
+  ],
+  riesgo: [
+    {t:'fall', kind:'lava', x:68.5, y:16, w:8.5, h:36, speed:.55},
+    {t:'fall', kind:'lava', x:57.4, y:48, w:3.6, h:12, speed:.6},
+    {t:'fall', kind:'lava', x:80.8, y:48, w:3.6, h:14, speed:.5},
+    {t:'glow', cls:'soft', x:79, y:14, w:22},
+    {t:'glow', x:69, y:56, w:30},
+    {t:'glow', cls:'soft', x:62, y:86, w:40},
+    {t:'mist', x:62, y:60, w:34, h:14},
+    {t:'dust', kind:'spark', n:70, x:52, y:40, w:38, h:26}
+  ],
+  unete: [
+    {t:'glow', cls:'soft', x:50, y:66, w:10},
+    {t:'glow', x:10.7, y:58, w:4}, {t:'glow', x:21, y:60, w:3}, {t:'glow', x:79, y:60, w:3}, {t:'glow', x:89, y:58, w:4},
+    {t:'dust', kind:'glint', n:70, x:0, y:64, w:100, h:30},
+    {t:'dust', kind:'shimmer', n:50, x:40, y:72, w:20, h:24},
+    {t:'sprite', s:'coin', x:28, y:30, w:2.6},
+    {t:'sprite', s:'edge', x:72, y:34, w:1.2}
+  ]
+};
+const SEAM_FALLS = [ // % of the band
+  {x:45.6, y:18, w:8.8, h:64, speed:1},
+  {x:20.5, y:40, w:8.4, h:42, speed:1},
+  {x:65.2, y:40, w:8.8, h:40, speed:1},
+  null
+];
+
+/* ---------------- build ---------------- */
+const falls = [], dusts = [], sprites = [];
+$$('.scene').forEach(sc => {
+  sc.style.setProperty('--focus', sc.dataset.focus);
+  const art = $('.art', sc);
+  art.innerHTML = '<div class="bg"></div>';
+  art.style.setProperty('--img', `url('${art.dataset.img}')`);
+  for (const o of CONF[sc.id] || []) {
+    let el;
+    if (o.t === 'fall') { el = document.createElement('canvas'); el.className = 'fall'; falls.push({cv:el, kind:o.kind, speed:o.speed, body:false}); }
+    else if (o.t === 'dust') { el = document.createElement('canvas'); el.className = 'dust'; dusts.push({cv:el, art, o}); art.appendChild(el); continue; }
+    else if (o.t === 'sprite') {
+      el = document.createElement('div'); el.className = 'sprite';
+      const [x, y, w, h] = SP[o.s], S = 1254;
+      el.style.backgroundSize = `${S / w * 100}% ${S / h * 100}%`;
+      el.style.backgroundPosition = `${x / (S - w) * 100}% ${y / (S - h) * 100}%`;
+      el.style.width = o.w + '%'; el.style.aspectRatio = w + '/' + h;
+      sprites.push({el, art, o, ph:Math.random() * 6.28, ox:0, oy:0, ar:h / w});
+      art.appendChild(el); continue;
+    }
+    else { el = document.createElement('div'); el.className = o.t + (o.cls ? ' ' + o.cls : ''); }
+    el.style.left = o.x + '%'; el.style.top = o.y + '%'; el.style.width = o.w + '%';
+    if (o.h) el.style.height = o.h + '%';
+    art.appendChild(el);
+  }
+});
+$$('.seam').forEach((s, i) => {
+  s.style.setProperty('--focus', s.dataset.focus);
+  const f = SEAM_FALLS[i]; if (!f) return;
+  const cv = document.createElement('canvas'); cv.className = 'fall body';
+  Object.assign(cv.style, {position:'absolute', left:f.x + '%', top:f.y + '%', width:f.w + '%', height:f.h + '%'});
+  $('.band', s).prepend(cv);
+  falls.push({cv, kind:'gold', speed:f.speed, body:true});
+});
+
+/* hero letters */
+const h1 = $('.hero-copy h1');
+h1.innerHTML = [...h1.textContent].map(c => `<span aria-hidden="true">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+const letters = $$('span', h1);
+
+/* copy lines */
+$$('.copy').forEach(c => {
+  [...c.children].forEach(ch => {
+    if (ch.classList.contains('rule')) return;
+    if (ch.tagName === 'OL' || ch.tagName === 'UL') { $$('li', ch).forEach(li => { li.innerHTML = `<span>${li.innerHTML}</span>`; li.classList.add('ln'); }); return; }
+    wrap(ch);
+  });
+});
+function wrap(el) {
+  const ln = document.createElement('div'); ln.className = 'ln';
+  const sp = document.createElement('span');
+  el.replaceWith(ln); sp.appendChild(el); ln.appendChild(sp);
+}
+
+/* ---------------- streak sprites ---------------- */
+function streak(stops) {
+  const c = document.createElement('canvas'); c.width = 8; c.height = 160;
+  const g = c.getContext('2d'), gr = g.createLinearGradient(0, 0, 0, 160);
+  stops.forEach(([p, col]) => gr.addColorStop(p, col));
+  g.fillStyle = gr; g.fillRect(0, 0, 8, 160); return c;
+}
+const STREAK = {
+  gold: [streak([[0,'rgba(255,226,140,0)'],[.35,'rgba(255,240,180,.95)'],[1,'rgba(255,170,50,0)']]),
+         streak([[0,'rgba(255,170,50,0)'],[.5,'rgba(255,205,100,.8)'],[1,'rgba(230,130,30,0)']])],
+  lava: [streak([[0,'rgba(255,190,80,0)'],[.4,'rgba(255,236,150,1)'],[1,'rgba(255,120,30,0)']]),
+         streak([[0,'rgba(255,120,30,0)'],[.5,'rgba(255,150,50,.9)'],[1,'rgba(255,80,20,0)']])]
+};
+const rnd = (a, b) => a + Math.random() * (b - a);
+
+function sizeFall(f) {
+  const w = f.cv.offsetWidth, h = f.cv.offsetHeight;
+  if (!w || !h) return;
+  f.w = w; f.h = h;
+  f.cv.width = Math.round(w * DPR); f.cv.height = Math.round(h * DPR);
+  f.ctx = f.cv.getContext('2d'); f.ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const lava = f.kind === 'lava', n = lava ? Math.round(w / 3) * 3 : Math.round(w / 2.2) * 2;
+  f.s = [];
+  for (let i = 0; i < Math.max(n, 6); i++) f.s.push({
+    x: lava ? rnd(w * .25, w * .75) : rnd(0, w),
+    sw: lava ? rnd(1, 3.2) : rnd(.8, 4),
+    len: lava ? rnd(30, 100) : rnd(60, 280),
+    v: (lava ? rnd(195, 350) : rnd(420, 760)) * f.speed,
+    a: rnd(.18, .73), ph: rnd(0, 2000),
+    spr: STREAK[f.kind][Math.random() < .45 ? 0 : 1]
+  });
+  if (f.body) {
+    const g = f.ctx.createLinearGradient(0, 0, w, 0);
+    g.addColorStop(0, 'rgba(225,140,35,0)'); g.addColorStop(.1, 'rgba(235,160,50,.88)');
+    g.addColorStop(.3, 'rgba(250,200,100,.97)'); g.addColorStop(.5, 'rgba(255,228,150,1)');
+    g.addColorStop(.7, 'rgba(250,200,100,.97)'); g.addColorStop(.9, 'rgba(235,160,50,.88)'); g.addColorStop(1, 'rgba(225,140,35,0)');
+    f.bodyGrad = g;
+  }
+}
+function drawFall(f, t) {
+  if (!f.ctx) return;
+  const r = f.cv.getBoundingClientRect();
+  if (r.bottom < -50 || r.top > innerHeight + 50) return;
+  const c = f.ctx, w = f.w, h = f.h;
+  c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1; c.clearRect(0, 0, w, h);
+  if (f.body) { c.fillStyle = f.bodyGrad; c.fillRect(0, 0, w, h); }
+  c.globalCompositeOperation = 'lighter';
+  for (const s of f.s) {
+    const span = h + s.len, y = ((t * s.v + s.ph) % span) - s.len;
+    let a = s.a;
+    if (f.kind !== 'lava') { const d = Math.abs(s.x / w - .5) * 2; a *= 1 - d * d * .6; }
+    c.globalAlpha = a;
+    c.drawImage(s.spr, s.x, y, s.sw, s.len);
+    c.drawImage(s.spr, s.x, y - span, s.sw, s.len);
+  }
+}
+
+/* ---------------- particles ---------------- */
+function sizeDust(d) {
+  const w = d.art.offsetWidth, h = d.art.offsetHeight;
+  d.W = w; d.H = h;
+  d.cv.width = Math.round(w * DPR); d.cv.height = Math.round(h * DPR);
+  d.ctx = d.cv.getContext('2d'); d.ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  const o = d.o;
+  d.bx = (o.x ?? 0) / 100 * w; d.by = (o.y ?? 0) / 100 * h; d.bw = (o.w ?? 100) / 100 * w; d.bh = (o.h ?? 100) / 100 * h;
+  if (!d.p) { d.p = []; for (let i = 0; i < o.n; i++) d.p.push({u:Math.random(), v:Math.random(), r:Math.random(), ph:rnd(0, 6.28), sp:rnd(.4, 1.2)}); }
+}
+function drawDust(d, t) {
+  const r = d.cv.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > innerHeight) return;
+  const c = d.ctx, k = d.o.kind;
+  c.clearRect(0, 0, d.W, d.H);
+  for (const p of d.p) {
+    let x, y, rad, a, col = '255,214,130';
+    if (k === 'wisp') {
+      const life = ((t * .02 * p.sp + p.v) % .55);
+      x = d.bx + (p.u + Math.sin(t * .6 + p.ph) * .012) * d.bw;
+      y = d.by + (1 - life / .55) * d.bh;
+      rad = .8 + p.r * 1.8; a = Math.min(1, life / .14) * Math.abs(Math.sin(2 * t + p.ph)) * (1 - life / .55);
+    } else if (k === 'mote') {
+      const v = (p.v - t * .008 * p.sp + 10) % 1;
+      x = d.bx + (p.u + Math.sin(t * .4 + p.ph) * .02) * d.bw; y = d.by + v * d.bh;
+      rad = .6 + p.r * 1.4; a = .25 + .5 * Math.abs(Math.sin(t * .8 + p.ph)); col = '255,205,140';
+    } else if (k === 'spray') {
+      const life = (t * p.sp * .8 + p.ph) % 1;
+      x = d.bx + d.bw * (.5 + (p.r - .5) * .6 * life * 1.6); y = d.by + d.bh * (.15 + life * life * .9 - life * .25);
+      rad = .7 + p.r * 1.6; a = 1 - life; col = '255,225,150';
+    } else if (k === 'spark') {
+      const life = (t * p.sp * .35 + p.ph) % 1;
+      x = d.bx + d.bw * (p.u + Math.sin(t * 2 + p.ph) * .02 + (p.r - .5) * life * .3);
+      y = d.by + d.bh * (1 - life * (0.6 + p.r * .4));
+      rad = .6 + p.r * 1.3; a = (1 - life) * .95; col = '255,170,60';
+    } else if (k === 'glint') {
+      x = d.bx + p.u * d.bw; y = d.by + p.v * d.bh;
+      a = Math.pow(Math.max(0, Math.sin(t * (.8 + 1.6 * p.r) + p.ph)), 6) * .75;
+      if (a < .02) continue;
+      const L = 2.5 + p.r * 5;
+      c.strokeStyle = `rgba(255,240,200,${a})`; c.lineWidth = 1;
+      c.beginPath(); c.moveTo(x - L, y); c.lineTo(x + L, y); c.moveTo(x, y - L * .7); c.lineTo(x, y + L * .7); c.stroke();
+      continue;
+    } else if (k === 'shimmer') {
+      x = d.bx + p.u * d.bw; y = d.by + p.v * d.bh;
+      a = Math.max(0, Math.sin(t * (1.2 + 2 * p.r) + p.ph)) * .7;
+      c.fillStyle = `rgba(255,230,180,${a})`; c.fillRect(x, y, 12 + p.r * 20, 1.2); continue;
+    }
+    c.fillStyle = `rgba(${col},${Math.max(0, a)})`;
+    c.beginPath(); c.arc(x, y, rad, 0, 6.283); c.fill();
+  }
+}
+
+/* ---------------- layout ---------------- */
+const scroller = $('#scroller'), heroArt = $('#top .art'), heroCopy = $('.hero-copy'), hero = $('#top');
+function layout() {
+  document.body.style.height = scroller.offsetHeight + 'px';
+  falls.forEach(sizeFall); dusts.forEach(sizeDust);
+}
+addEventListener('resize', () => { clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
+addEventListener('load', layout);
+layout();
+
+/* anchors: scroller is fixed, so jump the native scroll and let the easing glide */
+$$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+  const id = a.getAttribute('href').slice(1), t = document.getElementById(id);
+  if (!t) return; e.preventDefault();
+  scrollTo(0, id === 'top' ? 0 : t.offsetTop + (id === 'top' ? 0 : t.offsetHeight * .12));
+}));
+
+/* ---------------- pointer ---------------- */
+const lamp = $('.lamp'); let mx = -9999, my = -9999, lx = innerWidth / 2, ly = innerHeight / 2;
+addEventListener('pointermove', e => { mx = e.clientX; my = e.clientY; if (e.pointerType === 'mouse') lamp.classList.add('on'); }, {passive:true});
+document.addEventListener('pointerleave', () => { mx = my = -9999; lamp.classList.remove('on'); });
+
+/* ---------------- intro ---------------- */
+const nav = $('.nav');
+if (!RM) {
+  letters.forEach((s, i) => s.animate([{transform:'translateY(110%)'}, {transform:'translateY(0)'}], {duration:1200, delay:250 + i * 70, easing:EASE, fill:'both'}));
+  $('.hero-copy .sub').animate([
+    {letterSpacing:'1.4em', transform:'translateY(14px)', clipPath:'inset(0 50% 0 50%)'},
+    {letterSpacing:'.62em', transform:'translateY(0)', clipPath:'inset(0 0% 0 0%)'}
+  ], {duration:1600, delay:900, easing:EASE, fill:'both'});
+  heroArt.animate([{transform:'scale(1.09)'}, {transform:'scale(1)'}], {duration:2600, easing:EASE, composite:'add'});
+  nav.animate([{transform:'translateY(-100%)'}, {transform:'translateY(0)'}], {duration:900, delay:500, easing:EASE, fill:'both'});
+} else { nav.style.transform = 'none'; }
+
+/* ---------------- reveals ---------------- */
+const blocks = $$('.copy').map(c => ({c, done:false}));
+function reveal(b) {
+  b.done = true; if (RM) return;
+  $$('.ln > span', b.c).forEach((s, i) => s.animate([{transform:'translateY(105%)'}, {transform:'translateY(0)'}], {duration:1000, delay:i * 80, easing:EASE, fill:'both'}));
+  const r = $('.rule', b.c); if (r) r.animate([{transform:'scaleX(0)'}, {transform:'scaleX(1)'}], {duration:1100, delay:160, easing:EASE, fill:'both'});
+}
+if (!RM) blocks.forEach(b => { $$('.ln > span', b.c).forEach(s => s.style.transform = 'translateY(105%)'); const r = $('.rule', b.c); if (r) r.style.transform = 'scaleX(0)'; });
+function clearPre(b) { $$('.ln > span', b.c).forEach(s => s.style.transform = ''); const r = $('.rule', b.c); if (r) r.style.transform = ''; }
+
+/* ---------------- loop ---------------- */
+let cur = scrollY, last = performance.now(), t0 = last;
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const t = RM ? 0 : (now - t0) / 1000;
+  const target = scrollY;
+  cur = RM ? target : cur + (target - cur) * (1 - Math.exp(-7.5 * dt));
+  if (Math.abs(target - cur) < .05) cur = target;
+  scroller.style.transform = `translate3d(0,${-cur}px,0)`;
+
+  const hh = hero.offsetHeight;
+  if (cur < hh * 1.2) {
+    heroArt.style.transform = `translate3d(0,${cur * .32}px,0)`;
+    heroCopy.style.transform = `translate3d(0,${cur * .55}px,0)`;
+    h1.style.setProperty('--lsx', (Math.min(1, Math.max(0, cur / hh)) * .18).toFixed(4) + 'em');
+  }
+
+  for (const b of blocks) if (!b.done && b.c.getBoundingClientRect().top < innerHeight * .8) { clearPre(b); reveal(b); }
+
+  if (!RM || !frame.once) { falls.forEach(f => drawFall(f, t)); dusts.forEach(d => drawDust(d, t)); }
+
+  for (const s of sprites) {
+    const W = s.art.offsetWidth, H = s.art.offsetHeight, sw = s.o.w / 100 * W, sh = sw * s.ar;
+    let x = s.o.x / 100 * W - sw / 2, y = s.o.y / 100 * H - sh / 2;
+    if (!RM) {
+      x += Math.sin(.35 * t + s.ph) * .012 * W; y += Math.sin(.9 * t + s.ph) * .014 * H;
+      const ar = s.art.getBoundingClientRect(), sc = ar.width / W;
+      const cx = ar.left + (x + sw / 2) * sc, cy = ar.top + (y + sh / 2) * sc;
+      const dx = cx - mx, dy = cy - my, dist = Math.hypot(dx, dy);
+      let tx = 0, ty = 0;
+      if (dist < 260 && dist > 0) { const p = Math.pow(1 - dist / 260, 1.5) * 90; tx = dx / dist * p; ty = dy / dist * p; }
+      const k = 1 - Math.exp(-3 * dt); s.ox += (tx - s.ox) * k; s.oy += (ty - s.oy) * k;
+    }
+    const rot = RM ? 0 : Math.sin(.7 * t + s.ph) * 6 + s.ox * .05;
+    s.el.style.transform = `translate3d(${x + s.ox}px,${y + s.oy}px,0) rotate(${rot}deg)`;
+  }
+
+  lx += (mx - lx) * (1 - Math.exp(-10 * dt)); ly += (my - ly) * (1 - Math.exp(-10 * dt));
+  lamp.style.transform = `translate3d(${lx}px,${ly}px,0)`;
+
+  frame.once = true;
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
