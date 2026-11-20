@@ -62,7 +62,9 @@ canvas.fall{mix-blend-mode:screen;
   -webkit-mask-composite:source-in;
   mask-image:linear-gradient(90deg,transparent,#000 22%,#000 78%,transparent),linear-gradient(transparent,#000 12%,#000 82%,transparent);
   mask-composite:intersect}
-canvas.fall.body{-webkit-mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(transparent,#000 14%,#000 86%,transparent);-webkit-mask-composite:source-over;mask-composite:add}
+canvas.fall.body{
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 14%,#000 86%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent),linear-gradient(transparent,#000 14%,#000 86%,transparent)}
 canvas.dust{inset:0;width:100%;height:100%;mix-blend-mode:screen;pointer-events:none}
 
 /* ---------- glows ---------- */
@@ -325,7 +327,7 @@ const CONF = {
   ]
 };
 const SEAM_FALLS = [ // % of the band
-  {x:45.6, y:18, w:8.8, h:64, speed:1},
+  {x:45, y:18, w:10, h:64, speed:1},
   {x:20.5, y:40, w:8.4, h:42, speed:1},
   {x:65.2, y:40, w:8.8, h:40, speed:1},
   null
