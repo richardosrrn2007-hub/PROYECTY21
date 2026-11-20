@@ -1,5 +1,7 @@
 # LFX: "El descenso" (imágenes para ChatGPT)
 
+> Prompts finales para ChatGPT: `project-docs/prompts-chatgpt-lfx.md`. Este archivo queda como referencia técnica.
+
 Web de una sola página con la estructura de Hollowmere: 5 escenas ilustradas apiladas, 4 franjas de roca que las unen y todo el movimiento hecho con código.
 Hilo conductor: **un río de oro líquido** que baja por toda la página. Bajar con el scroll es entrar en la disciplina: empieza de noche y termina al amanecer.
 
