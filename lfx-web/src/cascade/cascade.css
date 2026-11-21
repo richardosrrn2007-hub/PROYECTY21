@@ -338,7 +338,7 @@
 /* join block over the gold bars */
 .cascade .join {
   left: 50%;
-  top: 20%;
+  top: 14%;
   width: 62%;
   max-width: 860px;
   transform: translateX(-50%);
@@ -358,7 +358,7 @@
 .cascade .legal {
   position: absolute;
   left: 50%;
-  bottom: 3.5%;
+  bottom: 1.6%;
   transform: translateX(-50%);
   width: min(720px, 90%);
   z-index: 6;
@@ -397,7 +397,7 @@
   .cascade .scene[data-scene='cueva'] { --artH: 150svh }
   .cascade .scene[data-scene='mina'] { --artH: 145svh }
   .cascade .scene[data-scene='refineria'] { --artH: 150svh }
-  .cascade .scene[data-scene='boveda'] { --artH: 115svh }
+  .cascade .scene[data-scene='boveda'] { --artH: 175svh }
   .cascade .art,
   .cascade .band {
     width: calc(var(--artH) * var(--ratio));
@@ -456,4 +456,95 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cascade .glow, .cascade .mist, .cascade .halo, .cascade .hero-copy h1 { animation: none }
+}
+
+/* results row over the gold bars */
+.cascade .results {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  width: 92%;
+  max-width: 1200px;
+  transform: translateX(-50%);
+  z-index: 6;
+  text-align: center;
+}
+.cascade .phones {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(10px, 1.6vw, 26px);
+}
+.cascade .phone-wrap {
+  flex: 0 0 auto;
+}
+.cascade .phone {
+  display: block;
+  padding: 6px;
+  border-radius: 22px;
+  background: #0b0b0e;
+  border: 1.5px solid rgba(215, 226, 234, 0.55);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 28px rgba(120, 80, 255, 0.18);
+  transform: rotate(var(--r, 0deg));
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s;
+  cursor: zoom-in;
+}
+.cascade .phone:hover {
+  transform: rotate(0deg) translateY(-10px) scale(1.04);
+  box-shadow: 0 40px 70px rgba(0, 0, 0, 0.7), 0 0 36px rgba(231, 183, 68, 0.35);
+}
+.cascade .phone img {
+  display: block;
+  height: clamp(220px, 19vw, 340px);
+  width: auto;
+  border-radius: 16px;
+}
+.cascade .results .note {
+  margin-top: clamp(18px, 2vw, 30px);
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(215, 226, 234, 0.6);
+}
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 4vh 4vw;
+  background: rgba(8, 6, 12, 0.88);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  cursor: zoom-out;
+}
+.lightbox img {
+  max-height: 92vh;
+  max-width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 767px) {
+  .cascade .results {
+    top: 52%;
+    width: 100%;
+  }
+  .cascade .phones {
+    justify-content: flex-start;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 24px 24px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cascade .phone-wrap {
+    scroll-snap-align: center;
+  }
+  .cascade .phone {
+    transform: none;
+  }
+  .cascade .phone img {
+    height: 58vh;
+  }
+  .cascade .results .note {
+    padding: 0 20px;
+  }
 }

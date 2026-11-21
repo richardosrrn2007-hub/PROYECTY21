@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef, type ReactNode } from 'react';
 import Magnet from '../components/Magnet';
 import { startCascade } from './engine';
 import { letterStyle } from '../components/Logo';
-import { AboutBlock, CoverBelt, DeckBlock, JoinBlock, ProgramsBlock } from './content';
+import { AboutBlock, CoverBelt, DeckBlock, JoinBlock, ProgramsBlock, ResultsBlock } from './content';
 import './cascade.css';
 
 const IMGS: Record<string, string> = {
@@ -81,6 +81,7 @@ export default function CascadeSection() {
 
       <Scene id="boveda" focus={50}>
         <JoinBlock />
+        <ResultsBlock />
         <p className="legal">
           El trading conlleva riesgo de pérdida de capital. LFX Academy ofrece formación, no asesoría financiera ni garantía de resultados.
         </p>

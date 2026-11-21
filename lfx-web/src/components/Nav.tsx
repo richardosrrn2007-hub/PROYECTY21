@@ -6,6 +6,7 @@ const links = [
   { label: 'Academia', href: '#academia' },
   { label: 'Programas', href: '#programas' },
   { label: 'Por dentro', href: '#por-dentro' },
+  { label: 'Resultados', href: '#resultados' },
 ];
 
 export default function Nav() {

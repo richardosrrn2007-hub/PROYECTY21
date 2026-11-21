@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { useEffect, useState, type RefObject } from 'react';
+import { createPortal } from 'react-dom';
 import AnimatedText from '../components/AnimatedText';
 import FadeIn from '../components/FadeIn';
 import { ContactButton } from '../components/Buttons';
@@ -158,6 +159,48 @@ export function JoinBlock() {
       <FadeIn delay={0.4}>
         <ContactButton label="Escríbenos por WhatsApp" />
       </FadeIn>
+    </div>
+  );
+}
+
+/* ---------- Vault: real results (screenshots shared by the academy) ---------- */
+const RESULTS = [
+  { src: './resultados/r1.webp', alt: 'Historial de operaciones en MetaTrader con BTCUSD, ETHUSD y XAUUSD' },
+  { src: './resultados/r2.webp', alt: 'Operación de venta en XAUUSD cerrada en take profit con 105,61 USDT de ganancia' },
+  { src: './resultados/r3.webp', alt: 'Historial en MetaTrader con operaciones en XAUUSD y EURUSD' },
+  { src: './resultados/r4.webp', alt: 'Historial de ventas en XAUUSD de junio y julio' },
+  { src: './resultados/r5.webp', alt: 'Historial del 13 de julio con operaciones en XAUUSD' },
+];
+
+export function ResultsBlock() {
+  const [open, setOpen] = useState<number | null>(null);
+  useEffect(() => {
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(null);
+    addEventListener('keydown', k);
+    return () => removeEventListener('keydown', k);
+  }, []);
+  return (
+    <div className="results" id="resultados">
+      <FadeIn y={20}>
+        <p className="kicker">Resultados reales</p>
+      </FadeIn>
+      <div className="phones">
+        {RESULTS.map((r, i) => (
+          <FadeIn key={r.src} delay={0.1 + i * 0.1} y={80} className="phone-wrap" style={{ ['--r' as string]: `${(i - 2) * 3}deg` }}>
+            <button type="button" className="phone" onClick={() => setOpen(i)} aria-label={`Ampliar: ${r.alt}`}>
+              <img src={r.src} alt={r.alt} decoding="async" />
+            </button>
+          </FadeIn>
+        ))}
+      </div>
+      <p className="note">Capturas de operaciones reales, con ganancias y pérdidas. Resultados pasados no garantizan resultados futuros.</p>
+      {open !== null &&
+        createPortal(
+          <div className="lightbox" role="dialog" aria-label="Captura ampliada" onClick={() => setOpen(null)}>
+            <img src={RESULTS[open].src} alt={RESULTS[open].alt} />
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }
