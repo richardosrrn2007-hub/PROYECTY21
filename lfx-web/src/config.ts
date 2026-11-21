@@ -1,10 +1,11 @@
-/* WhatsApp: número con prefijo de país, sin + ni espacios (ej. 5215512345678).
-   Mientras esté vacío, los botones bajan a la sección de contacto. */
-export const WHATSAPP = '';
-const WA_TEXT = 'Hola, quiero información sobre LFX Academy.';
+/* Contact + social links for Comunidad LFX */
+export const WHATSAPP = '527774448982'; // +52 777 444 8982 (Leo)
+export const WA_TEXT =
+  'Leo, quiero ser parte de la Comunidad LFX. ¿Cómo puedo ingresar? Envíame los planes disponibles y qué incluye cada uno.';
 
-export const contactHref = WHATSAPP
-  ? `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_TEXT)}`
-  : '#contacto';
+export const contactHref = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(WA_TEXT)}`;
+export const isExternal = true;
 
-export const isExternal = contactHref.startsWith('http');
+export const TELEGRAM = 'https://t.me/comunidadtradersfxl';
+export const INSTAGRAM = 'https://www.instagram.com/leonardolfx';
+export const TIKTOK = 'https://www.tiktok.com/@leonardo_forex';

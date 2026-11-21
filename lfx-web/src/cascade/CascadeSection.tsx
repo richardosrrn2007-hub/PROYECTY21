@@ -2,7 +2,8 @@ import { forwardRef, useEffect, useRef, type ReactNode } from 'react';
 import Magnet from '../components/Magnet';
 import { startCascade } from './engine';
 import { letterStyle } from '../components/Logo';
-import { AboutBlock, CoverBelt, FeaturesBlock, JoinBlock, ProgramsBlock, ResultsBlock } from './content';
+import { AboutBlock, CoverBelt, JoinBlock, ResultsBlock, ServicesBlock, StepsBlock } from './content';
+import { ContactButton, TelegramButton } from '../components/Buttons';
 import './cascade.css';
 
 const IMGS: Record<string, string> = {
@@ -55,6 +56,10 @@ export default function CascadeSection() {
             </h1>
           </Magnet>
         </div>
+        <div className="hero-cta">
+          <ContactButton label="Quiero ser parte de LFX" />
+          <TelegramButton label="Canal de Telegram" />
+        </div>
       </Scene>
 
       <Seam i={0} focus={50} />
@@ -66,14 +71,14 @@ export default function CascadeSection() {
 
       <Seam i={1} focus={24.5} />
 
-      <Scene id="mina" focus={25} anchor="programas">
-        <ProgramsBlock />
+      <Scene id="mina" focus={25} anchor="como-funciona-escena">
+        <StepsBlock />
       </Scene>
 
       <Seam i={2} focus={69.5} />
 
-      <Scene id="refineria" focus={72} anchor="por-dentro">
-        <FeaturesBlock />
+      <Scene id="refineria" focus={72} anchor="servicios-escena">
+        <ServicesBlock />
       </Scene>
 
       <Seam i={3} focus={50} />
@@ -81,9 +86,6 @@ export default function CascadeSection() {
       <Scene id="boveda" focus={50}>
         <JoinBlock />
         <ResultsBlock />
-        <p className="legal">
-          El trading conlleva riesgo de pérdida de capital. LFX Academy ofrece formación, no asesoría financiera ni garantía de resultados.
-        </p>
       </Scene>
     </div>
   );
