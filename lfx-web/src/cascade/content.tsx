@@ -53,7 +53,7 @@ export function CoverBelt({ sceneRef }: { sceneRef: RefObject<HTMLElement> }) {
     <div className="belt" aria-label="Portadas de las clases de LFX Academy">
       <div className="belt-row" style={{ transform: `translateX(${-x}px)` }}>
         {row.map((src, i) => (
-          <img key={i} src={src} alt="" loading="lazy" />
+          <img key={i} src={src} alt="" decoding="async" />
         ))}
       </div>
     </div>
