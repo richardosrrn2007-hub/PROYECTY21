@@ -2,7 +2,7 @@ import { forwardRef, useEffect, useRef, type ReactNode } from 'react';
 import Magnet from '../components/Magnet';
 import { startCascade } from './engine';
 import { letterStyle } from '../components/Logo';
-import { AboutBlock, CoverBelt, DeckBlock, JoinBlock, ProgramsBlock, ResultsBlock } from './content';
+import { AboutBlock, CoverBelt, FeaturesBlock, JoinBlock, ProgramsBlock, ResultsBlock } from './content';
 import './cascade.css';
 
 const IMGS: Record<string, string> = {
@@ -39,7 +39,6 @@ function Seam({ i, focus }: { i: number; focus: number }) {
 export default function CascadeSection() {
   const root = useRef<HTMLDivElement>(null);
   const cave = useRef<HTMLElement>(null);
-  const refinery = useRef<HTMLElement>(null);
   useEffect(() => (root.current ? startCascade(root.current, IMGS) : undefined), []);
 
   return (
@@ -73,8 +72,8 @@ export default function CascadeSection() {
 
       <Seam i={2} focus={69.5} />
 
-      <Scene id="refineria" focus={72} anchor="por-dentro" ref={refinery}>
-        <DeckBlock sceneRef={refinery} />
+      <Scene id="refineria" focus={72} anchor="por-dentro">
+        <FeaturesBlock />
       </Scene>
 
       <Seam i={3} focus={50} />

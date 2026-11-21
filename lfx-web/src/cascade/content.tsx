@@ -1,4 +1,3 @@
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import { useEffect, useState, type RefObject } from 'react';
 import { createPortal } from 'react-dom';
 import AnimatedText from '../components/AnimatedText';
@@ -31,7 +30,7 @@ export function AboutBlock() {
   );
 }
 
-/* Moves sideways with the page scroll while its scene is on screen */
+/* Two rows of class covers: the top one slides right, the bottom one left, driven by the page scroll */
 export function CoverBelt({ sceneRef }: { sceneRef: RefObject<HTMLElement> }) {
   const [x, setX] = useState(0);
   useEffect(() => {
@@ -39,7 +38,7 @@ export function CoverBelt({ sceneRef }: { sceneRef: RefObject<HTMLElement> }) {
       const el = sceneRef.current;
       if (!el) return;
       const top = el.getBoundingClientRect().top + scrollY;
-      setX((scrollY - top + innerHeight) * 0.35);
+      setX((scrollY - top + innerHeight) * 0.3);
     };
     on();
     addEventListener('scroll', on, { passive: true });
@@ -49,11 +48,17 @@ export function CoverBelt({ sceneRef }: { sceneRef: RefObject<HTMLElement> }) {
       removeEventListener('resize', on);
     };
   }, [sceneRef]);
-  const row = [...COVERS, ...COVERS];
+  const row1 = [...COVERS.slice(0, 11), ...COVERS.slice(0, 11), ...COVERS.slice(0, 11)];
+  const row2 = [...COVERS.slice(11), ...COVERS.slice(11), ...COVERS.slice(11)];
   return (
     <div className="belt" aria-label="Portadas de las clases de LFX Academy">
-      <div className="belt-row" style={{ transform: `translateX(${-x}px)` }}>
-        {row.map((src, i) => (
+      <div className="belt-row" style={{ transform: `translateX(${x - 900}px)` }}>
+        {row1.map((src, i) => (
+          <img key={i} src={src} alt="" decoding="async" />
+        ))}
+      </div>
+      <div className="belt-row" style={{ transform: `translateX(${-(x - 200)}px)` }}>
+        {row2.map((src, i) => (
           <img key={i} src={src} alt="" decoding="async" />
         ))}
       </div>
@@ -94,52 +99,50 @@ export function ProgramsBlock() {
   );
 }
 
-/* ---------- Refinery: deck of cards that stack while you scroll ---------- */
-const CARDS = [
-  { label: 'Formación', name: '47 clases grabadas', imgs: ['./cursos/c03.webp', './cursos/c06.webp', './cursos/c05.webp'] },
-  { label: 'Cada día', name: 'Sesiones en vivo', imgs: ['./dentro/sesiones-horarios.webp', './cursos/c17.webp', './dentro/sesiones-panel.webp'] },
-  { label: 'Protección', name: 'Gestión de riesgo', imgs: ['./dentro/riesgo1.webp', './dentro/riesgo2.webp', './dentro/riesgo3.webp'] },
+/* ---------- Refinery: what's inside, three clear cards ---------- */
+const FEATURES = [
+  {
+    img: './cursos/c05.webp',
+    alt: 'Portada de la clase Estructura real del mercado',
+    title: '47 clases grabadas',
+    text: 'Trading Institucional, Scalping y Mentalidad. Las ves cuando quieras, a tu ritmo.',
+  },
+  {
+    img: './dentro/sesiones-panel.webp',
+    alt: 'Calendario de sesiones en vivo dentro de la plataforma LFX',
+    title: 'Sesiones en vivo cada día',
+    text: 'Asia, New York e Institucional. Operas junto al equipo, con el enlace en el Telegram VIP.',
+  },
+  {
+    img: './dentro/riesgo1.webp',
+    alt: 'Guía de fundamentos de gestión de riesgo',
+    title: 'Gestión de riesgo',
+    text: 'Cinco guías para calcular el lotaje, fijar tus objetivos y armar tu plan personal.',
+  },
 ];
 
-export function DeckBlock({ sceneRef }: { sceneRef: RefObject<HTMLElement> }) {
-  const { scrollYProgress } = useScroll({ target: sceneRef, offset: ['start 0.95', 'start 0.05'] });
+export function FeaturesBlock() {
   return (
-    <div className="block deck-wrap">
+    <div className="features">
       <FadeIn y={20}>
         <p className="kicker">03 · Por dentro</p>
       </FadeIn>
       <FadeIn delay={0.1} y={40}>
-        <h2 className="hero-heading">Así es LFX</h2>
+        <h2 className="hero-heading">Qué tienes al entrar</h2>
       </FadeIn>
-      <div className="deck">
-        {CARDS.map((c, i) => (
-          <DeckCard key={c.name} card={c} i={i} n={CARDS.length} progress={scrollYProgress} />
+      <div className="feature-row">
+        {FEATURES.map((f, i) => (
+          <FadeIn key={f.title} delay={0.2 + i * 0.15} y={70} className="feature">
+            <div className="feature-img">
+              <img src={f.img} alt={f.alt} decoding="async" />
+            </div>
+            <span className="num hero-heading">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{f.title}</h3>
+            <p>{f.text}</p>
+          </FadeIn>
         ))}
       </div>
     </div>
-  );
-}
-
-function DeckCard({ card, i, n, progress }: { card: (typeof CARDS)[number]; i: number; n: number; progress: MotionValue<number> }) {
-  const start = i * 0.26;
-  const y = useTransform(progress, [start, start + 0.3], ['120%', `${i * 3.2}em`]);
-  const rotate = useTransform(progress, [start, start + 0.3], [8 - i * 4, 0]);
-  const scale = useTransform(progress, [start + 0.3, 1], [1, 1 - (n - 1 - i) * 0.03]);
-  return (
-    <motion.article className="card" style={{ y, rotate, scale, zIndex: i + 1 }}>
-      <header>
-        <span className="num hero-heading">{String(i + 1).padStart(2, '0')}</span>
-        <span>
-          <small>{card.label}</small>
-          <b>{card.name}</b>
-        </span>
-      </header>
-      <div className="imgs">
-        {card.imgs.map((s) => (
-          <img key={s} src={s} alt="" loading="lazy" />
-        ))}
-      </div>
-    </motion.article>
   );
 }
 

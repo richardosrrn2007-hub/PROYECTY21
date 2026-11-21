@@ -141,7 +141,7 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(var(--artH) * 0.08);
+  top: calc(var(--artH) * 0.39);
   z-index: 6;
   display: flex;
   justify-content: center;
@@ -183,15 +183,16 @@
   background: radial-gradient(closest-side, rgba(10, 8, 14, 0.68), rgba(10, 8, 14, 0.32) 62%, transparent);
 }
 .cascade .kicker {
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
   color: #ffd976;
   margin-bottom: 12px;
 }
-.cascade .block h2 {
+.cascade .block h2,
+.cascade .features h2 {
   font-weight: 900;
-  font-size: clamp(36px, 4.6vw, 84px);
+  font-size: clamp(40px, 5.2vw, 96px);
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: -0.01em;
@@ -200,41 +201,72 @@
 .cascade .lit {
   color: #d7e2ea;
   font-weight: 500;
-  line-height: 1.55;
-  font-size: clamp(15px, 1.35vw, 21px);
+  line-height: 1.5;
+  font-size: clamp(17px, 1.6vw, 26px);
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.6);
 }
 
 .cascade .about {
   left: 5%;
-  top: 24%;
-  width: 36%;
-  max-width: 560px;
+  top: 19%;
+  width: 46%;
+  max-width: 760px;
 }
 
-/* class-cover belt crossing the cave */
+/* two rows of class covers crossing the cave */
 .cascade .belt {
   position: absolute;
-  left: -4%;
-  right: -4%;
-  top: 58%;
-  z-index: 5;
-  transform: rotate(-2.5deg);
-  overflow: hidden;
-  padding: 8px 0;
+  left: 0;
+  right: 0;
+  top: 46%;
+  z-index: 7;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-x: clip;
+  overflow-y: visible;
+  padding: 10px 0;
 }
 .cascade .belt-row {
   display: flex;
-  gap: 1vw;
+  gap: 14px;
   width: max-content;
   will-change: transform;
 }
 .cascade .belt img {
-  width: clamp(180px, 17vw, 320px);
+  position: relative;
+  width: clamp(220px, 22vw, 400px);
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(231, 183, 68, 0.25);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s;
+  cursor: zoom-in;
+}
+.cascade .belt img:hover {
+  transform: scale(1.22);
+  z-index: 3;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.75), 0 0 0 2px rgba(231, 183, 68, 0.7);
+}
+@media (min-width: 768px) {
+  /* the cave is taller so the two big rows fit under the text */
+  .cascade .scene[data-scene='cueva'] {
+    --artH: calc(125vw / var(--ratio));
+  }
+  .cascade .scene[data-scene='cueva'] .art {
+    width: 125vw;
+    left: calc(50vw - var(--focus) * 1.25vw);
+  }
+  .cascade .scene[data-scene='boveda'] {
+    --artH: calc(118vw / var(--ratio));
+  }
+  .cascade .scene[data-scene='boveda'] .art {
+    width: 118vw;
+    left: calc(50vw - var(--focus) * 1.18vw);
+  }
+  .cascade .join h2 {
+    font-size: clamp(36px, 4.4vw, 80px);
+  }
 }
 
 /* programs list in the mine */
@@ -272,67 +304,70 @@
 .cascade .programs b {
   font-weight: 500;
   text-transform: uppercase;
-  font-size: clamp(14px, 1.2vw, 20px);
+  font-size: clamp(15px, 1.35vw, 23px);
   color: #f4efe6;
 }
 .cascade .programs .txt > span {
   font-weight: 300;
-  font-size: clamp(11.5px, 0.88vw, 14px);
+  font-size: clamp(12.5px, 1vw, 16px);
   line-height: 1.4;
   color: rgba(215, 226, 234, 0.7);
 }
 
-/* card deck in the refinery */
-.cascade .deck-wrap {
-  left: 5%;
-  top: 23%;
-  width: 40%;
-  max-width: 640px;
-}
-.cascade .deck {
-  position: relative;
-  height: calc(clamp(250px, 23vw, 400px) + 6.4em);
-  font-size: clamp(14px, 1.2vw, 20px);
-}
-.cascade .card {
+.cascade .features {
   position: absolute;
-  inset: 0 0 auto 0;
-  padding: clamp(10px, 1vw, 18px);
+  left: 50%;
+  top: 21%;
+  width: 90%;
+  max-width: 1400px;
+  transform: translateX(-50%);
+  z-index: 6;
+}
+.cascade .feature-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 1.8vw, 30px);
+}
+.cascade .feature {
+  padding: clamp(10px, 0.9vw, 16px);
   border-radius: clamp(20px, 2vw, 32px);
-  border: 1.5px solid rgba(215, 226, 234, 0.85);
-  background: rgba(12, 12, 12, 0.94);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
-  transform-origin: top center;
+  background: rgba(12, 12, 12, 0.88);
+  border: 1px solid rgba(215, 226, 234, 0.28);
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.55);
 }
-.cascade .card header {
-  display: flex;
-  align-items: flex-end;
-  gap: 14px;
-  margin: 0 6px 10px;
+.cascade .feature-img {
+  overflow: hidden;
+  border-radius: clamp(14px, 1.4vw, 24px);
+  margin-bottom: clamp(10px, 1vw, 16px);
 }
-.cascade .card header small {
+.cascade .feature-img img {
   display: block;
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(215, 226, 234, 0.6);
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.cascade .card header b {
+.cascade .feature:hover .feature-img img {
+  transform: scale(1.08);
+}
+.cascade .feature .num {
+  display: block;
+  font-size: clamp(26px, 2.4vw, 42px);
+  margin: 0 4px 4px;
+}
+.cascade .feature h3 {
+  margin: 0 4px 6px;
   font-weight: 500;
   text-transform: uppercase;
-  font-size: clamp(14px, 1.3vw, 22px);
-  color: #d7e2ea;
+  font-size: clamp(16px, 1.5vw, 26px);
+  color: #f4efe6;
 }
-.cascade .card .imgs {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-}
-.cascade .card .imgs img {
-  width: 100%;
-  height: clamp(90px, 9.5vw, 170px);
-  object-fit: cover;
-  border-radius: clamp(14px, 1.4vw, 24px);
+.cascade .feature p {
+  margin: 0 4px 4px;
+  font-weight: 300;
+  font-size: clamp(13px, 1.05vw, 17px);
+  line-height: 1.45;
+  color: rgba(215, 226, 234, 0.75);
 }
 
 /* join block over the gold bars */
@@ -351,7 +386,7 @@
   max-width: 560px;
   margin-bottom: clamp(22px, 2.4vw, 36px);
   font-weight: 300;
-  font-size: clamp(15px, 1.35vw, 21px);
+  font-size: clamp(16px, 1.5vw, 23px);
   line-height: 1.55;
   color: #d7e2ea;
 }
@@ -408,15 +443,14 @@
     height: var(--artH);
   }
   .cascade .hero-copy {
-    top: calc(var(--artH) * 0.14);
+    top: calc(var(--artH) * 0.4);
   }
   .cascade .hero-copy h1 {
     font-size: 34vw;
   }
   .cascade .block,
   .cascade .about,
-  .cascade .programs,
-  .cascade .deck-wrap {
+  .cascade .programs {
     left: 16px;
     right: 16px;
     width: auto;
@@ -432,16 +466,44 @@
     display: none;
   }
   .cascade .belt {
-    top: 66%;
+    top: 58%;
   }
   .cascade .belt img {
-    width: 52vw;
+    width: 62vw;
   }
-  .cascade .deck {
-    height: calc(62vw + 6.4em);
+  .cascade .features {
+    left: 0;
+    width: 100%;
+    transform: none;
+    top: 20%;
   }
-  .cascade .card .imgs img {
-    height: 22vw;
+  .cascade .features > div:not(.feature-row) {
+    margin: 0 16px;
+    padding: 0 16px;
+    background: rgba(12, 10, 18, 0.82);
+  }
+  .cascade .features > div:nth-child(1) {
+    padding-top: 14px;
+    border-radius: 16px 16px 0 0;
+  }
+  .cascade .features > div:nth-child(2) {
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-radius: 0 0 16px 16px;
+  }
+  .cascade .features h2 {
+    font-size: 34px;
+    margin-bottom: 0;
+  }
+  .cascade .feature-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 20px 20px;
+  }
+  .cascade .feature {
+    flex: 0 0 80vw;
+    scroll-snap-align: center;
   }
   .cascade .join {
     left: 16px;
@@ -462,7 +524,7 @@
 .cascade .results {
   position: absolute;
   left: 50%;
-  top: 56%;
+  top: 57%;
   width: 92%;
   max-width: 1200px;
   transform: translateX(-50%);
