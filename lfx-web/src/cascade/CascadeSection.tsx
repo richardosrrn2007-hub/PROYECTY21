@@ -39,12 +39,12 @@ export default function CascadeSection() {
           {VIDEO_SRC ? (
             <video src={VIDEO_SRC} poster={VIDEO_POSTER || undefined} controls playsInline preload="metadata" />
           ) : (
-            <div className="video-pending" role="img" aria-label="Video de presentación pendiente">
+            <div className="video-pending" role="img" aria-label="Espacio para el video de presentación">
               <span className="play">
                 <Play />
               </span>
               <b>Video de presentación de la Comunidad LFX</b>
-              <small>Pendiente: falta el archivo del video</small>
+              <small>Muy pronto</small>
             </div>
           )}
         </div>
