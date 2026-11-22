@@ -653,3 +653,126 @@
 .testimonials-sec .phone img { height: clamp(380px, 32vw, 540px) }
 
 .card7-img.bottom img { object-position: bottom }
+
+/* how to use our signals: four visual steps */
+.sec-sub {
+  max-width: 760px;
+  margin: -10px auto clamp(20px, 2.4vw, 34px);
+  text-align: center;
+  font-weight: 300;
+  font-size: clamp(15px, 1.3vw, 20px);
+  line-height: 1.5;
+  color: rgba(215, 226, 234, 0.85);
+}
+.signal-grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(12px, 1.4vw, 22px);
+}
+.signal-card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 24px;
+  background: rgba(22, 20, 28, 0.85);
+  border: 1px solid rgba(215, 226, 234, 0.16);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s;
+}
+.signal-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(231, 183, 68, 0.55);
+}
+.signal-media {
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0b0b0e;
+  display: grid;
+}
+.signal-media.trio {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+.signal-media button {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  cursor: zoom-in;
+}
+.signal-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.signal-media button:hover img {
+  transform: scale(1.06);
+}
+.signal-media .chan {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  bottom: 6px;
+  padding: 4px 2px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(110deg, rgba(31, 91, 255, 0.92), rgba(122, 43, 255, 0.92));
+}
+.signal-body {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 6px 6px;
+}
+.signal-body .num {
+  font-size: clamp(26px, 2.2vw, 38px);
+}
+.signal-body h3 {
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: clamp(14px, 1.15vw, 18px);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+.signal-body p {
+  font-weight: 300;
+  font-size: clamp(13px, 0.98vw, 15px);
+  line-height: 1.45;
+  color: rgba(215, 226, 234, 0.75);
+}
+
+/* compact results + tighter flow into the testimonials */
+.results-sec.compact .phone img {
+  height: clamp(300px, 24vw, 420px);
+}
+.clean .sec.results-sec {
+  padding-top: clamp(30px, 4vw, 56px);
+}
+.clean .sec.testimonials-sec {
+  padding-top: clamp(36px, 4vw, 60px);
+}
+
+@media (max-width: 1023px) {
+  .signal-grid { grid-template-columns: repeat(2, 1fr) }
+}
+@media (max-width: 640px) {
+  .signal-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin: 0 -14px;
+    padding: 0 14px 8px;
+    scrollbar-width: none;
+  }
+  .signal-grid::-webkit-scrollbar { display: none }
+  .signal-card {
+    flex: 0 0 80vw;
+    scroll-snap-align: center;
+  }
+}

@@ -227,24 +227,89 @@ export function ServicesSection() {
   );
 }
 
-/* ---------- 6. Results ---------- */
+/* ---------- 5b. How to use our signals: four visual steps ---------- */
+type Step = { title: string; text: string; imgs: Img[] };
+const SIGNAL_STEPS: Step[] = [
+  {
+    title: 'Únete a la Comunidad VIP',
+    text: 'Accede a nuestra comunidad privada en Telegram y conoce todos los beneficios disponibles.',
+    imgs: [{ src: './comunidad/resultados-semana.webp', alt: 'Canal Traders Leonardo-FX en Telegram con los resultados semanales del VIP' }],
+  },
+  {
+    title: 'Elige tu canal de señales',
+    text: 'Tres canales especializados: oro (XAUUSD), Forex e índices.',
+    imgs: [
+      { src: './comunidad/senales-oro.webp', alt: 'Canal de señales XAUUSD' },
+      { src: './comunidad/senales-forex.webp', alt: 'Canal de señales Forex' },
+      { src: './comunidad/senales-indices.webp', alt: 'Canal de señales de índices' },
+    ],
+  },
+  {
+    title: 'Copia la operación en MetaTrader 5',
+    text: 'Introduce la entrada, el Stop Loss y el Take Profit de la señal que quieras seguir.',
+    imgs: [{ src: './resultados/r6.webp', alt: 'Operación en MetaTrader 5 con el Take Profit y el Stop Loss configurados' }],
+  },
+  {
+    title: 'Sigue la operación y su resultado',
+    text: 'Supervisa tu operación y consulta el seguimiento que compartimos en los canales.',
+    imgs: [{ src: './resultados/r2.webp', alt: 'Operación en XAUUSD cerrada en take profit con 105,61 USDT de ganancia' }],
+  },
+];
+const CHANNEL_NAMES = ['Oro · XAUUSD', 'Forex', 'Índices'];
+
+export function SignalsSection() {
+  const { open, view } = useZoom();
+  return (
+    <section className="sec signals-sec" id="senales">
+      <Head kicker="04 · Sistema de señales" title="¿Cómo puedes aprovechar nuestras señales?" />
+      <FadeIn y={20}>
+        <p className="sec-sub">Descubre cómo funciona nuestro sistema de señales y cómo puedes seguir las operaciones de nuestra comunidad en cuatro sencillos pasos.</p>
+      </FadeIn>
+      <ol className="signal-grid">
+        {SIGNAL_STEPS.map((st, i) => (
+          <FadeIn as="li" key={st.title} delay={0.08 + i * 0.1} y={50} className="signal-card">
+            <div className={`signal-media${st.imgs.length > 1 ? ' trio' : ''}`}>
+              {st.imgs.map((im, k) => (
+                <button key={im.src} type="button" onClick={() => open(im)} aria-label={`Ampliar: ${im.alt}`}>
+                  <img src={im.src} alt={im.alt} decoding="async" />
+                  {st.imgs.length > 1 && <span className="chan">{CHANNEL_NAMES[k]}</span>}
+                </button>
+              ))}
+            </div>
+            <div className="signal-body">
+              <span className="num hero-heading">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{st.title}</h3>
+                <p>{st.text}</p>
+              </div>
+            </div>
+          </FadeIn>
+        ))}
+      </ol>
+      <FadeIn className="sec-cta">
+        <ContactButton label="Quiero comenzar en la Comunidad VIP" />
+      </FadeIn>
+      {view}
+    </section>
+  );
+}
+
+/* ---------- 6. Results (compact) ---------- */
 const RESULTS: Img[] = [
   { src: './comunidad/resultados-semana.webp', alt: 'Resultados semanales del VIP LFX publicados en Telegram: 9 de 10 operaciones favorables' },
   { src: './resultados/r1.webp', alt: 'Historial de operaciones en MetaTrader con BTCUSD, ETHUSD y XAUUSD' },
-  { src: './resultados/r2.webp', alt: 'Operación de venta en XAUUSD cerrada en take profit con 105,61 USDT de ganancia' },
+  { src: './resultados/r7.webp', alt: 'Gráfico de XAUUSD con venta en ganancia de 82,80 USD' },
   { src: './resultados/r3.webp', alt: 'Historial en MetaTrader con operaciones en XAUUSD y EURUSD' },
   { src: './resultados/r4.webp', alt: 'Historial de ventas en XAUUSD de junio y julio' },
   { src: './resultados/r5.webp', alt: 'Historial del 13 de julio con operaciones en XAUUSD' },
-  { src: './resultados/r7.webp', alt: 'Gráfico de XAUUSD con venta en ganancia de 82,80 USD' },
-  { src: './resultados/r6.webp', alt: 'Gráfico de XAUUSD con compra en ganancia de 33,68 USD' },
   { src: './resultados/r8.webp', alt: 'Gráfico de XAUUSD en M1 con la entrada y la salida marcadas' },
 ];
 
 export function ResultsSection() {
   const { open, view } = useZoom();
   return (
-    <section className="sec results-sec" id="resultados">
-      <Head kicker="04 · Resultados reales" title="Un trader profesional no predice, se prepara." />
+    <section className="sec results-sec compact" id="resultados">
+      <Head kicker="05 · Resultados reales" title="Un trader profesional no predice, se prepara." />
       <Carousel count={RESULTS.length} label="Capturas de resultados">
         {RESULTS.map((r) => (
           <button key={r.src} type="button" className="phone" onClick={() => open(r)} aria-label={`Ampliar: ${r.alt}`}>
@@ -253,47 +318,46 @@ export function ResultsSection() {
         ))}
       </Carousel>
       <p className="note">Capturas de operaciones reales, con ganancias y pérdidas. Resultados pasados no garantizan resultados futuros.</p>
-      <FadeIn className="sec-cta">
-        <ContactButton label="Hablar con Leo" />
-      </FadeIn>
       {view}
     </section>
   );
 }
 
 /* ---------- 7 + 8. Testimonials, rating and comments ---------- */
-/* Screenshots of real student messages (Diego, Socio, Edwin…) go here when they arrive. */
+/* Cropped: no status bar, no chat header (no contact names), no typing bar. */
 const TESTIMONIAL_SHOTS: Img[] = [
-  { src: './testimonios/t01.webp', alt: 'Mensaje de Juan: la comunidad está de maravilla, no solo hay señales sino que también aprende' },
-  { src: './testimonios/t02.webp', alt: 'Mensaje de Edwin: las semanas ahora son profit desde que se unió a la comunidad VIP' },
-  { src: './testimonios/t03.webp', alt: 'Mensaje de Erick: se conecta a las clases y sus primeros trades van en profit' },
-  { src: './testimonios/t04.webp', alt: 'Mensajes en el grupo VIP de Jorge Arrieta y Jesús Octavio agradeciendo y compartiendo ganancias' },
-  { src: './testimonios/t05.webp', alt: 'Edwin en el grupo VIP: pasó la primera fase de una cuenta de fondeo' },
-  { src: './testimonios/t06.webp', alt: 'Luis comparte su retiro de una cuenta de fondeo' },
-  { src: './testimonios/t07.webp', alt: 'Raúl comparte el retiro que realizó' },
-  { src: './testimonios/t08.webp', alt: 'Luis comparte los resultados del día siguiendo las señales' },
-  { src: './testimonios/t09.webp', alt: 'Keivin comparte una operación en XAUUSD con +427,14' },
-  { src: './testimonios/t10.webp', alt: 'César comparte operaciones en profit en oro y petróleo' },
-  { src: './testimonios/t11.webp', alt: 'Cris comparte sus operaciones en oro' },
-  { src: './testimonios/t12.webp', alt: 'Jorge comparte su semana y agradece' },
-  { src: './testimonios/t13.webp', alt: 'Jorge comparte que retiró 30 dólares' },
-  { src: './testimonios/t14.webp', alt: 'Julio cierra la semana con 80 positivos' },
-  { src: './testimonios/t15.webp', alt: 'Un alumno comparte su historial de operaciones' },
-  { src: './testimonios/t16.webp', alt: 'César comparte una operación cerrada en profit' },
-  { src: './testimonios/t17.webp', alt: 'Un alumno agradece por su segundo mes en la comunidad' },
-  { src: './testimonios/t18.webp', alt: 'Un alumno agradece el tiempo dedicado a apoyarlos' },
+  { src: './testimonios/t01.webp', alt: 'Un alumno: la comunidad está de maravilla, no solo hay señales sino que también aprende' },
+  { src: './testimonios/t02.webp', alt: 'Un alumno: las semanas ahora son profit desde que se unió a la comunidad VIP' },
+  { src: './testimonios/t03.webp', alt: 'Un alumno se conecta a las clases y sus primeros trades van en profit' },
+  { src: './testimonios/t04.webp', alt: 'Alumnos en el grupo VIP agradeciendo y compartiendo ganancias' },
+  { src: './testimonios/t05.webp', alt: 'Un alumno pasó la primera fase de una cuenta de fondeo' },
+  { src: './testimonios/t06.webp', alt: 'Un alumno comparte su retiro de una cuenta de fondeo' },
+  { src: './testimonios/t07.webp', alt: 'Un alumno comparte el retiro que realizó' },
+  { src: './testimonios/t08.webp', alt: 'Un alumno comparte los resultados del día siguiendo las señales' },
+  { src: './testimonios/t09.webp', alt: 'Un alumno comparte operaciones en profit en oro y petróleo' },
+  { src: './testimonios/t10.webp', alt: 'Un alumno comparte sus operaciones en oro' },
+  { src: './testimonios/t11.webp', alt: 'Un alumno comparte su semana y agradece' },
+  { src: './testimonios/t12.webp', alt: 'Un alumno comparte que retiró 30 dólares' },
+  { src: './testimonios/t13.webp', alt: 'Un alumno cierra la semana con 80 positivos' },
+  { src: './testimonios/t14.webp', alt: 'Un alumno comparte su historial de operaciones' },
+  { src: './testimonios/t15.webp', alt: 'Un alumno agradece por su segundo mes en la comunidad' },
+  { src: './testimonios/t16.webp', alt: 'Un alumno agradece el tiempo dedicado a apoyarlos' },
+  { src: './testimonios/t17.webp', alt: 'Un alumno comparte una operación en XAUUSD con +427,14' },
 ];
-/* Copied word for word from those screenshots, with the name that appears in each chat. */
+/* Fragments copied word for word from the screenshots, with the name that appears in each chat. */
 const COMMENTS: { name: string; text: string; stars?: number }[] = [
-  { name: 'Juan', text: 'Primero que nada gracias, y la comunidad está de maravilla por qué no solo hay señales si no también aprendo y aparte me sorprendió que la estrategia de scalpin sea tan efectiva…' },
+  { name: 'Juan', text: 'La comunidad está de maravilla por qué no solo hay señales si no también aprendo y aparte me sorprendió que la estrategia de scalpin sea tan efectiva' },
   { name: 'Edwin', text: 'Muchas gracias estoy en el mejor equipo uff las semanas ahora son profit desde que me uní a la comunidad vip' },
   { name: 'Erick', text: 'He estado conectandome a tus clases y me gusta la manera que operas, he metido ya mis primeros trades y voy super profit' },
   { name: 'Jesús Octavio', text: 'Ganancia del dia de hoy. No se rindan con calma 💪 Gracias leo por todo lo que me has ayudado' },
+  { name: 'Edwin', text: 'Ya con esta operativa pase la primera fase de una cuenta de fondeo 💪' },
   { name: 'Jorge Arrieta', text: 'Muchas gracias ya hice mis primeros 200 usd' },
   { name: 'Raúl', text: 'A pesar de que ésta semana casi no pude estar en las sesiones y haciendo operativas, comparto el retiro que realicé' },
   { name: 'Luis', text: 'Los resultados de hoy siguiendo tus señales' },
+  { name: 'Julio', text: 'Cierro la semana con 80 positivos' },
   { name: 'Keivin', text: 'Sabes yo me guié por lo que tu mandaste' },
   { name: 'César', text: 'Salimos profi en la cuenta personal' },
+  { name: 'Cris', text: 'Ya estaba pensando en empezar a operar con la real' },
   { name: 'Jorge', text: 'Sii, gracias por todo, espero q este sea un muy buen año' },
 ];
 const RATING = 4.5;
@@ -302,7 +366,7 @@ export function TestimonialsSection() {
   const { open, view } = useZoom();
   return (
     <section className="sec testimonials-sec" id="testimonios">
-      <Head kicker="05 · Testimonios" title="Testimonios de nuestros alumnos" />
+      <Head kicker="06 · Testimonios" title="Testimonios de nuestros alumnos" />
       {TESTIMONIAL_SHOTS.length ? (
         <Carousel count={TESTIMONIAL_SHOTS.length} label="Capturas de testimonios">
           {TESTIMONIAL_SHOTS.map((t) => (
@@ -321,7 +385,7 @@ export function TestimonialsSection() {
       <FadeIn className="rating-big">
         <Stars n={RATING} />
         <b>{RATING.toFixed(1)} / 5</b>
-        <span>Calificación de la Comunidad LFX</span>
+        <span>Valoración de nuestra comunidad</span>
       </FadeIn>
 
       {COMMENTS.length ? (
@@ -372,7 +436,7 @@ export function FaqSection() {
   const [openIdx, setOpen] = useState<number | null>(0);
   return (
     <section className="sec faq" id="faq">
-      <Head kicker="06 · Preguntas frecuentes" title="Preguntas frecuentes" />
+      <Head kicker="07 · Preguntas frecuentes" title="Preguntas frecuentes" />
       <div className="faq-list">
         {FAQ.map((f, i) => (
           <FadeIn key={f.q} delay={0.05 + i * 0.06} className={`faq-item${openIdx === i ? ' open' : ''}`}>

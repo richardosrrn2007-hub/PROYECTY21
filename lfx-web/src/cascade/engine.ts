@@ -162,10 +162,11 @@ export function startCascade(root: HTMLElement, imgs: Record<string, string>) {
     const w = f.cv.offsetWidth, h = f.cv.offsetHeight;
     if (!w || !h) return;
     f.w = w; f.h = h;
-    f.cv.width = Math.round(w * DPR);
-    f.cv.height = Math.round(h * DPR);
+    const fr = Math.min(DPR, Math.sqrt(2.2e6 / (w * h)));
+    f.cv.width = Math.round(w * fr);
+    f.cv.height = Math.round(h * fr);
     f.ctx = f.cv.getContext('2d')!;
-    f.ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    f.ctx.setTransform(fr, 0, 0, fr, 0, 0);
     f.ctx.imageSmoothingQuality = 'high';
     f.L = Math.max(22, Math.min(64, h * 0.11));
     const n = Math.max(4, Math.round(w / 9));
@@ -200,10 +201,11 @@ export function startCascade(root: HTMLElement, imgs: Record<string, string>) {
   function sizeDust(d: Dust) {
     const w = d.art.offsetWidth, h = d.art.offsetHeight;
     d.W = w; d.H = h;
-    d.cv.width = Math.round(w * DPR);
-    d.cv.height = Math.round(h * DPR);
+    const dr = Math.min(DPR, Math.sqrt(2.5e6 / (w * h)));
+    d.cv.width = Math.round(w * dr);
+    d.cv.height = Math.round(h * dr);
     d.ctx = d.cv.getContext('2d')!;
-    d.ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    d.ctx.setTransform(dr, 0, 0, dr, 0, 0);
     const o = d.o;
     d.bx = ((o.x ?? 0) / 100) * w; d.by = ((o.y ?? 0) / 100) * h;
     d.bw = ((o.w ?? 100) / 100) * w; d.bh = ((o.h ?? 100) / 100) * h;
@@ -262,8 +264,22 @@ export function startCascade(root: HTMLElement, imgs: Record<string, string>) {
   }
 
   /* ---------- layout ---------- */
-  const layout = () => { flows.forEach(sizeFlow); dusts.forEach(sizeDust); };
+  const sizeArt = () =>
+    $$<HTMLElement>('.scene').forEach((sc) => {
+      const art = sc.querySelector<HTMLElement>('.art');
+      if (!art) return;
+      const H = sc.offsetHeight, V = document.documentElement.clientWidth;
+      const W = Math.max(V, H * 1.5), h = W / 1.5;
+      const fx = parseFloat(sc.dataset.fx || '0.5');
+      art.style.width = W + 'px';
+      art.style.height = h + 'px';
+      art.style.left = fx * (V - W) + 'px';
+      art.style.top = (sc.classList.contains('hero') ? 0 : (H - h) / 2) + 'px';
+    });
   let rt = 0;
+  const layout = () => { sizeArt(); flows.forEach(sizeFlow); dusts.forEach(sizeDust); };
+  const ro = new ResizeObserver(() => { clearTimeout(rt); rt = window.setTimeout(layout, 150); });
+  $$<HTMLElement>('.scene').forEach((sc) => ro.observe(sc));
   const onResize = () => { clearTimeout(rt); rt = window.setTimeout(layout, 120); };
   addEventListener('resize', onResize);
   layout();
@@ -371,6 +387,7 @@ export function startCascade(root: HTMLElement, imgs: Record<string, string>) {
   return () => {
     cancelAnimationFrame(raf);
     removeEventListener('resize', onResize);
+    ro.disconnect();
     removeEventListener('pointermove', onMove);
     document.removeEventListener('pointerleave', onLeave);
     lamp.remove();

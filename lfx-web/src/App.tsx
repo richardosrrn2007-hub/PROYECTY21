@@ -1,15 +1,6 @@
 import Nav from './components/Nav';
 import CascadeSection from './cascade/CascadeSection';
-import {
-  ComunidadSection,
-  FaqSection,
-  FloatingVip,
-  Footer,
-  ResultsSection,
-  ServicesSection,
-  StepsSection,
-  TestimonialsSection,
-} from './sections/Sections';
+import { FaqSection, FloatingVip, Footer, ResultsSection, TestimonialsSection } from './sections/Sections';
 import './sections/sections.css';
 
 export default function App() {
@@ -18,9 +9,6 @@ export default function App() {
       <Nav />
       <CascadeSection />
       <div className="clean">
-        <ComunidadSection />
-        <StepsSection />
-        <ServicesSection />
         <ResultsSection />
         <TestimonialsSection />
         <FaqSection />
