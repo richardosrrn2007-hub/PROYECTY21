@@ -1,52 +1,27 @@
-import { forwardRef, useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef } from 'react';
+import { Play } from 'lucide-react';
 import Magnet from '../components/Magnet';
 import { startCascade } from './engine';
 import { letterStyle } from '../components/Logo';
-import { AboutBlock, CoverBelt, JoinBlock, ResultsBlock, ServicesBlock, StepsBlock } from './content';
 import { ContactButton, TelegramButton } from '../components/Buttons';
+import { VIDEO_POSTER, VIDEO_SRC } from '../config';
 import './cascade.css';
 
-const IMGS: Record<string, string> = {
-  hero: './cascada/01-hero.webp',
-  cueva: './cascada/02-cueva.webp',
-  mina: './cascada/03-mina.webp',
-  refineria: './cascada/04-refineria.webp',
-  boveda: './cascada/05-boveda.webp',
-};
-const SEAMS = ['./cascada/06-franja-1.webp', './cascada/07-franja-2.webp', './cascada/08-franja-3.webp', './cascada/09-franja-4.webp'];
-
-type SceneProps = { id: string; focus: number; anchor?: string; children?: ReactNode };
-const Scene = forwardRef<HTMLElement, SceneProps>(function Scene({ id, focus, anchor, children }, ref) {
-  return (
-    <section ref={ref} id={anchor} className={`scene${id === 'hero' ? ' hero' : ''}`} data-scene={id} style={{ ['--focus' as string]: focus }}>
-      <div className="art">
-        <div className="bg" style={{ backgroundImage: `url('${IMGS[id]}')` }} />
-      </div>
-      {children}
-    </section>
-  );
-});
-
-function Seam({ i, focus }: { i: number; focus: number }) {
-  return (
-    <div className="seam" style={{ ['--focus' as string]: focus }}>
-      <div className="band">
-        <img src={SEAMS[i]} alt="" decoding="async" loading={i ? 'lazy' : 'eager'} />
-      </div>
-    </div>
-  );
-}
+/* Only the first screen keeps the painted cascade: logo, two buttons and the presentation video. */
+const IMGS: Record<string, string> = { hero: './cascada/01-hero.webp' };
 
 export default function CascadeSection() {
   const root = useRef<HTMLDivElement>(null);
-  const cave = useRef<HTMLElement>(null);
   useEffect(() => (root.current ? startCascade(root.current, IMGS) : undefined), []);
 
   return (
     <div ref={root} className="cascade" id="top">
-      <Scene id="hero" focus={50}>
+      <section className="scene hero hero-v2" data-scene="hero" style={{ ['--focus' as string]: 50 }}>
+        <div className="art">
+          <div className="bg" style={{ backgroundImage: `url('${IMGS.hero}')` }} />
+        </div>
         <div className="hero-copy">
-          <Magnet padding={220} strength={5} activeTransition="transform 0.35s ease-out" inactiveTransition="transform 0.8s ease-in-out">
+          <Magnet padding={160} strength={6} activeTransition="transform 0.35s ease-out" inactiveTransition="transform 0.8s ease-in-out">
             <h1 aria-label="LFX">
               {(['L', 'F', 'X'] as const).map((c) => (
                 <span key={c} aria-hidden="true" style={letterStyle(c)}>
@@ -60,33 +35,20 @@ export default function CascadeSection() {
           <ContactButton label="Quiero ser parte de LFX" />
           <TelegramButton label="Canal de Telegram" />
         </div>
-      </Scene>
-
-      <Seam i={0} focus={50} />
-
-      <Scene id="cueva" focus={53} anchor="academia" ref={cave}>
-        <AboutBlock />
-        <CoverBelt sceneRef={cave} />
-      </Scene>
-
-      <Seam i={1} focus={24.5} />
-
-      <Scene id="mina" focus={25} anchor="como-funciona-escena">
-        <StepsBlock />
-      </Scene>
-
-      <Seam i={2} focus={69.5} />
-
-      <Scene id="refineria" focus={72} anchor="servicios-escena">
-        <ServicesBlock />
-      </Scene>
-
-      <Seam i={3} focus={50} />
-
-      <Scene id="boveda" focus={50}>
-        <JoinBlock />
-        <ResultsBlock />
-      </Scene>
+        <div className="hero-video">
+          {VIDEO_SRC ? (
+            <video src={VIDEO_SRC} poster={VIDEO_POSTER || undefined} controls playsInline preload="metadata" />
+          ) : (
+            <div className="video-pending" role="img" aria-label="Video de presentación pendiente">
+              <span className="play">
+                <Play />
+              </span>
+              <b>Video de presentación de la Comunidad LFX</b>
+              <small>Pendiente: falta el archivo del video</small>
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

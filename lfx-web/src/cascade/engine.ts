@@ -332,7 +332,7 @@ export function startCascade(root: HTMLElement, imgs: Record<string, string>) {
     const hh = hero.offsetHeight;
     if (!RM && sy < hh * 1.2) {
       heroArt.style.transform = `translate3d(0,${sy * 0.32}px,0)`;
-      heroCopy.style.transform = `translate3d(0,${sy * 0.55}px,0)`;
+      if (!hero.classList.contains('hero-v2')) heroCopy.style.transform = `translate3d(0,${sy * 0.55}px,0)`;
       h1.style.setProperty('--lsx', ((Math.min(1, Math.max(0, sy / hh)) * 0.14).toFixed(4)) + 'em');
     }
     for (const b of blocks) if (!b.done && b.c.getBoundingClientRect().top < innerHeight * 0.8) reveal(b);

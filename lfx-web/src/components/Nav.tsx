@@ -4,9 +4,11 @@ import LogoMark from './Logo';
 import { TelegramButton, WhatsAppIcon } from './Buttons';
 
 const links = [
+  { label: 'Comunidad', href: '#comunidad' },
   { label: 'Cómo funciona', href: '#como-funciona' },
   { label: 'Qué encontrarás', href: '#servicios' },
   { label: 'Resultados', href: '#resultados' },
+  { label: 'Testimonios', href: '#testimonios' },
   { label: 'Preguntas', href: '#faq' },
 ];
 
@@ -16,12 +18,12 @@ export default function Nav() {
       initial={{ y: '-100%' }}
       animate={{ y: 0 }}
       transition={{ duration: 0.9, delay: 0.5, ease: [0.2, 0.8, 0.2, 1] }}
-      className="fixed inset-x-0 top-0 z-50 grid h-16 grid-cols-[auto_1fr] items-center px-4 md:grid-cols-[1fr_auto_1fr] md:px-10"
+      className="fixed inset-x-0 top-0 z-50 grid h-16 grid-cols-[auto_1fr] items-center px-4 lg:grid-cols-[1fr_auto_1fr] md:px-10"
       style={{ background: 'linear-gradient(rgba(12,12,12,.75), rgba(12,12,12,0))' }}
     >
-      <nav className="hidden items-center gap-[2.6vw] md:flex">
+      <nav className="hidden items-center gap-[1.6vw] lg:flex">
         {links.map((l) => (
-          <a key={l.href} href={l.href} className="text-[13px] font-medium uppercase tracking-wider text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70">
+          <a key={l.href} href={l.href} className="text-[12px] font-medium uppercase tracking-wider text-[#D7E2EA] transition-opacity duration-200 hover:opacity-70">
             {l.label}
           </a>
         ))}
