@@ -147,7 +147,7 @@ export function ComunidadSection({ classesOnly = false }: { classesOnly?: boolea
   return (
     <section ref={ref} className="sec comunidad" id={classesOnly ? 'clases' : 'comunidad'}>
       {classesOnly ? (
-        <Head kicker="02 · La academia" title="Clases y temas que encontrarás dentro de la Comunidad LFX" />
+        <Head kicker="01 · La academia" title="Clases y temas que encontrarás dentro de la Comunidad LFX" />
       ) : (
         <>
           <Head kicker="01 · La comunidad" title="Comunidad LFX" />
@@ -187,7 +187,7 @@ const STEPS = [
 export function StepsSection() {
   return (
     <section className="sec steps-sec" id="como-funciona">
-      <Head kicker="03 · El recorrido" title="¿Cómo funciona la Comunidad LFX?" />
+      <Head kicker="02 · El recorrido" title="¿Cómo funciona la Comunidad LFX?" />
       <ol className="steps-grid">
         {STEPS.map((s, i) => (
           <FadeIn as="li" key={s.title} delay={0.1 + i * 0.12} y={40} className="step">
@@ -338,7 +338,7 @@ export function ResultsSection() {
   const { open, view } = useZoom();
   return (
     <section className="sec results-sec compact" id="resultados">
-      <Head kicker="05 · Resultados reales" title="Un trader profesional no predice, se prepara." />
+      <Head kicker="05 · Lo que publicamos" title="Resultados reales" />
       <Carousel count={RESULTS.length} label="Capturas de resultados">
         {RESULTS.map((r) => (
           <button key={r.src} type="button" className="phone" onClick={() => open(r)} aria-label={`Ampliar: ${r.alt}`}>
@@ -534,7 +534,7 @@ export function FloatingVip() {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const on = () => {
-      const hero = document.querySelector('.mostar') as HTMLElement | null;
+      const hero = document.querySelector('.ed-hero') as HTMLElement | null;
       const foot = document.querySelector('.footer') as HTMLElement | null;
       const pastHero = hero ? scrollY > 650 : scrollY > 400;
       const atFooter = foot ? foot.getBoundingClientRect().top < innerHeight - 40 : false;

@@ -1,12 +1,8 @@
 /* ---------- Clean dark sections after the first screen ---------- */
 .clean {
   position: relative;
-  background:
-    radial-gradient(60vw 40vw at 85% 8%, rgba(122, 43, 255, 0.08), transparent 70%),
-    radial-gradient(50vw 40vw at 10% 45%, rgba(231, 183, 68, 0.05), transparent 70%),
-    radial-gradient(60vw 40vw at 90% 80%, rgba(31, 91, 255, 0.06), transparent 70%),
-    #0c0c0c;
-  color: #f4efe6;
+  background: #000;
+  color: #f4f4f4;
   padding-bottom: 110px; /* room for the floating VIP button */
 }
 .sec {
@@ -25,7 +21,7 @@
   font-size: 13px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: #ffd976;
+  color: #f4f4f4;
   margin-bottom: 10px;
 }
 .sec h2 {
@@ -63,7 +59,7 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   font-size: clamp(15px, 1.5vw, 22px);
-  color: #ffd976;
+  color: #f4f4f4;
 }
 .comunidad .belt {
   width: 100vw;
@@ -96,14 +92,14 @@
   aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 18px;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(231, 183, 68, 0.22);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.13);
 }
 .belt-item:hover {
   transform: scale(1.15);
   z-index: 3;
 }
 .belt-item:hover img {
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(231, 183, 68, 0.7);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.42);
 }
 
 /* 4: steps */
@@ -132,9 +128,9 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  color: #ffd976;
+  color: #f4f4f4;
   background: radial-gradient(circle at 30% 30%, rgba(122, 43, 255, 0.35), rgba(12, 12, 12, 0.9));
-  border: 1.5px solid rgba(231, 183, 68, 0.6);
+  border: 1.5px solid rgba(255, 255, 255, 0.36);
   box-shadow: 0 0 20px rgba(122, 43, 255, 0.28);
 }
 .step-icon svg {
@@ -185,7 +181,7 @@
 }
 .card7:hover {
   transform: translateY(-6px);
-  border-color: rgba(231, 183, 68, 0.5);
+  border-color: rgba(255, 255, 255, 0.30);
 }
 .card7-img {
   display: block;
@@ -220,17 +216,17 @@
   gap: 10px;
   padding: 20px;
   text-align: center;
-  border: 1.5px dashed rgba(255, 217, 118, 0.45);
+  border: 1.5px dashed rgba(255, 255, 255, 0.27);
   color: rgba(215, 226, 234, 0.7);
   font-size: 14px;
 }
 .card7-img.pending svg {
   width: 34px;
   height: 34px;
-  color: #ffd976;
+  color: #f4f4f4;
 }
 .card7-img.pending small {
-  color: #ffd976;
+  color: #f4f4f4;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   font-size: 11px;
@@ -306,7 +302,7 @@
 }
 .carousel .dots span.on {
   width: 22px;
-  background: #ffd976;
+  background: #f4f4f4;
 }
 .phone {
   display: block;
@@ -320,7 +316,7 @@
 }
 .phone:hover {
   transform: translateY(-6px);
-  border-color: rgba(231, 183, 68, 0.7);
+  border-color: rgba(255, 255, 255, 0.42);
 }
 .phone img {
   display: block;
@@ -344,12 +340,12 @@
   gap: 12px;
   padding: 34px 20px;
   border-radius: 22px;
-  border: 1.5px dashed rgba(255, 217, 118, 0.45);
+  border: 1.5px dashed rgba(255, 255, 255, 0.27);
   color: rgba(215, 226, 234, 0.75);
   text-align: center;
 }
 .pending-box svg {
-  color: #ffd976;
+  color: #f4f4f4;
   flex: 0 0 auto;
 }
 .pending-box.small {
@@ -399,8 +395,8 @@
   overflow: hidden;
 }
 .star .fg svg {
-  color: #ffd976;
-  fill: #ffd976;
+  color: #f4f4f4;
+  fill: #f4f4f4;
 }
 .comment {
   width: min(380px, 80vw);
@@ -423,7 +419,7 @@
 }
 .comment figcaption {
   font-weight: 500;
-  color: #ffd976;
+  color: #f4f4f4;
   text-transform: uppercase;
   font-size: 13px;
   letter-spacing: 0.12em;
@@ -455,7 +451,7 @@
   flex: 0 0 auto;
   width: 26px;
   height: 26px;
-  color: #ffd976;
+  color: #f4f4f4;
   transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .faq-item.open .plus {
@@ -581,7 +577,7 @@
 }
 .vip-float small {
   font-size: 12px;
-  color: #ffd976;
+  color: #f4f4f4;
   letter-spacing: 0.04em;
 }
 @keyframes vip-glow {
@@ -647,7 +643,7 @@
 }
 
 .comment { display: flex; flex-direction: column }
-.comment .quote-mark { font: 900 54px/0.6 'Kanit', sans-serif; color: #ffd976; height: 24px }
+.comment .quote-mark { font: 900 54px/0.6 'Kanit', sans-serif; color: #f4f4f4; height: 24px }
 .comment blockquote { flex: 1 }
 .comment figcaption small { color: rgba(215, 226, 234, 0.55); text-transform: none; letter-spacing: 0.02em; font-weight: 300 }
 .testimonials-sec .phone img { height: clamp(380px, 32vw, 540px) }
@@ -681,7 +677,7 @@
 }
 .signal-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(231, 183, 68, 0.55);
+  border-color: rgba(255, 255, 255, 0.33);
 }
 .signal-media {
   aspect-ratio: 4 / 5;
@@ -787,3 +783,25 @@
 }
 .lb-close svg { width: 26px; height: 26px }
 .lb-hint { position: fixed; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 12px; color: rgba(215,226,234,.7) }
+
+/* ---- editorial overrides for the content sections ---- */
+.clean .kicker { color: #8a8a8a; letter-spacing: 0.18em }
+.clean .sec h2 { font-family: var(--display); font-stretch: 104%; font-weight: 640; letter-spacing: -0.05em; line-height: 0.92 }
+.clean .sec { border-top: 1px solid rgba(255, 255, 255, 0.12); }
+.clean .sec:first-child { border-top: 0 }
+.step, .card7, .signal-card, .comment { background: #111 !important; border-color: rgba(255, 255, 255, 0.14) !important; border-radius: 10px !important }
+.step-icon { background: #1b1b1b !important; border-color: rgba(255, 255, 255, 0.3) !important; box-shadow: none !important; color: #f4f4f4 !important }
+.step-arrow { color: #6f6f6f !important }
+.carousel .nav-btn:hover { background: #f4f4f4 !important; color: #000 !important }
+.carousel .dots span.on { background: #f4f4f4 !important }
+.signal-media .chan { background: rgba(0, 0, 0, 0.75) !important; border: 1px solid rgba(255, 255, 255, 0.3) }
+.vip-float {
+  background: #f4f4f4 !important; color: #111 !important; outline: none !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55) !important; animation: none !important;
+}
+.vip-float small { color: #555 !important }
+.vip-float .vip-ico { background: #111 !important; color: #fff }
+.lb-close { background: #f4f4f4 !important; color: #111 !important; box-shadow: none !important }
+.socials a.tg { background: #f4f4f4 !important; color: #111 !important; box-shadow: none !important }
+.star .fg svg { color: #f4f4f4 !important; fill: #f4f4f4 !important }
+.faq-link { color: #f4f4f4 !important; text-decoration: underline; text-underline-offset: 4px }

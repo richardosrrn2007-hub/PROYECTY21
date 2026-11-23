@@ -1,27 +1,30 @@
-import Nav from './components/Nav';
-import MostarHero from './hero/MostarHero';
+import { EditorialHero, GoldBand, Statement, TrustPanel } from './editorial/Editorial';
 import {
   ComunidadSection,
   FaqSection,
   FloatingVip,
   Footer,
   ResultsSection,
+  ServicesSection,
   SignalsSection,
   StepsSection,
   TestimonialsSection,
 } from './sections/Sections';
 import './sections/sections.css';
 
-/* Cinematic hero first (logo, Comunidad LFX, video, the seven channel cards),
-   then every section on the clean dark background so the content reads well. */
+/* Editorial monochrome page: grey hero with the trader photo, black manifesto,
+   the gold pour band, the trust panel, then the content sections on black. */
 export default function App() {
   return (
-    <main className="bg-[#0C0C0C] font-kanit" style={{ overflowX: 'clip' }}>
-      <Nav />
-      <MostarHero />
+    <main style={{ overflowX: 'clip', background: '#000' }}>
+      <EditorialHero />
+      <Statement />
+      <GoldBand />
+      <TrustPanel />
       <div className="clean">
         <ComunidadSection classesOnly />
         <StepsSection />
+        <ServicesSection />
         <SignalsSection />
         <ResultsSection />
         <TestimonialsSection />

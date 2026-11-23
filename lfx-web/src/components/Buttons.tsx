@@ -1,40 +1,23 @@
-import { Send } from 'lucide-react';
+import { ArrowUpRight, Send } from 'lucide-react';
 import { contactHref, TELEGRAM } from '../config';
 
 const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
-/* WhatsApp pill (purple gradient from the template). Every one opens Leo's chat with the preset message. */
-export function ContactButton({ label = 'Quiero ser parte de LFX' }: { label?: string }) {
+/* Editorial buttons: solid black or solid white pills, a small arrow, a 1px lift on hover. */
+export function ContactButton({ label = 'Quiero ser parte de LFX', tone = 'light' }: { label?: string; tone?: 'light' | 'dark' }) {
   return (
-    <a
-      href={contactHref}
-      {...ext}
-      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-7 py-3 text-xs font-medium uppercase tracking-widest text-white transition-transform duration-300 hover:-translate-y-0.5 sm:px-10 sm:py-3.5 sm:text-sm md:px-12 md:py-4 md:text-base"
-      style={{
-        background: 'linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%)',
-        boxShadow: '0px 4px 4px rgba(181, 1, 167, 0.25), 4px 4px 12px #7721B1 inset',
-        outline: '2px solid white',
-        outlineOffset: '-3px',
-      }}
-    >
-      <WhatsAppIcon className="h-4 w-4 md:h-5 md:w-5" />
-      {label}
+    <a href={contactHref} {...ext} className={`btn-ed ${tone === 'dark' ? 'btn-ed--dark' : 'btn-ed--light'}`}>
+      <span>{label}</span>
+      <ArrowUpRight className="btn-ed__arrow" />
     </a>
   );
 }
 
-/* Telegram community: the main door, so it gets its own bright blue button */
-export function TelegramButton({ label = 'Entrar al canal de Telegram', size = 'md' }: { label?: string; size?: 'sm' | 'md' }) {
-  const s = size === 'sm' ? 'px-4 py-2 text-[11px]' : 'px-7 py-3 text-xs sm:px-10 sm:py-3.5 sm:text-sm md:px-12 md:py-4 md:text-base';
+export function TelegramButton({ label = 'Canal de Telegram', size = 'md' }: { label?: string; size?: 'sm' | 'md' }) {
   return (
-    <a
-      href={TELEGRAM}
-      {...ext}
-      className={`inline-flex items-center gap-2 whitespace-nowrap rounded-full font-medium uppercase tracking-widest text-white transition-transform duration-300 hover:-translate-y-0.5 ${s}`}
-      style={{ background: 'linear-gradient(110deg, #229ED9, #1F5BFF 60%, #7A2BFF)', boxShadow: '0 0 24px rgba(34,158,217,.45)' }}
-    >
-      <Send className={size === 'sm' ? 'h-3.5 w-3.5' : 'h-4 w-4 md:h-5 md:w-5'} />
-      {label}
+    <a href={TELEGRAM} {...ext} className={`btn-ed btn-ed--tg${size === 'sm' ? ' btn-ed--sm' : ''}`}>
+      <Send className="btn-ed__tg" />
+      <span>{label}</span>
     </a>
   );
 }

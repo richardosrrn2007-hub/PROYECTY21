@@ -14,7 +14,7 @@ def data_uri(rel):
 
 
 def inline_assets(text):
-    return re.sub(r'\./((?:3d|cursos|dentro|portada|resultados|comunidad|testimonios)/[\w.-]+\.(?:webp|png|jpg))', lambda m: data_uri(m.group(1)), text)
+    return re.sub(r'\./((?:3d|cursos|dentro|fotos|resultados|comunidad|testimonios)/[\w.-]+\.(?:webp|png|jpg))', lambda m: data_uri(m.group(1)), text)
 
 
 html = open(os.path.join(DIST, 'index.html'), encoding='utf-8').read()

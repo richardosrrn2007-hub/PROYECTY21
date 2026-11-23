@@ -10,11 +10,29 @@
   padding: 0;
 }
 
+/* Editorial monochrome: grey paper, black ink, one accent (the LFX logo gradient) */
+:root {
+  --u: min(calc(100vw / 1440), 1.333px);
+  --paper: #dadada;
+  --ink: #111;
+  --black: #000;
+  --text: #f4f4f4;
+  --muted: #8a8a8a;
+  --line: rgba(255, 255, 255, 0.18);
+  --accent: linear-gradient(100deg, #3d8bff, #9b4dff);
+  --display: 'Archivo', 'Inter Tight', sans-serif;
+  --sans: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (max-width: 760px) {
+  :root { --u: calc(100vw / 390) }
+}
+
 html,
 body,
 #root {
-  background: #0c0c0c;
-  font-family: 'Kanit', sans-serif;
+  background: var(--black);
+  font-family: var(--sans);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -22,9 +40,9 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Gold gradient for the big headings (LFX gold on the brand's night background) */
+/* big headings: quiet white-to-grey, no gold */
 .hero-heading {
-  background: linear-gradient(180deg, #7a6a55 0%, #f1dca0 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #9a9a9a 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
