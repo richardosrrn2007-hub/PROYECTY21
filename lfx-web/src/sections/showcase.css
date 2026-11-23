@@ -114,3 +114,9 @@
 @media (prefers-reduced-motion: reduce) {
   .sc-screen img, .sc-index__media button { transition: none }
 }
+@media (max-width: 640px) {
+  .sc-h2 { font-size: 30px; overflow-wrap: anywhere }
+  .sc-programs li { grid-template-columns: 52px 1fr; }
+  .sc-programs em { display: none }
+  .sc-programs__n { font-size: 32px }
+}
