@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Handshake, ImageOff, Instagram, LineChart, Plus, Star, Users, Video } from 'lucide-react';
+import { X, ArrowRight, ChevronLeft, ChevronRight, Handshake, ImageOff, Instagram, LineChart, Plus, Star, Users, Video } from 'lucide-react';
 import AnimatedText from '../components/AnimatedText';
 import FadeIn from '../components/FadeIn';
 import LogoMark from '../components/Logo';
@@ -13,20 +13,43 @@ type Img = { src: string; alt: string };
 
 function useZoom() {
   const [img, setImg] = useState<Img | null>(null);
+  const open = (i: Img) => {
+    history.pushState({ lfxZoom: true }, '');
+    setImg(i);
+  };
+  const close = (e?: { stopPropagation: () => void }) => {
+    e?.stopPropagation();
+    setImg(null);
+    /* drop the history entry we added, once, without ever leaving the page */
+    if (history.state?.lfxZoom) history.replaceState(null, '');
+  };
   useEffect(() => {
-    const k = (e: KeyboardEvent) => e.key === 'Escape' && setImg(null);
+    if (!img) return;
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && close();
+    const pop = () => setImg(null);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
     addEventListener('keydown', k);
-    return () => removeEventListener('keydown', k);
-  }, []);
+    addEventListener('popstate', pop);
+    return () => {
+      document.body.style.overflow = prev;
+      removeEventListener('keydown', k);
+      removeEventListener('popstate', pop);
+    };
+  }, [img]);
   const view =
     img &&
     createPortal(
-      <div className="lightbox" role="dialog" aria-label="Imagen ampliada" onClick={() => setImg(null)}>
-        <img src={img.src} alt={img.alt} />
+      <div className="lightbox" role="dialog" aria-modal="true" aria-label="Imagen ampliada" onClick={close}>
+        <button type="button" className="lb-close" onClick={close} aria-label="Cerrar">
+          <X />
+        </button>
+        <img src={img.src} alt={img.alt} onClick={(e) => e.stopPropagation()} draggable={false} />
+        <span className="lb-hint">Toca fuera de la imagen o la X para cerrar</span>
       </div>,
       document.body,
     );
-  return { open: setImg, view };
+  return { open, view };
 }
 
 function Carousel({ count, children, label }: { count: number; children: ReactNode; label: string }) {

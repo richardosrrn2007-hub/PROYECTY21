@@ -776,3 +776,14 @@
     scroll-snap-align: center;
   }
 }
+
+.lightbox { z-index: 200; overscroll-behavior: contain; cursor: default }
+.lightbox img { max-height: 84vh; cursor: default }
+.lb-close {
+  position: fixed; top: 16px; right: 16px; z-index: 201;
+  width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center;
+  color: #fff; background: linear-gradient(110deg, #1f5bff, #7a2bff);
+  box-shadow: 0 0 24px rgba(110, 90, 255, 0.6); cursor: pointer;
+}
+.lb-close svg { width: 26px; height: 26px }
+.lb-hint { position: fixed; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 12px; color: rgba(215,226,234,.7) }
