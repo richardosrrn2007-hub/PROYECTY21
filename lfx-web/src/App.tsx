@@ -1,16 +1,15 @@
 import { EditorialHero, GoldBand, Statement, TrustPanel } from './editorial/Editorial';
 import {
-  ComunidadSection,
   FaqSection,
   FloatingVip,
   Footer,
   ResultsSection,
-  ServicesSection,
   SignalsSection,
   StepsSection,
   TestimonialsSection,
 } from './sections/Sections';
 import './sections/sections.css';
+import { AcademySection, ServicesIndex } from './sections/Showcase';
 
 /* Editorial monochrome page: grey hero with the trader photo, black manifesto,
    the gold pour band, the trust panel, then the content sections on black. */
@@ -22,9 +21,9 @@ export default function App() {
       <GoldBand />
       <TrustPanel />
       <div className="clean">
-        <ComunidadSection classesOnly />
+        <AcademySection />
         <StepsSection />
-        <ServicesSection />
+        <ServicesIndex />
         <SignalsSection />
         <ResultsSection />
         <TestimonialsSection />

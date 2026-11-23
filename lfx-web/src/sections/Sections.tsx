@@ -393,23 +393,39 @@ const RATING = 4.5;
 
 export function TestimonialsSection() {
   const { open, view } = useZoom();
+  const ref = useRef<HTMLElement>(null);
+  const [x, setX] = useState(0);
+  useEffect(() => {
+    const on = () => {
+      const el = ref.current;
+      if (!el) return;
+      setX((scrollY - (el.getBoundingClientRect().top + scrollY) + innerHeight) * 0.32);
+    };
+    on();
+    addEventListener('scroll', on, { passive: true });
+    addEventListener('resize', on);
+    return () => {
+      removeEventListener('scroll', on);
+      removeEventListener('resize', on);
+    };
+  }, []);
+  const half = Math.ceil(TESTIMONIAL_SHOTS.length / 2);
+  const rows = [TESTIMONIAL_SHOTS.slice(0, half), TESTIMONIAL_SHOTS.slice(half)].map((r) => [...r, ...r, ...r]);
   return (
-    <section className="sec testimonials-sec" id="testimonios">
+    <section ref={ref} className="sec testimonials-sec" id="testimonios">
       <Head kicker="06 · Testimonios" title="Testimonios de nuestros alumnos" />
-      {TESTIMONIAL_SHOTS.length ? (
-        <Carousel count={TESTIMONIAL_SHOTS.length} label="Capturas de testimonios">
-          {TESTIMONIAL_SHOTS.map((t) => (
-            <button key={t.src} type="button" className="phone" onClick={() => open(t)} aria-label={`Ampliar: ${t.alt}`}>
-              <img src={t.src} alt={t.alt} decoding="async" />
-            </button>
-          ))}
-        </Carousel>
-      ) : (
-        <div className="pending-box">
-          <ImageOff />
-          <span>Pendiente: capturas de los testimonios de los alumnos (Diego, Socio, Edwin…)</span>
-        </div>
-      )}
+      <p className="belt-hint">Mensajes reales de alumnos. Toca una captura para leerla completa.</p>
+      <div className="belt tbelt" aria-label="Capturas de testimonios de alumnos">
+        {rows.map((row, r) => (
+          <div key={r} className="belt-row" style={{ transform: `translateX(${r === 0 ? x - 1400 : -(x - 200)}px)` }}>
+            {row.map((t, i) => (
+              <button key={i} type="button" className="tshot" onClick={() => open(t)} aria-label={`Ampliar: ${t.alt}`}>
+                <img src={t.src} alt="" decoding="async" />
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
 
       <FadeIn className="rating-big">
         <Stars n={RATING} />

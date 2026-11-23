@@ -805,3 +805,20 @@
 .socials a.tg { background: #f4f4f4 !important; color: #111 !important; box-shadow: none !important }
 .star .fg svg { color: #f4f4f4 !important; fill: #f4f4f4 !important }
 .faq-link { color: #f4f4f4 !important; text-decoration: underline; text-underline-offset: 4px }
+
+/* testimonials as two rows moving in opposite directions */
+.testimonials-sec .belt.tbelt {
+  width: 100vw; position: relative; left: 50%; margin-left: -50vw;
+  display: flex; flex-direction: column; gap: 14px; overflow-x: clip; padding: 10px 0;
+}
+.belt-hint { text-align: center; font: 400 14px/1.4 var(--sans); color: #8a8a8a; margin: -14px 0 26px }
+.tshot {
+  position: relative; flex: 0 0 auto; padding: 0; border-radius: 12px; overflow: hidden; cursor: zoom-in;
+  height: clamp(300px, 26vw, 400px); aspect-ratio: 9 / 14; background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s;
+}
+.tshot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; filter: grayscale(0.35); transition: filter 0.4s }
+.tshot:hover { transform: translateY(-6px) scale(1.03); border-color: rgba(255, 255, 255, 0.6); z-index: 2 }
+.tshot:hover img { filter: none }
+@media (max-width: 640px) { .tshot { height: 300px } }
