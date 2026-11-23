@@ -11,7 +11,7 @@ import { contactHref, INSTAGRAM, TELEGRAM, TIKTOK, vipHref } from '../config';
 /* ---------- shared: zoomable image + carousel ---------- */
 type Img = { src: string; alt: string };
 
-function useZoom() {
+export function useZoom() {
   const [img, setImg] = useState<Img | null>(null);
   const open = (i: Img) => {
     history.pushState({ lfxZoom: true }, '');
@@ -123,7 +123,7 @@ const COVERS = [
   './cursos/c21.webp',
 ];
 
-export function ComunidadSection() {
+export function ComunidadSection({ classesOnly = false }: { classesOnly?: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const [x, setX] = useState(0);
   const { open, view } = useZoom();
@@ -145,15 +145,21 @@ export function ComunidadSection() {
   const row1 = [...COVERS.slice(0, 11), ...COVERS.slice(0, 11), ...COVERS.slice(0, 11)];
   const row2 = [...COVERS.slice(11), ...COVERS.slice(11), ...COVERS.slice(11)];
   return (
-    <section ref={ref} className="sec comunidad" id="comunidad">
-      <Head kicker="01 · La comunidad" title="Comunidad LFX" />
-      <AnimatedText
-        className="lead lit"
-        text="Una comunidad enfocada en aprender y operar trading de manera profesional. Participa en operativas en vivo, recibe señales con seguimiento y aprende a comprender cómo se mueve el mercado, cómo operan las instituciones y cómo gestionar cada operación como un profesional."
-      />
-      <FadeIn y={20}>
-        <h3 className="sub-title">Clases y temas que encontrarás dentro de la Comunidad LFX</h3>
-      </FadeIn>
+    <section ref={ref} className="sec comunidad" id={classesOnly ? 'clases' : 'comunidad'}>
+      {classesOnly ? (
+        <Head kicker="02 · La academia" title="Clases y temas que encontrarás dentro de la Comunidad LFX" />
+      ) : (
+        <>
+          <Head kicker="01 · La comunidad" title="Comunidad LFX" />
+          <AnimatedText
+            className="lead lit"
+            text="Una comunidad enfocada en aprender y operar trading de manera profesional. Participa en operativas en vivo, recibe señales con seguimiento y aprende a comprender cómo se mueve el mercado, cómo operan las instituciones y cómo gestionar cada operación como un profesional."
+          />
+          <FadeIn y={20}>
+            <h3 className="sub-title">Clases y temas que encontrarás dentro de la Comunidad LFX</h3>
+          </FadeIn>
+        </>
+      )}
       <div className="belt" aria-label="Portadas de las clases de la Comunidad LFX">
         {[row1, row2].map((row, r) => (
           <div key={r} className="belt-row" style={{ transform: `translateX(${r === 0 ? x - 1000 : -(x - 300)}px)` }}>
@@ -181,7 +187,7 @@ const STEPS = [
 export function StepsSection() {
   return (
     <section className="sec steps-sec" id="como-funciona">
-      <Head kicker="02 · El recorrido" title="¿Cómo funciona la Comunidad LFX?" />
+      <Head kicker="03 · El recorrido" title="¿Cómo funciona la Comunidad LFX?" />
       <ol className="steps-grid">
         {STEPS.map((s, i) => (
           <FadeIn as="li" key={s.title} delay={0.1 + i * 0.12} y={40} className="step">
@@ -205,8 +211,8 @@ export function StepsSection() {
 }
 
 /* ---------- 5. Everything in one place: seven cards ---------- */
-type Card = { title: string; img?: string; alt?: string; fit?: 'cover' | 'contain' | 'bottom'; missing?: string };
-const CARDS: Card[] = [
+export type Card = { title: string; img?: string; alt?: string; fit?: 'cover' | 'contain' | 'bottom'; missing?: string };
+export const CARDS: Card[] = [
   { title: 'Operativas y análisis en vivo', img: './comunidad/sesion-asia.webp', alt: 'Aviso de la sesión Asia en vivo en Telegram' },
   { title: 'Señales de oro — XAUUSD', img: './comunidad/senales-oro.webp', alt: 'Canal de señales XAUUSD con TP1 y TP2 alcanzados' },
   { title: 'Señales Forex', img: './comunidad/senales-forex.webp', alt: 'Canal de señales Forex VIP con objetivos alcanzados' },
@@ -528,9 +534,9 @@ export function FloatingVip() {
   const [show, setShow] = useState(false);
   useEffect(() => {
     const on = () => {
-      const hero = document.querySelector('.hero-v2') as HTMLElement | null;
+      const hero = document.querySelector('.mostar') as HTMLElement | null;
       const foot = document.querySelector('.footer') as HTMLElement | null;
-      const pastHero = hero ? scrollY > hero.offsetHeight * 0.75 : scrollY > 400;
+      const pastHero = hero ? scrollY > 650 : scrollY > 400;
       const atFooter = foot ? foot.getBoundingClientRect().top < innerHeight - 40 : false;
       setShow(pastHero && !atFooter);
     };
